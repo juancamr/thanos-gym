@@ -1,5 +1,6 @@
 package controller;
 import config.Startup;
+import controller.plan.ControladorAgregarPlan;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import model.Administrador;
@@ -7,6 +8,7 @@ import thanosgym.Main;
 import utils.FrameUtils;
 import view.HomePanel;
 import view.MainWindow;
+import view.plan.AddPlan;
 
 public class ControladorHome implements ActionListener {
     HomePanel panel;
@@ -19,6 +21,7 @@ public class ControladorHome implements ActionListener {
         
         panel.jbtnCerrarSesion.addActionListener(this);
         panel.jlblNombreAdministrador.setText(admin.getFullName());
+        panel.jbtnAgregarPlan.addActionListener(this);
         
         FrameUtils.showPanel(vista, panel);
     }
@@ -29,6 +32,10 @@ public class ControladorHome implements ActionListener {
             vista.dispose();
             Main.admin = null;
             Startup.initWindow();
+        }
+        
+        if (e.getSource() == panel.jbtnAgregarPlan) {
+            new ControladorAgregarPlan(new AddPlan());
         }
     }
     

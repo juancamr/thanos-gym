@@ -11,8 +11,7 @@ public class Plan {
     public Plan() {
     }
 
-    public Plan(int planId, String name, double price, int durationDays) {
-        this.planId = planId;
+    public Plan(String name, double price, int durationDays) {
         this.name = name;
         this.price = price;
         this.durationDays = durationDays;

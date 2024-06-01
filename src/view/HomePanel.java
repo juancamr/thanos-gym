@@ -20,6 +20,7 @@ public class HomePanel extends javax.swing.JPanel {
 
         jpnlInterfaz = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jbtnAgregarPlan = new javax.swing.JButton();
         jlblNombreAdministrador = new javax.swing.JLabel();
         jbtnCerrarSesion = new javax.swing.JButton();
 
@@ -44,6 +45,10 @@ public class HomePanel extends javax.swing.JPanel {
             }
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jbtnAgregarPlan.setText("Agregar Plan");
+        jPanel4.add(jbtnAgregarPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 180, 60));
+
         jpnlInterfaz.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 840, 700));
 
         jlblNombreAdministrador.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
@@ -94,6 +99,7 @@ public class HomePanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel4;
+    public javax.swing.JButton jbtnAgregarPlan;
     public javax.swing.JButton jbtnCerrarSesion;
     public javax.swing.JLabel jlblNombreAdministrador;
     private javax.swing.JPanel jpnlInterfaz;
