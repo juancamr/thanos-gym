@@ -41,6 +41,9 @@ public class PanelRegister extends javax.swing.JPanel {
         jSeparator14 = new javax.swing.JSeparator();
         jbtnInicioSesion = new javax.swing.JButton();
         jSeparator15 = new javax.swing.JSeparator();
+        jtxtCorreo = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jSeparator16 = new javax.swing.JSeparator();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -50,7 +53,7 @@ public class PanelRegister extends javax.swing.JPanel {
         jLabel14.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(105, 105, 118));
         jLabel14.setText("Nombre de usuario");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, 30));
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, -1, 30));
 
         jbtnRegistro.setBackground(new java.awt.Color(20, 23, 31));
         jbtnRegistro.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
@@ -61,7 +64,7 @@ public class PanelRegister extends javax.swing.JPanel {
                 jbtnRegistroActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 540, 300, 40));
+        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 610, 300, 40));
 
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -75,10 +78,10 @@ public class PanelRegister extends javax.swing.JPanel {
                 jtxtNombreUsuarioActionPerformed(evt);
             }
         });
-        jPanel3.add(jtxtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 300, 30));
+        jPanel3.add(jtxtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, 300, 30));
 
         jSeparator13.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel3.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 300, 10));
+        jPanel3.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 300, 10));
 
         jLabel23.setBackground(new java.awt.Color(105, 105, 118));
         jLabel23.setFont(new java.awt.Font("Malgun Gothic", 0, 24)); // NOI18N
@@ -88,11 +91,11 @@ public class PanelRegister extends javax.swing.JPanel {
         jLabel18.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(105, 105, 118));
         jLabel18.setText("Contraseña");
-        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 320, -1, 30));
+        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, -1, 30));
 
         jSeparator17.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel3.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 300, 10));
-        jPanel3.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, 300, 30));
+        jPanel3.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 300, 10));
+        jPanel3.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, 300, 30));
 
         jLabel15.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(105, 105, 118));
@@ -122,10 +125,28 @@ public class PanelRegister extends javax.swing.JPanel {
                 jbtnInicioSesionActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, 300, 30));
+        jPanel3.add(jbtnInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 300, 30));
 
         jSeparator15.setForeground(new java.awt.Color(0, 102, 255));
-        jPanel3.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 480, 190, 30));
+        jPanel3.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 550, 190, 30));
+
+        jtxtCorreo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jtxtCorreo.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        jtxtCorreo.setBorder(null);
+        jtxtCorreo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtCorreoActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jtxtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 300, 30));
+
+        jLabel16.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(105, 105, 118));
+        jLabel16.setText("Correo");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, -1, 30));
+
+        jSeparator16.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel3.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 370, 300, 10));
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
     }// </editor-fold>//GEN-END:initComponents
@@ -146,10 +167,15 @@ public class PanelRegister extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnInicioSesionActionPerformed
 
+    private void jtxtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtCorreoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtCorreoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JPanel jPanel3;
@@ -157,10 +183,12 @@ public class PanelRegister extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
+    private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
     public javax.swing.JButton jbtnInicioSesion;
     public javax.swing.JButton jbtnRegistro;
     public javax.swing.JLabel jlblExito;
+    public javax.swing.JTextField jtxtCorreo;
     public javax.swing.JTextField jtxtNombreUsuario;
     public javax.swing.JTextField jtxtNombresCompletos;
     // End of variables declaration//GEN-END:variables

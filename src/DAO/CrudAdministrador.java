@@ -23,12 +23,13 @@ public class CrudAdministrador extends BaseCrud {
         try {
             rs = st.executeQuery(con);
             if (!rs.next()) {
-                String consulta = "INSERT INTO admin(full_name, username, password) VALUES(?, ?, ?)";
+                String consulta = "INSERT INTO admin(full_name, username, password, email) VALUES(?, ?, ?, ?)";
                 try {
                     ps = connection.prepareStatement(consulta);
                     ps.setString(1, admin.getFullName());
                     ps.setString(2, admin.getUsername());
                     ps.setString(3, admin.getPassword());
+                    ps.setString(4, admin.getEmail());
                     ps.executeUpdate();
                     ps.close();
                     return new Response(true, "Registro exitoso", admin);

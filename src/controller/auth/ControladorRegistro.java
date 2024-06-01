@@ -34,27 +34,32 @@ public class ControladorRegistro implements ActionListener {
         if (e.getSource() == panel.jbtnRegistro) {
             String usernameRegex = "^[a-z]{3,15}$";
             String passwordRegex = "^[a-z]{8,}$";
+            String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
             
             String nombres = panel.jtxtNombresCompletos.getText();
             String userName = panel.jtxtNombreUsuario.getText();
             String password = String.valueOf(panel.jPassword.getPassword());
+            String email = panel.jtxtCorreo.getText();
             
-            if (!userName.isEmpty() || !password.isEmpty() || !nombres.isEmpty()) {
+            if (!userName.isEmpty() || !password.isEmpty() || !nombres.isEmpty() || !email.isEmpty()) {
                 if (userName.matches(usernameRegex)) {
                    if (password.matches(passwordRegex)) {
-                       password = StringUtils.sha256(password);
-                       Response<Administrador> response = CrudAdministrador.getInstance().register(new Administrador.Builder()
-                               .setFullName(nombres)
-                               .setUsername(userName)
-                               .setPassword(password)
-                               .build());
-                       
-                       if (response.isSuccess()) {
-                           view.dispose();
-//                           new ControladorPna(new VentanaPrincipal()).screen();
-                            System.out.println("welcome, redirect to dashboard...");
+                       if (email.matches(emailRegex)) {
+                            password = StringUtils.sha256(password);
+                            Response<Administrador> response = CrudAdministrador.getInstance().register(new Administrador.Builder()
+                                    .setEmail(email)
+                                    .setFullName(nombres)
+                                    .setUsername(userName)
+                                    .setPassword(password)
+                                    .build());
+
+                            if (response.isSuccess()) {
+                                view.dispose();
+     //                           new ControladorPna(new VentanaPrincipal()).screen();
+                                 System.out.println("welcome, redirect to dashboard...");
+                            }
+                            Messages.show(response.getMessage());
                        }
-                       Messages.show(response.getMessage());
                    } else Messages.show("Contraseña invalida, recuerda que debe ser almenos de 8 caracteres");
                 } else Messages.show("Ingrese un nombre de usuario valido");
             } else Messages.show("Complete todos los campos");
