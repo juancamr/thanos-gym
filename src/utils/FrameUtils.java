@@ -1,7 +1,10 @@
 
 package utils;
 
+import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import view.auth.WindowSession;
 
 public class FrameUtils {
 
@@ -20,14 +23,14 @@ public class FrameUtils {
 //        vista.content.revalidate();
 //        vista.content.repaint();
 //    }
-//
-//    // for session window
-//    public static void showPanel(VentanaSesion vista, JPanel panel) {
-//        panel.setSize(380, 770);
-//        panel.setLocation(0, 0);
-//        vista.content.removeAll();
-//        vista.content.add(panel, BorderLayout.CENTER);
-//        vista.content.revalidate();
-//        vista.content.repaint();
-//    }
+
+    // for session window
+    public static void showPanel(WindowSession vista, JPanel panel) {
+        panel.setSize(380, 770);
+        panel.setLocation(0, 0);
+        vista.content.removeAll();
+        vista.content.add(panel, BorderLayout.CENTER);
+        vista.content.revalidate();
+        vista.content.repaint();
+    }
 }

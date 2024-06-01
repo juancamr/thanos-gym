@@ -1,9 +1,8 @@
 package thanosgym;
 
 import config.DbConnection;
+import config.Startup;
 import model.Administrador;
-import utils.FrameUtils;
-import view.auth.WindowSession;
 
 public class Main {
 
@@ -11,7 +10,7 @@ public class Main {
     
     public static void main(String[] args) {
         DbConnection.connectToDatabase();
-        FrameUtils.showWindow(new WindowSession(), "Welcome");
+        Startup.initWindow();
     }
     
 }

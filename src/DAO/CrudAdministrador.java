@@ -6,9 +6,11 @@ import model.Response;
 
 public class CrudAdministrador extends BaseCrud {
 
-    CrudAdministrador crudAdministrador;
+    public static CrudAdministrador crudAdministrador;
+    
+    private CrudAdministrador() {}
 
-    public CrudAdministrador getInstance() {
+    public static CrudAdministrador getInstance() {
         if (crudAdministrador == null) {
             crudAdministrador = new CrudAdministrador();
         }
@@ -16,12 +18,12 @@ public class CrudAdministrador extends BaseCrud {
     }
 
     public Response<Administrador> register(Administrador admin) {
-        String con = "SELECT * FROM administrador WHERE username='<username>'";
+        String con = "SELECT * FROM admin WHERE username='<username>'";
         con = con.replace("<username>", admin.getUsername());
         try {
             rs = st.executeQuery(con);
             if (!rs.next()) {
-                String consulta = "INSERT INTO administrador(nombres, username, password) VALUES(?, ?, ?)";
+                String consulta = "INSERT INTO admin(full_name, username, password) VALUES(?, ?, ?)";
                 try {
                     ps = connection.prepareStatement(consulta);
                     ps.setString(1, admin.getFullName());
@@ -42,7 +44,7 @@ public class CrudAdministrador extends BaseCrud {
     }
 
     public boolean verify(String username, String password) {
-        String consulta = "SELECT nombres FROM administrador WHERE username='<username>' AND password='<password>'";
+        String consulta = "SELECT full_name FROM admin WHERE username='<username>' AND password='<password>'";
         consulta = consulta.replace("<username>", username);
         consulta = consulta.replace("<password>", password);
 
