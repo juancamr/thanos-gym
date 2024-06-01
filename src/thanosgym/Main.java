@@ -1,8 +1,11 @@
 package thanosgym;
 
-public class Thanosgym {
+import config.DbConnection;
+
+public class Main {
     
     public static void main(String[] args) {
+        DbConnection.connectToDatabase();
         System.out.println("holamundo");
     }
     
