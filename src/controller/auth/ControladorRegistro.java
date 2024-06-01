@@ -1,6 +1,7 @@
 package controller.auth;
 
-import DAO.CrudAdministrador;
+import DAO.CRUDAdministrador;
+import controller.ControladorMainWindow;
 import model.Administrador;
 import model.Response;
 import view.auth.PanelLogin;
@@ -11,6 +12,7 @@ import java.awt.event.ActionListener;
 import utils.FrameUtils;
 import utils.Messages;
 import utils.StringUtils;
+import view.MainWindow;
 
 public class ControladorRegistro implements ActionListener {
 
@@ -23,6 +25,7 @@ public class ControladorRegistro implements ActionListener {
         panel.jbtnInicioSesion.addActionListener(this);
         panel.jbtnRegistro.addActionListener(this);
         FrameUtils.showPanel(view, panel);
+        panel.jtxtNombresCompletos.requestFocus();
     }
 
     @Override
@@ -46,7 +49,7 @@ public class ControladorRegistro implements ActionListener {
                    if (password.matches(passwordRegex)) {
                        if (email.matches(emailRegex)) {
                             password = StringUtils.sha256(password);
-                            Response<Administrador> response = CrudAdministrador.getInstance().register(new Administrador.Builder()
+                            Response<Administrador> response = CRUDAdministrador.getInstance().create(new Administrador.Builder()
                                     .setEmail(email)
                                     .setFullName(nombres)
                                     .setUsername(userName)
@@ -55,8 +58,7 @@ public class ControladorRegistro implements ActionListener {
 
                             if (response.isSuccess()) {
                                 view.dispose();
-     //                           new ControladorPna(new VentanaPrincipal()).screen();
-                                 System.out.println("welcome, redirect to dashboard...");
+                                new ControladorMainWindow(new MainWindow()).screen();
                             }
                             Messages.show(response.getMessage());
                        }

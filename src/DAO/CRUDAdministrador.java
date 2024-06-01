@@ -4,20 +4,20 @@ import model.Administrador;
 import thanosgym.Main;
 import model.Response;
 
-public class CrudAdministrador extends BaseCrud {
+public class CRUDAdministrador extends BaseCrud {
 
-    public static CrudAdministrador crudAdministrador;
+    public static CRUDAdministrador crudAdministrador;
     
-    private CrudAdministrador() {}
+    private CRUDAdministrador() {}
 
-    public static CrudAdministrador getInstance() {
+    public static CRUDAdministrador getInstance() {
         if (crudAdministrador == null) {
-            crudAdministrador = new CrudAdministrador();
+            crudAdministrador = new CRUDAdministrador();
         }
         return crudAdministrador;
     }
 
-    public Response<Administrador> register(Administrador admin) {
+    public Response<Administrador> create(Administrador admin) {
         String con = "SELECT * FROM admin WHERE username='<username>'";
         con = con.replace("<username>", admin.getUsername());
         try {

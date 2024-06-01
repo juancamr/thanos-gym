@@ -1,6 +1,7 @@
 package controller.auth;
 
-import DAO.CrudAdministrador;
+import DAO.CRUDAdministrador;
+import controller.ControladorMainWindow;
 import view.auth.PanelLogin;
 import view.auth.PanelRegister;
 import view.auth.WindowSession;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 import utils.FrameUtils;
 import utils.Messages;
 import utils.StringUtils;
+import view.MainWindow;
 
 public class ControladorLogin implements ActionListener {
     WindowSession view;
@@ -20,6 +22,7 @@ public class ControladorLogin implements ActionListener {
         panel.jbtnRegistro.addActionListener(this);
         panel.jbtnIniciar.addActionListener(this);
         FrameUtils.showPanel(view, panel);
+        panel.jtxtNombreUsuario.requestFocus();
     }
 
     @Override
@@ -36,10 +39,10 @@ public class ControladorLogin implements ActionListener {
                 System.out.println(userName);
                 System.out.println(password);
                 password = StringUtils.sha256(password);
-                boolean adminExist = CrudAdministrador.getInstance().verify(userName, password);
+                boolean adminExist = CRUDAdministrador.getInstance().verify(userName, password);
                 if (adminExist) {
                     view.dispose();
-                    System.out.println("welcome, redirecting...");
+                    new ControladorMainWindow(new MainWindow()).screen();
                 } else {
                     Messages.show("Credenciales incorrectas");
                 }

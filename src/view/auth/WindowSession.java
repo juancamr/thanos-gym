@@ -23,8 +23,8 @@ public class WindowSession extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -32,16 +32,16 @@ public class WindowSession extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        content.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 770));
+
         jLabel17.setBackground(new java.awt.Color(14, 14, 23));
         jLabel17.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(14, 14, 23));
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/gym.jpg"))); // NOI18N
         jLabel17.setText("Iniciar Sesión");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 770));
-
-        content.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 380, 770));
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 0, 390, 770));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 770));
 
