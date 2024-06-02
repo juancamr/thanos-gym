@@ -261,8 +261,8 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(241, 240, 243));
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(241, 240, 243));
-        jLabel2.setText("servimotos");
-        jpnlBarra.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        jLabel2.setText("ThanosGym");
+        jpnlBarra.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
         jbtnSegundo.setBackground(new java.awt.Color(20, 23, 31));
         jbtnSegundo.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N

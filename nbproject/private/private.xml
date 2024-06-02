@@ -3,9 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/juancamr/university/thanosgym/src/thanosgym/Main.java</file>
-            <file>file:/home/juancamr/university/thanosgym/src/model/Administrador.java</file>
-            <file>file:/home/juancamr/university/thanosgym/src/config/DbConnection.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/utils/FrameUtils.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/model/Cliente.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/controller/client/ControladorClient.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/Formato/FormatoCliente.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/view/client/AddCliente.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/thanosgym/Main.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/DAO/CRUDPlan.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/DAO/CRUDCliente.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/controller/plan/ControladorAgregarPlan.java</file>
+            <file>file:/C:/Users/jhere/Documents/NetBeansProjects/thanos-gym/src/controller/ControladorHome.java</file>
         </group>
     </open-files>
 </project-private>

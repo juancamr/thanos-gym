@@ -4,10 +4,11 @@ import model.Response;
 import model.Plan;
 
 public class CRUDPlan extends BaseCrud {
-    
+
     public static CRUDPlan crudPlan;
-    
-    private CRUDPlan() {}
+
+    public CRUDPlan() {
+    }
 
     public static CRUDPlan getInstance() {
         if (crudPlan == null) {
@@ -35,11 +36,49 @@ public class CRUDPlan extends BaseCrud {
                     System.out.println(e);
                     return new Response(false, "Algo salio mal al crear un nuevo plan");
                 }
-            } else return new Response(false, "El plan " + plan.getName() + " ya existe");
+            } else {
+                return new Response(false, "El plan " + plan.getName() + " ya existe");
+            }
         } catch (Exception e) {
             System.out.println(e);
             return new Response(false, "Algo salio mal");
         }
     }
-    
+
+    public String getPlanName(int planId) {
+        String planName = null;
+        String query = "SELECT name FROM plan WHERE id = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, planId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                planName = rs.getString("name");
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return planName;
+    }
+
+    public int getPlanId(String planName) {
+        int planId = -1; // if plan not fougnd
+        String query = "SELECT id FROM plan WHERE name = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, planName);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                planId = rs.getInt("id");
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return planId;
+    }
+
 }

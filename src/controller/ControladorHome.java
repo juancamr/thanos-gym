@@ -1,6 +1,7 @@
 package controller;
 import config.Startup;
 import controller.plan.ControladorAgregarPlan;
+import controller.client.ControladorClient;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import model.Administrador;
@@ -9,6 +10,7 @@ import utils.FrameUtils;
 import view.HomePanel;
 import view.MainWindow;
 import view.plan.AddPlan;
+import view.client.AddCliente;
 
 public class ControladorHome implements ActionListener {
     HomePanel panel;
@@ -22,7 +24,7 @@ public class ControladorHome implements ActionListener {
         panel.jbtnCerrarSesion.addActionListener(this);
         panel.jlblNombreAdministrador.setText(admin.getFullName());
         panel.jbtnAgregarPlan.addActionListener(this);
-        
+        panel.jbtnAgregarClient.addActionListener(this);
         FrameUtils.showPanel(vista, panel);
     }
 
@@ -36,6 +38,10 @@ public class ControladorHome implements ActionListener {
         
         if (e.getSource() == panel.jbtnAgregarPlan) {
             new ControladorAgregarPlan(new AddPlan());
+        } 
+        
+        if (e.getSource() == panel.jbtnAgregarClient) {
+            new ControladorClient(new AddCliente());
         }
     }
     
