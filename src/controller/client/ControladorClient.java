@@ -14,7 +14,6 @@ import utils.FrameUtils;
 public class ControladorClient implements ActionListener {
 
     AddCliente vista;
-    CRUDCliente crudCliente = new CRUDCliente();
     Cliente cli;
     boolean flag = false;
 
@@ -44,7 +43,7 @@ public class ControladorClient implements ActionListener {
                     return;
                 }
                 Cliente cli = FormatoCliente.leerClienteRegistro(vista);
-                crudCliente.create(cli);
+                CRUDCliente.getInstance().create(cli);
                 FormatoCliente.limpiarEntradasRegistro(vista);
                 vista.jlblExito.setText("Cliente " + cli.getNombre() + " registrado con éxito!");
             }
@@ -56,7 +55,7 @@ public class ControladorClient implements ActionListener {
             } else {
                 try {
                     int dniCliente = Integer.parseInt(vista.jtxtDniCliente.getText());
-                    Response<Cliente> response = crudCliente.read(dniCliente);
+                    Response<Cliente> response = CRUDCliente.getInstance().read(dniCliente);
                     if (response.isSuccess()) {
                         Cliente cli = response.getData();
                         if (cli != null) {
@@ -82,7 +81,7 @@ public class ControladorClient implements ActionListener {
             } else {
                 if (flag) {
                     FormatoCliente.leerClienteBusqueda(vista, cli);
-                    crudCliente.update(cli);
+                    CRUDCliente.getInstance().update(cli);
                     Messages.show("Datos actualizados");
                     vista.jbtnEditar.setText("EDITAR");
                     FormatoCliente.limpiarEntradasBusqueda(vista);

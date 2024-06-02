@@ -1,5 +1,7 @@
 package config;
+import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.*;
+import thanosgym.Main;
 
 public class DbConnection {
     public static Connection connection;
@@ -8,8 +10,11 @@ public class DbConnection {
     
     public static void connectToDatabase () {
         try {
+            String host = Main.dotenv.get("DB_HOST");
+            String user = Main.dotenv.get("DB_USER");
+            String password = Main.dotenv.get("DB_PASSWORD");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/thanosgym", "root", "root"); //*** dev 
+            connection = DriverManager.getConnection(host, user, password);
             System.out.println("Connected to database!");
         } catch (Exception e) {
             System.out.println(e);

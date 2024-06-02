@@ -9,8 +9,7 @@ public class CRUDCliente extends BaseCrud {
 
     private static CRUDCliente crudCliente;
 
-    public CRUDCliente() {
-    }
+    private CRUDCliente() {}
 
     public static CRUDCliente getInstance() {
         if (crudCliente == null) {
