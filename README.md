@@ -5,7 +5,7 @@
 - [x] crear plan
 - [ ] eliminar plan
 - [ ] editar plan
-- [ ] registrar a un nuevo cliente al gimnasio
+- [x] registrar a un nuevo cliente al gimnasio
 - [ ] buscar un cliente atraves del dni
 - [ ] buscar un cliente con codigo
 - [ ] autocompletar datos del cliente con su dni al registrar (beta)
