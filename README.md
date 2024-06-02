@@ -1,4 +1,16 @@
-# requerimientos (el sistema debe permitir)
+# Pasos para establecer tu entorno de desarrollo
+
+1. Tener instalado jdk 21
+2. Crear un archivo .env en la raiz del proyecto con las siguientes variables
+```
+DB_URL=jdbc:mysql://localhost:3306/gym
+DB_USER=root
+DB_PASSWORD=
+```
+3. Crear una base de datos usando el archivo script.sql
+4. Ejecutar el proyecto
+
+# Requerimientos funcionales
 
 - [x] iniciar sesion como administrador
 - [x] registrar nueva cuenta de administrador
