@@ -20,6 +20,7 @@ public class HomePanel extends javax.swing.JPanel {
 
         jpnlInterfaz = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        jbtnAgregarClient = new javax.swing.JButton();
         jbtnAgregarPlan = new javax.swing.JButton();
         jlblNombreAdministrador = new javax.swing.JLabel();
         jbtnCerrarSesion = new javax.swing.JButton();
@@ -46,7 +47,15 @@ public class HomePanel extends javax.swing.JPanel {
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jbtnAgregarClient.setText("Agregar Cliente");
+        jPanel4.add(jbtnAgregarClient, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 80, 180, 60));
+
         jbtnAgregarPlan.setText("Agregar Plan");
+        jbtnAgregarPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnAgregarPlanActionPerformed(evt);
+            }
+        });
         jPanel4.add(jbtnAgregarPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 180, 60));
 
         jpnlInterfaz.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 840, 700));
@@ -96,9 +105,14 @@ public class HomePanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCerrarSesionActionPerformed
 
+    private void jbtnAgregarPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarPlanActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnAgregarPlanActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel4;
+    public javax.swing.JButton jbtnAgregarClient;
     public javax.swing.JButton jbtnAgregarPlan;
     public javax.swing.JButton jbtnCerrarSesion;
     public javax.swing.JLabel jlblNombreAdministrador;

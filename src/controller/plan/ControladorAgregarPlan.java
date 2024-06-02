@@ -3,6 +3,7 @@ package controller.plan;
 import DAO.CRUDPlan;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import model.Plan;
 import utils.FrameUtils;
 import utils.Messages;
@@ -10,8 +11,10 @@ import view.plan.AddPlan;
 
 public class ControladorAgregarPlan implements ActionListener {
     AddPlan vista;
-    
-    public ControladorAgregarPlan (AddPlan vista) {
+
+    public static ArrayList<Plan> listaPlanes;
+
+    public ControladorAgregarPlan(AddPlan vista) {
         this.vista = vista;
         FrameUtils.showWindow(vista, "Crear nuevo plan");
         vista.jtxtNombrePlan.requestFocus();
@@ -26,7 +29,7 @@ public class ControladorAgregarPlan implements ActionListener {
             String duracion = vista.jtxtDuracion.getText();
 
             if (nombre.isEmpty() || precio.isEmpty() || duracion.isEmpty()) {
-                Messages.show( "Por favor, llene todos los campos");
+                Messages.show("Por favor, llene todos los campos");
             } else {
                 if (!precio.matches("[0-9]+") || !duracion.matches("[0-9]+")) {
                     Messages.show("El precio debe ser un número entero");
@@ -38,5 +41,5 @@ public class ControladorAgregarPlan implements ActionListener {
             }
         }
     }
-    
+
 }
