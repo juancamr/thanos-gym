@@ -1,7 +1,10 @@
 package DAO;
 
+import controller.plan.ControladorAgregarPlan;
+import java.util.ArrayList;
 import model.Response;
 import model.Plan;
+import thanosgym.Main;
 
 public class CRUDPlan extends BaseCrud {
 
@@ -15,6 +18,24 @@ public class CRUDPlan extends BaseCrud {
             crudPlan = new CRUDPlan();
         }
         return crudPlan;
+    }
+
+    public void actualizarListaPlanes() {
+        ControladorAgregarPlan.listaPlanes = new ArrayList<>();
+        try {
+            rs = st.executeQuery("select * from plan");
+            while (rs.next()) {
+                Plan pla = new Plan();
+                pla.setPlanId(rs.getInt(1));
+                pla.setName(rs.getString(2));
+                pla.setPrice(rs.getInt(3));
+                pla.setDurationDays(rs.getInt(4));
+                ControladorAgregarPlan.listaPlanes.add(pla);
+            }
+            rs.close();
+        } catch (Exception e) {
+            System.out.println("Error, no se pudo actualizar la lista planes " + e);
+        }
     }
 
     public Response<Plan> create(Plan plan) {
@@ -45,40 +66,27 @@ public class CRUDPlan extends BaseCrud {
         }
     }
 
-    public String getPlanName(int planId) {
-        String planName = null;
-        String query = "SELECT name FROM plan WHERE id = ?";
+    public Response<Plan> read(String planName) {
+        String consulta = "SELECT * FROM plan WHERE name = ?";
         try {
-            ps = connection.prepareStatement(query);
-            ps.setInt(1, planId);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                planName = rs.getString("name");
-            }
-            rs.close();
-            ps.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return planName;
-    }
-
-    public int getPlanId(String planName) {
-        int planId = -1; // if plan not fougnd
-        String query = "SELECT id FROM plan WHERE name = ?";
-        try {
-            ps = connection.prepareStatement(query);
+            ps = connection.prepareStatement(consulta);
             ps.setString(1, planName);
             rs = ps.executeQuery();
             if (rs.next()) {
-                planId = rs.getInt("id");
+                Plan plan = new Plan(
+                        rs.getInt("plan_id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("duration_days")
+                );
+                return new Response<>(true, "Plan encontrado", plan);
+            } else {
+                return new Response<>(false, "Plan no encontrado");
             }
-            rs.close();
-            ps.close();
         } catch (Exception e) {
             System.out.println(e);
+            return new Response<>(false, "Algo salió mal");
         }
-        return planId;
     }
 
 }

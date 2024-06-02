@@ -16,6 +16,14 @@ public class Plan {
         this.price = price;
         this.durationDays = durationDays;
     }
+    
+    public Plan(int planId, String name, double price, int durationDays) {
+        this.planId = planId;
+        this.name = name;
+        this.price = price;
+        this.durationDays = durationDays;
+    }
+    
 
     public int getPlanId() {
         return planId;

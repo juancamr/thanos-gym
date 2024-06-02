@@ -52,11 +52,11 @@ public class CRUDCliente extends BaseCrud {
         }
     }
 
-    public Response<Cliente> read(int clienteId) {
-        String consulta = "SELECT * FROM client WHERE client_id = ?";
+    public Response<Cliente> read(int dni) {
+        String consulta = "SELECT * FROM client WHERE dni = ?";
         try {
             ps = connection.prepareStatement(consulta);
-            ps.setInt(1, clienteId);
+            ps.setInt(1, dni);
             rs = ps.executeQuery();
             if (rs.next()) {
                 Cliente cliente = new Cliente(

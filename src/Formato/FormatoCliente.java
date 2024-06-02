@@ -1,19 +1,22 @@
 package Formato;
 
 import DAO.*;
+import controller.plan.ControladorAgregarPlan;
 import java.time.LocalDate;
 import javax.swing.JComboBox;
 import view.client.AddCliente;
 import model.Cliente;
+import model.Plan;
+import model.Response;
 import thanosgym.Main;
 
 public class FormatoCliente {
 
     public static void cargarComboPlanes(JComboBox combo) { //*****
-        ActualizarListas al = new ActualizarListas();
-        al.actualizarListaPlanes();
-        for (int i = 0; i < Main.listaPlanes.size(); i++) {
-            combo.addItem(Main.listaPlanes.get(i).getName());
+        CRUDPlan crudp = new CRUDPlan();
+        crudp.actualizarListaPlanes();
+        for (int i = 0; i < ControladorAgregarPlan.listaPlanes.size(); i++) {
+            combo.addItem(ControladorAgregarPlan.listaPlanes.get(i).getName());
         }
     }
 
@@ -33,9 +36,11 @@ public class FormatoCliente {
     public static Cliente leerClienteRegistro(AddCliente vista) {
         Cliente cli = new Cliente();
         CRUDPlan crudp = new CRUDPlan();
-        int idplan = crudp.getPlanId(vista.jcbxPlanRegistro.getSelectedItem().toString());
-        int planid = idplan + 2;
-        cli.setPlanId(planid);
+        String selectedPlanName = vista.jcbxPlanRegistro.getSelectedItem().toString();
+        Response<Plan> response = crudp.read(selectedPlanName);
+        Plan selectedPlan = response.getData();
+        int idplan = selectedPlan.getPlanId();
+        cli.setPlanId(idplan);
         cli.setDni(Integer.parseInt(vista.jtxtDniClienteAgregar.getText()));
         cli.setCreated_At(LocalDate.now()); //same?
         cli.setSubscription_since(LocalDate.now()); //same?
@@ -43,7 +48,6 @@ public class FormatoCliente {
         cli.setEmail(vista.jtxtDireccionCorreoAdd.getText());
         cli.setDireccion(vista.jtxtDireccionClienteAdd.getText());
         cli.setTelefono(Integer.parseInt(vista.jtxtTelefonoClienteAdd.getText()));
-
         return cli;
     }
 

@@ -31,25 +31,27 @@ public class ControladorClient implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista.jbtnAgregar) {
-            if (vista.jtxtDniClienteAgregar.getText().equals("")) {
-                Messages.show("Por favor, digite un DNI");
-            } else if (vista.jtxtNombreClienteAgregar.getText().equals("")) {
-                Messages.show("Por favor, digite un nombre");
+            String dni = vista.jtxtDniClienteAgregar.getText();
+            String nombre = vista.jtxtNombreClienteAgregar.getText();
+
+            if (dni.isEmpty() || nombre.isEmpty()) {
+                Messages.show("Por favor, llene todos los campos");
             } else {
-                try {
-                    Cliente cli = FormatoCliente.leerClienteRegistro(vista);
-                    crudCliente.create(cli);
-                    FormatoCliente.limpiarEntradasRegistro(vista);
-                    vista.jlblExito.setText("Cliente " + cli.getNombre() + " registrado con exito!");
-                } catch (NumberFormatException exception) {
-                    Messages.show("Error, el DNI debe ser un numero");
+                if (!dni.matches("\\d{8}")) {
+                    Messages.show("El DNI debe ser un número de 8 dígitos");
                     vista.jtxtDniClienteAgregar.setText("");
                     vista.jtxtDniClienteAgregar.requestFocus();
+                    return;
                 }
+                Cliente cli = FormatoCliente.leerClienteRegistro(vista);
+                crudCliente.create(cli);
+                FormatoCliente.limpiarEntradasRegistro(vista);
+                vista.jlblExito.setText("Cliente " + cli.getNombre() + " registrado con éxito!");
             }
         }
+
         if (e.getSource() == vista.jbtnBuscarCliente) {
-            if (vista.jtxtDniCliente.getText().equals("")) {
+            if (vista.jtxtDniCliente.getText().isEmpty()) {
                 Messages.show("Por favor, digite un DNI");
             } else {
                 try {
@@ -62,11 +64,9 @@ public class ControladorClient implements ActionListener {
                             vista.jtxtDniCliente.setText(String.valueOf(cli.getDni()));
                             vista.jtxtDireccionCliente.setText(cli.getDireccion());
                             vista.jtxtTelefonoCliente.setText(String.valueOf(cli.getTelefono()));
-                        } else {
-                            Messages.show("El cliente no está registrado");
                         }
                     } else {
-                        Messages.show(response.getMessage());
+                        Messages.show("El cliente no está registrado");
                     }
                 } catch (NumberFormatException exception) {
                     Messages.show("Error, el DNI debe ser un número");
