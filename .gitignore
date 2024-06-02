@@ -3,5 +3,17 @@ build/
 .idea/
 out/
 *.iml
-nbproject/private/private.xml
 .env
+nbproject/private/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+# Class Files #
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
