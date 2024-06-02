@@ -22,6 +22,7 @@ public class ControladorClient implements ActionListener {
         vista.jbtnAgregar.addActionListener(this);
         vista.jbtnBuscarCliente.addActionListener(this);
         vista.jbtnEditar.addActionListener(this);
+        vista.setSize(840, 790);
         FrameUtils.showWindow(vista, "Nuevo Cliente");
         vista.jtxtDniClienteAgregar.requestFocus();
         FormatoCliente.cargarComboPlanes(vista.jcbxPlanRegistro);
