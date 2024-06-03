@@ -8,7 +8,8 @@ DB_USER=root
 DB_PASSWORD=
 ```
 3. Crear una base de datos usando el archivo script.sql
-4. Ejecutar el proyecto
+4. Descargar los jars necesarios para el proyecto en: https://drive.google.com/drive/folders/13cYWFN1nRVJ39rUl_CQiE2zlip2JFiDj?usp=sharing
+5. Ejecutar el proyecto
 
 # Requerimientos funcionales
 
