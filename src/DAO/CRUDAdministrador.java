@@ -32,7 +32,7 @@ public class CRUDAdministrador extends BaseCrud {
                     ps.setString(4, admin.getEmail());
                     ps.executeUpdate();
                     ps.close();
-                    return new Response(true, "Registro exitoso", admin);
+                    return new Response(true, admin);
                 } catch (Exception e) {
                     System.out.println(e);
                     return new Response(false, "Algo salio mal al registrar al administrador");

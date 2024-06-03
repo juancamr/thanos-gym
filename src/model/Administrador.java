@@ -33,6 +33,10 @@ public class Administrador {
     public long getPhone() {
         return phone;
     }
+    
+    public void setPhone(long phone) {
+        this.phone = phone;
+    }
 
     public String getUsername() {
         return username;
