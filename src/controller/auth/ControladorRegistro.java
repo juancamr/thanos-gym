@@ -50,7 +50,7 @@ public class ControladorRegistro implements ActionListener {
             if (!userName.isEmpty() || !password.isEmpty() || !nombres.isEmpty() || !email.isEmpty()) {
                 if (userName.matches(usernameRegex)) {
                     if (password.matches(passwordRegex)) {
-                        if (!phone.isEmpty() && phone.matches("[0-9]{9}") || phone.isEmpty()) {
+                        if (phone.isEmpty() || phone.matches("[0-9]{9}")) {
                             if (password.equals(repeatedPassword)) {
                                 if (email.matches(emailRegex)) {
                                     password = StringUtils.sha256(password);
@@ -61,7 +61,7 @@ public class ControladorRegistro implements ActionListener {
                                             .setPassword(password)
                                             .build();
                                     if (!phone.isEmpty()) {
-                                        administrador.setPhone(Long.valueOf(phone));
+                                        administrador.setPhone(Long.parseLong(phone));
                                     }
 
                                     Response<Administrador> response = CRUDAdministrador.getInstance().create(administrador);

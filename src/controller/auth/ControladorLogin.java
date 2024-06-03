@@ -35,9 +35,7 @@ public class ControladorLogin implements ActionListener {
             String userName = panel.jtxtNombreUsuario.getText();
             String password = String.valueOf(panel.jPassword.getPassword());
             
-            if (!userName.equals("") || !password.equals("")) {
-                System.out.println(userName);
-                System.out.println(password);
+            if (!userName.isEmpty() || !password.isEmpty()) {
                 password = StringUtils.sha256(password);
                 boolean adminExist = CRUDAdministrador.getInstance().verify(userName, password);
                 if (adminExist) {
