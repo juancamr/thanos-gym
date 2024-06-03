@@ -3,7 +3,7 @@
 1. Tener instalado jdk 21
 2. Crear un archivo .env en la raiz del proyecto con las siguientes variables
 ```
-DB_URL=jdbc:mysql://localhost:3306/gym
+DB_HOST=jdbc:mysql://localhost:3306/thanosgym
 DB_USER=root
 DB_PASSWORD=
 ```
