@@ -1,15 +1,22 @@
 # Pasos para establecer tu entorno de desarrollo
 
 1. Tener instalado jdk 21
+
 2. Crear un archivo .env en la raiz del proyecto con las siguientes variables
 ```
 DB_HOST=jdbc:mysql://localhost:3306/thanosgym
 DB_USER=root
 DB_PASSWORD=
 ```
+
 3. Crear una base de datos usando el archivo script.sql
-4. Descargar los jars necesarios para el proyecto en: https://drive.google.com/drive/folders/13cYWFN1nRVJ39rUl_CQiE2zlip2JFiDj?usp=sharing
-5. Ejecutar el proyecto
+
+4. Descargar los jars necesarios para el proyecto
+https://drive.google.com/drive/folders/13cYWFN1nRVJ39rUl_CQiE2zlip2JFiDj?usp=sharing
+
+5. Crea una carpeta lib en la raiz del proyecto y coloca los jars descargados
+
+6. Importar los jars en tu IDE
 
 # Requerimientos funcionales
 
