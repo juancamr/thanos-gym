@@ -27,7 +27,7 @@ public class WindowSession extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         content = new javax.swing.JPanel();
-        jlblIMagen = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -38,9 +38,8 @@ public class WindowSession extends javax.swing.JFrame {
         content.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 690));
 
-        jlblIMagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gym.jpg"))); // NOI18N
-        jlblIMagen.setText("imagen");
-        jPanel1.add(jlblIMagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 400, 690));
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 400, 700));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 690));
 
@@ -86,6 +85,6 @@ public class WindowSession extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel content;
     private javax.swing.JPanel jPanel1;
-    public javax.swing.JLabel jlblIMagen;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

@@ -11,5 +11,6 @@ public class Startup {
         WindowSession vista = new WindowSession();
         new ControladorLogin(vista, new PanelLogin());
         FrameUtils.showWindow(vista, "Welcome");
+        System.out.println("App started!");
     }
 }
