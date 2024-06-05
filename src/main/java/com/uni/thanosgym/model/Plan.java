@@ -3,7 +3,7 @@ package com.uni.thanosgym.model;
 
 public class Plan {
 
-    private int planId;
+    private int id;
     private String name;
     private double price;
     private int durationDays;
@@ -18,19 +18,19 @@ public class Plan {
     }
     
     public Plan(int planId, String name, double price, int durationDays) {
-        this.planId = planId;
+        this.id = planId;
         this.name = name;
         this.price = price;
         this.durationDays = durationDays;
     }
     
 
-    public int getPlanId() {
-        return planId;
+    public int getId() {
+        return id;
     }
 
-    public void setPlanId(int planId) {
-        this.planId = planId;
+    public void setId(int planId) {
+        this.id = planId;
     }
 
     public String getName() {
@@ -63,7 +63,7 @@ public class Plan {
     @Override
     public String toString() {
         return "Plan{" +
-                "planId=" + planId +
+                "planId=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", durationDays=" + durationDays +

@@ -1,42 +1,20 @@
 package com.uni.thanosgym.model;
 
-public class Administrador {
+import java.sql.Date;
 
-    private int id;
-    private String fullName;
-    private String email;
-    private long phone;
+public class Administrador extends Persona {
+
     private String username;
     private String password;
+    private Date lastSignin;
 
     private Administrador(Builder builder) {
-        this.id = builder.id;
-        this.fullName = builder.fullName;
-        this.email = builder.email;
-        this.phone = builder.phone;
+        super(builder.id, builder.createdAt, builder.fullName, builder.phone, builder.email);
         this.username = builder.username;
         this.password = builder.password;
+        this.lastSignin = builder.lastSignin;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public long getPhone() {
-        return phone;
-    }
-    
-    public void setPhone(long phone) {
-        this.phone = phone;
-    }
 
     public String getUsername() {
         return username;
@@ -46,13 +24,19 @@ public class Administrador {
         return password;
     }
 
+    public Date getLastSignin() {
+        return lastSignin;
+    }
+
     public static class Builder {
         private int id;
         private String fullName;
         private String email;
-        private long phone;
+        private int phone;
         private String username;
         private String password;
+        private Date lastSignin;
+        private Date createdAt;
 
         public Builder() {
         }
@@ -72,7 +56,7 @@ public class Administrador {
             return this;
         }
 
-        public Builder setPhone(long phone) {
+        public Builder setPhone(int phone) {
             this.phone = phone;
             return this;
         }
@@ -95,10 +79,10 @@ public class Administrador {
     @Override
     public String toString() {
         return "Administrador{" +
-                "admin_id=" + id +
-                ", full_name='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone=" + phone +
+                "admin_id=" + super.getId() +
+                ", full_name='" + super.getFullName() + '\'' +
+                ", email='" + super.getEmail() + '\'' +
+                ", phone=" + super.getPhone() +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 '}';

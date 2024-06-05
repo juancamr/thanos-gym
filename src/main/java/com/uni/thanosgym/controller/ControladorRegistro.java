@@ -1,7 +1,6 @@
 package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.dao.CRUDAdministrador;
-import com.uni.thanosgym.controller.ControladorMainWindow;
 import com.uni.thanosgym.model.Administrador;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.PanelLogin;
@@ -38,7 +37,6 @@ public class ControladorRegistro implements ActionListener {
         if (e.getSource() == panel.jbtnRegistro) {
             String usernameRegex = "^[a-z]{3,15}$";
             String passwordRegex = "^[a-z]{8,}$";
-            String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
             String nombres = panel.jtxtNombresCompletos.getText();
             String userName = panel.jtxtNombreUsuario.getText();
@@ -50,9 +48,9 @@ public class ControladorRegistro implements ActionListener {
             if (!userName.isEmpty() || !password.isEmpty() || !nombres.isEmpty() || !email.isEmpty()) {
                 if (userName.matches(usernameRegex)) {
                     if (password.matches(passwordRegex)) {
-                        if (phone.isEmpty() || phone.matches("[0-9]{9}")) {
+                        if (phone.isEmpty() || StringUtils.isValidPhone(phone)) {
                             if (password.equals(repeatedPassword)) {
-                                if (email.matches(emailRegex)) {
+                                if (StringUtils.isValidEmail(email)) {
                                     password = StringUtils.sha256(password);
                                     Administrador administrador = new Administrador.Builder()
                                             .setEmail(email)
@@ -61,7 +59,7 @@ public class ControladorRegistro implements ActionListener {
                                             .setPassword(password)
                                             .build();
                                     if (!phone.isEmpty()) {
-                                        administrador.setPhone(Long.parseLong(phone));
+                                        administrador.setPhone(Integer.parseInt(phone));
                                     }
 
                                     Response<Administrador> response = CRUDAdministrador.getInstance().create(administrador);

@@ -26,7 +26,7 @@ public class CRUDPlan extends BaseCrud {
             List<Plan> listaPlanes = new ArrayList<Plan>();
             while (rs.next()) {
                 Plan pla = new Plan();
-                pla.setPlanId(rs.getInt(1));
+                pla.setId(rs.getInt(1));
                 pla.setName(rs.getString(2));
                 pla.setPrice(rs.getInt(3));
                 pla.setDurationDays(rs.getInt(4));
@@ -68,6 +68,28 @@ public class CRUDPlan extends BaseCrud {
         }
     }
 
+    public Response<Plan> getById(int id) {
+        String consulta = "SELECT * FROM plan WHERE  = ?";
+        try {
+            ps = connection.prepareStatement(consulta);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Plan plan = new Plan(
+                        rs.getInt("plan_id"),
+                        rs.getString("name"),
+                        rs.getDouble("price"),
+                        rs.getInt("duration_days"));
+                return new Response<>(true, "Plan encontrado", plan);
+            } else {
+                return new Response<>(false, "Plan no encontrado");
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            return new Response<>(false, "Algo salió mal");
+        }
+    }
+
     public Response<Plan> getByName(String planName) {
         String consulta = "SELECT * FROM plan WHERE name = ?";
         try {
@@ -79,8 +101,7 @@ public class CRUDPlan extends BaseCrud {
                         rs.getInt("plan_id"),
                         rs.getString("name"),
                         rs.getDouble("price"),
-                        rs.getInt("duration_days")
-                );
+                        rs.getInt("duration_days"));
                 return new Response<>(true, "Plan encontrado", plan);
             } else {
                 return new Response<>(false, "Plan no encontrado");

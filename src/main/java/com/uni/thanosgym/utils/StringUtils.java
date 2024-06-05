@@ -2,13 +2,16 @@
 package com.uni.thanosgym.utils;
 
 import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
  * @author jcmro
  */
 public class StringUtils {
-    
+    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
     public static String sha256(final String base) {
         try {
             final MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -26,5 +29,21 @@ public class StringUtils {
             throw new RuntimeException(ex);
         }
     }
-    
+
+    public static boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(emailRegex);
+    }
+
+    public static boolean isValidPhone(String phone) {
+        return phone.matches( "[0-9]{9}");
+    }
+
+    public static boolean isValidDni(String dni) {
+        return !dni.matches("\\d{8}");
+    }
+
+    public static String parseDate(Date date) {
+        return sdf.format(date);
+    }
 }

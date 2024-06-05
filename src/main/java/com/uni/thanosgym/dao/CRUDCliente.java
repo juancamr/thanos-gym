@@ -3,7 +3,9 @@ package com.uni.thanosgym.dao;
 import java.util.ArrayList;
 import java.util.List;
 import com.uni.thanosgym.model.Response;
+import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.model.Cliente;
+import com.uni.thanosgym.model.Plan;
 
 public class CRUDCliente extends BaseCrud {
 
@@ -27,14 +29,14 @@ public class CRUDCliente extends BaseCrud {
                 String consulta = "INSERT INTO client(plan_id, dni, created_at, subscription_since, full_name, email, address, phone) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
                 try {
                     ps = connection.prepareStatement(consulta);
-                    ps.setInt(1, cliente.getPlanId());
+                    ps.setInt(1, cliente.getPlan().getId());
                     ps.setInt(2, cliente.getDni());
-                    ps.setDate(3, java.sql.Date.valueOf(cliente.getCreated_At()));
-                    ps.setDate(4, java.sql.Date.valueOf(cliente.getSubscription_since()));
-                    ps.setString(5, cliente.getNombre());
+                    ps.setString(3, StringUtils.parseDate(cliente.getCreated_At()));
+                    ps.setString(4, StringUtils.parseDate(cliente.getSubscription_since()));
+                    ps.setString(5, cliente.getFullName());
                     ps.setString(6, cliente.getEmail());
                     ps.setString(7, cliente.getDireccion());
-                    ps.setInt(8, cliente.getTelefono());
+                    ps.setInt(8, cliente.getPhone());
                     ps.executeUpdate();
                     ps.close();
                     return new Response<Cliente>(true, "Se creó el cliente con éxito");
@@ -58,12 +60,14 @@ public class CRUDCliente extends BaseCrud {
             ps.setInt(1, dni);
             rs = ps.executeQuery();
             if (rs.next()) {
+    // public Cliente(int id, Plan plan, int dni, Date created_At, Date subscription_since, String fullName, String email,
+                Response<Plan> response = CRUDPlan.getInstance().getById(rs.getInt("plan_id"));
                 Cliente cliente = new Cliente(
                         rs.getInt("client_id"),
-                        rs.getInt("plan_id"),
+                        response.getData(),
                         rs.getInt("dni"),
-                        rs.getDate("created_at").toLocalDate(),
-                        rs.getDate("subscription_since").toLocalDate(),
+                        rs.getDate("created_at"),
+                        rs.getDate("subscription_since"),
                         rs.getString("full_name"),
                         rs.getString("email"),
                         rs.getString("address"),
@@ -86,12 +90,13 @@ public class CRUDCliente extends BaseCrud {
             st = connection.createStatement();
             rs = st.executeQuery(consulta);
             while (rs.next()) {
+                Response<Plan> response = CRUDPlan.getInstance().getById(rs.getInt("plan_id"));
                 Cliente cliente = new Cliente(
                         rs.getInt("client_id"),
-                        rs.getInt("plan_id"),
+                        response.getData(),
                         rs.getInt("dni"),
-                        rs.getDate("created_at").toLocalDate(),
-                        rs.getDate("subscription_since").toLocalDate(),
+                        rs.getDate("created_at"),
+                        rs.getDate("subscription_since"),
                         rs.getString("full_name"),
                         rs.getString("email"),
                         rs.getString("address"),
@@ -110,15 +115,15 @@ public class CRUDCliente extends BaseCrud {
         String consulta = "UPDATE client SET plan_id = ?, dni = ?, created_at = ?, subscription_since = ?, full_name = ?, email = ?, address = ?, phone = ? WHERE client_id = ?";
         try {
             ps = connection.prepareStatement(consulta);
-            ps.setInt(1, cliente.getPlanId());
+            ps.setInt(1, cliente.getId());
             ps.setInt(2, cliente.getDni());
-            ps.setDate(3, java.sql.Date.valueOf(cliente.getCreated_At()));
-            ps.setDate(4, java.sql.Date.valueOf(cliente.getSubscription_since()));
-            ps.setString(5, cliente.getNombre());
+            ps.setString(3, StringUtils.parseDate(cliente.getCreated_At()));
+            ps.setString(4, StringUtils.parseDate(cliente.getSubscription_since()));
+            ps.setString(5, cliente.getFullName());
             ps.setString(6, cliente.getEmail());
             ps.setString(7, cliente.getDireccion());
-            ps.setInt(8, cliente.getTelefono());
-            ps.setInt(9, cliente.getClienteId());
+            ps.setInt(8, cliente.getPhone());
+            ps.setInt(9, cliente.getId());
             ps.executeUpdate();
             ps.close();
             return new Response<Cliente>(true, "Cliente actualizado con éxito");
