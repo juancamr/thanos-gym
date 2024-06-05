@@ -1,5 +1,7 @@
 package com.uni.thanosgym.view;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author jcmro
@@ -11,6 +13,7 @@ public class WindowSession extends javax.swing.JFrame {
      */
     public WindowSession() {
         initComponents();
+        setSize(760, 690);
     }
 
     /**
@@ -24,6 +27,7 @@ public class WindowSession extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         content = new javax.swing.JPanel();
+        jlblIMagen = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -32,9 +36,13 @@ public class WindowSession extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         content.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 770));
+        jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 690));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 770));
+        jlblIMagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gym.jpg"))); // NOI18N
+        jlblIMagen.setText("imagen");
+        jPanel1.add(jlblIMagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 0, 400, 690));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 780, 690));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -69,7 +77,8 @@ public class WindowSession extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new WindowSession().setVisible(true);
+                WindowSession windowSession = new WindowSession();
+                windowSession.setVisible(true);
             }
         });
     }
@@ -77,5 +86,6 @@ public class WindowSession extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel content;
     private javax.swing.JPanel jPanel1;
+    public javax.swing.JLabel jlblIMagen;
     // End of variables declaration//GEN-END:variables
 }

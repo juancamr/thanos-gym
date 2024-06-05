@@ -20,6 +20,7 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() {
         initComponents();
         this.setLocationRelativeTo(this);
+        setSize(1060, 690);
     }
     
     public void turnAllFalse() {
@@ -44,7 +45,6 @@ public class MainWindow extends javax.swing.JFrame {
         jbtnQuinto = new javax.swing.JButton();
         jbtnTercero = new javax.swing.JButton();
         jbtnCuarto = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jbtnSegundo = new javax.swing.JButton();
         jlblNombreAdministrador = new javax.swing.JLabel();
@@ -206,11 +206,6 @@ public class MainWindow extends javax.swing.JFrame {
         });
         jpnlBarra.add(jbtnCuarto, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 310, 130, 50));
 
-        jLabel4.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(101, 101, 116));
-        jLabel4.setText("Servimotos S.A.C");
-        jpnlBarra.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 730, -1, -1));
-
         jLabel2.setBackground(new java.awt.Color(241, 240, 243));
         jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(241, 240, 243));
@@ -269,17 +264,17 @@ public class MainWindow extends javax.swing.JFrame {
         jlblNombreAdministrador.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
         jlblNombreAdministrador.setForeground(new java.awt.Color(181, 181, 186));
         jlblNombreAdministrador.setText("Administrador");
-        jpnlBarra.add(jlblNombreAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 710, 140, -1));
+        jpnlBarra.add(jlblNombreAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, 140, -1));
 
         jLabel9.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(181, 181, 186));
         jLabel9.setText("MAIN MENU");
         jpnlBarra.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
 
-        getContentPane().add(jpnlBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 790));
+        getContentPane().add(jpnlBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 690));
 
         content.setBackground(new java.awt.Color(255, 255, 255));
-        getContentPane().add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 840, 790));
+        getContentPane().add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 840, 690));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -494,7 +489,6 @@ public class MainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel content;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     public javax.swing.JButton jbtnCuarto;
     public javax.swing.JButton jbtnPrimero;

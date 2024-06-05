@@ -4,6 +4,8 @@
  */
 package com.uni.thanosgym.view;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author juancamr
@@ -15,6 +17,7 @@ public class AddPlan extends javax.swing.JFrame {
      */
     public AddPlan() {
         initComponents();
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**

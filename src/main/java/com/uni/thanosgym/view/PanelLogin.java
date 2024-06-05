@@ -109,7 +109,7 @@ public class PanelLogin extends javax.swing.JPanel {
         });
         jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, 300, 30));
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 690));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreUsuarioActionPerformed

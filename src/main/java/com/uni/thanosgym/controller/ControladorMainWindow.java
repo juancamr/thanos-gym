@@ -36,7 +36,7 @@ public class ControladorMainWindow implements ActionListener {
     }
     
     public void screen() {
-        vista.setSize(1060, 790);
+        vista.setSize(1060, 690);
         vista.setTitle("Thanos Gym");
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);

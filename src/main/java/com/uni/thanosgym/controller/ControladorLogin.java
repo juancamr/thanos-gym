@@ -19,12 +19,18 @@ import com.uni.thanosgym.view.MainWindow;
 public class ControladorLogin implements ActionListener {
     WindowSession view;
     PanelLogin panel;
-    
+
     public ControladorLogin(WindowSession v, PanelLogin pan) {
         view = v;
         panel = pan;
         panel.jbtnRegistro.addActionListener(this);
         panel.jbtnIniciar.addActionListener(this);
+        panel.jPassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                iniciarSesion();
+            }
+        });
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombreUsuario.requestFocus();
     }
@@ -34,23 +40,28 @@ public class ControladorLogin implements ActionListener {
         if (e.getSource() == panel.jbtnRegistro) {
             new ControladorRegistro(view, new PanelRegister());
         }
-        
+
         if (e.getSource() == panel.jbtnIniciar) {
-            String userName = panel.jtxtNombreUsuario.getText();
-            String password = String.valueOf(panel.jPassword.getPassword());
-            
-            if (!userName.isEmpty() || !password.isEmpty()) {
-                password = StringUtils.sha256(password);
-                Response<Administrador> response = CRUDAdministrador.getInstance().verify(userName, password);
-                if (response.isSuccess()) {
-                    view.dispose();
-                    UserPreference.setAdminData(response.getData());
-                    new ControladorMainWindow(new MainWindow()).screen();
-                } else {
-                    Messages.show("Credenciales incorrectas");
-                }
-            } else Messages.show("Complete todos los campos");
+            iniciarSesion();
         }
     }
-    
+
+    private void iniciarSesion() {
+        String userName = panel.jtxtNombreUsuario.getText();
+        String password = String.valueOf(panel.jPassword.getPassword());
+
+        if (!userName.isEmpty() || !password.isEmpty()) {
+            password = StringUtils.sha256(password);
+            Response<Administrador> response = CRUDAdministrador.getInstance().verify(userName, password);
+            if (response.isSuccess()) {
+                view.dispose();
+                UserPreference.setAdminData(response.getData());
+                new ControladorMainWindow(new MainWindow()).screen();
+            } else {
+                Messages.show("Credenciales incorrectas");
+            }
+        } else
+            Messages.show("Complete todos los campos");
+
+    }
 }

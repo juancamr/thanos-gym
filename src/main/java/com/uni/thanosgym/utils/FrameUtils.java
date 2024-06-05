@@ -29,7 +29,7 @@ public class FrameUtils {
 
     // for main window
     public static void showPanel(MainWindow vista, JPanel panel) {
-        panel.setSize(840, 790);
+        panel.setSize(840, 690);
         panel.setLocation(0, 0);
         vista.content.removeAll();
         vista.content.add(panel, BorderLayout.CENTER);
@@ -39,7 +39,7 @@ public class FrameUtils {
 
     // for session window
     public static void showPanel(WindowSession vista, JPanel panel) {
-        panel.setSize(380, 770);
+        panel.setSize(380, 690);
         panel.setLocation(0, 0);
         vista.content.removeAll();
         vista.content.add(panel, BorderLayout.CENTER);

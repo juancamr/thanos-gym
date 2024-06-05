@@ -45,6 +45,7 @@ public class PanelRegister extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jtxtRepeatPassword = new javax.swing.JPasswordField();
 
+        setPreferredSize(new java.awt.Dimension(420, 690));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -64,7 +65,7 @@ public class PanelRegister extends javax.swing.JPanel {
                 jbtnRegistroActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 650, 300, 40));
+        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 620, 300, 40));
 
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -167,7 +168,7 @@ public class PanelRegister extends javax.swing.JPanel {
         jtxtRepeatPassword.setBorder(null);
         jPanel3.add(jtxtRepeatPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 300, 30));
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 690));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegistroActionPerformed
