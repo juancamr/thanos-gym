@@ -2,13 +2,24 @@
 package com.uni.thanosgym.utils;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.WindowSession;
 
@@ -21,7 +32,7 @@ import com.uni.thanosgym.view.WindowSession;
 public class FrameUtils {
 
     /**
-     * Show window, center it and set the title.
+     * Mostrar ventana, centrarlo y establecerle un titulo
      *
      * @param vista Window frame
      * @param title Title of the window
@@ -33,7 +44,7 @@ public class FrameUtils {
     }
     
     /**
-     * Clears the text of all provided text fields and sets the focus to the first field.
+     * Limpiar el texto de todos los campos de texto proporcionados y establecer el foco en el primer campo.
      *
      * @param inputs An array of text fields to be cleared.
      */
@@ -45,7 +56,7 @@ public class FrameUtils {
     }
 
     /**
-     * Clear the provided text field and set the focus to it.
+     * Limpiar el texto de un campo de texto y establecer el foco en el campo.
      *
      * @param input A text field to be cleared.
      */
@@ -90,7 +101,7 @@ public class FrameUtils {
      * @param input Text field
      * @param r Lambda function
      */
-    public static void submitOnEnter(JTextField input, Runnable r) {
+    public static void addEnterEvent(JTextField input, Runnable r) {
         input.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -105,12 +116,91 @@ public class FrameUtils {
      * @param input Password field
      * @param r Lambda function
      */
-    public static void submitOnEnter(JPasswordField input, Runnable r) {
+    public static void addEnterEvent(JPasswordField input, Runnable r) {
         input.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 r.run();
             }
         });
+    }
+
+    /**
+     * Agregar evento de clic a un boton
+     *
+     * @param button Button
+     * @param handleClick Lambda function
+     */
+    public static void addOnClickEvent(JButton button, Runnable handleClick) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleClick.run();
+            }
+        });
+    }
+    
+    /**
+     * Agregar evento cuando cambia el texto
+     *
+     * @param input TextField
+     * @param function Lambda function
+     */
+    public static void addHandleChangeEvent(JTextField input, Runnable function) {
+        input.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                function.run();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                function.run();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                function.run();
+            }
+        });
+
+    }
+
+    /**
+     * Renderizar lista de paneles dentro de un main panel
+     *
+     * @param dataList Lista de planes
+     * @param mainPanel Panel padre
+     * @param r Lambda function for the button
+     */
+    public static void createPanelList(List<Plan> dataList, JPanel mainPanel) {
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        for (Plan data : dataList) {
+            JPanel panel = new JPanel();
+            int alto = 50;
+            int ancho = 100;
+
+            panel.setLayout(new GridLayout(3, 1));
+            panel.setPreferredSize(new Dimension(ancho, alto));
+            panel.setMaximumSize(new Dimension(ancho, alto));
+            panel.setMinimumSize(new Dimension(ancho, alto));
+
+            JLabel name = new JLabel(data.getName());
+            JLabel precio= new JLabel(String.valueOf(data.getPrice()));
+            JLabel duracion = new JLabel(String.valueOf(data.getDurationDays()));
+            JButton button = new JButton("Editar");
+
+            // TODO: iniciar ventana para poder editar un plan mandando como parametro el plan
+            // addOnClickEvent(button, () -> );
+
+            panel.add(name);
+            panel.add(precio);
+            panel.add(duracion);
+            panel.add(button);
+
+            mainPanel.add(panel, BorderLayout.CENTER);
+            mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        }
     }
 }
