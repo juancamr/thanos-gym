@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -98,7 +99,7 @@ public class FrameUtils {
      * @param input Text field
      * @param r Lambda function
      */
-    public static void submitOnEnter(JTextField input, Runnable r) {
+    public static void addEnterEvent(JTextField input, Runnable r) {
         input.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,7 +114,7 @@ public class FrameUtils {
      * @param input Password field
      * @param r Lambda function
      */
-    public static void submitOnEnter(JPasswordField input, Runnable r) {
+    public static void addEnterEvent(JPasswordField input, Runnable r) {
         input.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +123,28 @@ public class FrameUtils {
         });
     }
 
+    /**
+     * Agregar evento de clic a un boton
+     *
+     * @param button Button
+     * @param handleClick Lambda function
+     */
+    public static void addOnClickEvent(JButton button, Runnable handleClick) {
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleClick.run();
+            }
+        });
+    }
+
+    /**
+     * Renderizar lista de paneles dentro de un main panel
+     *
+     * @param dataList Lista de planes
+     * @param mainPanel Panel padre
+     * @param r Lambda function for the button
+     */
     public static void createPanelList(List<Plan> dataList, JPanel mainPanel) {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -138,10 +161,15 @@ public class FrameUtils {
             JLabel name = new JLabel(data.getName());
             JLabel precio= new JLabel(String.valueOf(data.getPrice()));
             JLabel duracion = new JLabel(String.valueOf(data.getDurationDays()));
+            JButton button = new JButton("Editar");
+
+            // TODO: iniciar ventana para poder editar un plan mandando como parametro el plan
+            // addOnClickEvent(button, () -> );
 
             panel.add(name);
             panel.add(precio);
             panel.add(duracion);
+            panel.add(button);
 
             mainPanel.add(panel, BorderLayout.CENTER);
             mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));

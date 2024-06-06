@@ -3,7 +3,6 @@ package com.uni.thanosgym.controller;
 import com.uni.thanosgym.dao.CRUDPlan;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
