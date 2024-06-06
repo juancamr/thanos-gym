@@ -2,13 +2,21 @@
 package com.uni.thanosgym.utils;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.WindowSession;
 
@@ -21,7 +29,7 @@ import com.uni.thanosgym.view.WindowSession;
 public class FrameUtils {
 
     /**
-     * Show window, center it and set the title.
+     * Mostrar ventana, centrarlo y establecerle un titulo
      *
      * @param vista Window frame
      * @param title Title of the window
@@ -33,7 +41,7 @@ public class FrameUtils {
     }
     
     /**
-     * Clears the text of all provided text fields and sets the focus to the first field.
+     * Limpiar el texto de todos los campos de texto proporcionados y establecer el foco en el primer campo.
      *
      * @param inputs An array of text fields to be cleared.
      */
@@ -45,7 +53,7 @@ public class FrameUtils {
     }
 
     /**
-     * Clear the provided text field and set the focus to it.
+     * Limpiar el texto de un campo de texto y establecer el foco en el campo.
      *
      * @param input A text field to be cleared.
      */
@@ -112,5 +120,31 @@ public class FrameUtils {
                 r.run();
             }
         });
+    }
+
+    public static void createPanelList(List<Plan> dataList, JPanel mainPanel) {
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
+        for (Plan data : dataList) {
+            JPanel panel = new JPanel();
+            int alto = 50;
+            int ancho = 100;
+
+            panel.setLayout(new GridLayout(3, 1));
+            panel.setPreferredSize(new Dimension(ancho, alto));
+            panel.setMaximumSize(new Dimension(ancho, alto));
+            panel.setMinimumSize(new Dimension(ancho, alto));
+
+            JLabel name = new JLabel(data.getName());
+            JLabel precio= new JLabel(String.valueOf(data.getPrice()));
+            JLabel duracion = new JLabel(String.valueOf(data.getDurationDays()));
+
+            panel.add(name);
+            panel.add(precio);
+            panel.add(duracion);
+
+            mainPanel.add(panel, BorderLayout.CENTER);
+            mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        }
     }
 }

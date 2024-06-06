@@ -3,6 +3,8 @@ package com.uni.thanosgym.dao;
 import java.util.ArrayList;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.model.Plan;
+
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,26 +22,6 @@ public class CRUDPlan extends BaseCrud {
         return crudPlan;
     }
 
-    public Response<Plan> getAll() {
-        try {
-            rs = st.executeQuery("select * from plan");
-            List<Plan> listaPlanes = new ArrayList<Plan>();
-            while (rs.next()) {
-                Plan pla = new Plan();
-                pla.setId(rs.getInt(1));
-                pla.setName(rs.getString(2));
-                pla.setPrice(rs.getInt(3));
-                pla.setDurationDays(rs.getInt(4));
-                listaPlanes.add(pla);
-            }
-            rs.close();
-            return new Response<Plan>(true, listaPlanes);
-        } catch (SQLException e) {
-            System.out.println("Error, no se pudo actualizar la lista planes " + e);
-            return new Response<Plan>(false);
-        }
-    }
-
     public Response<Plan> create(Plan plan) {
         String con = "SELECT * FROM plan WHERE name='<name>'";
         con = con.replace("<name>", plan.getName());
@@ -54,7 +36,13 @@ public class CRUDPlan extends BaseCrud {
                     ps.setInt(3, plan.getDurationDays());
                     ps.executeUpdate();
                     ps.close();
-                    return new Response<Plan>(true, "Se creo el plan con exito");
+                    ResultSet res2 = ps.getGeneratedKeys();
+                    if (res2.next()) {
+                        int generatedId = rs.getInt(1); 
+                        plan.setId(generatedId); 
+                    }
+                    System.out.println(plan);
+                    return new Response<Plan>(true, "Se creo el plan con exito", plan);
                 } catch (Exception e) {
                     System.out.println(e);
                     return new Response<Plan>(false, "Algo salio mal al crear un nuevo plan");
@@ -69,11 +57,9 @@ public class CRUDPlan extends BaseCrud {
     }
 
     public Response<Plan> getById(int id) {
-        String consulta = "SELECT * FROM plan WHERE  = ?";
+        String consulta = "SELECT * FROM plan WHERE plan_id=";
         try {
-            ps = connection.prepareStatement(consulta);
-            ps.setInt(1, id);
-            rs = ps.executeQuery();
+            rs = st.executeQuery(consulta + id);
             if (rs.next()) {
                 Plan plan = new Plan(
                         rs.getInt("plan_id"),
@@ -109,6 +95,52 @@ public class CRUDPlan extends BaseCrud {
         } catch (Exception e) {
             System.out.println(e);
             return new Response<>(false, "Algo salió mal");
+        }
+    }
+
+    public Response<Plan> getAll() {
+        try {
+            rs = st.executeQuery("select * from plan");
+            List<Plan> listaPlanes = new ArrayList<Plan>();
+            while (rs.next()) {
+                Plan pla = new Plan();
+                pla.setId(rs.getInt(1));
+                pla.setName(rs.getString(2));
+                pla.setPrice(rs.getInt(3));
+                pla.setDurationDays(rs.getInt(4));
+                listaPlanes.add(pla);
+            }
+            rs.close();
+            return new Response<Plan>(true, listaPlanes);
+        } catch (SQLException e) {
+            System.out.println("Error, no se pudo actualizar la lista planes " + e);
+            return new Response<Plan>(false);
+        }
+    }
+
+    public Response<Plan> delete(int id) {
+        String consulta = "DELETE FROM plan WHERE plan_id = ?";
+        try {
+            ps = connection.prepareStatement(consulta);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+            return new Response<Plan>(true, "Plan eliminado con exito");
+        } catch (Exception e) {
+            System.out.println(e);
+            return new Response<Plan>(false, "Algo salio mal al eliminar el plan");
+        }
+    }
+
+    public Response<Plan> deleteByName(String name) {
+        String consulta = "DELETE FROM plan WHERE name = ?";
+        try {
+            ps = connection.prepareStatement(consulta);
+            ps.setString(1, name);
+            ps.executeUpdate();
+            return new Response<Plan>(true, "Plan eliminado con exito");
+        } catch (Exception e) {
+            System.out.println(e);
+            return new Response<Plan>(false, "Algo salio mal al eliminar el plan");
         }
     }
 
