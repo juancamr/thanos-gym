@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.view.MainWindow;
@@ -136,6 +138,32 @@ public class FrameUtils {
                 handleClick.run();
             }
         });
+    }
+    
+    /**
+     * Agregar evento cuando cambia el texto
+     *
+     * @param input TextField
+     * @param function Lambda function
+     */
+    public static void addHandleChangeEvent(JTextField input, Runnable function) {
+        input.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                function.run();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                function.run();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                function.run();
+            }
+        });
+
     }
 
     /**
