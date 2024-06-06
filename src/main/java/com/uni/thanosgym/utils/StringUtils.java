@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  *
- * @author jcmro
+ * @author juancamr
  */
 public class StringUtils {
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -40,7 +40,7 @@ public class StringUtils {
     }
 
     public static boolean isValidDni(String dni) {
-        return !dni.matches("\\d{8}");
+        return dni.matches("\\d{8}");
     }
 
     public static String parseDate(Date date) {

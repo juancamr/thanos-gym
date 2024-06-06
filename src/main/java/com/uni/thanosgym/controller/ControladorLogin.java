@@ -1,8 +1,6 @@
 package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.dao.CRUDAdministrador;
-import com.uni.thanosgym.controller.ControladorMainWindow;
-import com.uni.thanosgym.controller.ControladorRegistro;
 import com.uni.thanosgym.view.PanelLogin;
 import com.uni.thanosgym.view.PanelRegister;
 import com.uni.thanosgym.view.WindowSession;
@@ -25,12 +23,8 @@ public class ControladorLogin implements ActionListener {
         panel = pan;
         panel.jbtnRegistro.addActionListener(this);
         panel.jbtnIniciar.addActionListener(this);
-        panel.jPassword.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                iniciarSesion();
-            }
-        });
+        FrameUtils.submitOnEnter(panel.jtxtNombreUsuario, () -> iniciarSesion());
+        FrameUtils.submitOnEnter(panel.jPassword, () -> iniciarSesion());
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombreUsuario.requestFocus();
     }
