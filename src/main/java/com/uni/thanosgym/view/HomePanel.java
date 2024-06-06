@@ -20,7 +20,6 @@ public class HomePanel extends javax.swing.JPanel {
 
         jpnlInterfaz = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jbtnAgregarClient = new javax.swing.JButton();
         jbtnAgregarPlan = new javax.swing.JButton();
         jlblNombreAdministrador = new javax.swing.JLabel();
         jbtnCerrarSesion = new javax.swing.JButton();
@@ -46,9 +45,6 @@ public class HomePanel extends javax.swing.JPanel {
             }
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jbtnAgregarClient.setText("Agregar Cliente");
-        jPanel4.add(jbtnAgregarClient, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 80, 180, 60));
 
         jbtnAgregarPlan.setText("Agregar Plan");
         jbtnAgregarPlan.addActionListener(new java.awt.event.ActionListener() {
@@ -112,7 +108,6 @@ public class HomePanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel4;
-    public javax.swing.JButton jbtnAgregarClient;
     public javax.swing.JButton jbtnAgregarPlan;
     public javax.swing.JButton jbtnCerrarSesion;
     public javax.swing.JLabel jlblNombreAdministrador;
