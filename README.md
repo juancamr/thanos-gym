@@ -14,8 +14,8 @@ DB_PASSWORD=
 - [x] iniciar sesion como administrador
 - [x] registrar nueva cuenta de administrador
 - [x] crear plan
-- [ ] eliminar plan
-- [ ] editar plan
+- [x] eliminar plan
+- [x] editar plan
 - [x] registrar a un nuevo cliente al gimnasio
 - [ ] buscar un cliente atraves del dni
 - [ ] buscar un cliente con codigo

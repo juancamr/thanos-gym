@@ -25,6 +25,12 @@ public class ControladorHome {
     public static HomePanel panel;
     public static MainWindow vista;
 
+    /**
+     * Mostrar la ventana para agregar un nuevo plan
+     *
+     * @param v   Ventana principal donde se renderizara el panel
+     * @param pan Panel principal
+     */
     public static void showHomePanel(MainWindow v, HomePanel pan) {
         panel = pan;
         vista = v;
@@ -32,7 +38,7 @@ public class ControladorHome {
         panel.jlblNombreAdministrador.setText(UserPreference.getAdminData().getFullName());
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
-            createPanelList(response.getDataList(), panel.planesListPanel);
+            ControladorHome.createPanelList(response.getDataList(), panel.planesListPanel);
         } else
             Messages.show(response.getMessage());
 
@@ -52,68 +58,81 @@ public class ControladorHome {
      * @param vistaPlan Ventana de agregar plan
      */
     public static void showAgregarPlanWindow(AddPlan vistaPlan) {
-        FrameUtils.showWindow(vista, "Crear nuevo plan");
+        FrameUtils.showWindow(vistaPlan, "Crear un nuevo plan");
         vistaPlan.jtxtNombrePlan.requestFocus();
-
-        FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> {
-            String nombre = vistaPlan.jtxtNombrePlan.getText();
-            String precio = vistaPlan.jtxtPrecio.getText();
-            String duracion = vistaPlan.jtxtDuracion.getText();
-
-            if (nombre.isEmpty() || precio.isEmpty() || duracion.isEmpty()) {
-                Messages.show("Por favor, llene todos los campos");
-            } else {
-                if (!precio.matches("[0-9]+") || !duracion.matches("[0-9]+")) {
-                    Messages.show("El precio debe ser un número entero");
-                    return;
-                }
-                Response<Plan> response = CRUDPlan.getInstance()
-                        .create(new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion)));
-                if (response.isSuccess()) {
-                    Messages.show("Plan creado exitosamente");
-                    vistaPlan.dispose();
-                    ControladorHome.showHomePanel(vista, new HomePanel());
-                } else
-                    Messages.show(response.getMessage());
-            }
-        });
+        FrameUtils.addEnterEvent(vistaPlan.jtxtDuracion, () -> insertData(vistaPlan, true, 0));
+        FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> insertData(vistaPlan, true, 0));
     }
 
     /**
      * Mostrar la ventana para editar un plan
      *
      * @param vistaPlan Ventana de agregar plan
+     * @param plan      Plan sin editar
      */
     public static void showEditarPlanWindow(AddPlan vistaPlan, Plan plan) {
         FrameUtils.showWindow(vistaPlan, "Editar plan");
-
         vistaPlan.jtxtNombrePlan.setText(plan.getName());
         vistaPlan.jtxtPrecio.setText(String.valueOf(plan.getPrice()));
         vistaPlan.jtxtDuracion.setText(String.valueOf(plan.getDurationDays()));
         vistaPlan.jbtnAction.setText("Editar");
+        vistaPlan.jtxtNombrePlan.requestFocus();
+        FrameUtils.addEnterEvent(vistaPlan.jtxtDuracion, () -> insertData(vistaPlan, false, plan.getId()));
+        FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> insertData(vistaPlan, false, plan.getId()));
+    }
 
-        FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> {
-            String nombre = vistaPlan.jtxtNombrePlan.getText();
-            String precio = vistaPlan.jtxtPrecio.getText();
-            String duracion = vistaPlan.jtxtDuracion.getText();
+    /**
+     * Eliminar un plan
+     *
+     * @param plan Plan a eliminar
+     */
+    public static void deletePlan(Plan plan) {
+        boolean allowed = Messages.confirm("Estas seguro que desea eliminar el plan " + plan.getName(),
+                "Eliminar plan");
+        if (!allowed)
+            return;
+        Response<Plan> response = CRUDPlan.getInstance().delete(plan.getId());
+        if (response.isSuccess())
+            Messages.show("Plan eliminado exitosamente");
+        else
+            Messages.show(response.getMessage());
+        showHomePanel(vista, new HomePanel());
+    }
 
-            if (nombre.isEmpty() || precio.isEmpty() || duracion.isEmpty()) {
-                Messages.show("Por favor, llene todos los campos");
-            } else {
-                if (!StringUtils.isDecimal(precio) || !StringUtils.isInteger(duracion)) {
-                    Messages.show("El precio debe ser un número entero");
-                    return;
-                }
-                Response<Plan> response = CRUDPlan.getInstance()
-                        .update(new Plan(plan.getId(), nombre, Double.valueOf(precio), Integer.valueOf(duracion)));
-                if (response.isSuccess()) {
-                    Messages.show("Plan editado exitosamente");
-                    vistaPlan.dispose();
-                } else
-                    Messages.show(response.getMessage());
-                ControladorHome.showHomePanel(vista, new HomePanel());
+    /**
+     * Funcion para mostrar la ventana para actualizar o crear un plan
+     *
+     * @param vistaPlan Ventana de agregar plan
+     * @param isForAdd  Si es verdadero es para crear un plan
+     * @param planId    Usado para actualizar un plan
+     */
+    public static void insertData(AddPlan vistaPlan, boolean isForAdd, int planId) {
+        String nombre = vistaPlan.jtxtNombrePlan.getText();
+        String precio = vistaPlan.jtxtPrecio.getText();
+        String duracion = vistaPlan.jtxtDuracion.getText();
+
+        if (nombre.isEmpty() || precio.isEmpty() || duracion.isEmpty()) {
+            Messages.show("Por favor, llene todos los campos");
+        } else {
+            if (!StringUtils.isDecimal(precio) || !StringUtils.isDecimal(duracion)) {
+                Messages.show("El precio debe ser un número entero");
+                return;
             }
-        });
+            Response<Plan> response;
+            if (isForAdd) {
+                response = CRUDPlan.getInstance()
+                        .create(new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion)));
+            } else {
+                response = CRUDPlan.getInstance()
+                        .update(new Plan(planId, nombre, Double.valueOf(precio), Integer.valueOf(duracion)));
+            }
+            if (response.isSuccess()) {
+                Messages.show(response.getMessage());
+                vistaPlan.dispose();
+                showHomePanel(vista, new HomePanel());
+            } else
+                Messages.show(response.getMessage());
+        }
     }
 
     /**
@@ -153,26 +172,6 @@ public class ControladorHome {
             mainPanel.add(panel, BorderLayout.CENTER);
             mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
-    }
-
-    /**
-     * Eliminar un plan
-     *
-     * @param plan Plan a eliminar
-     */
-    public static void deletePlan(Plan plan) {
-        boolean allowed = Messages.confirm("Estas seguro que desea eliminar el plan " + plan.getName(),
-                "Eliminar plan");
-        if (!allowed)
-            return;
-
-        Response<Plan> response = CRUDPlan.getInstance().delete(plan.getId());
-        if (response.isSuccess()) {
-            Messages.show("Plan eliminado exitosamente");
-        } else {
-            Messages.show(response.getMessage());
-        }
-        ControladorHome.showHomePanel(vista, new HomePanel());
     }
 
 }
