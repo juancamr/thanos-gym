@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import com.uni.thanosgym.preferences.UserPreference;
 import com.uni.thanosgym.view.HomePanel;
 import com.uni.thanosgym.view.MainWindow;
-import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.view.PanelClient;
 
 public class ControladorMainWindow implements ActionListener {
@@ -77,7 +76,8 @@ public class ControladorMainWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista.jbtnPrimero) {
-            System.out.println("first section");
+            new ControladorHome(vista, new HomePanel());
+            setFocusButton(vista.jbtnPrimero, vista.jlblNombreAdministrador);
         }
         if (e.getSource() == vista.jbtnCliente) {
             new ControladorClient(vista, new PanelClient(), false);

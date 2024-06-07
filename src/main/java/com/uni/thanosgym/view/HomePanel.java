@@ -21,6 +21,7 @@ public class HomePanel extends javax.swing.JPanel {
         jpnlInterfaz = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jbtnAgregarPlan = new javax.swing.JButton();
+        planesListPanel = new javax.swing.JPanel();
         jlblNombreAdministrador = new javax.swing.JLabel();
         jbtnCerrarSesion = new javax.swing.JButton();
 
@@ -32,7 +33,7 @@ public class HomePanel extends javax.swing.JPanel {
         });
         jpnlInterfaz.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel4.setBackground(new java.awt.Color(252, 252, 252));
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(243, 243, 243)));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -46,13 +47,29 @@ public class HomePanel extends javax.swing.JPanel {
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jbtnAgregarPlan.setBackground(new java.awt.Color(254, 254, 254));
         jbtnAgregarPlan.setText("Agregar Plan");
         jbtnAgregarPlan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnAgregarPlanActionPerformed(evt);
             }
         });
-        jPanel4.add(jbtnAgregarPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 80, 180, 60));
+        jPanel4.add(jbtnAgregarPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 180, 180, 60));
+
+        planesListPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout planesListPanelLayout = new javax.swing.GroupLayout(planesListPanel);
+        planesListPanel.setLayout(planesListPanelLayout);
+        planesListPanelLayout.setHorizontalGroup(
+            planesListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+        planesListPanelLayout.setVerticalGroup(
+            planesListPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 530, Short.MAX_VALUE)
+        );
+
+        jPanel4.add(planesListPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 530));
 
         jpnlInterfaz.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 840, 700));
 
@@ -112,5 +129,6 @@ public class HomePanel extends javax.swing.JPanel {
     public javax.swing.JButton jbtnCerrarSesion;
     public javax.swing.JLabel jlblNombreAdministrador;
     private javax.swing.JPanel jpnlInterfaz;
+    public javax.swing.JPanel planesListPanel;
     // End of variables declaration//GEN-END:variables
 }
