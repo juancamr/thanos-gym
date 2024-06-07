@@ -9,6 +9,9 @@ class Persona {
     private String fullName;
     private int phone;
     private String email;
+    
+    public Persona() {
+    }
 
     public Persona(int id, Date created_At, String fullName, int phone, String email) {
         this.id = id;

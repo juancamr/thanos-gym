@@ -6,14 +6,14 @@ package com.uni.thanosgym.view;
 
 /**
  *
- * @author Programmer
+ * @author jhere
  */
-public class AddCliente extends javax.swing.JFrame {
+public class PanelClient extends javax.swing.JPanel {
 
     /**
-     * Creates new form Producto
+     * Creates new form PanelClient
      */
-    public AddCliente() {
+    public PanelClient() {
         initComponents();
     }
 
@@ -68,6 +68,8 @@ public class AddCliente extends javax.swing.JFrame {
         jtxtDireccionCorreoAdd = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jcbxPlanRegistro = new javax.swing.JComboBox<>();
+
+        setPreferredSize(new java.awt.Dimension(840, 690));
 
         jpnlInterfaz.setBackground(new java.awt.Color(255, 255, 255));
         jpnlInterfaz.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -199,10 +201,10 @@ public class AddCliente extends javax.swing.JFrame {
                 jtxtDniClienteAgregarActionPerformed(evt);
             }
         });
-        jPanel3.add(jtxtDniClienteAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 250, 30));
+        jPanel3.add(jtxtDniClienteAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 150, 30));
 
         jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel3.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 250, 20));
+        jPanel3.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 150, 20));
 
         jLabel14.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(105, 105, 118));
@@ -218,11 +220,11 @@ public class AddCliente extends javax.swing.JFrame {
                 jbtnAgregarActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 720, 120, 40));
+        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 650, 120, 40));
 
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 660, 310, 40));
+        jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 590, 310, 40));
 
         jtxtNombreClienteAgregar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtNombreClienteAgregar.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -258,7 +260,7 @@ public class AddCliente extends javax.swing.JFrame {
         jPanel3.add(jtxtDireccionClienteAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, 300, 30));
 
         jSeparator17.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel3.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 660, 130, 10));
+        jPanel3.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 570, 130, 10));
 
         jtxtTelefonoClienteAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtTelefonoClienteAdd.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -274,16 +276,17 @@ public class AddCliente extends javax.swing.JFrame {
         jPanel3.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, 300, 10));
 
         jdchFechaInicial.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanel3.add(jdchFechaInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 630, 130, 30));
+        jPanel3.add(jdchFechaInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 540, 130, 30));
 
         jSeparator21.setForeground(new java.awt.Color(0, 0, 0));
         jPanel3.add(jSeparator21, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 300, 10));
 
+        jdchFechaFinal.setEnabled(false);
         jdchFechaFinal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanel3.add(jdchFechaFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 630, 130, 30));
+        jPanel3.add(jdchFechaFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 540, 130, 30));
 
         jSeparator22.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel3.add(jSeparator22, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 660, 130, 10));
+        jPanel3.add(jSeparator22, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 570, 130, 10));
 
         jLabel28.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(105, 105, 118));
@@ -317,8 +320,8 @@ public class AddCliente extends javax.swing.JFrame {
 
         jpnlInterfaz.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jpnlInterfaz, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -329,13 +332,33 @@ public class AddCliente extends javax.swing.JFrame {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jpnlInterfazMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpnlInterfazMouseClicked
+    private void jtxtDniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDniClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtDniClienteActionPerformed
 
-    }//GEN-LAST:event_jpnlInterfazMouseClicked
+    private void jtxtNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtNombreClienteActionPerformed
+
+    private void jbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnEditarActionPerformed
+
+    private void jtxtDireccionClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDireccionClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtDireccionClienteActionPerformed
+
+    private void jtxtTelefonoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtTelefonoClienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtTelefonoClienteActionPerformed
 
     private void jtxtDniClienteAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDniClienteAgregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtDniClienteAgregarActionPerformed
+
+    private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnAgregarActionPerformed
 
     private void jtxtNombreClienteAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreClienteAgregarActionPerformed
         // TODO add your handling code here:
@@ -349,33 +372,13 @@ public class AddCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtTelefonoClienteAddActionPerformed
 
-    private void jbtnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnEditarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnEditarActionPerformed
-
-    private void jtxtNombreClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtNombreClienteActionPerformed
-
-    private void jtxtDniClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDniClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtDniClienteActionPerformed
-
-    private void jtxtDireccionClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDireccionClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtDireccionClienteActionPerformed
-
-    private void jtxtTelefonoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtTelefonoClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtxtTelefonoClienteActionPerformed
-
-    private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnAgregarActionPerformed
-
     private void jtxtDireccionCorreoAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtDireccionCorreoAddActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtDireccionCorreoAddActionPerformed
+
+    private void jpnlInterfazMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpnlInterfazMouseClicked
+
+    }//GEN-LAST:event_jpnlInterfazMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

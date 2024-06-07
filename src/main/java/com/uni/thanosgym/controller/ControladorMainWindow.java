@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import com.uni.thanosgym.preferences.UserPreference;
 import com.uni.thanosgym.view.HomePanel;
 import com.uni.thanosgym.view.MainWindow;
-import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.view.PanelClient;
 
 public class ControladorMainWindow implements ActionListener {
     public static MainWindow vista;
@@ -26,7 +26,7 @@ public class ControladorMainWindow implements ActionListener {
 
     public ControladorMainWindow(MainWindow v){ 
         vista = v;
-        vista.jbtnSegundo.addActionListener(this);
+        vista.jbtnCliente.addActionListener(this);
         vista.jbtnQuinto.addActionListener(this);
         vista.jbtnCuarto.addActionListener(this);
         vista.jbtnTercero.addActionListener(this);
@@ -47,9 +47,9 @@ public class ControladorMainWindow implements ActionListener {
         vista.jbtnPrimero.setForeground(foregroundColorBase);
         vista.jbtnPrimero.setFont(fontBase);
         
-        vista.jbtnSegundo.setBackground(base);
-        vista.jbtnSegundo.setForeground(foregroundColorBase);
-        vista.jbtnSegundo.setFont(fontBase);
+        vista.jbtnCliente.setBackground(base);
+        vista.jbtnCliente.setForeground(foregroundColorBase);
+        vista.jbtnCliente.setFont(fontBase);
         
         vista.jbtnTercero.setBackground(base);
         vista.jbtnTercero.setForeground(foregroundColorBase);
@@ -76,10 +76,12 @@ public class ControladorMainWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista.jbtnPrimero) {
-            System.out.println("first section");
+            new ControladorHome(vista, new HomePanel());
+            setFocusButton(vista.jbtnPrimero, vista.jlblNombreAdministrador);
         }
-        if (e.getSource() == vista.jbtnSegundo) {
-            System.out.println("second section");
+        if (e.getSource() == vista.jbtnCliente) {
+            new ControladorClient(vista, new PanelClient(), false);
+            setFocusButton(vista.jbtnCliente, vista.jlblNombreAdministrador);
         }
         if (e.getSource() == vista.jbtnQuinto) {
             System.out.println("third section");

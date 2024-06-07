@@ -9,6 +9,10 @@ public class Cliente extends Persona {
     private int dni;
     private Plan plan;
 
+    public Cliente() {
+        super(); 
+    }
+    
     public Cliente(int id, Plan plan, int dni, Date created_At, Date subscription_since, String fullName, String email,
             String Direccion, int phone) {
         super(id, created_At, fullName, phone, email);
@@ -17,7 +21,7 @@ public class Cliente extends Persona {
         this.subscription_since = subscription_since;
         this.Direccion = Direccion;
     }
-
+    
     public Plan getPlan() {
         return plan;
     }

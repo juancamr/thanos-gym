@@ -23,8 +23,8 @@ public class ControladorLogin implements ActionListener {
         panel = pan;
         panel.jbtnRegistro.addActionListener(this);
         panel.jbtnIniciar.addActionListener(this);
-        FrameUtils.submitOnEnter(panel.jtxtNombreUsuario, () -> iniciarSesion());
-        FrameUtils.submitOnEnter(panel.jPassword, () -> iniciarSesion());
+        FrameUtils.addEnterEvent(panel.jtxtNombreUsuario, () -> iniciarSesion());
+        FrameUtils.addEnterEvent(panel.jPassword, () -> iniciarSesion());
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombreUsuario.requestFocus();
     }

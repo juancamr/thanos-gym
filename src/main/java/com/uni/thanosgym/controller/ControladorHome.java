@@ -12,7 +12,6 @@ import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.view.HomePanel;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.AddPlan;
-import com.uni.thanosgym.view.AddCliente;
 
 public class ControladorHome implements ActionListener {
     HomePanel panel;
@@ -25,7 +24,6 @@ public class ControladorHome implements ActionListener {
         panel.jbtnCerrarSesion.addActionListener(this);
         panel.jlblNombreAdministrador.setText(UserPreference.getAdminData().getFullName());
         panel.jbtnAgregarPlan.addActionListener(this);
-        panel.jbtnAgregarClient.addActionListener(this);
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
              System.out.println(response.getDataList());
@@ -46,9 +44,7 @@ public class ControladorHome implements ActionListener {
             new ControladorAgregarPlan(new AddPlan());
         } 
         
-        if (e.getSource() == panel.jbtnAgregarClient) {
-            new ControladorClient(new AddCliente());
-        }
+        
     }
     
 }

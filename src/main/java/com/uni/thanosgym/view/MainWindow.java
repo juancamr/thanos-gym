@@ -46,7 +46,7 @@ public class MainWindow extends javax.swing.JFrame {
         jbtnTercero = new javax.swing.JButton();
         jbtnCuarto = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jbtnSegundo = new javax.swing.JButton();
+        jbtnCliente = new javax.swing.JButton();
         jlblNombreAdministrador = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         content = new javax.swing.JPanel();
@@ -57,7 +57,6 @@ public class MainWindow extends javax.swing.JFrame {
         setIconImage(getIconImage());
         setLocation(new java.awt.Point(0, 0));
         setLocationByPlatform(true);
-        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jpnlBarra.setBackground(new java.awt.Color(20, 23, 31));
@@ -212,54 +211,54 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel2.setText("ThanosGym");
         jpnlBarra.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
-        jbtnSegundo.setBackground(new java.awt.Color(20, 23, 31));
-        jbtnSegundo.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
-        jbtnSegundo.setForeground(new java.awt.Color(205, 207, 208));
-        jbtnSegundo.setText("    Segundo");
-        jbtnSegundo.setBorder(null);
-        jbtnSegundo.setFocusable(false);
-        jbtnSegundo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jbtnSegundo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        jbtnCliente.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnCliente.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
+        jbtnCliente.setForeground(new java.awt.Color(205, 207, 208));
+        jbtnCliente.setText("    Clientes");
+        jbtnCliente.setBorder(null);
+        jbtnCliente.setFocusable(false);
+        jbtnCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbtnCliente.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jbtnSegundoMouseDragged(evt);
+                jbtnClienteMouseDragged(evt);
             }
             public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jbtnSegundoMouseMoved(evt);
+                jbtnClienteMouseMoved(evt);
             }
         });
-        jbtnSegundo.addFocusListener(new java.awt.event.FocusAdapter() {
+        jbtnCliente.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jbtnSegundoFocusGained(evt);
+                jbtnClienteFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jbtnSegundoFocusLost(evt);
+                jbtnClienteFocusLost(evt);
             }
         });
-        jbtnSegundo.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+        jbtnCliente.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
             public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                jbtnSegundoMouseWheelMoved(evt);
+                jbtnClienteMouseWheelMoved(evt);
             }
         });
-        jbtnSegundo.addMouseListener(new java.awt.event.MouseAdapter() {
+        jbtnCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnSegundoMouseClicked(evt);
+                jbtnClienteMouseClicked(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jbtnSegundoMouseExited(evt);
+                jbtnClienteMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                jbtnSegundoMousePressed(evt);
+                jbtnClienteMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jbtnSegundoMouseReleased(evt);
+                jbtnClienteMouseReleased(evt);
             }
         });
-        jbtnSegundo.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnSegundoActionPerformed(evt);
+                jbtnClienteActionPerformed(evt);
             }
         });
-        jpnlBarra.add(jbtnSegundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 130, 50));
+        jpnlBarra.add(jbtnCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 130, 50));
 
         jlblNombreAdministrador.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
         jlblNombreAdministrador.setForeground(new java.awt.Color(181, 181, 186));
@@ -360,46 +359,46 @@ public class MainWindow extends javax.swing.JFrame {
         firstButton = true;
     }//GEN-LAST:event_jbtnPrimeroActionPerformed
 
-    private void jbtnSegundoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseDragged
+    private void jbtnClienteMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMouseDragged
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnSegundoMouseDragged
+    }//GEN-LAST:event_jbtnClienteMouseDragged
 
-    private void jbtnSegundoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseMoved
+    private void jbtnClienteMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMouseMoved
         if (secondButton == false) {
-            jbtnSegundo.setBackground(focus);
+            jbtnCliente.setBackground(focus);
         }
-    }//GEN-LAST:event_jbtnSegundoMouseMoved
+    }//GEN-LAST:event_jbtnClienteMouseMoved
     
-    private void jbtnSegundoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnSegundoFocusGained
+    private void jbtnClienteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnClienteFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnSegundoFocusGained
+    }//GEN-LAST:event_jbtnClienteFocusGained
 
-    private void jbtnSegundoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnSegundoFocusLost
+    private void jbtnClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnClienteFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnSegundoFocusLost
+    }//GEN-LAST:event_jbtnClienteFocusLost
 
-    private void jbtnSegundoMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseWheelMoved
+    private void jbtnClienteMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jbtnClienteMouseWheelMoved
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnSegundoMouseWheelMoved
+    }//GEN-LAST:event_jbtnClienteMouseWheelMoved
 
-    private void jbtnSegundoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseExited
+    private void jbtnClienteMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMouseExited
         if (secondButton == false) {
-            jbtnSegundo.setBackground(base);
+            jbtnCliente.setBackground(base);
         }
-    }//GEN-LAST:event_jbtnSegundoMouseExited
+    }//GEN-LAST:event_jbtnClienteMouseExited
 
-    private void jbtnSegundoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseReleased
+    private void jbtnClienteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMouseReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnSegundoMouseReleased
+    }//GEN-LAST:event_jbtnClienteMouseReleased
 
-    private void jbtnSegundoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseClicked
+    private void jbtnClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMouseClicked
         //
-    }//GEN-LAST:event_jbtnSegundoMouseClicked
+    }//GEN-LAST:event_jbtnClienteMouseClicked
 
-    private void jbtnSegundoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSegundoActionPerformed
+    private void jbtnClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnClienteActionPerformed
         turnAllFalse();
         secondButton = true;
-    }//GEN-LAST:event_jbtnSegundoActionPerformed
+    }//GEN-LAST:event_jbtnClienteActionPerformed
 
     private void jbtnCuartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCuartoActionPerformed
         turnAllFalse();
@@ -415,9 +414,9 @@ public class MainWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jbtnPrimeroMousePressed
 
-    private void jbtnSegundoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMousePressed
+    private void jbtnClienteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMousePressed
         
-    }//GEN-LAST:event_jbtnSegundoMousePressed
+    }//GEN-LAST:event_jbtnClienteMousePressed
 
     private void jbtnPrimeroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnPrimeroMouseClicked
         
@@ -490,10 +489,10 @@ public class MainWindow extends javax.swing.JFrame {
     public javax.swing.JPanel content;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
+    public javax.swing.JButton jbtnCliente;
     public javax.swing.JButton jbtnCuarto;
     public javax.swing.JButton jbtnPrimero;
     public javax.swing.JButton jbtnQuinto;
-    public javax.swing.JButton jbtnSegundo;
     public javax.swing.JButton jbtnTercero;
     public javax.swing.JLabel jlblNombreAdministrador;
     private javax.swing.JPanel jpnlBarra;
