@@ -144,4 +144,20 @@ public class CRUDPlan extends BaseCrud {
         }
     }
 
+    public Response<Plan> update(Plan plan) {
+        String consulta = "UPDATE plan SET name=?, price=?, duration_days=? WHERE plan_id=?";
+        try {
+            ps = connection.prepareStatement(consulta);
+            ps.setString(1, plan.getName());
+            ps.setDouble(2, plan.getPrice());
+            ps.setInt(3, plan.getDurationDays());
+            ps.setInt(4, plan.getId());
+            ps.executeUpdate();
+            return new Response<Plan>(true, "Plan actualizado con exito");
+        } catch (Exception e) {
+            System.out.println(e);
+            return new Response<Plan>(false, "Algo salio mal al actualizar el plan");
+        }
+    }
+
 }

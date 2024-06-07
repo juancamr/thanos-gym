@@ -40,7 +40,7 @@ public class AddPlan extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jtxtDuracion = new javax.swing.JTextField();
         jSeparator16 = new javax.swing.JSeparator();
-        jbtnCrear = new javax.swing.JButton();
+        jbtnAction = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -113,8 +113,8 @@ public class AddPlan extends javax.swing.JFrame {
         jSeparator16.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 300, 10));
 
-        jbtnCrear.setText("Crear");
-        jPanel1.add(jbtnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
+        jbtnAction.setText("Crear");
+        jPanel1.add(jbtnAction, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, -1, -1));
 
         jLabel23.setBackground(new java.awt.Color(105, 105, 118));
         jLabel23.setFont(new java.awt.Font("Malgun Gothic", 0, 24)); // NOI18N
@@ -196,7 +196,7 @@ public class AddPlan extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator16;
-    public javax.swing.JButton jbtnCrear;
+    public javax.swing.JButton jbtnAction;
     public javax.swing.JTextField jtxtDuracion;
     public javax.swing.JTextField jtxtNombrePlan;
     public javax.swing.JTextField jtxtPrecio;

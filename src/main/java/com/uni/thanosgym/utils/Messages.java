@@ -30,7 +30,8 @@ public class Messages {
      *
      * @return An integer representing the user's choice
      */
-    public static int confirm(String mensaje, String titulo) {
-        return JOptionPane.showConfirmDialog(null, mensaje, titulo, JOptionPane.OK_CANCEL_OPTION);
+    public static boolean confirm(String mensaje, String titulo) {
+        int answer = JOptionPane.showConfirmDialog(null, mensaje, titulo, JOptionPane.OK_CANCEL_OPTION);
+        return answer == JOptionPane.OK_OPTION;
     }
 }

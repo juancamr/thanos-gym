@@ -46,4 +46,13 @@ public class StringUtils {
     public static String parseDate(Date date) {
         return sdf.format(date);
     }
+
+    public static boolean isDecimal(String number) {
+        return number.matches("^-?\\d+(\\.\\d+)?$");
+    } 
+
+    public static boolean isInteger(String num) {
+        return num.matches("[0-9]+");
+    }
+
 }

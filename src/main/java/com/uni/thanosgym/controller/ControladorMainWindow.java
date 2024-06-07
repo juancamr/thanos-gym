@@ -32,7 +32,7 @@ public class ControladorMainWindow implements ActionListener {
         vista.jbtnTercero.addActionListener(this);
         vista.jbtnPrimero.addActionListener(this);
         vista.jlblNombreAdministrador.setText(UserPreference.getAdminData().getFullName());
-        new ControladorHome(vista, new HomePanel());
+        ControladorHome.showHomePanel(vista, new HomePanel());
     }
     
     public void screen() {
@@ -76,7 +76,7 @@ public class ControladorMainWindow implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista.jbtnPrimero) {
-            new ControladorHome(vista, new HomePanel());
+            ControladorHome.showHomePanel(vista, new HomePanel());
             setFocusButton(vista.jbtnPrimero, vista.jlblNombreAdministrador);
         }
         if (e.getSource() == vista.jbtnCliente) {
