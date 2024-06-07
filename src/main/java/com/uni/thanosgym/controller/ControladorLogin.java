@@ -4,8 +4,6 @@ import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.view.PanelLogin;
 import com.uni.thanosgym.view.PanelRegister;
 import com.uni.thanosgym.view.WindowSession;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import com.uni.thanosgym.model.Administrador;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.preferences.UserPreference;
@@ -14,30 +12,20 @@ import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.view.MainWindow;
 
-public class ControladorLogin implements ActionListener {
+public class ControladorLogin {
     WindowSession view;
     PanelLogin panel;
 
     public ControladorLogin(WindowSession v, PanelLogin pan) {
         view = v;
         panel = pan;
-        panel.jbtnRegistro.addActionListener(this);
-        panel.jbtnIniciar.addActionListener(this);
-        FrameUtils.addEnterEvent(panel.jtxtNombreUsuario, () -> iniciarSesion());
         FrameUtils.addEnterEvent(panel.jPassword, () -> iniciarSesion());
+        FrameUtils.addOnClickEvent(panel.jbtnRegistro, () -> {
+            new ControladorRegistro(view, new PanelRegister());
+        });
+        FrameUtils.addOnClickEvent(panel.jbtnIniciar, () -> iniciarSesion());
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombreUsuario.requestFocus();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == panel.jbtnRegistro) {
-            new ControladorRegistro(view, new PanelRegister());
-        }
-
-        if (e.getSource() == panel.jbtnIniciar) {
-            iniciarSesion();
-        }
     }
 
     private void iniciarSesion() {
