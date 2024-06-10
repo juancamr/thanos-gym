@@ -9,6 +9,10 @@ class Persona {
     private String fullName;
     private int phone;
     private String email;
+    public static String createdAtField = "created_at";
+    public static String fullNameField = "full_name";
+    public static String phoneField = "phone";
+    public static String emailField = "email";
     
     public Persona() {
     }

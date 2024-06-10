@@ -32,9 +32,9 @@ public class ControladorClient {
         cli = new Cliente();
         FrameUtils.showPanel(vista, panel);
         panel.jtxtDniClienteAgregar.requestFocus();
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, () -> buscar());
-        FrameUtils.addOnClickEvent(panel.jbtnAgregar, () -> agregar());
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, () -> editar());
+        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, this::buscar);
+        FrameUtils.addOnClickEvent(panel.jbtnAgregar, this::agregar);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, this::editar);
 
         // bro what the hell?
         // no se que hace esto, deja un comentario

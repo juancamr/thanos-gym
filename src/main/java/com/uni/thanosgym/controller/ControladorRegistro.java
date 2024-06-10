@@ -25,7 +25,7 @@ public class ControladorRegistro {
         FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, () -> {
             new ControladorLogin(view, new PanelLogin());
         });
-        FrameUtils.addOnClickEvent(panel.jbtnRegistro, () -> registrar());
+        FrameUtils.addOnClickEvent(panel.jbtnRegistro, this::registrar);
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombresCompletos.requestFocus();
     }

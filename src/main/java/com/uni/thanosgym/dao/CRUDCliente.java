@@ -34,7 +34,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
                 return sendObject(ps, Querys.Cliente.create, cliente);
             });
         } catch (Exception e) {
-            return somethingWentWrong();
+            return somethingWentWrong(e);
         }
     }
 

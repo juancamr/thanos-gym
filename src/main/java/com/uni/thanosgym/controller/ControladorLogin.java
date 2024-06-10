@@ -19,11 +19,11 @@ public class ControladorLogin {
     public ControladorLogin(WindowSession v, PanelLogin pan) {
         view = v;
         panel = pan;
-        FrameUtils.addEnterEvent(panel.jPassword, () -> iniciarSesion());
+        FrameUtils.addEnterEvent(panel.jPassword, this::iniciarSesion);
+        FrameUtils.addOnClickEvent(panel.jbtnIniciar, this::iniciarSesion);
         FrameUtils.addOnClickEvent(panel.jbtnRegistro, () -> {
             new ControladorRegistro(view, new PanelRegister());
         });
-        FrameUtils.addOnClickEvent(panel.jbtnIniciar, () -> iniciarSesion());
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombreUsuario.requestFocus();
     }

@@ -7,6 +7,8 @@ public class Administrador extends Persona {
     private String username;
     private String password;
     private Date lastSignin;
+    public static String usernameField = "username";
+    public static String passwordField = "password";
 
     private Administrador(Builder builder) {
         super(builder.id, builder.createdAt, builder.fullName, builder.phone, builder.email);

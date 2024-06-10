@@ -8,19 +8,15 @@ public class Cliente extends Persona {
     private Date subscription_since;
     private int dni;
     private Plan plan;
-    public static String idField = "client_id";
-    public static String dniField = "dni";
-    public static String createdAtField = "created_at";
-    public static String subscriptionSinceField = "subscription_since";
-    public static String fullNameField = "duration_days";
-    public static String emailField = "email";
     public static String addressField = "address";
-    public static String phoneField = "phone";
+    public static String subscriptionSinceField = "subscription_since";
+    public static String dniField = "dni";
+    public static String idField = "client_id";
 
     public Cliente() {
-        super(); 
+        super();
     }
-    
+
     public Cliente(int id, Plan plan, int dni, Date created_At, Date subscription_since, String fullName, String email,
             String Direccion, int phone) {
         super(id, created_At, fullName, phone, email);
@@ -29,7 +25,7 @@ public class Cliente extends Persona {
         this.subscription_since = subscription_since;
         this.direccion = Direccion;
     }
-    
+
     public Plan getPlan() {
         return plan;
     }
@@ -53,7 +49,6 @@ public class Cliente extends Persona {
     public void setSubscription_since(Date subscription_since) {
         this.subscription_since = subscription_since;
     }
-
 
     public String getDireccion() {
         return direccion;

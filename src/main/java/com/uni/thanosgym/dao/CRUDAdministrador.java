@@ -33,7 +33,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
                         return sendObject(ps, Querys.Admin.create, admin);
                     });
         } catch (Exception e) {
-            return somethingWentWrong();
+            return somethingWentWrong(e);
         }
     }
 
