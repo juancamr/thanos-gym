@@ -29,12 +29,12 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             ps.setString(1, cliente.getEmail());
             rs = ps.executeQuery();
             boolean[] conditions = new boolean[] { !rs.next() };
-            return baseCreateWithConditions(cliente, Querys.Cliente.create, conditions,
-                    "El cliente con email " + cliente.getEmail() + " ya existe", (ps) -> {
-                        return sendObject(ps, Querys.Cliente.create, cliente);
-                    });
+            String error = "El cliente con email " + cliente.getEmail() + " ya existe";
+            return baseCreateWithConditions(cliente, Querys.Cliente.create, conditions, error, (ps) -> {
+                return sendObject(ps, Querys.Cliente.create, cliente);
+            });
         } catch (Exception e) {
-            return new Response<Cliente>(false, "Something went wrong");
+            return somethingWentWrong();
         }
     }
 

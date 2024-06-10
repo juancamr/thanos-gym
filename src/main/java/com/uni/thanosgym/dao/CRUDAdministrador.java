@@ -33,12 +33,8 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
                         return sendObject(ps, Querys.Admin.create, admin);
                     });
         } catch (Exception e) {
-            return new Response<Administrador>(false, "Something went wrong");
+            return somethingWentWrong();
         }
-    }
-
-    public Response<Administrador> delete(int id) {
-        return baseDeleteById(id, "DELETE from admin where admin_id = ?");
     }
 
     public Response<Administrador> verify(String username, String password) {
@@ -56,6 +52,10 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
             System.out.println(e);
             return new Response<Administrador>(false);
         }
+    }
+
+    public Response<Administrador> delete(int id) {
+        return baseDeleteById(id, "DELETE from admin where admin_id = ?");
     }
 
     @Override
