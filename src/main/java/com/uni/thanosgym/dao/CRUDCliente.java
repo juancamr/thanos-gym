@@ -1,6 +1,5 @@
 package com.uni.thanosgym.dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.uni.thanosgym.model.Response;
@@ -25,37 +24,31 @@ public class CRUDCliente extends BaseCrud<Cliente> {
 
     public Response<Cliente> create(Cliente cliente) {
         try {
-            ps = connection.prepareStatement(Querys.Cliente.getByEmail);
+            ps = connection.prepareStatement(Querys.cliente.getByEmail);
             ps.setString(1, cliente.getEmail());
             rs = ps.executeQuery();
             boolean[] conditions = new boolean[] { !rs.next() };
-            String error = "El cliente con email " + cliente.getEmail() + " ya existe";
-            return baseCreateWithConditions(cliente, Querys.Cliente.create, conditions, error, (ps) -> {
-                return sendObject(ps, Querys.Cliente.create, cliente);
-            });
+            String error = String.format("El cliente con email %s ya existe", cliente.getEmail());
+            return baseCreateWithConditions(cliente, Querys.cliente.create, conditions, error);
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
     }
 
     public Response<Cliente> read(int dni) {
-        return baseReadByIdentity(dni, Querys.Cliente.getByDni, (ResultSet rs) -> {
-            return generateObject(rs);
-        });
+        return baseGetById(Querys.cliente.getByDni, dni);
     }
 
     public Response<Cliente> readAll() {
-        return baseReadAll(Querys.Cliente.getAll, (ResultSet rs) -> {
-            return generateObject(rs);
-        });
+        return baseGetAll(Querys.cliente.getAll);
     }
 
     public Response<Cliente> update(Cliente cliente) {
-        return baseUpdate(Querys.Cliente.update, cliente);
+        return baseUpdate(Querys.cliente.update, cliente);
     }
 
     public Response<Cliente> delete(int clienteId) {
-        return baseDeleteById(clienteId, Querys.Cliente.delete);
+        return baseDeleteById(Querys.cliente.delete, clienteId);
     }
 
     @Override
@@ -74,7 +67,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     }
 
     @Override
-    public Cliente sendObject(PreparedStatement ps, String consulta, Cliente data) throws SQLException {
+    public Cliente sendObject(String consulta, Cliente data) throws SQLException {
         ps = connection.prepareStatement(consulta);
         ps.setInt(1, data.getPlan().getId());
         ps.setInt(2, data.getDni());

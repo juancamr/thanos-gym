@@ -23,43 +23,35 @@ public class CRUDPlan extends BaseCrud<Plan> {
 
     public Response<Plan> create(Plan plan) {
         try {
-            ps = connection.prepareStatement(Querys.Plan.getByName);
+            ps = connection.prepareStatement(Querys.plan.getByName);
             ps.setString(1, plan.getName());
             rs = ps.executeQuery();
             boolean[] conditions = new boolean[]{!rs.next()};
-            String error = "El plan " + plan.getName() + " ya existe";
-            return baseCreateWithConditions(plan, Querys.Plan.create, conditions, error, (ps) -> {
-                return sendObject(ps, Querys.Plan.create, plan);
-            });
+            String error = String.format("El plan %s ya existe", plan.getName());
+            return baseCreateWithConditions(plan, Querys.plan.create, conditions, error);
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
     }
 
     public Response<Plan> getById(int id) {
-        return baseReadByIdentity(id, Querys.Plan.get, (ResultSet rs) -> {
-            return generateObject(rs);
-        });
+        return baseGetById(Querys.plan.get, id);
     }
 
     public Response<Plan> getByName(String planName) {
-        return baseReadByIdentity(planName, Querys.Plan.get, (ResultSet rs) -> {
-            return generateObject(rs);
-        });
+        return baseGetByString(Querys.plan.get, planName);
     }
 
     public Response<Plan> getAll() {
-        return baseReadAll(Querys.Plan.getAll, (ResultSet rs) -> {
-            return generateObject(rs);
-        });
+        return baseGetAll(Querys.plan.getAll);
     }
 
     public Response<Plan> delete(int id) {
-        return baseDeleteById(id, Querys.Plan.delete);
+        return baseDeleteById(Querys.plan.delete, id);
     }
 
     public Response<Plan> update(Plan plan) {
-        return baseUpdate(Querys.Plan.update, plan);
+        return baseUpdate(Querys.plan.update, plan);
     }
 
     @Override
@@ -72,12 +64,11 @@ public class CRUDPlan extends BaseCrud<Plan> {
     }
 
     @Override
-    public Plan sendObject(PreparedStatement ps, String consulta, Plan data) throws SQLException {
+    public Plan sendObject(String consulta, Plan data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getName());
         ps.setDouble(2, data.getPrice());
         ps.setInt(3, data.getDurationDays());
-        ps.setInt(4, data.getId());
         ps.executeUpdate();
         ResultSet res2 = ps.getGeneratedKeys();
         if (res2.next()) {

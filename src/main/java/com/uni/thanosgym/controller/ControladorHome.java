@@ -117,19 +117,24 @@ public class ControladorHome {
                 return;
             }
             Response<Plan> response;
+            Plan plan = new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion));
             if (isForAdd) {
-                response = CRUDPlan.getInstance()
-                        .create(new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion)));
+                response = CRUDPlan.getInstance().create(plan);
             } else {
-                response = CRUDPlan.getInstance()
-                        .update(new Plan(planId, nombre, Double.valueOf(precio), Integer.valueOf(duracion)));
+                plan.setId(planId);
+                response = CRUDPlan.getInstance().update(plan);
             }
             if (response.isSuccess()) {
-                Messages.show(response.getMessage());
+                if (isForAdd)
+                    Messages.show("Plan creado con exito");
+                else
+                    Messages.show("Plan actualizado con exito");
+
                 vistaPlan.dispose();
                 showHomePanel(vista, new HomePanel());
-            } else
+            } else {
                 Messages.show(response.getMessage());
+            }
         }
     }
 

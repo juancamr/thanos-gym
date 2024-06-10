@@ -1,6 +1,5 @@
 package com.uni.thanosgym.dao;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import com.uni.thanosgym.utils.Querys;
 import java.sql.SQLException;
@@ -23,15 +22,13 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
 
     public Response<Administrador> create(Administrador admin) {
         try {
-            ps = connection.prepareStatement(Querys.Admin.getByUsername);
+            ps = connection.prepareStatement(Querys.admin.getByUsername);
             ps.setString(1, admin.getUsername());
             rs = ps.executeQuery();
             boolean adminWithThatUsernameNotExist = !rs.next();
             boolean[] conditions = new boolean[] { adminWithThatUsernameNotExist };
-            return baseCreateWithConditions(admin, Querys.Admin.create, conditions,
-                    "El nombre de usuario se encuentra en uso", (ps) -> {
-                        return sendObject(ps, Querys.Admin.create, admin);
-                    });
+            String error = "El nombre de usuario se encuentra en uso";
+            return baseCreateWithConditions(admin, Querys.admin.create, conditions, error);
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
@@ -39,7 +36,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
 
     public Response<Administrador> verify(String username, String password) {
         try {
-            ps = connection.prepareStatement(Querys.Admin.verify);
+            ps = connection.prepareStatement(Querys.admin.verify);
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
@@ -55,7 +52,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
     }
 
     public Response<Administrador> delete(int id) {
-        return baseDeleteById(id, "DELETE from admin where admin_id = ?");
+        return baseDeleteById("DELETE from admin where admin_id = ?", id);
     }
 
     @Override
@@ -65,7 +62,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
     }
 
     @Override
-    public Administrador sendObject(PreparedStatement ps, String consulta, Administrador data) throws SQLException {
+    public Administrador sendObject(String consulta, Administrador data) throws SQLException {
         ps = connection.prepareStatement(consulta);
         ps.setString(1, data.getFullName());
         ps.setString(2, data.getUsername());
