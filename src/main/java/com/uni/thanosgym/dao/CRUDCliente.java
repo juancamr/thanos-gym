@@ -1,17 +1,20 @@
 package com.uni.thanosgym.dao;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import com.uni.thanosgym.model.Response;
+import com.uni.thanosgym.utils.Querys;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.model.Cliente;
 import com.uni.thanosgym.model.Plan;
 
-public class CRUDCliente extends BaseCrud {
+public class CRUDCliente extends BaseCrud<Cliente> {
 
     private static CRUDCliente crudCliente;
 
-    private CRUDCliente() {}
+    private CRUDCliente() {
+    }
 
     public static CRUDCliente getInstance() {
         if (crudCliente == null) {
@@ -21,129 +24,68 @@ public class CRUDCliente extends BaseCrud {
     }
 
     public Response<Cliente> create(Cliente cliente) {
-        String con = "SELECT * FROM client WHERE email='<email>'";
-        con = con.replace("<email>", cliente.getEmail());
         try {
-            rs = st.executeQuery(con);
-            if (!rs.next()) {
-                String consulta = "INSERT INTO client(plan_id, dni, created_at, subscription_since, full_name, email, address, phone) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-                try {
-                    ps = connection.prepareStatement(consulta);
-                    ps.setInt(1, cliente.getPlan().getId());
-                    ps.setInt(2, cliente.getDni());
-                    ps.setString(3, StringUtils.parseDate(cliente.getCreated_At()));
-                    ps.setString(4, StringUtils.parseDate(cliente.getSubscription_since()));
-                    ps.setString(5, cliente.getFullName());
-                    ps.setString(6, cliente.getEmail());
-                    ps.setString(7, cliente.getDireccion());
-                    ps.setInt(8, cliente.getPhone());
-                    ps.executeUpdate();
-                    ps.close();
-                    return new Response<Cliente>(true, "Se creó el cliente con éxito");
-                } catch (Exception e) {
-                    System.out.println(e);
-                    return new Response<Cliente>(false, "Algo salió mal al crear un nuevo cliente");
-                }
-            } else {
-                return new Response<>(false, "El cliente con email " + cliente.getEmail() + " ya existe");
-            }
+            ps = connection.prepareStatement(Querys.Cliente.getByEmail);
+            ps.setString(1, cliente.getEmail());
+            rs = ps.executeQuery();
+            boolean[] conditions = new boolean[] { !rs.next() };
+            return baseCreateWithConditions(cliente, Querys.Cliente.create, conditions,
+                    "El cliente con email " + cliente.getEmail() + " ya existe", (ps) -> {
+                        return sendObject(ps, Querys.Cliente.create, cliente);
+                    });
         } catch (Exception e) {
-            System.out.println(e);
-            return new Response<Cliente>(false, "Algo salió mal");
+            return new Response<Cliente>(false, "Something went wrong");
         }
     }
 
     public Response<Cliente> read(int dni) {
-        String consulta = "SELECT * FROM client WHERE dni = ?";
-        try {
-            ps = connection.prepareStatement(consulta);
-            ps.setInt(1, dni);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-    // public Cliente(int id, Plan plan, int dni, Date created_At, Date subscription_since, String fullName, String email,
-                Response<Plan> response = CRUDPlan.getInstance().getById(rs.getInt("plan_id"));
-                Cliente cliente = new Cliente(
-                        rs.getInt("client_id"),
-                        response.getData(),
-                        rs.getInt("dni"),
-                        rs.getDate("created_at"),
-                        rs.getDate("subscription_since"),
-                        rs.getString("full_name"),
-                        rs.getString("email"),
-                        rs.getString("address"),
-                        rs.getInt("phone")
-                );
-                return new Response<Cliente>(true, "Cliente encontrado", cliente);
-            } else {
-                return new Response<Cliente>(false, "Cliente no encontrado");
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-            return new Response<Cliente>(false, "Algo salio mal");
-        }
+        return baseReadByIdentity(dni, Querys.Cliente.getByDni, (ResultSet rs) -> {
+            return generateObject(rs);
+        });
     }
 
-    public Response<List<Cliente>> readAll() {
-        String consulta = "SELECT * FROM client";
-        List<Cliente> clientes = new ArrayList<>();
-        try {
-            st = connection.createStatement();
-            rs = st.executeQuery(consulta);
-            while (rs.next()) {
-                Response<Plan> response = CRUDPlan.getInstance().getById(rs.getInt("plan_id"));
-                Cliente cliente = new Cliente(
-                        rs.getInt("client_id"),
-                        response.getData(),
-                        rs.getInt("dni"),
-                        rs.getDate("created_at"),
-                        rs.getDate("subscription_since"),
-                        rs.getString("full_name"),
-                        rs.getString("email"),
-                        rs.getString("address"),
-                        rs.getInt("phone")
-                );
-                clientes.add(cliente);
-            }
-            return new Response<List<Cliente>>(true, "Clientes obtenidos", clientes);
-        } catch (Exception e) {
-            System.out.println(e);
-            return new Response<List<Cliente>>(false, "Algo salio mal");
-        }
+    public Response<Cliente> readAll() {
+        return baseReadAll(Querys.Cliente.getAll, (ResultSet rs) -> {
+            return generateObject(rs);
+        });
     }
 
     public Response<Cliente> update(Cliente cliente) {
-        String consulta = "UPDATE client SET plan_id = ?, dni = ?, created_at = ?, subscription_since = ?, full_name = ?, email = ?, address = ?, phone = ? WHERE client_id = ?";
-        try {
-            ps = connection.prepareStatement(consulta);
-            ps.setInt(1, cliente.getId());
-            ps.setInt(2, cliente.getDni());
-            ps.setString(3, StringUtils.parseDate(cliente.getCreated_At()));
-            ps.setString(4, StringUtils.parseDate(cliente.getSubscription_since()));
-            ps.setString(5, cliente.getFullName());
-            ps.setString(6, cliente.getEmail());
-            ps.setString(7, cliente.getDireccion());
-            ps.setInt(8, cliente.getPhone());
-            ps.setInt(9, cliente.getId());
-            ps.executeUpdate();
-            ps.close();
-            return new Response<Cliente>(true, "Cliente actualizado con éxito");
-        } catch (Exception e) {
-            System.out.println(e);
-            return new Response<Cliente>(false, "Algo salio mal");
-        }
+        return baseUpdate(Querys.Cliente.update, cliente);
     }
 
     public Response<Cliente> delete(int clienteId) {
-        String consulta = "DELETE FROM client WHERE client_id = ?";
-        try {
-            ps = connection.prepareStatement(consulta);
-            ps.setInt(1, clienteId);
-            ps.executeUpdate();
-            ps.close();
-            return new Response<Cliente>(true, "Cliente eliminado con éxito");
-        } catch (Exception e) {
-            System.out.println(e);
-            return new Response<Cliente>(false, "Algo salio mal");
-        }
+        return baseDeleteById(clienteId, Querys.Cliente.delete);
+    }
+
+    @Override
+    public Cliente generateObject(ResultSet rs) throws SQLException {
+        Response<Plan> response = CRUDPlan.getInstance().getById(rs.getInt(Plan.idField));
+        return new Cliente(
+                rs.getInt(Cliente.idField),
+                response.getData(),
+                rs.getInt(Cliente.dniField),
+                rs.getDate(Cliente.createdAtField),
+                rs.getDate(Cliente.subscriptionSinceField),
+                rs.getString(Cliente.fullNameField),
+                rs.getString(Cliente.emailField),
+                rs.getString(Cliente.addressField),
+                rs.getInt(Cliente.phoneField));
+    }
+
+    @Override
+    public Cliente sendObject(PreparedStatement ps, String consulta, Cliente data) throws SQLException {
+        ps = connection.prepareStatement(consulta);
+        ps.setInt(1, data.getPlan().getId());
+        ps.setInt(2, data.getDni());
+        ps.setString(3, StringUtils.parseDate(data.getCreated_At()));
+        ps.setString(4, StringUtils.parseDate(data.getSubscription_since()));
+        ps.setString(5, data.getFullName());
+        ps.setString(6, data.getEmail());
+        ps.setString(7, data.getDireccion());
+        ps.setInt(8, data.getPhone());
+        ps.executeUpdate();
+        ps.close();
+        return data;
     }
 }

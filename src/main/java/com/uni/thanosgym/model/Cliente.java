@@ -4,10 +4,18 @@ import java.util.Date;
 
 public class Cliente extends Persona {
 
-    private String Direccion;
+    private String direccion;
     private Date subscription_since;
     private int dni;
     private Plan plan;
+    public static String idField = "client_id";
+    public static String dniField = "dni";
+    public static String createdAtField = "created_at";
+    public static String subscriptionSinceField = "subscription_since";
+    public static String fullNameField = "duration_days";
+    public static String emailField = "email";
+    public static String addressField = "address";
+    public static String phoneField = "phone";
 
     public Cliente() {
         super(); 
@@ -19,7 +27,7 @@ public class Cliente extends Persona {
         this.plan = plan;
         this.dni = dni;
         this.subscription_since = subscription_since;
-        this.Direccion = Direccion;
+        this.direccion = Direccion;
     }
     
     public Plan getPlan() {
@@ -48,11 +56,11 @@ public class Cliente extends Persona {
 
 
     public String getDireccion() {
-        return Direccion;
+        return direccion;
     }
 
     public void setDireccion(String Direccion) {
-        this.Direccion = Direccion;
+        this.direccion = Direccion;
     }
 
 }

@@ -1,4 +1,3 @@
-
 package com.uni.thanosgym.config;
 
 import com.uni.thanosgym.controller.ControladorLogin;

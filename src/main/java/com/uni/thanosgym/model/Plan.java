@@ -7,6 +7,10 @@ public class Plan {
     private String name;
     private double price;
     private int durationDays;
+    public static String idField = "plan_id";
+    public static String nameField = "name";
+    public static String priceField = "price";
+    public static String durationField = "duration_days";
 
     public Plan() {
     }

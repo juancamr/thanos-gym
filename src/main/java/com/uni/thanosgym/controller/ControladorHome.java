@@ -92,9 +92,7 @@ public class ControladorHome {
         if (!allowed)
             return;
         Response<Plan> response = CRUDPlan.getInstance().delete(plan.getId());
-        if (response.isSuccess())
-            Messages.show("Plan eliminado exitosamente");
-        else
+        if (!response.isSuccess())
             Messages.show(response.getMessage());
         showHomePanel(vista, new HomePanel());
     }
