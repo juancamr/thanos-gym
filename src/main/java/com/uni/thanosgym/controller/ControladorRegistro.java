@@ -6,11 +6,10 @@ import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.PanelLogin;
 import com.uni.thanosgym.view.PanelRegister;
 import com.uni.thanosgym.view.WindowSession;
-import com.uni.thanosgym.preferences.UserPreference;
+import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
-import com.uni.thanosgym.view.MainWindow;
 
 public class ControladorRegistro {
 
@@ -60,8 +59,7 @@ public class ControladorRegistro {
 
                                 if (response.isSuccess()) {
                                     view.dispose();
-                                    UserPreference.setAdminData(response.getData());
-                                    new ControladorMainWindow(new MainWindow()).screen();
+                                    Auth.signIn(response.getData());
                                 }
                             }
                         } else {

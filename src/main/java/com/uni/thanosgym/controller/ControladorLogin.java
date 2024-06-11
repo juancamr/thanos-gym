@@ -6,11 +6,10 @@ import com.uni.thanosgym.view.PanelRegister;
 import com.uni.thanosgym.view.WindowSession;
 import com.uni.thanosgym.model.Administrador;
 import com.uni.thanosgym.model.Response;
-import com.uni.thanosgym.preferences.UserPreference;
+import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
-import com.uni.thanosgym.view.MainWindow;
 
 public class ControladorLogin {
     WindowSession view;
@@ -25,6 +24,7 @@ public class ControladorLogin {
             new ControladorRegistro(view, new PanelRegister());
         });
         FrameUtils.showPanel(view, panel);
+        FrameUtils.showWindow(view, "Inicia sesion");
         panel.jtxtNombreUsuario.requestFocus();
     }
 
@@ -37,8 +37,7 @@ public class ControladorLogin {
             Response<Administrador> response = CRUDAdministrador.getInstance().verify(userName, password);
             if (response.isSuccess()) {
                 view.dispose();
-                UserPreference.setAdminData(response.getData());
-                new ControladorMainWindow(new MainWindow()).screen();
+                Auth.signIn(response.getData());
             } else {
                 Messages.show("Credenciales incorrectas");
             }

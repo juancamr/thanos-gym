@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import com.uni.thanosgym.preferences.UserPreference;
 import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.HomePanel;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelClient;
@@ -44,11 +44,9 @@ public class ControladorMainWindow {
             System.out.println("third section");
         });
 
-        vista.jlblNombreAdministrador.setText(UserPreference.getAdminData().getFullName());
+        vista.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
         ControladorHome.showHomePanel(vista, new HomePanel());
-    }
 
-    public void screen() {
         vista.setSize(1060, 690);
         vista.setTitle("Thanos Gym");
         vista.setLocationRelativeTo(vista);

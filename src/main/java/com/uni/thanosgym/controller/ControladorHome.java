@@ -1,6 +1,5 @@
 package com.uni.thanosgym.controller;
 
-import com.uni.thanosgym.config.Startup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import com.uni.thanosgym.dao.CRUDPlan;
@@ -9,10 +8,11 @@ import com.uni.thanosgym.model.Response;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import com.uni.thanosgym.preferences.UserPreference;
+import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.HomePanel;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.AddPlan;
@@ -35,7 +35,7 @@ public class ControladorHome {
         panel = pan;
         vista = v;
 
-        panel.jlblNombreAdministrador.setText(UserPreference.getAdminData().getFullName());
+        panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
             ControladorHome.createPanelList(response.getDataList(), panel.planesListPanel);
@@ -46,8 +46,7 @@ public class ControladorHome {
         FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, () -> showAgregarPlanWindow(new AddPlan()));
         FrameUtils.addOnClickEvent(panel.jbtnCerrarSesion, () -> {
             vista.dispose();
-            UserPreference.deleteData();
-            Startup.initWindow();
+            Auth.logOut();
         });
 
     }
