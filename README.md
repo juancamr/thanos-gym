@@ -24,4 +24,4 @@ DB_PASSWORD=
 - [ ] cuanto tiempo le queda a su suscripcion cuando se busca al cliente (verde mas de un mes, rojo menos de una semana)
 - [ ] extender su membresia con el mismo o otro plan
 - [ ] buscar en tiempo real en una tabla de clientes
-- [ ] que la sesion persista (no es necesario tener que estar iniciando sesion cada vez que el programa se cierra)
+- [x] que la sesion persista (no es necesario tener que estar iniciando sesion cada vez que el programa se cierra)

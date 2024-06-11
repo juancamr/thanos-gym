@@ -1,35 +1,38 @@
 package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.dao.CRUDAdministrador;
-import com.uni.thanosgym.model.Administrador;
-import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.PanelLogin;
 import com.uni.thanosgym.view.PanelRegister;
 import com.uni.thanosgym.view.WindowSession;
+import com.uni.thanosgym.model.Administrador;
+import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 
-public class ControladorRegistro {
+public class ControladorSession {
 
-    WindowSession view;
-    PanelRegister panel;
-    String usernameRegex = "^[a-z]{8,15}$";
-    String passwordRegex = "^[a-z]{8,}$";
-
-    public ControladorRegistro(WindowSession v, PanelRegister pan) {
-        view = v;
-        panel = pan;
-        FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, () -> {
-            new ControladorLogin(view, new PanelLogin());
+    public static void showLoginPanel(WindowSession view, PanelLogin panel) {
+        FrameUtils.addEnterEvent(panel.jPassword, () -> {iniciarSesion(panel, view);});
+        FrameUtils.addOnClickEvent(panel.jbtnIniciar, () -> {iniciarSesion(panel, view);});
+        FrameUtils.addOnClickEvent(panel.jbtnRegistro, () -> {
+            ControladorSession.showRegisterPanel(view, new PanelRegister());
         });
-        FrameUtils.addOnClickEvent(panel.jbtnRegistro, this::registrar);
+        FrameUtils.showPanel(view, panel);
+        panel.jtxtNombreUsuario.requestFocus();
+    }
+
+    public static void showRegisterPanel(WindowSession view, PanelRegister panel) {
+        FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, () -> {
+            ControladorSession.showLoginPanel(view, new PanelLogin());
+        });
+        FrameUtils.addOnClickEvent(panel.jbtnRegistro, () -> {ControladorSession.registrar(view, panel);});
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombresCompletos.requestFocus();
     }
 
-    private void registrar() {
+    public static void registrar(WindowSession view, PanelRegister panel) {
         String nombres = panel.jtxtNombresCompletos.getText();
         String userName = panel.jtxtNombreUsuario.getText();
         String password = String.valueOf(panel.jPassword.getPassword());
@@ -38,8 +41,8 @@ public class ControladorRegistro {
         String repeatedPassword = String.valueOf(panel.jtxtRepeatPassword.getPassword());
 
         if (!userName.isEmpty() || !password.isEmpty() || !nombres.isEmpty() || !email.isEmpty()) {
-            if (userName.matches(usernameRegex)) {
-                if (password.matches(passwordRegex)) {
+            if (userName.matches(StringUtils.usernameRegex)) {
+                if (password.matches(StringUtils.passwordRegex)) {
                     if (phone.isEmpty() || StringUtils.isValidPhone(phone)) {
                         if (password.equals(repeatedPassword)) {
                             if (StringUtils.isValidEmail(email)) {
@@ -79,4 +82,21 @@ public class ControladorRegistro {
         }
     }
 
+    public static void iniciarSesion(PanelLogin panel, WindowSession view) {
+        String userName = panel.jtxtNombreUsuario.getText();
+        String password = String.valueOf(panel.jPassword.getPassword());
+
+        if (!userName.isEmpty() || !password.isEmpty()) {
+            password = StringUtils.sha256(password);
+            Response<Administrador> response = CRUDAdministrador.getInstance().verify(userName, password);
+            if (response.isSuccess()) {
+                view.dispose();
+                Auth.signIn(response.getData());
+            } else {
+                Messages.show("Credenciales incorrectas");
+            }
+        } else
+            Messages.show("Complete todos los campos");
+
+    }
 }

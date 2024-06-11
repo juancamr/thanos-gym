@@ -56,5 +56,9 @@ public class Response<T> {
         return dataList;
     }
 
+    public Response<T> somethingWentWrong(Exception e) {
+        System.out.println(e);
+        return new Response<T>(false, "Algo salio mal");
+    }
 
 }

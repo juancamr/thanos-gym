@@ -21,7 +21,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
-public class ControladorHome {
+public class ControladorPlan {
     public static HomePanel panel;
     public static MainWindow vista;
 
@@ -31,14 +31,11 @@ public class ControladorHome {
      * @param v   Ventana principal donde se renderizara el panel
      * @param pan Panel principal
      */
-    public static void showHomePanel(MainWindow v, HomePanel pan) {
-        panel = pan;
-        vista = v;
-
+    public static void showHomePanel(MainWindow vista, HomePanel panel) {
         panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
-            ControladorHome.createPanelList(response.getDataList(), panel.planesListPanel);
+            ControladorPlan.createPanelList(response.getDataList(), panel.planesListPanel);
         } else
             Messages.show(response.getMessage());
 
@@ -48,7 +45,6 @@ public class ControladorHome {
             vista.dispose();
             Auth.logOut();
         });
-
     }
 
     /**

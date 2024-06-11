@@ -1,7 +1,7 @@
 package com.uni.thanosgym.utils;
 
-import com.uni.thanosgym.controller.ControladorHome;
-import com.uni.thanosgym.controller.ControladorLogin;
+import com.uni.thanosgym.controller.ControladorPlan;
+import com.uni.thanosgym.controller.ControladorSession;
 import com.uni.thanosgym.controller.ControladorMainWindow;
 import com.uni.thanosgym.model.Administrador;
 import com.uni.thanosgym.view.WindowSession;
@@ -19,21 +19,21 @@ public class Auth {
         UserPreferences.setData(admin);
         MainWindow view = new MainWindow();
         new ControladorMainWindow(view);
-        ControladorHome.showHomePanel(view, new HomePanel());
+        ControladorPlan.showHomePanel(view, new HomePanel());
     }
 
     public static void logOut() {
         UserPreferences.clearData();
-        new ControladorLogin(new WindowSession(), new PanelLogin());
+        ControladorSession.showLoginPanel(new WindowSession(), new PanelLogin());
     }
 
     public static void verifySession() {
         if (Auth.isAdminLoggedIn()) {
             MainWindow view = new MainWindow();
             new ControladorMainWindow(view);
-            ControladorHome.showHomePanel(view, new HomePanel());
+            ControladorPlan.showHomePanel(view, new HomePanel());
         } else {
-            new ControladorLogin(new WindowSession(), new PanelLogin());
+            ControladorSession.showLoginPanel(new WindowSession(), new PanelLogin());
         }
     }
 

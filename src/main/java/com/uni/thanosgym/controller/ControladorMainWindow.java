@@ -27,7 +27,7 @@ public class ControladorMainWindow {
         vista = v;
 
         FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
-            ControladorHome.showHomePanel(vista, new HomePanel());
+            ControladorPlan.showHomePanel(vista, new HomePanel());
             setFocusButton(vista.jbtnPrimero, vista.jlblNombreAdministrador);
         });
         FrameUtils.addOnClickEvent(vista.jbtnCliente, () -> {
@@ -45,7 +45,7 @@ public class ControladorMainWindow {
         });
 
         vista.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
-        ControladorHome.showHomePanel(vista, new HomePanel());
+        ControladorPlan.showHomePanel(vista, new HomePanel());
 
         vista.setSize(1060, 690);
         vista.setTitle("Thanos Gym");

@@ -10,7 +10,11 @@ import java.util.Date;
  * @author juancamr
  */
 public class StringUtils {
+
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static String usernameRegex = "^[a-z]{8,15}$";
+    public static String passwordRegex = "^[a-z]{8,}$";
+
 
     public static String sha256(final String base) {
         try {
