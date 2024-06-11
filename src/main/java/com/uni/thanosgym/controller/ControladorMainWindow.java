@@ -6,9 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.UserPreferences;
-import com.uni.thanosgym.view.HomePanel;
 import com.uni.thanosgym.view.MainWindow;
-import com.uni.thanosgym.view.PanelClient;
 
 public class ControladorMainWindow {
     public static MainWindow vista;
@@ -23,15 +21,15 @@ public class ControladorMainWindow {
     public static boolean isCorrectPassword;
     public static int panelReporte; // 0 panelReporteDia 1 panelConsultarReporte
 
-    public ControladorMainWindow(MainWindow v) {
-        vista = v;
-
+    public static void initMainWindow() {
+        MainWindow vista = ControladorMainWindow.getMainWindow();
+        // on click events
         FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
-            ControladorPlan.showHomePanel(vista, new HomePanel());
+            ControladorPlan.showHomePanel();
             setFocusButton(vista.jbtnPrimero, vista.jlblNombreAdministrador);
         });
         FrameUtils.addOnClickEvent(vista.jbtnCliente, () -> {
-            new ControladorClient(vista, new PanelClient(), false);
+            ControladorClient.showPanel();
             setFocusButton(vista.jbtnCliente, vista.jlblNombreAdministrador);
         });
         FrameUtils.addOnClickEvent(vista.jbtnTercero, () -> {
@@ -45,12 +43,20 @@ public class ControladorMainWindow {
         });
 
         vista.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
-        ControladorPlan.showHomePanel(vista, new HomePanel());
+        ControladorPlan.showHomePanel();
 
+        // mostrar ventana
         vista.setSize(1060, 690);
+        vista.setResizable(false);
         vista.setTitle("Thanos Gym");
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);
+    }
+
+    public static MainWindow getMainWindow() {
+        if (vista == null)
+            vista = new MainWindow();
+        return vista;
     }
 
     public static void quitarFondosBotones() {

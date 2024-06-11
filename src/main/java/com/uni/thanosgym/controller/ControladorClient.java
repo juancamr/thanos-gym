@@ -7,7 +7,6 @@ import java.util.Date;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.model.Cliente;
 import com.uni.thanosgym.model.Plan;
-import java.awt.Color;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.utils.FrameUtils;
@@ -20,21 +19,18 @@ import java.util.List;
 import javax.swing.JTextField;
 
 public class ControladorClient {
+    public static PanelClient panel;
 
-    MainWindow vista;
-    PanelClient panel;
-    Cliente cli;
-    boolean flag = false;
-
-    public ControladorClient(MainWindow v, PanelClient pan, boolean flag) {
-        this.panel = pan;
-        this.vista = v;
-        cli = new Cliente();
+    public static void showPanel() {
+        MainWindow vista = ControladorMainWindow.getMainWindow();
+        PanelClient panel = ControladorClient.getPanel();
         FrameUtils.showPanel(vista, panel);
         panel.jtxtDniClienteAgregar.requestFocus();
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, this::buscar);
-        FrameUtils.addOnClickEvent(panel.jbtnAgregar, this::agregar);
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, this::editar);
+        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, () -> {
+            ControladorClient.buscar();
+        });
+        FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
 
         // bro what the hell?
         // no se que hace esto, deja un comentario
@@ -63,7 +59,15 @@ public class ControladorClient {
             Messages.show(response.getMessage());
     }
 
-    private void agregar() {
+    public static PanelClient getPanel() {
+        if (panel == null)
+            panel = new PanelClient();
+        return panel;
+    }
+
+    public static void agregar() {
+        PanelClient panel = ControladorClient.getPanel();
+        Cliente cli = new Cliente();
         String dni = panel.jtxtDniClienteAgregar.getText();
         String phone = panel.jtxtTelefonoClienteAdd.getText();
         String nombre = panel.jtxtNombreClienteAgregar.getText();
@@ -114,7 +118,8 @@ public class ControladorClient {
         }
     }
 
-    private void buscar() {
+    public static void buscar() {
+        PanelClient panel = ControladorClient.getPanel();
         if (panel.jtxtDniCliente.getText().isEmpty()) {
             Messages.show("Por favor, digite un DNI");
         } else {
@@ -139,38 +144,42 @@ public class ControladorClient {
         }
     }
 
-    private void editar() {
-        if (panel.jtxtNombreCliente.getText().equals("") || panel.jtxtDniCliente.getText().equals("")) {
-            Messages.show("Ingrese un cliente");
-        } else {
-            if (flag) {
-                cli.setDni(Integer.parseInt(panel.jtxtDniCliente.getText()));
-                cli.setFullName(panel.jtxtNombreCliente.getText());
-                cli.setDireccion(panel.jtxtDireccionCliente.getText());
-                cli.setPhone(Integer.parseInt(panel.jtxtTelefonoClienteAdd.getText()));
-                CRUDCliente.getInstance().update(cli);
-                Messages.show("Datos actualizados");
-                panel.jbtnEditar.setText("EDITAR");
-
-                JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente, panel.jtxtDireccionCliente,
-                        panel.jtxtTelefonoCliente };
-                FrameUtils.clearInputs(inputs);
-
-                flag = false;
-
-                isFocusable(panel, false);
-                panel.jbtnEditar.setForeground(new Color(255, 255, 254));
-                panel.jbtnEditar.setBackground(new Color(20, 23, 31));
-            } else {
-                flag = true;
-                isFocusable(panel, true);
-                Messages.show("Modo edicion activado");
-                panel.jbtnEditar.setText("ACTUALIZAR");
-                panel.jbtnEditar.setForeground(new Color(0, 0, 0));
-                panel.jbtnEditar.setBackground(new Color(255, 255, 254));
-            }
-        }
-    }
+    /**
+     * public static void editar(MainWindow vista, PanelClient panel) {
+     * if (panel.jtxtNombreCliente.getText().equals("") ||
+     * panel.jtxtDniCliente.getText().equals("")) {
+     * Messages.show("Ingrese un cliente");
+     * } else {
+     * if (flag) {
+     * cli.setDni(Integer.parseInt(panel.jtxtDniCliente.getText()));
+     * cli.setFullName(panel.jtxtNombreCliente.getText());
+     * cli.setDireccion(panel.jtxtDireccionCliente.getText());
+     * cli.setPhone(Integer.parseInt(panel.jtxtTelefonoClienteAdd.getText()));
+     * CRUDCliente.getInstance().update(cli);
+     * Messages.show("Datos actualizados");
+     * panel.jbtnEditar.setText("EDITAR");
+     * 
+     * JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente,
+     * panel.jtxtDireccionCliente,
+     * panel.jtxtTelefonoCliente };
+     * FrameUtils.clearInputs(inputs);
+     * 
+     * flag = false;
+     * 
+     * isFocusable(panel, false);
+     * panel.jbtnEditar.setForeground(new Color(255, 255, 254));
+     * panel.jbtnEditar.setBackground(new Color(20, 23, 31));
+     * } else {
+     * flag = true;
+     * isFocusable(panel, true);
+     * Messages.show("Modo edicion activado");
+     * panel.jbtnEditar.setText("ACTUALIZAR");
+     * panel.jbtnEditar.setForeground(new Color(0, 0, 0));
+     * panel.jbtnEditar.setBackground(new Color(255, 255, 254));
+     * }
+     * }
+     * }
+     */
 
     public void isFocusable(PanelClient panel, boolean flag) {
         panel.jtxtNombreCliente.setFocusable(flag);

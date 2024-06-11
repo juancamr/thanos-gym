@@ -14,6 +14,7 @@ public class WindowSession extends javax.swing.JFrame {
     public WindowSession() {
         initComponents();
         setSize(760, 690);
+        setResizable(false);
     }
 
     /**

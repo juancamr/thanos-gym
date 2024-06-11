@@ -1,11 +1,11 @@
 package com.uni.thanosgym.view;
 
-public class HomePanel extends javax.swing.JPanel {
+public class PanelPlan extends javax.swing.JPanel {
 
     /**
      * Creates new form Home
      */
-    public HomePanel() {
+    public PanelPlan() {
         initComponents();
     }
 

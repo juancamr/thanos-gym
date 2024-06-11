@@ -13,7 +13,7 @@ import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.UserPreferences;
-import com.uni.thanosgym.view.HomePanel;
+import com.uni.thanosgym.view.PanelPlan;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.AddPlan;
 import java.util.List;
@@ -22,8 +22,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 public class ControladorPlan {
-    public static HomePanel panel;
-    public static MainWindow vista;
 
     /**
      * Mostrar la ventana para agregar un nuevo plan
@@ -31,7 +29,9 @@ public class ControladorPlan {
      * @param v   Ventana principal donde se renderizara el panel
      * @param pan Panel principal
      */
-    public static void showHomePanel(MainWindow vista, HomePanel panel) {
+    public static void showHomePanel() {
+        PanelPlan panel = new PanelPlan();
+        MainWindow vista = ControladorMainWindow.getMainWindow();
         panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
@@ -40,7 +40,9 @@ public class ControladorPlan {
             Messages.show(response.getMessage());
 
         FrameUtils.showPanel(vista, panel);
-        FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, () -> showAgregarPlanWindow(new AddPlan()));
+        FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, () -> {
+            ControladorPlan.showAgregarPlanWindow(panel);
+        });
         FrameUtils.addOnClickEvent(panel.jbtnCerrarSesion, () -> {
             vista.dispose();
             Auth.logOut();
@@ -52,11 +54,12 @@ public class ControladorPlan {
      *
      * @param vistaPlan Ventana de agregar plan
      */
-    public static void showAgregarPlanWindow(AddPlan vistaPlan) {
-        FrameUtils.showWindow(vistaPlan, "Crear un nuevo plan");
-        vistaPlan.jtxtNombrePlan.requestFocus();
-        FrameUtils.addEnterEvent(vistaPlan.jtxtDuracion, () -> insertData(vistaPlan, true, 0));
-        FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> insertData(vistaPlan, true, 0));
+    public static void showAgregarPlanWindow(PanelPlan panel) {
+        AddPlan vista = new AddPlan();
+        FrameUtils.showWindow(vista, "Crear un nuevo plan");
+        vista.jtxtNombrePlan.requestFocus();
+        FrameUtils.addEnterEvent(vista.jtxtDuracion, () -> insertData(vista, true, 0));
+        FrameUtils.addOnClickEvent(vista.jbtnAction, () -> insertData(vista, true, 0));
     }
 
     /**
@@ -89,7 +92,7 @@ public class ControladorPlan {
         Response<Plan> response = CRUDPlan.getInstance().delete(plan.getId());
         if (!response.isSuccess())
             Messages.show(response.getMessage());
-        showHomePanel(vista, new HomePanel());
+        showHomePanel();
     }
 
     /**
@@ -126,7 +129,7 @@ public class ControladorPlan {
                     Messages.show("Plan actualizado con exito");
 
                 vistaPlan.dispose();
-                showHomePanel(vista, new HomePanel());
+                showHomePanel();
             } else {
                 Messages.show(response.getMessage());
             }

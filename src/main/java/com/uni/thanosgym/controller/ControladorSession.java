@@ -12,27 +12,34 @@ import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 
 public class ControladorSession {
+    public static WindowSession vista;
+    public static PanelLogin panelLogin;
+    public static PanelRegister panelRegister;
 
-    public static void showLoginPanel(WindowSession view, PanelLogin panel) {
-        FrameUtils.addEnterEvent(panel.jPassword, () -> {iniciarSesion(panel, view);});
-        FrameUtils.addOnClickEvent(panel.jbtnIniciar, () -> {iniciarSesion(panel, view);});
+    public static void showLoginPanel() {
+        WindowSession view = ControladorSession.getWindow();
+        PanelLogin panel = ControladorSession.getPanelLogin();
+        FrameUtils.addEnterEvent(panel.jPassword, ControladorSession::iniciarSesion);
+        FrameUtils.addOnClickEvent(panel.jbtnIniciar, ControladorSession::iniciarSesion);
         FrameUtils.addOnClickEvent(panel.jbtnRegistro, () -> {
-            ControladorSession.showRegisterPanel(view, new PanelRegister());
+            ControladorSession.showRegisterPanel();
         });
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombreUsuario.requestFocus();
     }
 
-    public static void showRegisterPanel(WindowSession view, PanelRegister panel) {
-        FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, () -> {
-            ControladorSession.showLoginPanel(view, new PanelLogin());
-        });
-        FrameUtils.addOnClickEvent(panel.jbtnRegistro, () -> {ControladorSession.registrar(view, panel);});
+    public static void showRegisterPanel() {
+        WindowSession view = ControladorSession.getWindow();
+        PanelRegister panel = ControladorSession.getPanelRegister();
+        FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, ControladorSession::showLoginPanel);
+        FrameUtils.addOnClickEvent(panel.jbtnRegistro, ControladorSession::registrar);
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombresCompletos.requestFocus();
     }
 
-    public static void registrar(WindowSession view, PanelRegister panel) {
+    public static void registrar() {
+        WindowSession view = ControladorSession.getWindow();
+        PanelRegister panel = ControladorSession.getPanelRegister();
         String nombres = panel.jtxtNombresCompletos.getText();
         String userName = panel.jtxtNombreUsuario.getText();
         String password = String.valueOf(panel.jPassword.getPassword());
@@ -82,7 +89,9 @@ public class ControladorSession {
         }
     }
 
-    public static void iniciarSesion(PanelLogin panel, WindowSession view) {
+    public static void iniciarSesion() {
+        WindowSession view = ControladorSession.getWindow();
+        PanelLogin panel = ControladorSession.getPanelLogin();
         String userName = panel.jtxtNombreUsuario.getText();
         String password = String.valueOf(panel.jPassword.getPassword());
 
@@ -99,4 +108,23 @@ public class ControladorSession {
             Messages.show("Complete todos los campos");
 
     }
+
+    public static WindowSession getWindow() {
+        if (vista == null)
+            vista = new WindowSession();
+        return vista;
+    }
+
+    public static PanelLogin getPanelLogin() {
+        if (panelLogin == null)
+            panelLogin = new PanelLogin();
+        return panelLogin;
+    }
+
+    public static PanelRegister getPanelRegister() {
+        if (panelRegister == null)
+            panelRegister = new PanelRegister();
+        return panelRegister;
+    }
+
 }
