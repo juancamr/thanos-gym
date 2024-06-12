@@ -16,6 +16,12 @@ public class ControladorSession {
     public static PanelLogin panelLogin;
     public static PanelRegister panelRegister;
 
+    public static void initWindow() {
+        WindowSession view = ControladorSession.getWindow();
+        FrameUtils.showWindow(view, "Inicia sesion");
+        showLoginPanel();
+    }
+
     public static void showLoginPanel() {
         WindowSession view = ControladorSession.getWindow();
         PanelLogin panel = ControladorSession.getPanelLogin();

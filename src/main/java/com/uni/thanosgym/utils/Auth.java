@@ -1,6 +1,5 @@
 package com.uni.thanosgym.utils;
 
-import com.uni.thanosgym.controller.ControladorPlan;
 import com.uni.thanosgym.controller.ControladorSession;
 import com.uni.thanosgym.controller.ControladorMainWindow;
 import com.uni.thanosgym.model.Administrador;
@@ -25,7 +24,7 @@ public class Auth {
         if (Auth.isAdminLoggedIn()) {
             ControladorMainWindow.initMainWindow();
         } else {
-            ControladorSession.showLoginPanel();
+            ControladorSession.initWindow();
         }
     }
 
