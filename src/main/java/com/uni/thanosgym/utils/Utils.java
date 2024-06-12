@@ -8,4 +8,11 @@ public class Utils {
                 return false;
         return true;
     }
+
+    public static void sendMail() {
+    }
+
+    public static void generateInvoice() {
+
+    }
 }

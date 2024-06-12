@@ -14,7 +14,6 @@ public class Auth {
     public static void signIn(Administrador admin) {
         UserPreferences.setData(admin);
         ControladorMainWindow.initMainWindow();
-        ControladorPlan.showHomePanel();
     }
 
     public static void logOut() {
@@ -25,7 +24,6 @@ public class Auth {
     public static void verifySession() {
         if (Auth.isAdminLoggedIn()) {
             ControladorMainWindow.initMainWindow();
-            ControladorPlan.showHomePanel();
         } else {
             ControladorSession.showLoginPanel();
         }

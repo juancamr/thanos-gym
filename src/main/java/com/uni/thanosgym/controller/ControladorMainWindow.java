@@ -3,7 +3,6 @@ package com.uni.thanosgym.controller;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.MainWindow;
@@ -11,10 +10,10 @@ import com.uni.thanosgym.view.MainWindow;
 public class ControladorMainWindow {
     public static MainWindow vista;
 
-    static Color base = new Color(20, 23, 31);
-    static Color focus = new Color(55, 58, 64);
-    static Color foregroundColorFocus = new Color(255, 255, 254);
-    static Color foregroundColorBase = new Color(170, 170, 170);
+    static Color base = new Color(250, 250, 250);
+    static Color focus = new Color(245, 245, 245);
+    static Color foregroundColorBase = new Color(20, 20, 20);
+    static Color foregroundColorFocus = new Color(0, 0, 0);
     static Font fontFocus = new Font("Malgun Gothic", 1, 16);
     static Font fontBase = new Font("Malgun Gothic", 4, 16);
 
@@ -23,27 +22,34 @@ public class ControladorMainWindow {
 
     public static void initMainWindow() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
+        vista.jbtnPrimero.setText("    Dashboard");
+        vista.jbtnSegundo.setText("    Planes");
+        vista.jbtnTercero.setText("    Clientes");
+        vista.jbtnCuarto.setVisible(false);
+        vista.jbtnQuinto.setVisible(false);
+       
         // on click events
         FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
-            ControladorPlan.showHomePanel();
-            setFocusButton(vista.jbtnPrimero, vista.jlblNombreAdministrador);
+            ControladorDashboard.showPanel();
+            setFocusButton(vista.jbtnPrimero);
         });
-        FrameUtils.addOnClickEvent(vista.jbtnCliente, () -> {
-            ControladorClient.showPanel();
-            setFocusButton(vista.jbtnCliente, vista.jlblNombreAdministrador);
+        FrameUtils.addOnClickEvent(vista.jbtnSegundo, () -> {
+            ControladorPlan.showHomePanel();
+            setFocusButton(vista.jbtnSegundo);
         });
         FrameUtils.addOnClickEvent(vista.jbtnTercero, () -> {
-            System.out.println("fifth section");
+            ControladorClient.showPanel();
+            setFocusButton(vista.jbtnTercero);
         });
         FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
             System.out.println("fourth section");
         });
         FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
-            System.out.println("third section");
+            System.out.println("fifth section");
         });
 
         vista.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
-        ControladorPlan.showHomePanel();
+        ControladorDashboard.showPanel();
 
         // mostrar ventana
         vista.setSize(1060, 690);
@@ -64,9 +70,9 @@ public class ControladorMainWindow {
         vista.jbtnPrimero.setForeground(foregroundColorBase);
         vista.jbtnPrimero.setFont(fontBase);
 
-        vista.jbtnCliente.setBackground(base);
-        vista.jbtnCliente.setForeground(foregroundColorBase);
-        vista.jbtnCliente.setFont(fontBase);
+        vista.jbtnSegundo.setBackground(base);
+        vista.jbtnSegundo.setForeground(foregroundColorBase);
+        vista.jbtnSegundo.setFont(fontBase);
 
         vista.jbtnTercero.setBackground(base);
         vista.jbtnTercero.setForeground(foregroundColorBase);
@@ -81,12 +87,10 @@ public class ControladorMainWindow {
         vista.jbtnQuinto.setFont(fontBase);
     }
 
-    public static void setFocusButton(JButton boton, JLabel label) {
+    public static void setFocusButton(JButton boton) {
         quitarFondosBotones();
         boton.setBackground(focus);
         boton.setForeground(foregroundColorFocus);
         boton.setFont(fontFocus);
-        label.setBackground(focus);
-        label.setForeground(foregroundColorFocus);
     }
 }
