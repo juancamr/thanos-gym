@@ -23,5 +23,9 @@ public class CRUDClienteTest {
                 "juan@juan.com", "santoheu", 986327221);
         Response<Cliente> response = crudCliente.create(cliente);
         assertEquals(true, response.isSuccess());
+
+        Response<Cliente> res2 = crudCliente.delete(response.getId());
+        System.out.println(response.getId());
+        assertEquals(true, res2.isSuccess());
     }
 }

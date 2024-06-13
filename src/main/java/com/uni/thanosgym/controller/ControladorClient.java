@@ -59,6 +59,8 @@ public class ControladorClient {
     }
 
     public static void searchByDni(String dni) {
+        PanelClient panel = ControladorClient.getPanel();
+        panel.jblLoading.setText("Buscando datos...");
         String token = EnvVariables.getInstance().get("TOKEN_RENIEC");
         Map<String, String> headers = Map.of("Authorization",
                 String.format("Bearer %s", token));
@@ -68,6 +70,7 @@ public class ControladorClient {
         Gson gson = new Gson();
         getResponseFuture.thenAccept(response -> {
             ResponseByCliente res = gson.fromJson(response, ResponseByCliente.class);
+            panel.jblLoading.setText("");
             panel.jtxtNombreClienteAgregar.setText(
                     String.format("%s %s %s", res.getNombres(), res.getApellidoPaterno(), res.getApellidoMaterno()));
         }).join();

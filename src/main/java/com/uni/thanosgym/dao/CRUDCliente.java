@@ -57,6 +57,10 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         }
     }
 
+    public Response<Cliente> delete(int id) {
+        return baseDeleteById(Querys.cliente.delete, id);
+    }
+
     @Override
     public Cliente generateObject(ResultSet rs) throws SQLException {
         Response<Plan> response = CRUDPlan.getInstance().getById(rs.getInt(Plan.idField));
@@ -83,6 +87,5 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         ps.setString(6, data.getEmail());
         ps.setString(7, data.getDireccion());
         ps.setInt(8, data.getPhone());
-        ps.executeUpdate();
     }
 }

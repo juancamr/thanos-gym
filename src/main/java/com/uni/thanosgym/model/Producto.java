@@ -1,12 +1,23 @@
-
 package com.uni.thanosgym.model;
 
-public class Productos {
+public class Producto {
 
-    
-    public Productos(){
-    
+    private int id;
+    private String nombre;
+    private int cantidad;
+    private double precio;
+
+    public Producto(int id, String nombre, int cantidad, double precio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.precio = precio;
     }
+
+    public Producto() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -39,19 +50,4 @@ public class Productos {
         this.precio = precio;
     }
 
-    public Productos(int id, String nombre, int cantidad, double precio) {
-        this.id = id;
-        this.nombre = nombre;
-        this.cantidad = cantidad;
-        this.precio = precio;
-    }
-
-private int id;
-private String nombre;
-private int cantidad;
-private double precio;
-
-
-
-    
 }

@@ -64,6 +64,7 @@ public class PanelClient extends javax.swing.JPanel {
         jtxtDireccionCorreoAdd = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jcbxPlanRegistro = new javax.swing.JComboBox<>();
+        jblLoading = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(840, 690));
 
@@ -216,7 +217,7 @@ public class PanelClient extends javax.swing.JPanel {
                 jbtnAgregarActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 530, 120, 40));
+        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 530, 120, 40));
 
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -300,6 +301,7 @@ public class PanelClient extends javax.swing.JPanel {
         jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, 30));
 
         jPanel3.add(jcbxPlanRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 490, 120, 30));
+        jPanel3.add(jblLoading, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 540, 160, 30));
 
         jpnlInterfaz.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
 
@@ -388,6 +390,7 @@ public class PanelClient extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator24;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    public javax.swing.JLabel jblLoading;
     public javax.swing.JButton jbtnAgregar;
     public javax.swing.JButton jbtnBuscarCliente;
     public javax.swing.JButton jbtnEditar;
