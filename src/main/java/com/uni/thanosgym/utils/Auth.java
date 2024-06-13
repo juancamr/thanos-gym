@@ -17,6 +17,7 @@ public class Auth {
 
     public static void logOut() {
         UserPreferences.clearData();
+        FrameUtils.showWindow(ControladorSession.getWindow(), "Iniciar sesion");
         ControladorSession.showLoginPanel();
     }
 
