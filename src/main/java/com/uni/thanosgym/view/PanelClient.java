@@ -55,13 +55,9 @@ public class PanelClient extends javax.swing.JPanel {
         jLabel23 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jtxtDireccionClienteAdd = new javax.swing.JTextField();
-        jSeparator17 = new javax.swing.JSeparator();
         jtxtTelefonoClienteAdd = new javax.swing.JTextField();
         jSeparator18 = new javax.swing.JSeparator();
-        jdchFechaInicial = new com.toedter.calendar.JDateChooser();
         jSeparator21 = new javax.swing.JSeparator();
-        jdchFechaFinal = new com.toedter.calendar.JDateChooser();
-        jSeparator22 = new javax.swing.JSeparator();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
         jSeparator24 = new javax.swing.JSeparator();
@@ -259,9 +255,6 @@ public class PanelClient extends javax.swing.JPanel {
         });
         jPanel3.add(jtxtDireccionClienteAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 350, 300, 30));
 
-        jSeparator17.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel3.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 570, 130, 10));
-
         jtxtTelefonoClienteAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtTelefonoClienteAdd.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jtxtTelefonoClienteAdd.setBorder(null);
@@ -275,18 +268,8 @@ public class PanelClient extends javax.swing.JPanel {
         jSeparator18.setForeground(new java.awt.Color(0, 0, 0));
         jPanel3.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, 300, 10));
 
-        jdchFechaInicial.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanel3.add(jdchFechaInicial, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 540, 130, 30));
-
         jSeparator21.setForeground(new java.awt.Color(0, 0, 0));
         jPanel3.add(jSeparator21, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, 300, 10));
-
-        jdchFechaFinal.setEnabled(false);
-        jdchFechaFinal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jPanel3.add(jdchFechaFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 540, 130, 30));
-
-        jSeparator22.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel3.add(jSeparator22, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 570, 130, 10));
 
         jLabel28.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(105, 105, 118));
@@ -398,12 +381,10 @@ public class PanelClient extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator13;
-    private javax.swing.JSeparator jSeparator17;
     private javax.swing.JSeparator jSeparator18;
     private javax.swing.JSeparator jSeparator19;
     private javax.swing.JSeparator jSeparator20;
     private javax.swing.JSeparator jSeparator21;
-    private javax.swing.JSeparator jSeparator22;
     private javax.swing.JSeparator jSeparator24;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -411,8 +392,6 @@ public class PanelClient extends javax.swing.JPanel {
     public javax.swing.JButton jbtnBuscarCliente;
     public javax.swing.JButton jbtnEditar;
     public javax.swing.JComboBox<String> jcbxPlanRegistro;
-    public com.toedter.calendar.JDateChooser jdchFechaFinal;
-    public com.toedter.calendar.JDateChooser jdchFechaInicial;
     public javax.swing.JLabel jlblExito;
     private javax.swing.JPanel jpnlInterfaz;
     public javax.swing.JTextField jtxtDireccionCliente;

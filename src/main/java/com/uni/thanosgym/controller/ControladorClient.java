@@ -32,27 +32,11 @@ public class ControladorClient {
         FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
 
-        // bro what the hell?
-        // no se que hace esto, deja un comentario
-        panel.jdchFechaInicial.addPropertyChangeListener("date", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                Date fechaInicio = (Date) evt.getNewValue();
-                if (fechaInicio != null) {
-                    String selectedPlanName = panel.jcbxPlanRegistro.getSelectedItem().toString();
-                    Response<Plan> response = CRUDPlan.getInstance().getByName(selectedPlanName);
-                    if (response.isSuccess()) {
-                        Plan plan = response.getData();
-                        Date fechaFinal = DateUtils.addDays(fechaInicio, plan.getDurationDays());
-                        panel.jdchFechaFinal.setDate(fechaFinal);
-                    }
-                }
-            }
-        });
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
             List<Plan> listaPlanes = response.getDataList();
+            panel.jcbxPlanRegistro.removeAllItems();
             for (int i = 0; i < listaPlanes.size(); i++)
                 panel.jcbxPlanRegistro.addItem(listaPlanes.get(i).getName());
         } else
@@ -94,11 +78,6 @@ public class ControladorClient {
             cli.setDni(Integer.parseInt(panel.jtxtDniClienteAgregar.getText()));
             cli.setCreated_At(new Date());
 
-            Date fechaInicio = panel.jdchFechaInicial.getDate();
-            cli.setSubscription_since(fechaInicio);
-
-            Date fechaFinal = DateUtils.addDays(fechaInicio, plan.getDurationDays());
-            panel.jdchFechaFinal.setDate(fechaFinal);
 
             cli.setFullName(panel.jtxtNombreClienteAgregar.getText());
             cli.setEmail(panel.jtxtDireccionCorreoAdd.getText());
