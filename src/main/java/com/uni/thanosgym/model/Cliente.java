@@ -9,7 +9,7 @@ public class Cliente extends Persona {
     private int dni;
     private Plan plan;
     public static String addressField = "address";
-    public static String subscriptionSinceField = "subscription_since";
+    public static String subscriptionSinceField = "subscription_until";
     public static String dniField = "dni";
     public static String idField = "client_id";
 

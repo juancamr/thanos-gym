@@ -25,3 +25,9 @@ DB_PASSWORD=
 - [ ] extender su membresia con el mismo o otro plan
 - [ ] buscar en tiempo real en una tabla de clientes
 - [x] que la sesion persista (no es necesario tener que estar iniciando sesion cada vez que el programa se cierra)
+- [ ] agregar producto (suplemento)
+- [ ] eliminar producto (suplemento)
+- [ ] editar producto (suplemento)
+- [ ] agregar utilidades (maquinarias)
+- [ ] eliminar utilidades (maquinarias)
+- [ ] editar utilidades (maquinarias)

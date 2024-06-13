@@ -43,6 +43,12 @@
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- mongodb -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.3.4</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>

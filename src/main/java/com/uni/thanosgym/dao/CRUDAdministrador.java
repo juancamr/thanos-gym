@@ -68,5 +68,6 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         ps.setString(2, data.getUsername());
         ps.setString(3, data.getPassword());
         ps.setString(4, data.getEmail());
+        ps.setInt(5, data.getPhone());
     }
 }
