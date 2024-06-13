@@ -9,12 +9,21 @@ import com.uni.thanosgym.model.Cliente;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.DateUtils;
+import com.uni.thanosgym.utils.EnvVariables;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelClient;
+
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import com.uni.thanosgym.utils.HttpUtils;
+import com.uni.thanosgym.utils.ResponseByCliente;
+import com.google.gson.Gson;
 
 import javax.swing.JTextField;
 
@@ -27,6 +36,12 @@ public class ControladorClient {
         PanelClient panel = ControladorClient.getPanel();
         FrameUtils.showPanel(vista, panel);
         panel.jtxtDniClienteAgregar.requestFocus();
+        FrameUtils.addEnterEvent(panel.jtxtDniClienteAgregar, () -> {
+            String dni = panel.jtxtDniClienteAgregar.getText();
+            ControladorClient.searchByDni(dni);
+        });
+        panel.jtxtNombreClienteAgregar.setEnabled(false);
+        panel.jtxtNombreClienteAgregar.setBackground(new Color(240, 240, 240));
         FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, () -> {
             ControladorClient.buscar();
         });
@@ -43,6 +58,22 @@ public class ControladorClient {
         } else {
             Messages.show(response.getMessage());
         }
+    }
+
+    public static void searchByDni(String dni) {
+        String token = EnvVariables.getInstance().get("TOKEN_RENIEC");
+        Map<String, String> headers = Map.of("Authorization",
+                String.format("Bearer %s", token));
+        CompletableFuture<String> getResponseFuture = HttpUtils
+                .makeGetRequest(String.format("https://api.apis.net.pe/v2/reniec/dni?numero=%s", dni), headers);
+
+        Gson gson = new Gson();
+        getResponseFuture.thenAccept(response -> {
+            System.out.println("GET Response: " + response);
+            ResponseByCliente res = gson.fromJson(response, ResponseByCliente.class);
+            panel.jtxtNombreClienteAgregar.setText(
+                    String.format("%s %s %s", res.getNombres(), res.getApellidoPaterno(), res.getApellidoMaterno()));
+        }).join();
     }
 
     public static PanelClient getPanel() {
