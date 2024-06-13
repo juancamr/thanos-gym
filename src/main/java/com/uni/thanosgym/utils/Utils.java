@@ -4,8 +4,6 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.mysql.cj.util.Util;
-
 import java.util.Properties;
 
 public class Utils {
@@ -23,6 +21,7 @@ public class Utils {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
         String username = "jcmrojas29@gmail.com";
         String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");

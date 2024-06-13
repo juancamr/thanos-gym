@@ -1,6 +1,7 @@
 package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.Utils;
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDPlan;
 import java.util.Date;
@@ -40,11 +41,10 @@ public class ControladorClient {
         });
         panel.jtxtNombreClienteAgregar.setEnabled(false);
         panel.jtxtNombreClienteAgregar.setBackground(new Color(240, 240, 240));
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, () -> {
-            ControladorClient.buscar();
-        });
+        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClient::buscar);
         FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
+        FrameUtils.addEnterEvent(panel.jtxtTelefonoClienteAdd, ControladorClient::agregar);
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
@@ -67,7 +67,6 @@ public class ControladorClient {
 
         Gson gson = new Gson();
         getResponseFuture.thenAccept(response -> {
-            System.out.println("GET Response: " + response);
             ResponseByCliente res = gson.fromJson(response, ResponseByCliente.class);
             panel.jtxtNombreClienteAgregar.setText(
                     String.format("%s %s %s", res.getNombres(), res.getApellidoPaterno(), res.getApellidoMaterno()));
@@ -104,7 +103,6 @@ public class ControladorClient {
                 return;
             }
             String selectedPlanName = panel.jcbxPlanRegistro.getSelectedItem().toString();
-            System.out.println("Selected plan name: " + selectedPlanName);
 
             Response<Plan> response = CRUDPlan.getInstance().getByName(selectedPlanName);
             if (!response.isSuccess()) {
@@ -132,11 +130,11 @@ public class ControladorClient {
 
             Response<Cliente> res = CRUDCliente.getInstance().create(cli);
             if (res.isSuccess()) {
-                System.out.println("cliente creado");
-                JTextField[] inputs = {panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
+                JTextField[] inputs = {panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
                     panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
                 FrameUtils.clearInputs(inputs);
                 Messages.show("Cliente creado con exito");
+                Utils.sendMail("Gracias por suscribirte a Thanos Gym", cli.getEmail(), "Gracias por tu dinero");
             } else {
                 Messages.show(response.getMessage());
             }

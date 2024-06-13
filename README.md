@@ -6,6 +6,8 @@
 DB_HOST=jdbc:mysql://localhost:3306/thanosgym
 DB_USER=root
 DB_PASSWORD=
+TOKEN_RENIEC=<solicitar-token>
+GMAIL_PASSWORD=<solicitar-password>
 ```
 3. Crear una base de datos usando el archivo script.sql
 
@@ -18,9 +20,11 @@ DB_PASSWORD=
 - [x] editar plan
 - [x] registrar a un nuevo cliente al gimnasio
 - [ ] buscar un cliente atraves del dni
-- [ ] buscar un cliente con codigo
-- [ ] autocompletar datos del cliente con su dni al registrar (beta)
+- [ ] editar cliente
+- [ ] renovar membresia cliente
+- [x] autocompletar datos del cliente con su dni al registrar (beta)
 - [ ] enviar correo de confirmacion cuando te suscribes a la membresia, boleta del gimnasio (beta)
+- [ ] congelar membresia del cliente
 - [ ] cuanto tiempo le queda a su suscripcion cuando se busca al cliente (verde mas de un mes, rojo menos de una semana)
 - [ ] extender su membresia con el mismo o otro plan
 - [ ] buscar en tiempo real en una tabla de clientes
