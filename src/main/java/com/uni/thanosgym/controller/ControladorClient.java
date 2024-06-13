@@ -19,6 +19,7 @@ import java.util.List;
 import javax.swing.JTextField;
 
 public class ControladorClient {
+
     public static PanelClient panel;
 
     public static void showPanel() {
@@ -32,20 +33,22 @@ public class ControladorClient {
         FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
 
-
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
             List<Plan> listaPlanes = response.getDataList();
             panel.jcbxPlanRegistro.removeAllItems();
-            for (int i = 0; i < listaPlanes.size(); i++)
+            for (int i = 0; i < listaPlanes.size(); i++) {
                 panel.jcbxPlanRegistro.addItem(listaPlanes.get(i).getName());
-        } else
+            }
+        } else {
             Messages.show(response.getMessage());
+        }
     }
 
     public static PanelClient getPanel() {
-        if (panel == null)
+        if (panel == null) {
             panel = new PanelClient();
+        }
         return panel;
     }
 
@@ -72,12 +75,26 @@ public class ControladorClient {
                 return;
             }
             String selectedPlanName = panel.jcbxPlanRegistro.getSelectedItem().toString();
+            System.out.println("Selected plan name: " + selectedPlanName);
+
             Response<Plan> response = CRUDPlan.getInstance().getByName(selectedPlanName);
+            if (response == null || !response.isSuccess()) {
+                Messages.show("Error: No se pudo encontrar el plan con el nombre " + selectedPlanName);
+                return;
+            }
             Plan plan = response.getData();
+            if (plan == null) {
+                Messages.show("Error: El plan recuperado es nulo.");
+                return;
+            }
+
             cli.setPlan(plan);
             cli.setDni(Integer.parseInt(panel.jtxtDniClienteAgregar.getText()));
             cli.setCreated_At(new Date());
 
+            Date fechaInicio = cli.getCreated_At();
+            Date fechaFinal = DateUtils.addDays(fechaInicio, plan.getDurationDays());
+            cli.setSubscription_until(fechaFinal);
 
             cli.setFullName(panel.jtxtNombreClienteAgregar.getText());
             cli.setEmail(panel.jtxtDireccionCorreoAdd.getText());
@@ -86,8 +103,8 @@ public class ControladorClient {
 
             Response<Cliente> res = CRUDCliente.getInstance().create(cli);
             if (res.isSuccess()) {
-                JTextField[] inputs = { panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
-                        panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
+                JTextField[] inputs = {panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
+                    panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
                 FrameUtils.clearInputs(inputs);
                 panel.jlblExito.setText("Cliente " + cli.getFullName() + " registrado con éxito!");
                 Messages.show(response.getMessage());
@@ -96,7 +113,7 @@ public class ControladorClient {
             }
         }
     }
-
+    
     public static void buscar() {
         PanelClient panel = ControladorClient.getPanel();
         if (panel.jtxtDniCliente.getText().isEmpty()) {
@@ -124,42 +141,30 @@ public class ControladorClient {
     }
 
     /**
-     * public static void editar(MainWindow vista, PanelClient panel) {
-     * if (panel.jtxtNombreCliente.getText().equals("") ||
-     * panel.jtxtDniCliente.getText().equals("")) {
-     * Messages.show("Ingrese un cliente");
-     * } else {
-     * if (flag) {
+     * public static void editar(MainWindow vista, PanelClient panel) { if
+     * (panel.jtxtNombreCliente.getText().equals("") ||
+     * panel.jtxtDniCliente.getText().equals("")) { Messages.show("Ingrese un
+     * cliente"); } else { if (flag) {
      * cli.setDni(Integer.parseInt(panel.jtxtDniCliente.getText()));
      * cli.setFullName(panel.jtxtNombreCliente.getText());
      * cli.setDireccion(panel.jtxtDireccionCliente.getText());
      * cli.setPhone(Integer.parseInt(panel.jtxtTelefonoClienteAdd.getText()));
-     * CRUDCliente.getInstance().update(cli);
-     * Messages.show("Datos actualizados");
-     * panel.jbtnEditar.setText("EDITAR");
-     * 
+     * CRUDCliente.getInstance().update(cli); Messages.show("Datos
+     * actualizados"); panel.jbtnEditar.setText("EDITAR");
+     *
      * JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente,
-     * panel.jtxtDireccionCliente,
-     * panel.jtxtTelefonoCliente };
+     * panel.jtxtDireccionCliente, panel.jtxtTelefonoCliente };
      * FrameUtils.clearInputs(inputs);
-     * 
+     *
      * flag = false;
-     * 
-     * isFocusable(panel, false);
-     * panel.jbtnEditar.setForeground(new Color(255, 255, 254));
-     * panel.jbtnEditar.setBackground(new Color(20, 23, 31));
-     * } else {
-     * flag = true;
-     * isFocusable(panel, true);
-     * Messages.show("Modo edicion activado");
-     * panel.jbtnEditar.setText("ACTUALIZAR");
+     *
+     * isFocusable(panel, false); panel.jbtnEditar.setForeground(new Color(255,
+     * 255, 254)); panel.jbtnEditar.setBackground(new Color(20, 23, 31)); } else
+     * { flag = true; isFocusable(panel, true); Messages.show("Modo edicion
+     * activado"); panel.jbtnEditar.setText("ACTUALIZAR");
      * panel.jbtnEditar.setForeground(new Color(0, 0, 0));
-     * panel.jbtnEditar.setBackground(new Color(255, 255, 254));
-     * }
-     * }
-     * }
+     * panel.jbtnEditar.setBackground(new Color(255, 255, 254)); } } }
      */
-
     public void isFocusable(PanelClient panel, boolean flag) {
         panel.jtxtNombreCliente.setFocusable(flag);
         panel.jtxtDireccionCliente.setFocusable(flag);

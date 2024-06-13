@@ -216,7 +216,7 @@ public class PanelClient extends javax.swing.JPanel {
                 jbtnAgregarActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 650, 120, 40));
+        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 530, 120, 40));
 
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

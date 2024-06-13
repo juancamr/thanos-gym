@@ -69,7 +69,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
                 response.getData(),
                 rs.getInt(Cliente.dniField),
                 rs.getDate(Cliente.createdAtField),
-                rs.getDate(Cliente.subscriptionSinceField),
+                rs.getDate(Cliente.subscriptionUntilField),
                 rs.getString(Cliente.fullNameField),
                 rs.getString(Cliente.emailField),
                 rs.getString(Cliente.addressField),
@@ -82,7 +82,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         ps.setInt(1, data.getPlan().getId());
         ps.setInt(2, data.getDni());
         ps.setString(3, StringUtils.parseDate(data.getCreated_At()));
-        ps.setString(4, StringUtils.parseDate(data.getSubscription_since()));
+        ps.setString(4, StringUtils.parseDate(data.getSubscription_until()));
         ps.setString(5, data.getFullName());
         ps.setString(6, data.getEmail());
         ps.setString(7, data.getDireccion());
