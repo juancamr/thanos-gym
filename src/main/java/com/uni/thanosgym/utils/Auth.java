@@ -1,13 +1,21 @@
 package com.uni.thanosgym.utils;
 
 import com.uni.thanosgym.controller.ControladorSession;
+import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.controller.ControladorMainWindow;
 import com.uni.thanosgym.model.Administrador;
+import com.uni.thanosgym.model.Response;
 
 public class Auth {
 
     public static boolean isAdminLoggedIn() {
-        return !UserPreferences.getData().getFullName().isEmpty();
+        Administrador admin = UserPreferences.getData();
+        boolean adminExist = !admin.getFullName().isEmpty();
+        Response<Administrador> response = CRUDAdministrador.getInstance().getById(admin.getId());
+        if (adminExist && response.isSuccess()) {
+            return true;
+        } 
+        return false;
     }
 
     public static void signIn(Administrador admin) {

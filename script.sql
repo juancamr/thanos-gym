@@ -57,12 +57,12 @@ CREATE TABLE if not exists admingeneral (
 );
 
 
-CREATE TABLE if not exists productos (
-    productos_id INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE if not exists producto (
+    producto_id INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
     cantidad VARCHAR(255) NOT NULL,
     precio INT NOT NULL,
-    PRIMARY KEY (productos_id)
+    PRIMARY KEY (producto_id)
 );
 
 

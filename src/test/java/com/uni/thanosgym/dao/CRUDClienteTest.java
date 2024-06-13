@@ -14,18 +14,28 @@ import org.junit.jupiter.api.Test;
 public class CRUDClienteTest {
 
     CRUDCliente crudCliente = CRUDCliente.getInstance();
+    CRUDPlan crudPlan = CRUDPlan.getInstance();
 
     @Test
     public void mainTest() {
-        // create
-        Plan plan = new Plan(20,"Test Plan", 100, 30);
-        Cliente cliente = new Cliente(plan, 75201393, new Date(), DateUtils.addDays(new Date(), 30), "Juan carlos",
-                "juan@juan.com", "santoheu", 986327221);
-        Response<Cliente> response = crudCliente.create(cliente);
-        assertEquals(true, response.isSuccess());
+        // create plan
+        Plan plan = new Plan("Test Plan for client", 100, 30);
+        Response<Plan> resPlan = crudPlan.create(plan);
+        assertEquals(true, resPlan.isSuccess());
+        plan.setId(resPlan.getId());
 
-        Response<Cliente> res2 = crudCliente.delete(response.getId());
-        System.out.println(response.getId());
-        assertEquals(true, res2.isSuccess());
+        // create client
+        Cliente cliente = new Cliente(plan, 75201393, new Date(), DateUtils.addDays(new Date(), 30), "Juan carlos",
+                "test@test.com", "santoheu", 986327221);
+        Response<Cliente> resClient = crudCliente.create(cliente);
+        assertEquals(true, resClient.isSuccess());
+
+        // delete client
+        Response<Cliente> res3 = crudCliente.delete(resClient.getId());
+        assertEquals(true, res3.isSuccess());
+
+        //delete plan
+        Response<Plan> response3 = crudPlan.delete(resPlan.getId());
+        assertEquals(true, response3.isSuccess());
     }
 }

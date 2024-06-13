@@ -51,6 +51,10 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
             return new Response<Administrador>(false);
         }
     }
+    
+    public Response<Administrador> getById(int id) {
+        return baseGetById(Querys.admin.getById, id);
+    }
 
     public Response<Administrador> delete(int id) {
         return baseDeleteById(Querys.admin.delete, id);
