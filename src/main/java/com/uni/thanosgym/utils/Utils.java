@@ -1,5 +1,13 @@
 package com.uni.thanosgym.utils;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import com.mysql.cj.util.Util;
+
+import java.util.Properties;
+
 public class Utils {
 
     public static boolean areAllTrue(boolean[] array) {
@@ -9,7 +17,36 @@ public class Utils {
         return true;
     }
 
-    public static void sendMail() {
+    public static boolean sendMail(String messageEmail, String para, String titulo) {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        String username = "jcmrojas29@gmail.com";
+        String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("jcmrojas29@gmail.com"));;
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
+            message.setSubject(titulo);
+            message.setText(messageEmail);
+
+            Transport.send(message);
+            return true;
+
+        } catch (MessagingException e) {
+            System.out.println(e);
+            return false;
+        }
     }
 
     public static void generateInvoice() {

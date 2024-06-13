@@ -44,9 +44,8 @@ public abstract class BaseCrud<T> {
             if (res2.next()) {
                 int generatedId = res2.getInt(1);
                 return new Response<T>(true, data, generatedId);
-            } else {
-                return new Response<T>(true, data);
             }
+            return new Response<T>(true, data);
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
@@ -123,9 +122,11 @@ public abstract class BaseCrud<T> {
             ps = connection.prepareStatement(consulta);
             ps.setString(1, identity);
             rs = ps.executeQuery();
-            if (rs.next()) {
+            boolean encontrado = rs.next();
+            // rs.next() -> rs.close()
+            if (encontrado) {
                 final T data = generateObject(rs);
-                return new Response<T>(true, "No encontrado", data);
+                return new Response<T>(true, data);
             } else {
                 return new Response<T>(false, "No encontrado");
             }
@@ -222,7 +223,6 @@ public abstract class BaseCrud<T> {
      * Envía un objeto de tipo T a la base de datos utilizando una consulta SQL y un
      * PreparedStatement dados.
      *
-     * @param ps       El PreparedStatement utilizado para ejecutar la consulta SQL.
      * @param consulta La consulta SQL que se ejecutará para enviar el objeto a la
      *                 base de datos.
      * @param data     El objeto de tipo T que se enviará a la base de datos.

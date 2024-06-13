@@ -17,6 +17,15 @@ public class Cliente extends Persona {
         super();
     }
 
+    public Cliente(Plan plan, int dni, Date created_At, Date subscription_until, String fullName, String email,
+            String Direccion, int phone) {
+        super(created_At, fullName, phone, email);
+        this.plan = plan;
+        this.dni = dni;
+        this.subscription_until = subscription_until;
+        this.direccion = Direccion;
+    }
+
     public Cliente(int id, Plan plan, int dni, Date created_At, Date subscription_until, String fullName, String email,
             String Direccion, int phone) {
         super(id, created_At, fullName, phone, email);

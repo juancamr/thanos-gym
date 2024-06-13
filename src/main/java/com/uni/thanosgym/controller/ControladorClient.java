@@ -15,8 +15,6 @@ import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelClient;
 
 import java.awt.Color;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import java.util.Map;
@@ -109,7 +107,7 @@ public class ControladorClient {
             System.out.println("Selected plan name: " + selectedPlanName);
 
             Response<Plan> response = CRUDPlan.getInstance().getByName(selectedPlanName);
-            if (response == null || !response.isSuccess()) {
+            if (!response.isSuccess()) {
                 Messages.show("Error: No se pudo encontrar el plan con el nombre " + selectedPlanName);
                 return;
             }
@@ -134,11 +132,11 @@ public class ControladorClient {
 
             Response<Cliente> res = CRUDCliente.getInstance().create(cli);
             if (res.isSuccess()) {
+                System.out.println("cliente creado");
                 JTextField[] inputs = {panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
                     panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
                 FrameUtils.clearInputs(inputs);
-                panel.jlblExito.setText("Cliente " + cli.getFullName() + " registrado con éxito!");
-                Messages.show(response.getMessage());
+                Messages.show("Cliente creado con exito");
             } else {
                 Messages.show(response.getMessage());
             }

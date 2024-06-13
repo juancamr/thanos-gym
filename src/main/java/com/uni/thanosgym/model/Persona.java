@@ -25,6 +25,13 @@ class Persona {
         this.email = email;
     }
 
+    public Persona(Date created_At, String fullName, int phone, String email) {
+        this.created_At = created_At;
+        this.fullName = fullName;
+        this.phone = phone;
+        this.email = email;
+    }
+
     public int getId() {
         return id;
     }
