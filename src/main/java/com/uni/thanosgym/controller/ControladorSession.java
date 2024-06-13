@@ -39,6 +39,7 @@ public class ControladorSession {
         PanelRegister panel = ControladorSession.getPanelRegister();
         FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, ControladorSession::showLoginPanel);
         FrameUtils.addOnClickEvent(panel.jbtnRegistro, ControladorSession::registrar);
+        FrameUtils.addEnterEvent(panel.jtxtRepeatPassword, ControladorSession::registrar);
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombresCompletos.requestFocus();
     }

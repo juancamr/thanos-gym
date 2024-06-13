@@ -25,6 +25,7 @@ public class Auth {
         if (Auth.isAdminLoggedIn()) {
             ControladorMainWindow.initMainWindow();
         } else {
+            ControladorSession.showLoginPanel();
             ControladorSession.initWindow();
         }
     }

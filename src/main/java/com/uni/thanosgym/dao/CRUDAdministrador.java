@@ -1,5 +1,6 @@
 package com.uni.thanosgym.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import com.uni.thanosgym.utils.Querys;
 import java.sql.SQLException;
@@ -63,7 +64,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
 
     @Override
     public void sendObject(String consulta, Administrador data) throws SQLException {
-        ps = connection.prepareStatement(consulta);
+        ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getFullName());
         ps.setString(2, data.getUsername());
         ps.setString(3, data.getPassword());
