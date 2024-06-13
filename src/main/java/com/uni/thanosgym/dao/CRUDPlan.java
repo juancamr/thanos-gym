@@ -26,7 +26,7 @@ public class CRUDPlan extends BaseCrud<Plan> {
             ps = connection.prepareStatement(Querys.plan.getByName);
             ps.setString(1, plan.getName());
             rs = ps.executeQuery();
-            boolean[] conditions = new boolean[]{!rs.next()};
+            boolean[] conditions = new boolean[] { !rs.next() };
             String error = String.format("El plan %s ya existe", plan.getName());
             return baseCreateWithConditions(plan, Querys.plan.create, conditions, error);
         } catch (Exception e) {
@@ -51,7 +51,15 @@ public class CRUDPlan extends BaseCrud<Plan> {
     }
 
     public Response<Plan> update(Plan plan) {
-        return baseUpdate(Querys.plan.update, plan);
+        try {
+            sendObject(Querys.plan.update, plan);
+            ps.setInt(4, plan.getId());
+            ps.executeUpdate();
+            ps.close();
+            return new Response<Plan>(true, "Datos actualizados con exito");
+        } catch (Exception e) {
+            return somethingWentWrong(e);
+        }
     }
 
     @Override
@@ -64,19 +72,11 @@ public class CRUDPlan extends BaseCrud<Plan> {
     }
 
     @Override
-    public Plan sendObject(String consulta, Plan data) throws SQLException {
+    public void sendObject(String consulta, Plan data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getName());
         ps.setDouble(2, data.getPrice());
         ps.setInt(3, data.getDurationDays());
-        ps.executeUpdate();
-        ResultSet res2 = ps.getGeneratedKeys();
-        if (res2.next()) {
-            int generatedId = res2.getInt(1);
-            data.setId(generatedId);
-        }
-        ps.close();
-        return data;
     }
 
 }

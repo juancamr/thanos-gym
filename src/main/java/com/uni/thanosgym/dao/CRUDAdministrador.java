@@ -52,7 +52,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
     }
 
     public Response<Administrador> delete(int id) {
-        return baseDeleteById("DELETE from admin where admin_id = ?", id);
+        return baseDeleteById(Querys.admin.delete, id);
     }
 
     @Override
@@ -62,14 +62,11 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
     }
 
     @Override
-    public Administrador sendObject(String consulta, Administrador data) throws SQLException {
+    public void sendObject(String consulta, Administrador data) throws SQLException {
         ps = connection.prepareStatement(consulta);
         ps.setString(1, data.getFullName());
         ps.setString(2, data.getUsername());
         ps.setString(3, data.getPassword());
         ps.setString(4, data.getEmail());
-        ps.executeUpdate();
-        ps.close();
-        return data;
     }
 }

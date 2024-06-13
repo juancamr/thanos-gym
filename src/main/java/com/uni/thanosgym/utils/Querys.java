@@ -24,5 +24,6 @@ public class Querys {
         public static String create = "INSERT INTO admin(full_name, username, password, email) VALUES(?, ?, ?, ?)";
         public static String getByUsername = "SELECT * FROM admin WHERE username = ?";
         public static String verify = "SELECT full_name FROM admin WHERE username=? AND password=?";
+        public static String delete = "DELETE from admin where admin_id = ?";
     }
 }

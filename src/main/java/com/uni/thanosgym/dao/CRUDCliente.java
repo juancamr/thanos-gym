@@ -1,5 +1,6 @@
 package com.uni.thanosgym.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.uni.thanosgym.model.Response;
@@ -44,7 +45,16 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     }
 
     public Response<Cliente> update(Cliente cliente) {
-        return baseUpdate(Querys.cliente.update, cliente);
+        try {
+            sendObject(Querys.plan.update, cliente);
+            ps.setInt(9, cliente.getId());
+            ps.executeUpdate();
+            ps.close();
+            return new Response<Cliente>(true);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new Response<Cliente>(false);
+        }
     }
 
     public Response<Cliente> delete(int clienteId) {
@@ -67,8 +77,8 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     }
 
     @Override
-    public Cliente sendObject(String consulta, Cliente data) throws SQLException {
-        ps = connection.prepareStatement(consulta);
+    public void sendObject(String consulta, Cliente data) throws SQLException {
+        ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setInt(1, data.getPlan().getId());
         ps.setInt(2, data.getDni());
         ps.setString(3, StringUtils.parseDate(data.getCreated_At()));
@@ -79,6 +89,5 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         ps.setInt(8, data.getPhone());
         ps.executeUpdate();
         ps.close();
-        return data;
     }
 }

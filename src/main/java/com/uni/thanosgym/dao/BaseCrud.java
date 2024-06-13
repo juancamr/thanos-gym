@@ -38,8 +38,15 @@ public abstract class BaseCrud<T> {
      */
     public Response<T> baseCreate(T data, String query) {
         try {
-            final T newData = sendObject(query, data);
-            return new Response<T>(true, newData);
+            sendObject(query, data);
+            ps.executeUpdate();
+            ResultSet res2 = ps.getGeneratedKeys();
+            if (res2.next()) {
+                int generatedId = res2.getInt(1);
+                return new Response<T>(true, data, generatedId);
+            } else {
+                return new Response<T>(true, data);
+            }
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
@@ -223,7 +230,7 @@ public abstract class BaseCrud<T> {
      * @throws SQLException Si ocurre algún error al enviar el objeto a la base de
      *                      datos.
      */
-    public abstract T sendObject(String consulta, T data) throws SQLException;
+    public abstract void sendObject(String consulta, T data) throws SQLException;
 
     public Response<T> somethingWentWrong(Exception e) {
         System.out.println(e);
