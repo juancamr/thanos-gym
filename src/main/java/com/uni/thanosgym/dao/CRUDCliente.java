@@ -7,7 +7,6 @@ import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.model.Cliente;
-import com.uni.thanosgym.model.Plan;
 
 public class CRUDCliente extends BaseCrud<Cliente> {
 
@@ -34,6 +33,10 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
+    }
+
+    public Response<Cliente> getById(int id) {
+        return baseGetById(Querys.cliente.getById, id);
     }
 
     public Response<Cliente> read(int dni) {
@@ -63,10 +66,8 @@ public class CRUDCliente extends BaseCrud<Cliente> {
 
     @Override
     public Cliente generateObject(ResultSet rs) throws SQLException {
-        Response<Plan> response = CRUDPlan.getInstance().getById(rs.getInt(Plan.idField));
         return new Cliente(
                 rs.getInt(Cliente.idField),
-                response.getData(),
                 rs.getInt(Cliente.dniField),
                 rs.getDate(Cliente.createdAtField),
                 rs.getDate(Cliente.subscriptionUntilField),
@@ -79,13 +80,12 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     @Override
     public void sendObject(String consulta, Cliente data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, data.getPlan().getId());
-        ps.setInt(2, data.getDni());
-        ps.setString(3, StringUtils.parseDate(data.getCreated_At()));
-        ps.setString(4, StringUtils.parseDate(data.getSubscription_until()));
-        ps.setString(5, data.getFullName());
-        ps.setString(6, data.getEmail());
-        ps.setString(7, data.getDireccion());
-        ps.setInt(8, data.getPhone());
+        ps.setInt(1, data.getDni());
+        ps.setString(2, StringUtils.parseDate(data.getCreated_At()));
+        ps.setString(3, StringUtils.parseDate(data.getSubscription_until()));
+        ps.setString(4, data.getFullName());
+        ps.setString(5, data.getEmail());
+        ps.setString(6, data.getDireccion());
+        ps.setInt(7, data.getPhone());
     }
 }

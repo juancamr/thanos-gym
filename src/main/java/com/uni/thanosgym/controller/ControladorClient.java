@@ -118,7 +118,6 @@ public class ControladorClient {
                 return;
             }
 
-            cli.setPlan(plan);
             cli.setDni(Integer.parseInt(panel.jtxtDniClienteAgregar.getText()));
             cli.setCreated_At(new Date());
 

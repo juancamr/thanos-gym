@@ -13,11 +13,12 @@ public class Querys {
 
     public class cliente {
         public static String getByDni = "SELECT * FROM client WHERE dni = ?";
+        public static String getById = "SELECT * FROM client WHERE client_id = ?";
         public static String getAll = "SELECT * FROM client";
         public static String delete = "DELETE FROM client WHERE client_id = ?";
         public static String getByEmail = "SELECT * FROM client WHERE email = ?";
-        public static String update = "UPDATE client SET plan_id = ?, dni = ?, created_at = ?, subscription_until = ?, full_name = ?, email = ?, address = ?, phone = ? WHERE client_id = ?";
-        public static String create = "INSERT INTO client(plan_id, dni, created_at, subscription_until, full_name, email, address, phone) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        public static String update = "UPDATE client SET dni = ?, created_at = ?, subscription_until = ?, full_name = ?, email = ?, address = ?, phone = ? WHERE client_id = ?";
+        public static String create = "INSERT INTO client(dni, created_at, subscription_until, full_name, email, address, phone) VALUES(?, ?, ?, ?, ?, ?, ?)";
     }
 
     public class admin {
@@ -40,5 +41,11 @@ public class Querys {
         public static String getByName = "SELECT * FROM utility where nombre=?";
         public static String delete = "DELETE from utility where utility_id=?";
         public static String update = "UPDATE utility SET nombre=?, cantidad=?, peso=? where utility_id=?";
+    }
+
+    public class payment {
+        public static String create = "INSERT INTO payment(created_at, ticket_code, client_id, plan_id, transaction_code) values(?, ?, ?, ?, ?)";
+        public static String get = "select * from payment where payment_id=?";
+        public static String delete = "DELETE from payment where payment_id=?";
     }
 }

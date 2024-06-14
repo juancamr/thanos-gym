@@ -22,26 +22,24 @@ CREATE TABLE if not exists plan (
 CREATE TABLE if not exists client (
     client_id INT NOT NULL AUTO_INCREMENT,
     dni INT NOT NULL,
-    plan_id INT NOT NULL,
     created_at DATE NOT NULL,
     subscription_until DATE NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     address VARCHAR(255),
     phone BIGINT,
-    CONSTRAINT PRIMARY KEY (client_id),
-    CONSTRAINT FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
+    CONSTRAINT PRIMARY KEY (client_id)
 );
 
 CREATE TABLE if not exists payment (
     payment_id INT NOT NULL AUTO_INCREMENT,
     created_at DATETIME NOT NULL,
     ticket_code INT NOT NULL,
-    user_id INT NOT NULL,
+    client_id INT NOT NULL,
     plan_id INT NOT NULL,
     transaction_code INT NOT NULL,
     PRIMARY KEY (payment_id),
-    FOREIGN KEY (user_id) REFERENCES client(client_id),
+    FOREIGN KEY (client_id) REFERENCES client(client_id),
     FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
 );
 

@@ -1,4 +1,3 @@
-
 package com.uni.thanosgym.model;
 
 public class Plan {
