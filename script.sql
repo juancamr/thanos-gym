@@ -45,18 +45,6 @@ CREATE TABLE if not exists payment (
     FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
 );
 
-CREATE TABLE if not exists admingeneral (
-    admingen_id INT NOT NULL AUTO_INCREMENT,
-    full_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    phone INT NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    rol ENUM('GENERAL', 'NORMAL'),
-    PRIMARY KEY (admingen_id)
-);
-
-
 CREATE TABLE if not exists producto (
     producto_id INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
@@ -66,10 +54,10 @@ CREATE TABLE if not exists producto (
 );
 
 
-CREATE TABLE if not exists utilities (
-    utilities_id INT NOT NULL AUTO_INCREMENT,
-    tipo VARCHAR(255) NOT NULL,
+CREATE TABLE if not exists utility (
+    utility_id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
     peso DECIMAL(10,2) NOT NULL,
     cantidad INT NOT NULL,
-    PRIMARY KEY (utilities_id)
+    PRIMARY KEY (utility_id)
 );

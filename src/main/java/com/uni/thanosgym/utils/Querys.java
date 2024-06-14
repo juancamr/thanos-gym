@@ -34,4 +34,11 @@ public class Querys {
         public static String delete = "DELETE from producto where producto_id=?";
         public static String update = "UPDATE producto SET nombre=?, cantidad=?, precio=? where producto_id=?";
     }
+
+    public class utility {
+        public static String create = "INSERT INTO utility(nombre, peso, cantidad) values(?, ?, ?)";
+        public static String getByName = "SELECT * FROM utility where nombre=?";
+        public static String delete = "DELETE from utility where utility_id=?";
+        public static String update = "UPDATE utility SET nombre=?, cantidad=?, peso=? where utility_id=?";
+    }
 }
