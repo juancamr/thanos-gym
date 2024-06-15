@@ -49,8 +49,9 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jtxtPlanActual = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jbtnRenovar = new javax.swing.JButton();
+        jbtnBoletas = new javax.swing.JButton();
         jbtnCongelar = new javax.swing.JButton();
+        jbtnRenovar = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(840, 690));
 
@@ -212,16 +213,16 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jLabel4.setText("Plan Actual");
         jpnlInterfaz.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 230, 160, 30));
 
-        jbtnRenovar.setBackground(new java.awt.Color(20, 23, 31));
-        jbtnRenovar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
-        jbtnRenovar.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnRenovar.setText("RENOVAR");
-        jbtnRenovar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnBoletas.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnBoletas.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnBoletas.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnBoletas.setText("BOLETAS");
+        jbtnBoletas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnRenovarActionPerformed(evt);
+                jbtnBoletasActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnRenovar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 590, 160, 40));
+        jpnlInterfaz.add(jbtnBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 510, 160, 40));
 
         jbtnCongelar.setBackground(new java.awt.Color(20, 23, 31));
         jbtnCongelar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
@@ -232,7 +233,18 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jbtnCongelarActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnCongelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 590, 160, 40));
+        jpnlInterfaz.add(jbtnCongelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 590, 160, 40));
+
+        jbtnRenovar.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnRenovar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnRenovar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnRenovar.setText("RENOVAR");
+        jbtnRenovar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnRenovarActionPerformed(evt);
+            }
+        });
+        jpnlInterfaz.add(jbtnRenovar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 590, 160, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -282,6 +294,10 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCongelarActionPerformed
 
+    private void jbtnBoletasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnBoletasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnBoletasActionPerformed
+
     private void jbtnRenovarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRenovarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnRenovarActionPerformed
@@ -302,6 +318,7 @@ public class PanelClientBuscar extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator20;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    public javax.swing.JButton jbtnBoletas;
     public javax.swing.JButton jbtnBuscarCliente;
     public javax.swing.JButton jbtnCongelar;
     public javax.swing.JButton jbtnEditar;

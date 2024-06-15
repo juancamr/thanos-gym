@@ -12,6 +12,7 @@ import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelClientBuscar;
+import com.uni.thanosgym.view.WindowTableClients;
 
 import java.awt.Color;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class ControladorClientBuscar {
         FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::buscar);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editar);
         FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClientBuscar::renovar);
+        FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorClientBuscar::verlistaboleas);
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
@@ -211,5 +213,10 @@ public class ControladorClientBuscar {
         panel.jtxtNombreCliente.setFocusable(flag);
         panel.jtxtDireccionCliente.setFocusable(flag);
         panel.jtxtTelefonoCliente.setFocusable(flag);
+    }
+
+    private static void verlistaboleas() {
+        WindowTableClients tableClientWindow = new WindowTableClients();
+        tableClientWindow.setVisible(true);
     }
 }
