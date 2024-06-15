@@ -1,5 +1,6 @@
-package com.uni.thanosgym.dao;
+package com.uni.thanosgym.controller;
 
+import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.model.Administrador;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
@@ -8,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class CRUDAdministradorTest {
+public class ControladorSessionTest {
 
     CRUDAdministrador crudAdministrador = CRUDAdministrador.getInstance();
 
@@ -16,12 +17,12 @@ public class CRUDAdministradorTest {
     public void mainTest() {
         //create
         Administrador admin = new Administrador.Builder()
-        .setPhone(986327221)
-        .setUsername("testusername")
-        .setPassword("testusername")
-        .setEmail("juancr.molero@gmail")
-        .setFullName("Test user")
-        .build();
+                .setPhone(986327221)
+                .setUsername("testusername")
+                .setPassword("testusername")
+                .setEmail("juancr.molero@gmail")
+                .setFullName("Test user")
+                .build();
 
         crudAdministrador.create(admin);
         assertEquals(true, response.isSuccess());
@@ -40,4 +41,3 @@ public class CRUDAdministradorTest {
         assertEquals(true, response3.isSuccess());
     }
 }
-

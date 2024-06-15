@@ -34,7 +34,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             return somethingWentWrong(e);
         }
     }
-
+    
     public Response<Cliente> getById(int id) {
         return baseGetById(Querys.cliente.getById, id);
     }
@@ -49,8 +49,8 @@ public class CRUDCliente extends BaseCrud<Cliente> {
 
     public Response<Cliente> update(Cliente cliente) {
         try {
-            sendObject(Querys.plan.update, cliente);
-            ps.setInt(9, cliente.getId());
+            sendObject(Querys.cliente.update, cliente);
+            ps.setInt(1, cliente.getId());
             ps.executeUpdate();
             ps.close();
             return new Response<Cliente>(true);
