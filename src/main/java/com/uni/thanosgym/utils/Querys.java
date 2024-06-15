@@ -3,6 +3,7 @@ package com.uni.thanosgym.utils;
 public class Querys {
 
     public class plan {
+
         public static String get = "SELECT * FROM plan WHERE plan_id=?";
         public static String getAll = "select * from plan";
         public static String create = "INSERT INTO plan(name, price, duration_days) VALUES(?, ?, ?)";
@@ -12,6 +13,7 @@ public class Querys {
     }
 
     public class cliente {
+
         public static String getByDni = "SELECT * FROM client WHERE dni = ?";
         public static String getById = "SELECT * FROM client WHERE client_id = ?";
         public static String getAll = "SELECT * FROM client";
@@ -22,6 +24,7 @@ public class Querys {
     }
 
     public class admin {
+
         public static String create = "INSERT INTO admin(full_name, username, password, email, phone) VALUES(?, ?, ?, ?, ?)";
         public static String getByUsername = "SELECT * FROM admin WHERE username = ?";
         public static String getById = "SELECT * from admin where admin_id=?";
@@ -30,6 +33,7 @@ public class Querys {
     }
 
     public class producto {
+
         public static String create = "INSERT INTO producto(nombre, cantidad, precio) VALUES(?, ?, ?)";
         public static String getByName = "SELECT * FROM producto where nombre=?";
         public static String delete = "DELETE from producto where producto_id=?";
@@ -37,6 +41,7 @@ public class Querys {
     }
 
     public class utility {
+
         public static String create = "INSERT INTO utility(nombre, peso, cantidad) values(?, ?, ?)";
         public static String getByName = "SELECT * FROM utility where nombre=?";
         public static String delete = "DELETE from utility where utility_id=?";
@@ -44,8 +49,11 @@ public class Querys {
     }
 
     public class payment {
+
         public static String create = "INSERT INTO payment(created_at, ticket_code, client_id, plan_id, transaction_code) values(?, ?, ?, ?, ?)";
         public static String get = "select * from payment where payment_id=?";
         public static String delete = "DELETE from payment where payment_id=?";
+        public static String getByCliente = "SELECT * FROM payment WHERE client_id=?";
+
     }
 }

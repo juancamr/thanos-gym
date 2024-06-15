@@ -41,9 +41,10 @@ public class ControladorMainWindow {
             ControladorClient.showPanel();
             setFocusButton(vista.jbtnTercero);
         });
-        FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
-            System.out.println("fourth section");
-        });
+//        FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
+//            ControladorClientBuscar.showPanel();
+//            setFocusButton(vista.jbtnCuarto);
+//        });
         FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
             System.out.println("fifth section");
         });

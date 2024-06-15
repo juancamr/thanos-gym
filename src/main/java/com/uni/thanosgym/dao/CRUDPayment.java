@@ -37,6 +37,21 @@ public class CRUDPayment extends BaseCrud<Payment> {
         return baseDeleteById(Querys.payment.delete, id);
     }
 
+    public Response<Payment> getByCliente(int clientId) {
+        try {
+            ps = connection.prepareStatement(Querys.payment.getByCliente);
+            ps.setInt(1, clientId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Response<Payment>(true, "Pago encontrado");
+            } else {
+                return new Response<Payment>(false, "No se encontró el pago");
+            }
+        } catch (Exception e) {
+            return somethingWentWrong(e);
+        }
+    }
+
     @Override
     public Payment generateObject(ResultSet rs) throws SQLException {
         Response<Cliente> resCliente = CRUDCliente.getInstance().getById(rs.getInt(4));

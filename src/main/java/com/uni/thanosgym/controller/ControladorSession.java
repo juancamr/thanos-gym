@@ -74,7 +74,7 @@ public class ControladorSession {
             Messages.show("Contraseña invalida, recuerda que debe ser almenos de 8 caracteres");
             return;
         }
-        if (!phone.isEmpty() || !StringUtils.isValidPhone(phone)) {
+        if (!phone.isEmpty() && !StringUtils.isValidPhone(phone)) {
             Messages.show("El telefono debe ser un numero de 9 digitos.");
             return;
         }

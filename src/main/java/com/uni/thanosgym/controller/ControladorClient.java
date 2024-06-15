@@ -23,6 +23,8 @@ import java.util.concurrent.CompletableFuture;
 import com.uni.thanosgym.utils.HttpUtils;
 import com.uni.thanosgym.utils.ResponseByCliente;
 import com.google.gson.Gson;
+import com.uni.thanosgym.dao.CRUDPayment;
+import com.uni.thanosgym.model.Payment;
 
 import javax.swing.JTextField;
 
@@ -41,9 +43,7 @@ public class ControladorClient {
         });
         panel.jtxtNombreClienteAgregar.setEnabled(false);
         panel.jtxtNombreClienteAgregar.setBackground(new Color(240, 240, 240));
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClient::buscar);
         FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
         FrameUtils.addEnterEvent(panel.jtxtTelefonoClienteAdd, ControladorClient::agregar);
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
@@ -132,72 +132,32 @@ public class ControladorClient {
 
             Response<Cliente> res = CRUDCliente.getInstance().create(cli);
             if (res.isSuccess()) {
-                JTextField[] inputs = {panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
-                    panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
-                FrameUtils.clearInputs(inputs);
-                Messages.show("Cliente creado con exito");
-                Utils.sendMail("Gracias por suscribirte a Thanos Gym", cli.getEmail(), "Gracias por tu dinero");
+                // new payment
+                Cliente createdCliente = res.getData();
+                Payment payment = new Payment(new Date(), generateTicketCode(), generateTransactionCode(), createdCliente, plan);
+
+                Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
+                if (paymentResponse.isSuccess()) {
+                    JTextField[] inputs = {panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
+                        panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
+                    FrameUtils.clearInputs(inputs);
+                    Messages.show("Cliente y pago creados con éxito");
+                    Utils.sendMail("Gracias por suscribirte a Thanos Gym", cli.getEmail(), "Gracias por tu dinero");
+                } else {
+                    Messages.show("No se pudo registrar el pago del cliente");
+                }
             } else {
                 Messages.show(response.getMessage());
             }
         }
     }
-    
-    public static void buscar() {
-        PanelClient panel = ControladorClient.getPanel();
-        if (panel.jtxtDniCliente.getText().isEmpty()) {
-            Messages.show("Por favor, digite un DNI");
-        } else {
-            try {
-                int dniCliente = Integer.parseInt(panel.jtxtDniCliente.getText());
-                Response<Cliente> response = CRUDCliente.getInstance().read(dniCliente);
-                if (response.isSuccess()) {
-                    Cliente cli = response.getData();
-                    if (cli != null) {
-                        panel.jtxtNombreCliente.setText(cli.getFullName());
-                        panel.jtxtDniCliente.setText(String.valueOf(cli.getDni()));
-                        panel.jtxtDireccionCliente.setText(cli.getDireccion());
-                        panel.jtxtTelefonoCliente.setText(String.valueOf(cli.getPhone()));
-                    }
-                } else {
-                    Messages.show("El cliente no está registrado");
-                }
-            } catch (NumberFormatException exception) {
-                Messages.show("Error, el DNI debe ser un número");
-                FrameUtils.clearInputs(panel.jtxtDniCliente);
-            }
-        }
+
+    private static int generateTicketCode() {
+        return (int) (Math.random() * 1000000);
     }
 
-    /**
-     * public static void editar(MainWindow vista, PanelClient panel) { if
-     * (panel.jtxtNombreCliente.getText().equals("") ||
-     * panel.jtxtDniCliente.getText().equals("")) { Messages.show("Ingrese un
-     * cliente"); } else { if (flag) {
-     * cli.setDni(Integer.parseInt(panel.jtxtDniCliente.getText()));
-     * cli.setFullName(panel.jtxtNombreCliente.getText());
-     * cli.setDireccion(panel.jtxtDireccionCliente.getText());
-     * cli.setPhone(Integer.parseInt(panel.jtxtTelefonoClienteAdd.getText()));
-     * CRUDCliente.getInstance().update(cli); Messages.show("Datos
-     * actualizados"); panel.jbtnEditar.setText("EDITAR");
-     *
-     * JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente,
-     * panel.jtxtDireccionCliente, panel.jtxtTelefonoCliente };
-     * FrameUtils.clearInputs(inputs);
-     *
-     * flag = false;
-     *
-     * isFocusable(panel, false); panel.jbtnEditar.setForeground(new Color(255,
-     * 255, 254)); panel.jbtnEditar.setBackground(new Color(20, 23, 31)); } else
-     * { flag = true; isFocusable(panel, true); Messages.show("Modo edicion
-     * activado"); panel.jbtnEditar.setText("ACTUALIZAR");
-     * panel.jbtnEditar.setForeground(new Color(0, 0, 0));
-     * panel.jbtnEditar.setBackground(new Color(255, 255, 254)); } } }
-     */
-    public void isFocusable(PanelClient panel, boolean flag) {
-        panel.jtxtNombreCliente.setFocusable(flag);
-        panel.jtxtDireccionCliente.setFocusable(flag);
-        panel.jtxtTelefonoCliente.setFocusable(flag);
+    private static int generateTransactionCode() {
+        return (int) (Math.random() * 1000000);
     }
 
 }

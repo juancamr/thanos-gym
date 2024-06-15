@@ -69,7 +69,7 @@ public class PanelRegister extends javax.swing.JPanel {
 
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 650, 310, 40));
+        jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 670, 310, 40));
 
         jtxtNombreUsuario.setBackground(new java.awt.Color(241, 241, 241));
         jtxtNombreUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -168,7 +168,7 @@ public class PanelRegister extends javax.swing.JPanel {
         jtxtRepeatPassword.setBorder(null);
         jPanel3.add(jtxtRepeatPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 300, 30));
 
-        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 690));
+        add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 720));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegistroActionPerformed
