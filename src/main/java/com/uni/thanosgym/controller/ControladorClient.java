@@ -46,9 +46,7 @@ public class ControladorClient {
         panel.jtxtNombreClienteAgregar.setEnabled(false);
         panel.jtxtNombreClienteAgregar.setBackground(new Color(240, 240, 240));
         if (!panelIsRendered) {
-            FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClient::buscar);
             FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
-            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
             FrameUtils.addEnterEvent(panel.jtxtTelefonoClienteAdd, ControladorClient::agregar);
             panelIsRendered = true;
         }
@@ -142,15 +140,26 @@ public class ControladorClient {
                 Cliente clienteCreado = res.getData();
 
                 // Crear el Payment asociado
-                Payment payment = new Payment(new Date(), generateTicketCode(), generateTransactionCode(), clienteCreado, plan);
+                Payment payment = new Payment(new Date(), generateTransactionCode(), clienteCreado, plan);
                 Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
 
                 if (paymentResponse.isSuccess()) {
-                    JTextField[] inputs = {panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
-                        panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
+                    JTextField[] inputs = { panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar,
+                            panel.jtxtDireccionClienteAdd,
+                            panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
                     FrameUtils.clearInputs(inputs);
                     Messages.show("Cliente y pago creados con exito");
-                    Utils.sendMail("Gracias por suscribirte a Thanos Gym", cli.getEmail(), "Gracias por tu dinero");
+                    String pdfPath = "payment.pdf";
+                    String messageEmail = String.format("Gracias por tu dinero %s", payment.getCliente().getFullName());
+                    try {
+                        Utils.generatePaymentPDF(payment, pdfPath);
+                        Utils.sendMailWithPdf(
+                                messageEmail,
+                                payment.getCliente().getEmail(), "gracias por tu dinero",
+                                pdfPath);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
                 } else {
                     Messages.show("Error al crear el pago: " + paymentResponse.getMessage());
                 }
@@ -158,14 +167,6 @@ public class ControladorClient {
                 Messages.show(response.getMessage());
             }
         }
-    }
-
-    private static int generateTicketCode() {
-        return new Random().nextInt(100000);
-    }
-
-    private static int generateTicketCode() {
-        return new Random().nextInt(100000);
     }
 
     private static int generateTransactionCode() {

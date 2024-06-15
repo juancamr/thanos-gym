@@ -175,7 +175,7 @@ public class ControladorClientBuscar {
 
                     if (responseUpdate.isSuccess()) {
                         // Actualizar el pago
-                        Payment payment = new Payment(new Date(), generateTicketCode(), generateTransactionCode(), cliente, planSeleccionado);
+                        Payment payment = new Payment(new Date(), generateTransactionCode(), cliente, planSeleccionado);
                         Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
 
                         if (paymentResponse.isSuccess()) {
@@ -197,10 +197,6 @@ public class ControladorClientBuscar {
             Messages.show("Error, el DNI debe ser un número válido");
             FrameUtils.clearInputs(panel.jtxtDniCliente);
         }
-    }
-
-    private static int generateTicketCode() {
-        return (int) (Math.random() * 1000000);
     }
 
     private static int generateTransactionCode() {

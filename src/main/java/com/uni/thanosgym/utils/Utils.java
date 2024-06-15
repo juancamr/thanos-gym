@@ -86,7 +86,7 @@ public class Utils {
             message.setSubject(titulo);
 
             BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText("Gracias por tu dinero abajo esta el pdf con tu boleta");
+            messageBodyPart.setText(messageEmail);
 
             MimeBodyPart attachmentBodyPart = new MimeBodyPart();
             attachmentBodyPart.attachFile(new File(pdfPath));
