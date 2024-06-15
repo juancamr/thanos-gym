@@ -1,84 +1,79 @@
+package com.uni.thanosgym.controller;
+
+import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.model.Cliente;
-import com.uni.thanosgym.utils.TablaUtils;
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
+import com.uni.thanosgym.model.Response;
+import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.utils.Messages;
+import com.uni.thanosgym.view.WindowTableClients;
+
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 public class ControladorWindowClients {
 
-    private JTable tableClients;
-    private JTextField jtxtNameBuscar;
-    private DefaultTableModel tableModel;
+    public static WindowTableClients vista;
+    public static boolean vistaRendered = false;
+    public static DefaultTableModel modelo;
+    public static String[] titulosTabla = {"ID", "DNI", "Nombre", "Fecha de Creación", "Email", "Telefono", "Dirección"};
 
-    public ControladorWindowClients(JTable tableClients, JTextField jtxtNameBuscar) {
-        this.tableClients = tableClients;
-        this.jtxtNameBuscar = jtxtNameBuscar;
-        this.tableModel = new DefaultTableModel();
+    public static void showWindow() {
+        vista = ControladorWindowClients.getWindowTableClients();
+        FrameUtils.showWindow(vista, "Búsqueda de Clientes");
+        modelo = new DefaultTableModel(null, titulosTabla);
+        vista.jtblClient.setModel(modelo);
+        vista.setSize(1060, 690);
+        vista.setResizable(false);
+        vista.setLocationRelativeTo(vista);
+        vista.setVisible(true);
 
-        tableClients.setModel(tableModel);
-
-        TablaUtils.formatoTablaTodosLosProductos(tableClients); // Ajusta este método según tus necesidades
-
-        cargarTodosLosClientes();
-
-        jtxtNameBuscar.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                filtrarClientes();
+        Response<Cliente> response = CRUDCliente.getInstance().readAll();
+        if (response.isSuccess()) {
+            fillTable(response.getDataList());
+            if (!vistaRendered) {
+                FrameUtils.addHandleChangeEvent(vista.jtxtNameBuscar, ControladorWindowClients::busqueda);
+                vistaRendered = true;
             }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                filtrarClientes();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                filtrarClientes();
-            }
-        });
+        } else {
+            Messages.show("Error al obtener todos los productos");
+        }
     }
 
-    private void cargarTodosLosClientes() {
-        // Aquí deberías obtener todos los clientes de tu base de datos o servicio
-        // Supongamos que tienes una lista de clientes llamada listaClientes
+    public static void busqueda() {
+        WindowTableClients vista = ControladorWindowClients.getWindowTableClients();
+        String query = vista.jtxtNameBuscar.getText();
+        if (query.isEmpty()) {
+            modelo.setRowCount(0);
+            fillTable(CRUDCliente.getInstance().getAll().getDataList());
+        } else {
+            Response<Cliente> response = CRUDCliente.getInstance().getAllByName(query);
+            if (response.isSuccess()) {
+                modelo.setRowCount(0);
+                fillTable(response.getDataList());
+            } else {
+                Messages.show("Error al obtener todos los clientes");
+            }
+        }
+    }
 
-        // Limpiar tabla antes de cargar nuevos datos
-        tableModel.setRowCount(0);
-
-        // Llenar la tabla con los datos de listaClientes
-        for (Cliente cliente : listaClientes) {
-            tableModel.addRow(new Object[]{
-                    cliente.getId(),
-                    cliente.getNombre(),
-                    cliente.getApellido(),
-                    // Agregar más columnas según los atributos del cliente que quieras mostrar
+    public static void fillTable(List<Cliente> lista) {
+        for (Cliente cliente : lista) {
+            modelo.addRow(new Object[]{
+                cliente.getId(),
+                cliente.getDni(),
+                cliente.getFullName(),
+                cliente.getCreated_At(),
+                cliente.getEmail(),
+                cliente.getPhone(),
+                cliente.getDireccion()
             });
         }
     }
 
-    private void filtrarClientes() {
-        // Obtener el texto del campo de búsqueda
-        String filtro = jtxtNameBuscar.getText().trim().toLowerCase();
-
-        // Limpiar tabla antes de aplicar el filtro
-        tableModel.setRowCount(0);
-
-        // Aplicar el filtro sobre la lista de clientes y agregar los resultados al modelo de la tabla
-        for (Cliente cliente : listaClientes) {
-            if (cliente.getNombre().toLowerCase().contains(filtro) ||
-                    cliente.getApellido().toLowerCase().contains(filtro)) {
-                tableModel.addRow(new Object[]{
-                        cliente.getId(),
-                        cliente.getNombre(),
-                        cliente.getApellido(),
-                        // Agregar más columnas según los atributos del cliente que quieras mostrar
-                });
-            }
+    public static WindowTableClients getWindowTableClients() {
+        if (vista == null) {
+            vista = new WindowTableClients();
         }
+        return vista;
     }
-
-    // Otros métodos adicionales según necesidades
-
 }

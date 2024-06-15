@@ -28,10 +28,10 @@ public class ControladorClientBuscar {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelClientBuscar panel = ControladorClientBuscar.getPanel();
         FrameUtils.showPanel(vista, panel);
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::buscar);
+        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::busqueda);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editar);
         FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClientBuscar::renovar);
-        FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorClientBuscar::verlistaboleas);
+        FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorClientBuscar::abrirWindowClients);
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
@@ -52,7 +52,7 @@ public class ControladorClientBuscar {
         return panel;
     }
 
-    public static void buscar() {
+    public static void busqueda() {
         PanelClientBuscar panel = ControladorClientBuscar.getPanel();
         if (panel.jtxtDniCliente.getText().isEmpty()) {
             Messages.show("Por favor, digite un DNI");
@@ -211,8 +211,7 @@ public class ControladorClientBuscar {
         panel.jtxtTelefonoCliente.setFocusable(flag);
     }
 
-    private static void verlistaboleas() {
-        WindowTableClients tableClientWindow = new WindowTableClients();
-        tableClientWindow.setVisible(true);
+    public static void abrirWindowClients() {
+        ControladorWindowClients.showWindow();
     }
 }

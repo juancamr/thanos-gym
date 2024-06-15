@@ -17,6 +17,7 @@ public class Querys {
         public static String getByDni = "SELECT * FROM client WHERE dni = ?";
         public static String getById = "SELECT * FROM client WHERE client_id = ?";
         public static String getAll = "SELECT * FROM client";
+        public static String getAllByName = "SELECT * FROM client WHERE full_name LIKE '%<query>%'"; 
         public static String delete = "DELETE FROM client WHERE client_id = ?";
         public static String getByEmail = "SELECT * FROM client WHERE email = ?";
         public static String update = "UPDATE client SET dni = ?, created_at = ?, subscription_until = ?, full_name = ?, email = ?, address = ?, phone = ? WHERE client_id = ?";

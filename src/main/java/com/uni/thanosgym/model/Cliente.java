@@ -56,4 +56,9 @@ public class Cliente extends Persona {
         this.direccion = Direccion;
     }
 
+    public Object[] showAll() {
+        Object[] lista = {  idField, dni, fullNameField, createdAtField, emailField, phoneField, direccion };
+        return lista;
+    }
+    
 }
