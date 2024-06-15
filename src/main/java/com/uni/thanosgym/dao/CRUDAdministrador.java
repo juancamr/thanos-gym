@@ -44,11 +44,11 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
             if (rs.next()) {
                 return new Response<Administrador>(true, generateObject(rs));
             } else {
-                return new Response<Administrador>(false);
+                return new Response<Administrador>(false, "El administrador no existe");
             }
         } catch (SQLException e) {
             System.out.println(e);
-            return new Response<Administrador>(false);
+            return new Response<Administrador>(false, "Error al verificar el administrador");
         }
     }
     
