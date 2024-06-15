@@ -6,7 +6,6 @@ public class Payment {
 
     Date createdAt;
     int id;
-    int ticketCode;
     int transactionCode;
     Cliente cliente;
     Plan plan;
@@ -15,15 +14,13 @@ public class Payment {
      * Constructor for Payment
      * 
      * @param createdAt
-     * @param ticketCode
      * @param transactionCode
      * @param cliente
      * @param plan
      * @return Payment
      */
-    public Payment(Date createdAt, int ticketCode, int transactionCode, Cliente cliente, Plan plan) {
+    public Payment(Date createdAt,  int transactionCode, Cliente cliente, Plan plan) {
         this.createdAt = createdAt;
-        this.ticketCode = ticketCode;
         this.transactionCode = transactionCode;
         this.cliente = cliente;
         this.plan = plan;
@@ -34,16 +31,14 @@ public class Payment {
      * 
      * @param id
      * @param createdAt
-     * @param ticketCode
      * @param transactionCode
      * @param cliente
      * @param plan
      * @return Payment
      */
-    public Payment(int id, Date createdAt, int ticketCode, int transactionCode, Cliente cliente, Plan plan) {
+    public Payment(int id, Date createdAt, int transactionCode, Cliente cliente, Plan plan) {
         this.createdAt = createdAt;
         this.id = id;
-        this.ticketCode = ticketCode;
         this.transactionCode = transactionCode;
         this.cliente = cliente;
         this.plan = plan;
@@ -57,14 +52,6 @@ public class Payment {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public int getTicketCode() {
-        return ticketCode;
-    }
-
-    public void setTicketCode(int ticketCode) {
-        this.ticketCode = ticketCode;
     }
 
     public int getTransactionCode() {

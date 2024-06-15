@@ -29,7 +29,7 @@ public class CRUDPaymentTest {
         plan.setId(crudPlan.create(plan).getId());
 
         //create payment
-        Payment payment = new Payment(new Date(), 30, 30, cliente, plan);
+        Payment payment = new Payment(new Date(), 30, cliente, plan);
         Response<Payment> resPayment = crudPayment.create(payment);
         assertEquals(true, resPayment.isSuccess());
 

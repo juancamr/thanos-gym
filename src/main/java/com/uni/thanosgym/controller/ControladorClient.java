@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 public class ControladorClient {
 
     public static PanelClient panel;
+    public static boolean panelIsRendered = false;
 
     public static void showPanel() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
@@ -41,10 +42,13 @@ public class ControladorClient {
         });
         panel.jtxtNombreClienteAgregar.setEnabled(false);
         panel.jtxtNombreClienteAgregar.setBackground(new Color(240, 240, 240));
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClient::buscar);
-        FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
-        FrameUtils.addEnterEvent(panel.jtxtTelefonoClienteAdd, ControladorClient::agregar);
+        if (!panelIsRendered) {
+            FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClient::buscar);
+            FrameUtils.addOnClickEvent(panel.jbtnAgregar, ControladorClient::agregar);
+            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::agregar);
+            FrameUtils.addEnterEvent(panel.jtxtTelefonoClienteAdd, ControladorClient::agregar);
+            panelIsRendered = true;
+        }
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
@@ -132,8 +136,9 @@ public class ControladorClient {
 
             Response<Cliente> res = CRUDCliente.getInstance().create(cli);
             if (res.isSuccess()) {
-                JTextField[] inputs = {panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
-                    panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
+                JTextField[] inputs = { panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar,
+                        panel.jtxtDireccionClienteAdd,
+                        panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
                 FrameUtils.clearInputs(inputs);
                 Messages.show("Cliente creado con exito");
                 Utils.sendMail("Gracias por suscribirte a Thanos Gym", cli.getEmail(), "Gracias por tu dinero");
@@ -142,7 +147,7 @@ public class ControladorClient {
             }
         }
     }
-    
+
     public static void buscar() {
         PanelClient panel = ControladorClient.getPanel();
         if (panel.jtxtDniCliente.getText().isEmpty()) {

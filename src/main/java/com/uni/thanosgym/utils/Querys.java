@@ -44,7 +44,7 @@ public class Querys {
     }
 
     public class payment {
-        public static String create = "INSERT INTO payment(created_at, ticket_code, client_id, plan_id, transaction_code) values(?, ?, ?, ?, ?)";
+        public static String create = "INSERT INTO payment(created_at, client_id, plan_id, transaction_code) values(?, ?, ?, ?)";
         public static String get = "select * from payment where payment_id=?";
         public static String delete = "DELETE from payment where payment_id=?";
     }

@@ -34,7 +34,6 @@ CREATE TABLE if not exists client (
 CREATE TABLE if not exists payment (
     payment_id INT NOT NULL AUTO_INCREMENT,
     created_at DATETIME NOT NULL,
-    ticket_code INT NOT NULL,
     client_id INT NOT NULL,
     plan_id INT NOT NULL,
     transaction_code INT NOT NULL,

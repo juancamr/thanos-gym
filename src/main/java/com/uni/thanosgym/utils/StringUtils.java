@@ -2,6 +2,7 @@
 package com.uni.thanosgym.utils;
 
 import java.security.MessageDigest;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,9 +13,10 @@ import java.util.Date;
 public class StringUtils {
 
     public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat spanishFormat = new SimpleDateFormat("dd-MM-yyyy");
     public static String usernameRegex = "^[a-z]{8,15}$";
     public static String passwordRegex = "^[a-z]{8,}$";
-
+    public static DecimalFormat decimalFormat = new DecimalFormat("00000000000");
 
     public static String sha256(final String base) {
         try {
@@ -34,6 +36,10 @@ public class StringUtils {
         }
     }
 
+    public static String parseIdBoleta(int id) {
+        return decimalFormat.format(id);
+    }
+
     public static boolean isValidEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         return email.matches(emailRegex);
@@ -47,13 +53,17 @@ public class StringUtils {
         return dni.matches("\\d{8}");
     }
 
+    public static String parseSpanishDate(Date date) {
+        return spanishFormat.format(date);
+    }
+
     public static String parseDate(Date date) {
         return sdf.format(date);
     }
 
     public static boolean isDecimal(String number) {
         return number.matches("^-?\\d+(\\.\\d+)?$");
-    } 
+    }
 
     public static boolean isInteger(String num) {
         return num.matches("[0-9]+");

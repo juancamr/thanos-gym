@@ -7,6 +7,7 @@ import com.uni.thanosgym.view.PanelDashboard;
 public class ControladorDashboard {
 
     public static PanelDashboard panel;
+    public static boolean panelRendered = false;
 
     public static void showPanel() {
         MainWindow vista = ControladorMainWindow.getMainWindow();

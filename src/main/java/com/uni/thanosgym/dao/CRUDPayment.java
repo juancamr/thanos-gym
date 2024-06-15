@@ -41,7 +41,7 @@ public class CRUDPayment extends BaseCrud<Payment> {
     public Payment generateObject(ResultSet rs) throws SQLException {
         Response<Cliente> resCliente = CRUDCliente.getInstance().getById(rs.getInt(4));
         Response<Plan> resPlan = CRUDPlan.getInstance().getById(rs.getInt(5));
-        return new Payment(rs.getInt(1), rs.getDate(2), rs.getInt(3), rs.getInt(4), resCliente.getData(),
+        return new Payment(rs.getInt(1), rs.getDate(2), rs.getInt(3), resCliente.getData(),
                 resPlan.getData());
     }
 
@@ -49,10 +49,9 @@ public class CRUDPayment extends BaseCrud<Payment> {
     public void sendObject(String consulta, Payment data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, StringUtils.parseDate(data.getCreatedAt()));
-        ps.setInt(2, data.getTicketCode());
-        ps.setInt(3, data.getCliente().getId());
-        ps.setInt(4, data.getPlan().getId());
-        ps.setInt(5, data.getTransactionCode());
+        ps.setInt(2, data.getCliente().getId());
+        ps.setInt(3, data.getPlan().getId());
+        ps.setInt(4, data.getTransactionCode());
     }
 
 }
