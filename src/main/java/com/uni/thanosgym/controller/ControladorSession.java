@@ -102,7 +102,9 @@ public class ControladorSession {
 
         if (response.isSuccess()) {
             view.dispose();
-            Auth.signIn(response.getData());
+            Administrador admin = response.getData();
+            admin.setId(response.getId());
+            Auth.signIn(admin);
         } else {
             Messages.show("No se pudo registrar el administrador");
         }

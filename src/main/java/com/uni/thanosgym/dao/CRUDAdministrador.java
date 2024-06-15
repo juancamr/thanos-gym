@@ -51,7 +51,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
             return new Response<Administrador>(false, "Error al verificar el administrador");
         }
     }
-    
+
     public Response<Administrador> getById(int id) {
         return baseGetById(Querys.admin.getById, id);
     }
@@ -63,7 +63,13 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
     @Override
     public Administrador generateObject(ResultSet rs) throws SQLException {
         return new Administrador.Builder()
-                .setFullName(rs.getString(1)).build();
+                .setId(rs.getInt(1))
+                .setFullName(rs.getString(2))
+                .setEmail(rs.getString(3))
+                .setPhone(rs.getInt(4))
+                .setUsername(rs.getString(5))
+                .setPassword(rs.getString(6))
+                .build();
     }
 
     @Override
