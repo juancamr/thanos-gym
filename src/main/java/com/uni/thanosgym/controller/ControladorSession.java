@@ -74,7 +74,7 @@ public class ControladorSession {
             Messages.show("Contraseña invalida, recuerda que debe ser almenos de 8 caracteres");
             return;
         }
-        if (!phone.isEmpty() || !StringUtils.isValidPhone(phone)) {
+        if (!phone.isEmpty() && !StringUtils.isValidPhone(phone)) {
             Messages.show("El telefono debe ser un numero de 9 digitos.");
             return;
         }
@@ -82,7 +82,7 @@ public class ControladorSession {
             Messages.show("Las contraseñas no coinciden");
             return;
         }
-        if (StringUtils.isValidEmail(email)) {
+        if (!StringUtils.isValidEmail(email)) {
             Messages.show("Ingrese un correo valido");
             return;
         }

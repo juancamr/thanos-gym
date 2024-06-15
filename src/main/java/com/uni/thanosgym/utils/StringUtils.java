@@ -40,7 +40,7 @@ public class StringUtils {
     }
 
     public static boolean isValidPhone(String phone) {
-        return phone.matches( "[0-9]{9}");
+        return phone.matches("[0-9]{9}");
     }
 
     public static boolean isValidDni(String dni) {
