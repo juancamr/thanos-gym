@@ -25,6 +25,7 @@ import com.uni.thanosgym.utils.ResponseByCliente;
 import com.google.gson.Gson;
 import com.uni.thanosgym.dao.CRUDPayment;
 import com.uni.thanosgym.model.Payment;
+import java.util.Random;
 
 import javax.swing.JTextField;
 
@@ -132,32 +133,33 @@ public class ControladorClient {
 
             Response<Cliente> res = CRUDCliente.getInstance().create(cli);
             if (res.isSuccess()) {
-                // new payment
-                Cliente createdCliente = res.getData();
-                Payment payment = new Payment(new Date(), generateTicketCode(), generateTransactionCode(), createdCliente, plan);
+                Cliente clienteCreado = res.getData();
 
+                // Crear el Payment asociado
+                Payment payment = new Payment(new Date(), generateTicketCode(), generateTransactionCode(), clienteCreado, plan);
                 Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
+
                 if (paymentResponse.isSuccess()) {
                     JTextField[] inputs = {panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar, panel.jtxtDireccionClienteAdd,
                         panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
                     FrameUtils.clearInputs(inputs);
-                    Messages.show("Cliente y pago creados con éxito");
+                    Messages.show("Cliente y pago creados con exito");
                     Utils.sendMail("Gracias por suscribirte a Thanos Gym", cli.getEmail(), "Gracias por tu dinero");
                 } else {
-                    Messages.show("No se pudo registrar el pago del cliente");
+                    Messages.show("Error al crear el pago: " + paymentResponse.getMessage());
                 }
             } else {
-                Messages.show(response.getMessage());
+                Messages.show(res.getMessage());
             }
         }
     }
 
     private static int generateTicketCode() {
-        return (int) (Math.random() * 1000000);
+        return new Random().nextInt(100000);
     }
 
     private static int generateTransactionCode() {
-        return (int) (Math.random() * 1000000);
+        return new Random().nextInt(100000);
     }
 
 }

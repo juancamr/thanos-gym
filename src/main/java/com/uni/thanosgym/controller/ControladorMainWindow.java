@@ -25,7 +25,7 @@ public class ControladorMainWindow {
         vista.jbtnPrimero.setText("    Dashboard");
         vista.jbtnSegundo.setText("    Planes");
         vista.jbtnTercero.setText("    Clientes");
-        vista.jbtnCuarto.setVisible(false);
+        vista.jbtnCuarto.setText("    Buscar");
         vista.jbtnQuinto.setVisible(false);
        
         // on click events
@@ -41,10 +41,10 @@ public class ControladorMainWindow {
             ControladorClient.showPanel();
             setFocusButton(vista.jbtnTercero);
         });
-//        FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
-//            ControladorClientBuscar.showPanel();
-//            setFocusButton(vista.jbtnCuarto);
-//        });
+        FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
+            ControladorClientBuscar.showPanel();
+            setFocusButton(vista.jbtnCuarto);
+        });
         FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
             System.out.println("fifth section");
         });

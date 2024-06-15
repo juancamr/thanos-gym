@@ -26,8 +26,35 @@ public class CRUDPayment extends BaseCrud<Payment> {
     }
 
     public Response<Payment> create(Payment payment) {
-        return baseCreate(payment, Querys.payment.create);
-    }
+        try {
+            // Verificar si el cliente ya existe por email
+            Cliente cliente = payment.getCliente();
+            PreparedStatement psCliente = connection.prepareStatement(Querys.cliente.getByEmail);
+            psCliente.setString(1, cliente.getEmail());
+            ResultSet rsCliente = psCliente.executeQuery();
+
+            if (rsCliente.next()) {
+                // Cliente ya existe, obtener su ID
+                cliente.setId(rsCliente.getInt(Cliente.idField));
+            } else {
+                // Cliente no existe, crearlo
+                CRUDCliente crudCliente = CRUDCliente.getInstance();
+                Response<Cliente> responseCliente = crudCliente.create(cliente);
+                if (!responseCliente.isSuccess()) {
+                    return new Response<>(false, "No se pudo crear el cliente: " + responseCliente.getMessage());
+                }
+                cliente = responseCliente.getData();
+            }
+
+            // Crear el pago con el cliente existente o nuevo
+            payment.setCliente(cliente);
+
+            // Llamar a baseCreate para insertar el pago en la base de datos
+            return baseCreate(payment, Querys.payment.create);
+        } catch (SQLException e) {
+            return new Response<>(false, "Error: " + e.getMessage());
+        }
+    }  
 
     public Response<Payment> getById(int id) {
         return baseGetById(Querys.payment.get, id);
@@ -43,14 +70,16 @@ public class CRUDPayment extends BaseCrud<Payment> {
             ps.setInt(1, clientId);
             rs = ps.executeQuery();
             if (rs.next()) {
-                return new Response<Payment>(true, "Pago encontrado");
+                Payment payment = generateObject(rs);
+                return new Response<>(true, "Pago encontrado", payment);
             } else {
-                return new Response<Payment>(false, "No se encontró el pago");
+                return new Response<>(false, "No se encontró el pago");
             }
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
     }
+
 
     @Override
     public Payment generateObject(ResultSet rs) throws SQLException {

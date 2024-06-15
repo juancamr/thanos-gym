@@ -34,7 +34,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             return somethingWentWrong(e);
         }
     }
-
+    
     public Response<Cliente> getById(int id) {
         return baseGetById(Querys.cliente.getById, id);
     }

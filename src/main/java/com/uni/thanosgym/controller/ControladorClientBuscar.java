@@ -27,9 +27,7 @@ public class ControladorClientBuscar {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelClientBuscar panel = ControladorClientBuscar.getPanel();
         FrameUtils.showPanel(vista, panel);
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, () -> {
-            ControladorClientBuscar.buscar();
-        });
+        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::buscar);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editar);
         FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClientBuscar::renovar);
 
@@ -37,8 +35,8 @@ public class ControladorClientBuscar {
         if (response.isSuccess()) {
             List<Plan> listaPlanes = response.getDataList();
             panel.jcbxPlanRegistro.removeAllItems();
-            for (int i = 0; i < listaPlanes.size(); i++) {
-                panel.jcbxPlanRegistro.addItem(listaPlanes.get(i).getName());
+            for (Plan plan : listaPlanes) {
+                panel.jcbxPlanRegistro.addItem(plan.getName());
             }
         } else {
             Messages.show(response.getMessage());
@@ -70,30 +68,26 @@ public class ControladorClientBuscar {
                         Response<Payment> paymentResponse = CRUDPayment.getInstance().getByCliente(cli.getId());
                         if (paymentResponse.isSuccess()) {
                             Payment payment = paymentResponse.getData();
-                            if (payment != null) {
-                                Date fechaActual = new Date();
-                                Date fechaFinal = cli.getSubscription_until();
+                            Date fechaActual = new Date();
+                            Date fechaFinal = cli.getSubscription_until();
 
-                                if (fechaFinal != null) {
-                                    if (fechaActual.after(fechaFinal)) {
-                                        // Plan vencido
-                                        panel.jPanelEstado.setBackground(Color.RED);
-                                        panel.jtxtPlanActual.setText("Plan vencido");
-                                    } else {
-                                        // Plan válido
-                                        panel.jPanelEstado.setBackground(Color.GREEN);
-                                        panel.jtxtPlanActual.setText(payment.getPlan().getName());
-                                    }
+                            if (fechaFinal != null) {
+                                if (fechaActual.after(fechaFinal)) {
+                                    // Plan vencido
+                                    panel.jPanelEstado.setBackground(Color.RED);
+                                    panel.jtxtPlanActual.setText("Plan vencido");
                                 } else {
-                                    panel.jPanelEstado.setBackground(Color.GRAY);
-                                    panel.jtxtPlanActual.setText("Plan no asignado");
+                                    // Plan válido
+                                    panel.jPanelEstado.setBackground(Color.GREEN);
+                                    panel.jtxtPlanActual.setText(payment.getPlan().getName());
                                 }
                             } else {
                                 panel.jPanelEstado.setBackground(Color.GRAY);
-                                panel.jtxtPlanActual.setText("Pago no encontrado");
+                                panel.jtxtPlanActual.setText("Plan no asignado");
                             }
                         } else {
-                            Messages.show("No se pudo obtener el pago del cliente");
+                            panel.jPanelEstado.setBackground(Color.GRAY);
+                            panel.jtxtPlanActual.setText("Pago no encontrado");
                         }
                     }
                 } else {
