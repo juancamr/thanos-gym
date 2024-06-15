@@ -39,12 +39,13 @@ public class MainWindow extends javax.swing.JFrame {
         jpnlBarra = new javax.swing.JPanel();
         jbtnPrimero = new javax.swing.JButton();
         jbtnQuinto = new javax.swing.JButton();
-        jbtnTercero = new javax.swing.JButton();
-        jbtnCuarto = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jbtnSegundo = new javax.swing.JButton();
         jlblNombreAdministrador = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jbtnSegundo = new javax.swing.JButton();
+        jbtnSexto = new javax.swing.JButton();
+        jbtnCuarto = new javax.swing.JButton();
+        jbtnTercero = new javax.swing.JButton();
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -113,32 +114,13 @@ public class MainWindow extends javax.swing.JFrame {
         jbtnQuinto.setFocusable(false);
         jbtnQuinto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jbtnQuinto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                jbtnQuintoMouseDragged(evt);
-            }
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 jbtnQuintoMouseMoved(evt);
-            }
-        });
-        jbtnQuinto.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jbtnQuintoFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jbtnQuintoFocusLost(evt);
-            }
-        });
-        jbtnQuinto.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                jbtnQuintoMouseWheelMoved(evt);
             }
         });
         jbtnQuinto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnQuintoMouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jbtnQuintoMouseReleased(evt);
             }
         });
         jbtnQuinto.addActionListener(new java.awt.event.ActionListener() {
@@ -146,7 +128,100 @@ public class MainWindow extends javax.swing.JFrame {
                 jbtnQuintoActionPerformed(evt);
             }
         });
-        jpnlBarra.add(jbtnQuinto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 130, 50));
+        jpnlBarra.add(jbtnQuinto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 130, 50));
+
+        jLabel2.setBackground(new java.awt.Color(241, 240, 243));
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
+        jLabel2.setText("ThanosGym");
+        jpnlBarra.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
+
+        jlblNombreAdministrador.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
+        jlblNombreAdministrador.setForeground(new java.awt.Color(181, 181, 186));
+        jlblNombreAdministrador.setText("Administrador");
+        jpnlBarra.add(jlblNombreAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, 140, -1));
+
+        jLabel9.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel9.setText("MAIN MENU");
+        jpnlBarra.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+
+        jbtnSegundo.setBackground(new java.awt.Color(250, 250, 250));
+        jbtnSegundo.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
+        jbtnSegundo.setText("    Segundo");
+        jbtnSegundo.setBorder(null);
+        jbtnSegundo.setFocusable(false);
+        jbtnSegundo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbtnSegundo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jbtnSegundoMouseMoved(evt);
+            }
+        });
+        jbtnSegundo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnSegundoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jbtnSegundoMouseExited(evt);
+            }
+        });
+        jbtnSegundo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSegundoActionPerformed(evt);
+            }
+        });
+        jpnlBarra.add(jbtnSegundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 130, 50));
+
+        jbtnSexto.setBackground(new java.awt.Color(250, 250, 250));
+        jbtnSexto.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
+        jbtnSexto.setText("    Sexto");
+        jbtnSexto.setBorder(null);
+        jbtnSexto.setFocusable(false);
+        jbtnSexto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbtnSexto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jbtnSextoMouseMoved(evt);
+            }
+        });
+        jbtnSexto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnSextoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jbtnSextoMouseExited(evt);
+            }
+        });
+        jbtnSexto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSextoActionPerformed(evt);
+            }
+        });
+        jpnlBarra.add(jbtnSexto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, 130, 50));
+
+        jbtnCuarto.setBackground(new java.awt.Color(250, 250, 250));
+        jbtnCuarto.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
+        jbtnCuarto.setText("    Cuarto");
+        jbtnCuarto.setBorder(null);
+        jbtnCuarto.setFocusable(false);
+        jbtnCuarto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbtnCuarto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jbtnCuartoMouseMoved(evt);
+            }
+        });
+        jbtnCuarto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnCuartoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jbtnCuartoMouseExited(evt);
+            }
+        });
+        jbtnCuarto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCuartoActionPerformed(evt);
+            }
+        });
+        jpnlBarra.add(jbtnCuarto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 130, 50));
 
         jbtnTercero.setBackground(new java.awt.Color(250, 250, 250));
         jbtnTercero.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
@@ -172,87 +247,7 @@ public class MainWindow extends javax.swing.JFrame {
                 jbtnTerceroActionPerformed(evt);
             }
         });
-        jpnlBarra.add(jbtnTercero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 130, 50));
-
-        jbtnCuarto.setBackground(new java.awt.Color(250, 250, 250));
-        jbtnCuarto.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
-        jbtnCuarto.setText("    Cuarto");
-        jbtnCuarto.setBorder(null);
-        jbtnCuarto.setFocusable(false);
-        jbtnCuarto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jbtnCuarto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jbtnCuartoMouseMoved(evt);
-            }
-        });
-        jbtnCuarto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jbtnCuartoMouseExited(evt);
-            }
-        });
-        jbtnCuarto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCuartoActionPerformed(evt);
-            }
-        });
-        jpnlBarra.add(jbtnCuarto, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 130, 50));
-
-        jLabel2.setBackground(new java.awt.Color(241, 240, 243));
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 26)); // NOI18N
-        jLabel2.setText("ThanosGym");
-        jpnlBarra.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
-
-        jbtnSegundo.setBackground(new java.awt.Color(250, 250, 250));
-        jbtnSegundo.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
-        jbtnSegundo.setText("    Segundo");
-        jbtnSegundo.setBorder(null);
-        jbtnSegundo.setFocusable(false);
-        jbtnSegundo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jbtnSegundo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-        });
-        jbtnSegundo.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jbtnClienteFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jbtnClienteFocusLost(evt);
-            }
-        });
-        jbtnSegundo.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                jbtnClienteMouseWheelMoved(evt);
-            }
-        });
-        jbtnSegundo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnClienteMouseClicked(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jbtnClienteMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jbtnClienteMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jbtnClienteMouseReleased(evt);
-            }
-        });
-        jbtnSegundo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnClienteActionPerformed(evt);
-            }
-        });
-        jpnlBarra.add(jbtnSegundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 130, 50));
-
-        jlblNombreAdministrador.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
-        jlblNombreAdministrador.setForeground(new java.awt.Color(181, 181, 186));
-        jlblNombreAdministrador.setText("Administrador");
-        jpnlBarra.add(jlblNombreAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, 140, -1));
-
-        jLabel9.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel9.setText("MAIN MENU");
-        jpnlBarra.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, -1, -1));
+        jpnlBarra.add(jbtnTercero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 130, 50));
 
         getContentPane().add(jpnlBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 690));
 
@@ -288,104 +283,88 @@ public class MainWindow extends javax.swing.JFrame {
     private void jbtnPrimeroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnPrimeroMouseExited
     }//GEN-LAST:event_jbtnPrimeroMouseExited
 
-    private void jbtnCuartoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCuartoMouseExited
-    }//GEN-LAST:event_jbtnCuartoMouseExited
-
-    private void jbtnCuartoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCuartoMouseMoved
-    }//GEN-LAST:event_jbtnCuartoMouseMoved
-
-    private void jbtnQuintoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnQuintoMouseDragged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnQuintoMouseDragged
+    private void jbtnQuintoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnQuintoMouseExited
+    }//GEN-LAST:event_jbtnQuintoMouseExited
 
     private void jbtnQuintoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnQuintoMouseMoved
     }//GEN-LAST:event_jbtnQuintoMouseMoved
 
-    private void jbtnQuintoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnQuintoFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnQuintoFocusGained
-
-    private void jbtnQuintoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnQuintoFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnQuintoFocusLost
-
-    private void jbtnQuintoMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jbtnQuintoMouseWheelMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnQuintoMouseWheelMoved
-
-    private void jbtnQuintoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnQuintoMouseExited
-    }//GEN-LAST:event_jbtnQuintoMouseExited
-
-    private void jbtnQuintoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnQuintoMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnQuintoMouseReleased
-
     private void jbtnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {
-    }//GEN-LAST:event_jbtnPrimeroActionPerformed
-
-    private void jbtnClienteMouseDragged() {//GEN-FIRST:event_jbtnClienteMouseDragged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnClienteMouseDragged
-
-    private void jbtnClienteMouseMoved(java.awt.event.MouseEvent evt) {
-    }//GEN-LAST:event_jbtnClienteMouseMoved
-    
-    private void jbtnClienteFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnClienteFocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnClienteFocusGained
-
-    private void jbtnClienteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jbtnClienteFocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnClienteFocusLost
-
-    private void jbtnClienteMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jbtnClienteMouseWheelMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnClienteMouseWheelMoved
-
-    private void jbtnClienteMouseExited(java.awt.event.MouseEvent evt) {
-    }//GEN-LAST:event_jbtnClienteMouseExited
-
-    private void jbtnClienteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnClienteMouseReleased
-
-    private void jbtnClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMouseClicked
-        //
-    }//GEN-LAST:event_jbtnClienteMouseClicked
-
-    private void jbtnClienteActionPerformed(java.awt.event.ActionEvent evt) {
-    }//GEN-LAST:event_jbtnClienteActionPerformed
-
-    private void jbtnCuartoActionPerformed(java.awt.event.ActionEvent evt) {
-    }//GEN-LAST:event_jbtnCuartoActionPerformed
+    }                                           
 
     private void jbtnQuintoActionPerformed(java.awt.event.ActionEvent evt) {
-    }//GEN-LAST:event_jbtnQuintoActionPerformed
+    }                                          
 
     private void jbtnPrimeroMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnPrimeroMousePressed
         
     }//GEN-LAST:event_jbtnPrimeroMousePressed
 
-    private void jbtnClienteMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnClienteMousePressed
-        
-    }//GEN-LAST:event_jbtnClienteMousePressed
-
     private void jbtnPrimeroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnPrimeroMouseClicked
         
     }//GEN-LAST:event_jbtnPrimeroMouseClicked
 
-    private void jbtnTerceroActionPerformed(java.awt.event.ActionEvent evt) {
-    }//GEN-LAST:event_jbtnTerceroActionPerformed
+    private void jbtnSegundoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSegundoMouseMoved
 
-    private void jbtnTerceroMouseExited(java.awt.event.MouseEvent evt) {
-    }//GEN-LAST:event_jbtnTerceroMouseExited
+    private void jbtnSegundoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSegundoMouseClicked
+
+    private void jbtnSegundoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSegundoMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSegundoMouseExited
+
+    private void jbtnSegundoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSegundoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSegundoActionPerformed
+
+    private void jbtnSextoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSextoMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSextoMouseMoved
+
+    private void jbtnSextoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSextoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSextoMouseClicked
+
+    private void jbtnSextoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnSextoMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSextoMouseExited
+
+    private void jbtnSextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSextoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSextoActionPerformed
+
+    private void jbtnCuartoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCuartoMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCuartoMouseMoved
+
+    private void jbtnCuartoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCuartoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCuartoMouseClicked
+
+    private void jbtnCuartoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnCuartoMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCuartoMouseExited
+
+    private void jbtnCuartoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCuartoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCuartoActionPerformed
 
     private void jbtnTerceroMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnTerceroMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnTerceroMouseClicked
 
+    private void jbtnTerceroMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnTerceroMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnTerceroMouseExited
+
+    private void jbtnTerceroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnTerceroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnTerceroActionPerformed
+
     private void jbtnTerceroMouseMoved(java.awt.event.MouseEvent evt) {
-    }//GEN-LAST:event_jbtnTerceroMouseMoved
+    }                                      
 
     /**
      * @param args the command line arguments
@@ -433,10 +412,11 @@ public class MainWindow extends javax.swing.JFrame {
     public javax.swing.JPanel content;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
-    public javax.swing.JButton jbtnSegundo;
     public javax.swing.JButton jbtnCuarto;
     public javax.swing.JButton jbtnPrimero;
     public javax.swing.JButton jbtnQuinto;
+    public javax.swing.JButton jbtnSegundo;
+    public javax.swing.JButton jbtnSexto;
     public javax.swing.JButton jbtnTercero;
     public javax.swing.JLabel jlblNombreAdministrador;
     private javax.swing.JPanel jpnlBarra;

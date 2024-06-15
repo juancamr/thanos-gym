@@ -35,6 +35,16 @@ public class CRUDProducto extends BaseCrud<Producto> {
         return baseDeleteById(Querys.producto.delete, id);
     }
 
+    public Response<Producto> getAll() {
+        return baseGetAll(Querys.producto.getAll);
+    }
+
+    public Response<Producto> getAllByName(String query) {
+        String consulta = Querys.producto.getAllByName;
+        System.out.println(consulta.replace("<query>", query));
+        return baseGetAll(consulta.replace("<query>", query));
+    }
+
     public Response<Producto> update(Producto producto) {
         try {
             sendObject(Querys.producto.update, producto);
@@ -47,21 +57,21 @@ public class CRUDProducto extends BaseCrud<Producto> {
         }
     }
 
-	@Override
-	public Producto generateObject(ResultSet rs) throws SQLException {
+    @Override
+    public Producto generateObject(ResultSet rs) throws SQLException {
         Producto producto = new Producto();
         producto.setId(rs.getInt(1));
         producto.setNombre(rs.getString(2));
         producto.setCantidad(rs.getInt(3));
         producto.setPrecio(rs.getDouble(4));
         return producto;
-	}
+    }
 
-	@Override
-	public void sendObject(String consulta, Producto data) throws SQLException {
+    @Override
+    public void sendObject(String consulta, Producto data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getNombre());
         ps.setInt(2, data.getCantidad());
         ps.setDouble(3, data.getPrecio());
-	}
+    }
 }

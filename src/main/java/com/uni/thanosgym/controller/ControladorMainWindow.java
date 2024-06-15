@@ -26,7 +26,8 @@ public class ControladorMainWindow {
         vista.jbtnSegundo.setText("    Planes");
         vista.jbtnTercero.setText("    Clientes");
         vista.jbtnCuarto.setText("    Buscar");
-        vista.jbtnQuinto.setVisible(false);
+        vista.jbtnQuinto.setText("    Producto");
+        vista.jbtnSexto.setText("    Utilidad");
        
         // on click events
         FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
@@ -46,7 +47,12 @@ public class ControladorMainWindow {
             setFocusButton(vista.jbtnCuarto);
         });
         FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
-            System.out.println("fifth section");
+            ControladorProducto.showPanel();
+            setFocusButton(vista.jbtnQuinto);
+        });
+        FrameUtils.addOnClickEvent(vista.jbtnSexto, () -> {
+            ControladorUtilidad.showPanel();
+            setFocusButton(vista.jbtnSexto);
         });
 
         vista.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
@@ -75,13 +81,13 @@ public class ControladorMainWindow {
         vista.jbtnSegundo.setForeground(foregroundColorBase);
         vista.jbtnSegundo.setFont(fontBase);
 
-        vista.jbtnTercero.setBackground(base);
-        vista.jbtnTercero.setForeground(foregroundColorBase);
-        vista.jbtnTercero.setFont(fontBase);
-
         vista.jbtnCuarto.setBackground(base);
         vista.jbtnCuarto.setForeground(foregroundColorBase);
         vista.jbtnCuarto.setFont(fontBase);
+
+        vista.jbtnQuinto.setBackground(base);
+        vista.jbtnQuinto.setForeground(foregroundColorBase);
+        vista.jbtnQuinto.setFont(fontBase);
 
         vista.jbtnQuinto.setBackground(base);
         vista.jbtnQuinto.setForeground(foregroundColorBase);

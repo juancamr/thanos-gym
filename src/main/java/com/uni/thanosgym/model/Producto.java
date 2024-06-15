@@ -60,4 +60,9 @@ public class Producto {
         this.precio = precio;
     }
 
+    public Object[] showAll() {
+        Object[] lista = { id, nombre, cantidad, precio };
+        return lista;
+    }
+
 }
