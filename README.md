@@ -19,15 +19,15 @@ GMAIL_PASSWORD=<solicitar-password>
 - [x] eliminar plan
 - [x] editar plan
 - [x] registrar a un nuevo cliente al gimnasio
-- [ ] buscar un cliente atraves del dni
-- [ ] editar cliente
-- [ ] renovar membresia cliente
+- [x] buscar un cliente atraves del dni
+- [x] editar cliente
+- [x] renovar membresia cliente
 - [x] autocompletar datos del cliente con su dni al registrar (beta)
 - [ ] enviar correo de confirmacion cuando te suscribes a la membresia, boleta del gimnasio (beta)
 - [ ] congelar membresia del cliente
 - [ ] cuanto tiempo le queda a su suscripcion cuando se busca al cliente (verde mas de un mes, rojo menos de una semana)
-- [ ] extender su membresia con el mismo o otro plan
-- [ ] buscar en tiempo real en una tabla de clientes
+- [x] extender su membresia con el mismo o otro plan
+- [x] buscar en tiempo real en una tabla de clientes
 - [x] que la sesion persista (no es necesario tener que estar iniciando sesion cada vez que el programa se cierra)
 - [ ] agregar producto (suplemento)
 - [ ] eliminar producto (suplemento)
