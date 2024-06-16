@@ -43,14 +43,15 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jSeparator20 = new javax.swing.JSeparator();
         jLabel27 = new javax.swing.JLabel();
         jbtnEditar = new javax.swing.JButton();
-        jcbxPlanRegistro = new javax.swing.JComboBox<>();
         jPanelEstado = new javax.swing.JPanel();
-        jSeparator4 = new javax.swing.JSeparator();
-        jLabel3 = new javax.swing.JLabel();
-        jtxtPlanActual = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        jtxtPlanActual = new javax.swing.JTextField();
+        jSeparator4 = new javax.swing.JSeparator();
+        jcbxPlanRegistro = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
         jbtnBoletas = new javax.swing.JButton();
         jbtnCongelar = new javax.swing.JButton();
+        jbtnRegistrar = new javax.swing.JButton();
         jbtnRenovar = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(840, 690));
@@ -165,16 +166,7 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jbtnEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(jbtnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 590, 160, 40));
-
-        jpnlInterfaz.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
-
-        jcbxPlanRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbxPlanRegistroActionPerformed(evt);
-            }
-        });
-        jpnlInterfaz.add(jcbxPlanRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, 120, 30));
+        jPanel1.add(jbtnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 710, 230, 40));
 
         javax.swing.GroupLayout jPanelEstadoLayout = new javax.swing.GroupLayout(jPanelEstado);
         jPanelEstado.setLayout(jPanelEstadoLayout);
@@ -187,15 +179,12 @@ public class PanelClientBuscar extends javax.swing.JPanel {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jpnlInterfaz.add(jPanelEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 170, 60, 20));
+        jPanel1.add(jPanelEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 550, 60, 20));
 
-        jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
-        jpnlInterfaz.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 290, 200, 10));
-
-        jLabel3.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(105, 105, 118));
-        jLabel3.setText("Nuevo Plan");
-        jpnlInterfaz.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 330, 160, 30));
+        jLabel4.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(105, 105, 118));
+        jLabel4.setText("Plan Actual");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 160, 30));
 
         jtxtPlanActual.setBackground(new java.awt.Color(250, 250, 250));
         jtxtPlanActual.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -206,23 +195,35 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jtxtPlanActualActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jtxtPlanActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 260, 200, 30));
+        jPanel1.add(jtxtPlanActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 550, 200, 30));
 
-        jLabel4.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(105, 105, 118));
-        jLabel4.setText("Plan Actual");
-        jpnlInterfaz.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 230, 160, 30));
+        jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 580, 200, 10));
+
+        jcbxPlanRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcbxPlanRegistroActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jcbxPlanRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 630, 120, 30));
+
+        jLabel3.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(105, 105, 118));
+        jLabel3.setText("Nuevo Plan");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 600, 160, 30));
+
+        jpnlInterfaz.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
 
         jbtnBoletas.setBackground(new java.awt.Color(20, 23, 31));
         jbtnBoletas.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
         jbtnBoletas.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnBoletas.setText("BOLETAS");
+        jbtnBoletas.setText("LISTA CLIENTES");
         jbtnBoletas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnBoletasActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 510, 160, 40));
+        jpnlInterfaz.add(jbtnBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 270, 250, 40));
 
         jbtnCongelar.setBackground(new java.awt.Color(20, 23, 31));
         jbtnCongelar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
@@ -233,7 +234,18 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jbtnCongelarActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnCongelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 590, 160, 40));
+        jpnlInterfaz.add(jbtnCongelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 210, 250, 40));
+
+        jbtnRegistrar.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnRegistrar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnRegistrar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnRegistrar.setText("REGISTRAR NUEVO");
+        jbtnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnRegistrarActionPerformed(evt);
+            }
+        });
+        jpnlInterfaz.add(jbtnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 250, 40));
 
         jbtnRenovar.setBackground(new java.awt.Color(20, 23, 31));
         jbtnRenovar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
@@ -244,7 +256,7 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jbtnRenovarActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnRenovar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 590, 160, 40));
+        jpnlInterfaz.add(jbtnRenovar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 250, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -302,6 +314,10 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnRenovarActionPerformed
 
+    private void jbtnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegistrarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnRegistrarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -322,6 +338,7 @@ public class PanelClientBuscar extends javax.swing.JPanel {
     public javax.swing.JButton jbtnBuscarCliente;
     public javax.swing.JButton jbtnCongelar;
     public javax.swing.JButton jbtnEditar;
+    public javax.swing.JButton jbtnRegistrar;
     public javax.swing.JButton jbtnRenovar;
     public javax.swing.JComboBox<String> jcbxPlanRegistro;
     private javax.swing.JPanel jpnlInterfaz;
