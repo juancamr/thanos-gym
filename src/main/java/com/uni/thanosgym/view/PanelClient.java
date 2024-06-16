@@ -49,6 +49,7 @@ public class PanelClient extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jcbxPlanRegistro = new javax.swing.JComboBox<>();
         jblLoading = new javax.swing.JLabel();
+        jbtnCancelar = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(840, 690));
 
@@ -95,11 +96,11 @@ public class PanelClient extends javax.swing.JPanel {
                 jbtnAgregarActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 530, 120, 40));
+        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 600, 140, 40));
 
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 590, 310, 40));
+        jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 310, 40));
 
         jtxtNombreClienteAgregar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtNombreClienteAgregar.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -181,6 +182,17 @@ public class PanelClient extends javax.swing.JPanel {
         jPanel3.add(jcbxPlanRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 490, 120, 30));
         jPanel3.add(jblLoading, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 540, 160, 30));
 
+        jbtnCancelar.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnCancelar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnCancelar.setForeground(new java.awt.Color(241, 240, 243));
+        jbtnCancelar.setText("CANCELAR");
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jbtnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 600, 140, 40));
+
         jpnlInterfaz.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -223,6 +235,10 @@ public class PanelClient extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jpnlInterfazMouseClicked
 
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel13;
@@ -240,6 +256,7 @@ public class PanelClient extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator4;
     public javax.swing.JLabel jblLoading;
     public javax.swing.JButton jbtnAgregar;
+    public javax.swing.JButton jbtnCancelar;
     public javax.swing.JComboBox<String> jcbxPlanRegistro;
     public javax.swing.JLabel jlblExito;
     private javax.swing.JPanel jpnlInterfaz;
