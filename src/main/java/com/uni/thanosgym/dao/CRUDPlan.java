@@ -46,14 +46,14 @@ public class CRUDPlan extends BaseCrud<Plan> {
         return baseGetAll(Querys.plan.getAll);
     }
 
-    public Response<Plan> delete(int id) {
+    public Response<Plan> deleteOnlyForTesting(int id) {
         return baseDeleteById(Querys.plan.delete, id);
     }
 
     public Response<Plan> update(Plan plan) {
         try {
             sendObject(Querys.plan.update, plan);
-            ps.setInt(4, plan.getId());
+            ps.setInt(5, plan.getId());
             ps.executeUpdate();
             ps.close();
             return new Response<Plan>(true, "Datos actualizados con exito");
@@ -65,10 +65,11 @@ public class CRUDPlan extends BaseCrud<Plan> {
     @Override
     public Plan generateObject(ResultSet rs) throws SQLException {
         return new Plan(
-                rs.getInt(Plan.idField),
-                rs.getString(Plan.nameField),
-                rs.getDouble(Plan.priceField),
-                rs.getInt(Plan.durationField));
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getDouble(3),
+                rs.getInt(4),
+                rs.getString(5));
     }
 
     @Override
@@ -77,6 +78,7 @@ public class CRUDPlan extends BaseCrud<Plan> {
         ps.setString(1, data.getName());
         ps.setDouble(2, data.getPrice());
         ps.setInt(3, data.getDurationDays());
+        ps.setString(4, data.getIndicador());
     }
 
 }

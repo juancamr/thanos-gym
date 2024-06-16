@@ -29,7 +29,7 @@ public class ControladorPlan {
      * @param v   Ventana principal donde se renderizara el panel
      * @param pan Panel principal
      */
-    public static void showHomePanel() {
+    public static void showPanel() {
         PanelPlan panel = new PanelPlan();
         MainWindow vista = ControladorMainWindow.getMainWindow();
         panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
@@ -79,20 +79,18 @@ public class ControladorPlan {
         FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> insertData(vistaPlan, false, plan.getId()));
     }
 
-    /**
-     * Eliminar un plan
-     *
-     * @param plan Plan a eliminar
-     */
     public static void deletePlan(Plan plan) {
         boolean allowed = Messages.confirm("Estas seguro que desea eliminar el plan " + plan.getName(),
                 "Eliminar plan");
         if (!allowed)
             return;
-        Response<Plan> response = CRUDPlan.getInstance().delete(plan.getId());
-        if (!response.isSuccess())
+        plan.setIndicador("F");
+        Response<Plan> response = CRUDPlan.getInstance().update(plan);
+        if (!response.isSuccess()) {
             Messages.show(response.getMessage());
-        showHomePanel();
+            return;
+        }
+        showPanel();
     }
 
     /**
@@ -115,7 +113,7 @@ public class ControladorPlan {
                 return;
             }
             Response<Plan> response;
-            Plan plan = new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion));
+            Plan plan = new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion), "V");
             if (isForAdd) {
                 response = CRUDPlan.getInstance().create(plan);
             } else {
@@ -129,7 +127,7 @@ public class ControladorPlan {
                     Messages.show("Plan actualizado con exito");
 
                 vistaPlan.dispose();
-                showHomePanel();
+                showPanel();
             } else {
                 Messages.show(response.getMessage());
             }
@@ -144,6 +142,13 @@ public class ControladorPlan {
      */
     public static void createPanelList(List<Plan> dataList, JPanel mainPanel) {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        if (dataList.isEmpty()) {
+            JLabel emptyLabel = new JLabel();
+            emptyLabel.setText("No hay planes registrados");
+            emptyLabel.setBounds(0, 0, 100, 50);
+            mainPanel.add(emptyLabel);
+            return;
+        }
 
         for (Plan plan : dataList) {
             JPanel panel = new JPanel();

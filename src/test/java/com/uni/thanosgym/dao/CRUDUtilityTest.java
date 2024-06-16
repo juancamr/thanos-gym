@@ -1,20 +1,20 @@
 package com.uni.thanosgym.dao;
 
 import com.uni.thanosgym.model.Response;
-import com.uni.thanosgym.model.Utility;
+import com.uni.thanosgym.model.Utilidad;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 public class CRUDUtilityTest {
 
-    CRUDUtility crudUtility = CRUDUtility.getInstance();
+    CRUDUtilidad crudUtility = CRUDUtilidad.getInstance();
 
     @Test
     public void mainTest() {
         // create
-        Utility utility = new Utility("Test Utility", 100, 30);
-        Response<Utility> response = crudUtility.create(utility);
+        Utilidad utility = new Utilidad("Test Utility", 100, 30);
+        Response<Utilidad> response = crudUtility.create(utility);
         assertEquals(true, response.isSuccess());
 
         //update
@@ -22,11 +22,11 @@ public class CRUDUtilityTest {
         String nameEdited = "Test Utility edited";
         utility.setNombre(nameEdited);
         utility.setId(id);
-        Response<Utility> response2 = crudUtility.update(utility);
+        Response<Utilidad> response2 = crudUtility.update(utility);
         assertEquals(true, response2.isSuccess());
 
         // delete
-        Response<Utility> response3 = crudUtility.delete(id);
+        Response<Utilidad> response3 = crudUtility.delete(id);
         assertEquals(true, response3.isSuccess());
     }
 }

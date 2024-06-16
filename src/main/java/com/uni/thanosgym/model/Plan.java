@@ -6,6 +6,7 @@ public class Plan {
     private String name;
     private double price;
     private int durationDays;
+    private String indicador;
     public static String idField = "plan_id";
     public static String nameField = "name";
     public static String priceField = "price";
@@ -14,19 +15,20 @@ public class Plan {
     public Plan() {
     }
 
-    public Plan(String name, double price, int durationDays) {
+    public Plan(String name, double price, int durationDays, String indicador) {
         this.name = name;
         this.price = price;
         this.durationDays = durationDays;
+        this.indicador = indicador;
     }
-    
-    public Plan(int planId, String name, double price, int durationDays) {
+
+    public Plan(int planId, String name, double price, int durationDays, String indicador) {
         this.id = planId;
         this.name = name;
         this.price = price;
+        this.indicador = indicador;
         this.durationDays = durationDays;
     }
-    
 
     public int getId() {
         return id;
@@ -54,6 +56,15 @@ public class Plan {
         return this;
     }
 
+    public Plan setIndicador(String indicador) {
+        this.indicador = indicador;
+        return this;
+    }
+
+    public String getIndicador() {
+        return indicador;
+    }
+
     public int getDurationDays() {
         return durationDays;
     }
@@ -72,5 +83,5 @@ public class Plan {
                 ", durationDays=" + durationDays +
                 '}';
     }
-    
+
 }

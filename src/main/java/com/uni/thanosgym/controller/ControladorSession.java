@@ -1,8 +1,13 @@
 package com.uni.thanosgym.controller;
 
+import java.util.Date;
+
+import javax.swing.JFrame;
+
 import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.view.PanelLogin;
 import com.uni.thanosgym.view.PanelRegister;
+import com.uni.thanosgym.view.VerifyAdminMaster;
 import com.uni.thanosgym.view.WindowSession;
 import com.uni.thanosgym.model.Administrador;
 import com.uni.thanosgym.model.Response;
@@ -43,17 +48,16 @@ public class ControladorSession {
         WindowSession view = ControladorSession.getWindow();
         PanelRegister panel = ControladorSession.getPanelRegister();
         if (!panelRegisterRendered) {
-            FrameUtils.addEnterEvent(panel.jtxtRepeatPassword, ControladorSession::registrar);
+            FrameUtils.addEnterEvent(panel.jtxtRepeatPassword, ControladorSession::registrarAction);
             FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, ControladorSession::showLoginPanel);
-            FrameUtils.addOnClickEvent(panel.jbtnRegistro, ControladorSession::registrar);
+            FrameUtils.addOnClickEvent(panel.jbtnRegistro, ControladorSession::registrarAction);
             panelRegisterRendered = true;
         }
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombresCompletos.requestFocus();
     }
 
-    public static void registrar() {
-        WindowSession view = ControladorSession.getWindow();
+    private static void registrarAction() {
         PanelRegister panel = ControladorSession.getPanelRegister();
         String nombres = panel.jtxtNombresCompletos.getText();
         String userName = panel.jtxtNombreUsuario.getText();
@@ -86,29 +90,68 @@ public class ControladorSession {
             Messages.show("Ingrese un correo valido");
             return;
         }
+
         password = StringUtils.sha256(password);
+        boolean isForMaster = panel.jCheckIsForMaster.isSelected();
         Administrador administrador = new Administrador.Builder()
                 .setEmail(email)
                 .setFullName(nombres)
                 .setUsername(userName)
                 .setPassword(password)
+                .setRol(isForMaster ? Administrador.Rol.MASTER : Administrador.Rol.EMPLEADO)
                 .build();
         if (!phone.isEmpty()) {
             administrador.setPhone(Integer.parseInt(phone));
         }
+        administrador.setLastSignin(new Date());
 
-        Response<Administrador> response = CRUDAdministrador.getInstance()
-                .create(administrador);
-
-        if (response.isSuccess()) {
-            view.dispose();
-            Administrador admin = response.getData();
-            admin.setId(response.getId());
-            Auth.signIn(admin);
+        Response<Administrador> resQuantity = CRUDAdministrador.getInstance().getAll();
+        if (!resQuantity.getDataList().isEmpty()) {
+            showVerifyAdminMaster(administrador);
         } else {
-            Messages.show("No se pudo registrar el administrador");
+            registrar(administrador, new Administrador.Builder().build()); 
         }
     }
+
+    private static void showVerifyAdminMaster(Administrador administrador) {
+        VerifyAdminMaster verifyMasterWindow = new VerifyAdminMaster();
+        verifyMasterWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        FrameUtils.addEnterEvent(verifyMasterWindow.jPassword, () -> {
+            ControladorSession.verifyAdminMaster(verifyMasterWindow, administrador);
+        });
+        FrameUtils.addOnClickEvent(verifyMasterWindow.jbtnIniciar, () -> {
+            ControladorSession.verifyAdminMaster(verifyMasterWindow, administrador);
+        });
+        FrameUtils.showWindow(verifyMasterWindow, "Verificar administrador superior");
+    }
+
+    private static void verifyAdminMaster(VerifyAdminMaster ventana, Administrador administrador) {
+        String username = ventana.jtxtNombreUsuario.getText();
+        String password = String.valueOf(ventana.jPassword.getPassword());
+        if (username.isEmpty() || password.isEmpty()) {
+            Messages.show("Complete todos los campos");
+            return;
+        }
+        Administrador adminMaster = new Administrador.Builder()
+                .setUsername(username)
+                .setPassword(StringUtils.sha256(password))
+                .build();
+        registrar(administrador, adminMaster);
+    }
+
+    private static void registrar(Administrador administrador, Administrador adminMaster) {
+        Response<Administrador> response = CRUDAdministrador.getInstance()
+                .create(administrador, adminMaster);
+        if (!response.isSuccess()) {
+            Messages.show(response.getMessage());
+            return;
+        }
+        vista.dispose();
+        Administrador admin = response.getData();
+        admin.setId(response.getId());
+        Auth.signIn(admin);
+    }
+
 
     public static void iniciarSesion() {
         WindowSession view = ControladorSession.getWindow();
@@ -121,13 +164,15 @@ public class ControladorSession {
             return;
         }
         password = StringUtils.sha256(password);
-        Response<Administrador> response = CRUDAdministrador.getInstance().verify(userName, password);
-        if (response.isSuccess()) {
-            view.dispose();
-            Auth.signIn(response.getData());
-        } else {
+        Response<Administrador> response = CRUDAdministrador.getInstance().verify(userName, password, false);
+        if (!response.isSuccess()) {
             Messages.show(response.getMessage());
+            return;
         }
+        Administrador administrador = response.getData();
+        administrador.setPersistencia(panel.jCheckSesion.isSelected());
+        view.dispose();
+        Auth.signIn(administrador);
 
     }
 

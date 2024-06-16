@@ -8,6 +8,8 @@ CREATE TABLE if not exists admin (
     phone BIGINT,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    rol ENUM('MASTER', 'EMPLEADO'),
+    last_signin DATE not null,
     PRIMARY KEY (admin_id)
 );
 
@@ -16,6 +18,7 @@ CREATE TABLE if not exists plan (
     name VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     duration_days INT NOT NULL,
+    indicador ENUM('V', 'F') NOT NULL,
     PRIMARY KEY (plan_id)
 );
 

@@ -14,7 +14,7 @@ public class CRUDPlanTest {
     @Test
     public void mainTest() {
         //create
-        Plan plan = new Plan("Test Plan", 100, 30);
+        Plan plan = new Plan("Test Plan", 100, 30, "V");
         Response<Plan> response = crudPlan.create(plan);
         assertEquals(true, response.isSuccess());
 
@@ -28,7 +28,7 @@ public class CRUDPlanTest {
         assertEquals(nameEdited, crudPlan.getById(id).getData().getName());
 
         //delete
-        Response<Plan> response3 = crudPlan.delete(id);
+        Response<Plan> response3 = crudPlan.deleteOnlyForTesting(id);
         assertEquals(true, response3.isSuccess());
     }
 }

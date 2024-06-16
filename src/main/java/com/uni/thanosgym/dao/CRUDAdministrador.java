@@ -3,7 +3,10 @@ package com.uni.thanosgym.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import com.uni.thanosgym.utils.Querys;
+import com.uni.thanosgym.utils.StringUtils;
 import java.sql.SQLException;
+import java.util.Date;
+
 import com.uni.thanosgym.model.Administrador;
 import com.uni.thanosgym.model.Response;
 
@@ -21,7 +24,17 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         return crudAdministrador;
     }
 
-    public Response<Administrador> create(Administrador admin) {
+    public Response<Administrador> create(Administrador admin, Administrador masterAdmin) {
+        Response<Administrador> resQuantity = getAll();
+        if (!resQuantity.getDataList().isEmpty()) {
+            Response<Administrador> res = verify(masterAdmin.getUsername(), masterAdmin.getPassword(), true);
+            if (!res.isSuccess()) {
+                return new Response<Administrador>(false,
+                        "El administrador master no existe o la contraseña es incorrecta");
+            }
+        } else {
+            admin.setRol(Administrador.Rol.MASTER);
+        }
         try {
             ps = connection.prepareStatement(Querys.admin.getByUsername);
             ps.setString(1, admin.getUsername());
@@ -35,14 +48,22 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         }
     }
 
-    public Response<Administrador> verify(String username, String password) {
+    public Response<Administrador> getAll() {
+        return baseGetAll(Querys.admin.getAll);
+    }
+
+    public Response<Administrador> verify(String username, String password, boolean isForMaster) {
         try {
-            ps = connection.prepareStatement(Querys.admin.verify);
+            String query = isForMaster ? Querys.admin.verifyMaster : Querys.admin.verify;
+            ps = connection.prepareStatement(query);
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
             if (rs.next()) {
-                return new Response<Administrador>(true, generateObject(rs));
+                Administrador admin = generateObject(rs);
+                admin.setLastSignin(new Date());
+                update(admin);
+                return new Response<Administrador>(true, admin);
             } else {
                 return new Response<Administrador>(false, "El administrador no existe");
             }
@@ -52,16 +73,29 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         }
     }
 
+    public Response<Administrador> update(Administrador admin) {
+        try {
+            sendObject(Querys.admin.update, admin);
+            ps.setInt(8, admin.getId());
+            ps.executeUpdate();
+            ps.close();
+            return new Response<Administrador>(true, "Datos actualizados con exito");
+        } catch (Exception e) {
+            return somethingWentWrong(e);
+        }
+    }
+
     public Response<Administrador> getById(int id) {
         return baseGetById(Querys.admin.getById, id);
     }
 
-    public Response<Administrador> delete(int id) {
+    public Response<Administrador> deleteOnlyForTesting(int id) {
         return baseDeleteById(Querys.admin.delete, id);
     }
 
     @Override
     public Administrador generateObject(ResultSet rs) throws SQLException {
+        boolean isForMaster = rs.getString(7) == Administrador.Rol.MASTER.toString();
         return new Administrador.Builder()
                 .setId(rs.getInt(1))
                 .setFullName(rs.getString(2))
@@ -69,6 +103,8 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
                 .setPhone(rs.getInt(4))
                 .setUsername(rs.getString(5))
                 .setPassword(rs.getString(6))
+                .setRol(isForMaster ? Administrador.Rol.MASTER : Administrador.Rol.EMPLEADO)
+                .setLastSignin(rs.getDate(8))
                 .build();
     }
 
@@ -80,5 +116,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         ps.setString(3, data.getPassword());
         ps.setString(4, data.getEmail());
         ps.setInt(5, data.getPhone());
+        ps.setString(6, data.getRol().toString());
+        ps.setString(7, StringUtils.parseDate(data.getLastSignin()));
     }
 }

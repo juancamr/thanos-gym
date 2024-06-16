@@ -38,11 +38,14 @@ public class ControladorClientBuscar {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
         FrameUtils.showPanel(vista, panel);
-        FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::busqueda);
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editar);
-        FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClientBuscar::renovar);
-        FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorClientBuscar::abrirWindowClients);
-        FrameUtils.addOnClickEvent(panel.jbtnRegistrar, ControladorClientBuscar::showPanelClient);
+        if (!panelIsRendered) {
+            FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::busqueda);
+            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editar);
+            FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClientBuscar::renovar);
+            FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorClientBuscar::abrirWindowClients);
+            FrameUtils.addOnClickEvent(panel.jbtnRegistrar, ControladorClientBuscar::showPanelClient);
+            panelIsRendered = true;
+        }
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         if (response.isSuccess()) {
@@ -140,7 +143,8 @@ public class ControladorClientBuscar {
 
                         panel.jbtnEditar.setText("EDITAR");
 
-                        JTextField[] inputs = {panel.jtxtDniCliente, panel.jtxtNombreCliente, panel.jtxtDireccionCliente, panel.jtxtTelefonoCliente};
+                        JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente,
+                                panel.jtxtDireccionCliente, panel.jtxtTelefonoCliente };
                         FrameUtils.clearInputs(inputs);
 
                         flag = false;
@@ -181,7 +185,8 @@ public class ControladorClientBuscar {
                     Plan planSeleccionado = responsePlan.getData();
 
                     Date subscriptionUntil = cliente.getSubscription_until();
-                    Date nuevaSubscriptionUntil = DateUtils.addDays(subscriptionUntil, planSeleccionado.getDurationDays());
+                    Date nuevaSubscriptionUntil = DateUtils.addDays(subscriptionUntil,
+                            planSeleccionado.getDurationDays());
                     cliente.setSubscription_until(nuevaSubscriptionUntil);
 
                     Response<Cliente> responseUpdate = CRUDCliente.getInstance().update(cliente);
@@ -211,10 +216,8 @@ public class ControladorClientBuscar {
             FrameUtils.clearInputs(panel.jtxtDniCliente);
         }
     }
-    
-    
-    
-    //metodo congelar
+
+    // metodo congelar
 
     private static int generateTransactionCode() {
         return (int) (Math.random() * 1000000);
@@ -347,9 +350,9 @@ public class ControladorClientBuscar {
                 Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
 
                 if (paymentResponse.isSuccess()) {
-                    JTextField[] inputs = {panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar,
-                        panel.jtxtDireccionClienteAdd,
-                        panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd};
+                    JTextField[] inputs = { panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar,
+                            panel.jtxtDireccionClienteAdd,
+                            panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
                     FrameUtils.clearInputs(inputs);
                     Messages.show("Cliente y pago creados con exito");
                     String pdfPath = "payment.pdf";

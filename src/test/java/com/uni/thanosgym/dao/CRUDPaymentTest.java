@@ -25,7 +25,7 @@ public class CRUDPaymentTest {
         cliente.setId(crudCliente.create(cliente).getId());
 
         //create plan
-        Plan plan = new Plan("Test Plan", 100, 30);
+        Plan plan = new Plan("Test Plan", 100, 30, "V");
         plan.setId(crudPlan.create(plan).getId());
 
         //create payment
@@ -38,7 +38,7 @@ public class CRUDPaymentTest {
         assertEquals(true, resPayment2.isSuccess());
 
         //delete plan
-        crudPlan.delete(plan.getId());
+        crudPlan.deleteOnlyForTesting(plan.getId());
 
         // delete cliente
         crudCliente.delete(cliente.getId());

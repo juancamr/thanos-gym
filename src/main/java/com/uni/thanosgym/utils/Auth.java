@@ -10,9 +10,9 @@ public class Auth {
 
     public static boolean isAdminLoggedIn() {
         Administrador admin = UserPreferences.getData();
-        boolean adminExist = !admin.getFullName().isEmpty();
+        boolean adminPersistence = admin.isSesionPersistente();
         Response<Administrador> response = CRUDAdministrador.getInstance().getById(admin.getId());
-        if (adminExist && response.isSuccess()) {
+        if (adminPersistence && response.isSuccess()) {
             return true;
         } 
         return false;

@@ -38,6 +38,7 @@ public class PanelLogin extends javax.swing.JPanel {
         jLabel18 = new javax.swing.JLabel();
         jPassword = new javax.swing.JPasswordField();
         jbtnRegistro = new javax.swing.JButton();
+        jCheckSesion = new javax.swing.JCheckBox();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -76,7 +77,7 @@ public class PanelLogin extends javax.swing.JPanel {
         jPanel3.add(jtxtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 300, 30));
 
         jSeparator13.setForeground(new java.awt.Color(0, 102, 255));
-        jPanel3.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 440, 180, 30));
+        jPanel3.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 180, 30));
 
         jLabel23.setBackground(new java.awt.Color(105, 105, 118));
         jLabel23.setFont(new java.awt.Font("Malgun Gothic", 0, 24)); // NOI18N
@@ -107,7 +108,10 @@ public class PanelLogin extends javax.swing.JPanel {
                 jbtnRegistroActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, 300, 30));
+        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 300, 30));
+
+        jCheckSesion.setText("Mantener mi sesion iniciada");
+        jPanel3.add(jCheckSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, -1, -1));
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 690));
     }// </editor-fold>//GEN-END:initComponents
@@ -130,6 +134,7 @@ public class PanelLogin extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JCheckBox jCheckSesion;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel23;

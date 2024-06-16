@@ -1,19 +1,19 @@
 package com.uni.thanosgym.model;
 
-public class Utility {
+public class Utilidad {
 
     private int id;
     private String nombre;
     private int peso;
     private int cantidad;
 
-    public Utility (String tipo, int peso, int cantidad) {
+    public Utilidad(String tipo, int peso, int cantidad) {
         this.nombre = tipo;
         this.peso = peso;
         this.cantidad = cantidad;
     }
 
-    public Utility (int id, String tipo, int peso, int cantidad) {
+    public Utilidad(int id, String tipo, int peso, int cantidad) {
         this.id = id;
         this.nombre = tipo;
         this.peso = peso;
@@ -50,6 +50,11 @@ public class Utility {
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Object[] showAll() {
+        Object[] lista = { id, nombre, cantidad, peso };
+        return lista;
     }
 
 }

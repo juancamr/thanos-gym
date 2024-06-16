@@ -9,6 +9,7 @@ import com.uni.thanosgym.view.MainWindow;
 
 public class ControladorMainWindow {
     public static MainWindow vista;
+    public static boolean vistaRendered = false;
 
     static Color base = new Color(250, 250, 250);
     static Color focus = new Color(245, 245, 245);
@@ -17,11 +18,9 @@ public class ControladorMainWindow {
     static Font fontFocus = new Font("Malgun Gothic", 1, 16);
     static Font fontBase = new Font("Malgun Gothic", 4, 16);
 
-    public static boolean isCorrectPassword;
-    public static int panelReporte; // 0 panelReporteDia 1 panelConsultarReporte
-
     public static void initMainWindow() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
+        setFocusButton(vista.jbtnPrimero);
         vista.jbtnPrimero.setText("    Dashboard");
         vista.jbtnSegundo.setText("    Planes");
         vista.jbtnTercero.setText("    Clientes");
@@ -29,31 +28,34 @@ public class ControladorMainWindow {
         vista.jbtnQuinto.setText("    Producto");
         vista.jbtnSexto.setText("    Utilidad");
 
-        // on click events
-        FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
-            ControladorDashboard.showPanel();
-            setFocusButton(vista.jbtnPrimero);
-        });
-        FrameUtils.addOnClickEvent(vista.jbtnSegundo, () -> {
-            ControladorPlan.showHomePanel();
-            setFocusButton(vista.jbtnSegundo);
-        });
-        FrameUtils.addOnClickEvent(vista.jbtnTercero, () -> {
-            ControladorClientBuscar.showPanel();
-            setFocusButton(vista.jbtnTercero);
-        });
-        FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
-//            ControladorClientBuscar.showPanel();
-//            setFocusButton(vista.jbtnCuarto);
-        });
-        FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
-            ControladorProducto.showPanel();
-            setFocusButton(vista.jbtnQuinto);
-        });
-        FrameUtils.addOnClickEvent(vista.jbtnSexto, () -> {
-            ControladorUtilidad.showPanel();
-            setFocusButton(vista.jbtnSexto);
-        });
+        if (!vistaRendered) {
+            FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
+                ControladorDashboard.showPanel();
+                setFocusButton(vista.jbtnPrimero);
+            });
+            FrameUtils.addOnClickEvent(vista.jbtnSegundo, () -> {
+                ControladorPlan.showPanel();
+                setFocusButton(vista.jbtnSegundo);
+            });
+            FrameUtils.addOnClickEvent(vista.jbtnTercero, () -> {
+                ControladorClientBuscar.showPanel();
+                setFocusButton(vista.jbtnTercero);
+            });
+            FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
+                System.out.println("Pronto mas :))");
+                // ControladorClientBuscar.showPanel();
+                // setFocusButton(vista.jbtnCuarto);
+            });
+            FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
+                ControladorProducto.showPanel();
+                setFocusButton(vista.jbtnQuinto);
+            });
+            FrameUtils.addOnClickEvent(vista.jbtnSexto, () -> {
+                ControladorUtilidad.showPanel();
+                setFocusButton(vista.jbtnSexto);
+            });
+            vistaRendered = true;
+        }
 
         vista.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
         ControladorDashboard.showPanel();
