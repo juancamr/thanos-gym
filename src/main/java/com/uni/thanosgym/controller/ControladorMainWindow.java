@@ -28,7 +28,7 @@ public class ControladorMainWindow {
         vista.jbtnCuarto.setText("    Buscar");
         vista.jbtnQuinto.setText("    Producto");
         vista.jbtnSexto.setText("    Utilidad");
-       
+
         // on click events
         FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
             ControladorDashboard.showPanel();
@@ -72,30 +72,17 @@ public class ControladorMainWindow {
         return vista;
     }
 
-    public static void quitarFondosBotones() {
-        vista.jbtnPrimero.setBackground(base);
-        vista.jbtnPrimero.setForeground(foregroundColorBase);
-        vista.jbtnPrimero.setFont(fontBase);
-
-        vista.jbtnSegundo.setBackground(base);
-        vista.jbtnSegundo.setForeground(foregroundColorBase);
-        vista.jbtnSegundo.setFont(fontBase);
-
-        vista.jbtnCuarto.setBackground(base);
-        vista.jbtnCuarto.setForeground(foregroundColorBase);
-        vista.jbtnCuarto.setFont(fontBase);
-
-        vista.jbtnQuinto.setBackground(base);
-        vista.jbtnQuinto.setForeground(foregroundColorBase);
-        vista.jbtnQuinto.setFont(fontBase);
-
-        vista.jbtnQuinto.setBackground(base);
-        vista.jbtnQuinto.setForeground(foregroundColorBase);
-        vista.jbtnQuinto.setFont(fontBase);
+    public static void quitarFondosBotones(JButton[] botones) {
+        for (JButton boton : botones) {
+            boton.setBackground(base);
+            boton.setForeground(foregroundColorBase);
+            boton.setFont(fontBase);
+        }
     }
 
     public static void setFocusButton(JButton boton) {
-        quitarFondosBotones();
+        quitarFondosBotones(new JButton[] { vista.jbtnPrimero, vista.jbtnSegundo, vista.jbtnTercero, vista.jbtnCuarto,
+                vista.jbtnQuinto, vista.jbtnSexto });
         boton.setBackground(focus);
         boton.setForeground(foregroundColorFocus);
         boton.setFont(fontFocus);

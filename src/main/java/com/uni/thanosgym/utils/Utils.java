@@ -47,7 +47,7 @@ public class Utils {
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("jcmrojas29@gmail.com"));
-            
+
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
             message.setSubject(titulo);
             message.setText(messageEmail);
@@ -61,24 +61,23 @@ public class Utils {
         }
     }
 
-    public static boolean sendMailWithPdf(String messageEmail, String para, String titulo, String pdfPath) throws IOException {
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-
-        String username = "jcmrojas29@gmail.com";
-        String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
-
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-
+    public static boolean sendMailWithPdf(String messageEmail, String para, String titulo, String pdfPath) {
         try {
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+            props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+            String username = "jcmrojas29@gmail.com";
+            String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
+
+            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(username, password);
+                }
+            });
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress("jcmrojas29@gmail.com"));
 
@@ -103,28 +102,35 @@ public class Utils {
         } catch (MessagingException e) {
             System.out.println(e);
             return false;
+        } catch (IOException e) {
+            System.out.println(e);
+            return false;
         }
     }
 
-    public static void generatePaymentPDF(Payment payment, String pdfPath) throws FileNotFoundException {
-        PdfWriter writer = new PdfWriter(pdfPath);
-        PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf);
+    public static void generatePaymentPDF(Payment payment, String pdfPath) {
+        try {
+            PdfWriter writer = new PdfWriter(pdfPath);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
 
-        document.add(new Paragraph(String.format("Detalle de boleta para %s", payment.getCliente().getFullName())));
-        Table table = new Table(4);
+            document.add(new Paragraph(String.format("Detalle de boleta para %s", payment.getCliente().getFullName())));
+            Table table = new Table(4);
 
-        table.addHeaderCell("Nro boleta");
-        table.addHeaderCell("Fecha");
-        table.addHeaderCell("Plan");
-        table.addHeaderCell("Monto");
+            table.addHeaderCell("Nro boleta");
+            table.addHeaderCell("Fecha");
+            table.addHeaderCell("Plan");
+            table.addHeaderCell("Monto");
 
-        table.addCell(StringUtils.parseIdBoleta(payment.getId()));
-        table.addCell(StringUtils.parseSpanishDate(payment.getCreatedAt()));
-        table.addCell(payment.getPlan().getName());
-        table.addCell(String.format("S/ %f", payment.getPlan().getPrice()));
+            table.addCell(StringUtils.parseIdBoleta(payment.getId()));
+            table.addCell(StringUtils.parseSpanishDate(payment.getCreatedAt()));
+            table.addCell(payment.getPlan().getName());
+            table.addCell(String.format("S/ %f", payment.getPlan().getPrice()));
 
-        document.add(table);
-        document.close();
+            document.add(table);
+            document.close();
+        } catch (FileNotFoundException e) {
+            System.out.println(e);
+        }
     }
 }

@@ -39,9 +39,12 @@ public class CRUDProducto extends BaseCrud<Producto> {
         return baseGetAll(Querys.producto.getAll);
     }
 
+    public Response<Producto> getById(int id) {
+        return baseGetById(Querys.producto.getById, id);
+    }
+
     public Response<Producto> getAllByName(String query) {
         String consulta = Querys.producto.getAllByName;
-        System.out.println(consulta.replace("<query>", query));
         return baseGetAll(consulta.replace("<query>", query));
     }
 

@@ -45,7 +45,6 @@ public class CRUDCliente extends BaseCrud<Cliente> {
 
     public Response<Cliente> getAllByName(String query) {
         String consulta = Querys.cliente.getAllByName;
-        System.out.println(consulta.replace("<query>", query));
         return baseGetAll(consulta.replace("<query>", query));
     }
 

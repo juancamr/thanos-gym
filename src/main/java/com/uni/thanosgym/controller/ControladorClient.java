@@ -151,15 +151,11 @@ public class ControladorClient {
                     Messages.show("Cliente y pago creados con exito");
                     String pdfPath = "payment.pdf";
                     String messageEmail = String.format("Gracias por tu dinero %s", payment.getCliente().getFullName());
-                    try {
-                        Utils.generatePaymentPDF(payment, pdfPath);
-                        Utils.sendMailWithPdf(
-                                messageEmail,
-                                payment.getCliente().getEmail(), "gracias por tu dinero",
-                                pdfPath);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
+                    Utils.generatePaymentPDF(payment, pdfPath);
+                    Utils.sendMailWithPdf(
+                            messageEmail,
+                            payment.getCliente().getEmail(), "gracias por tu dinero",
+                            pdfPath);
                 } else {
                     Messages.show("Error al crear el pago: " + paymentResponse.getMessage());
                 }

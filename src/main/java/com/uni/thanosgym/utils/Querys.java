@@ -38,6 +38,7 @@ public class Querys {
         public static String create = "INSERT INTO producto(nombre, cantidad, precio) VALUES(?, ?, ?)";
         public static String getByName = "SELECT * FROM producto where nombre=?";
         public static String getAllByName = "SELECT * FROM producto WHERE nombre LIKE '%<query>%'";
+        public static String getById = "SELECT * FROM producto WHERE producto_id = ?";
         public static String getAll = "SELECT * FROM producto";
         public static String delete = "DELETE from producto where producto_id=?";
         public static String update = "UPDATE producto SET nombre=?, cantidad=?, precio=? where producto_id=?";
