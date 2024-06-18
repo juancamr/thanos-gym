@@ -23,6 +23,15 @@ import javax.swing.JButton;
 
 public class ControladorPlan {
 
+    public static List<Plan> listaPlanes;
+
+    public static List<Plan> getListaPlanes() {
+        if (listaPlanes == null) {
+            listaPlanes = CRUDPlan.getInstance().getAll().getDataList();
+        }
+        return listaPlanes;
+    }
+
     /**
      * Mostrar la ventana para agregar un nuevo plan
      *
@@ -32,17 +41,12 @@ public class ControladorPlan {
     public static void showPanel() {
         PanelPlan panel = new PanelPlan();
         MainWindow vista = ControladorMainWindow.getMainWindow();
+        List<Plan> listaPlanes = getListaPlanes();
         panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
-        Response<Plan> response = CRUDPlan.getInstance().getAll();
-        if (response.isSuccess()) {
-            ControladorPlan.createPanelList(response.getDataList(), panel.planesListPanel);
-        } else
-            Messages.show(response.getMessage());
+        ControladorPlan.createPanelList(listaPlanes, panel.planesListPanel);
 
         FrameUtils.showPanel(vista, panel);
-        FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, () -> {
-            ControladorPlan.showAgregarPlanWindow(panel);
-        });
+        FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, ControladorPlan::showAgregarPlanWindow);
         FrameUtils.addOnClickEvent(panel.jbtnCerrarSesion, () -> {
             vista.dispose();
             Auth.logOut();
@@ -52,14 +56,14 @@ public class ControladorPlan {
     /**
      * Mostrar la ventana para agregar un nuevo plan
      *
-     * @param vistaPlan Ventana de agregar plan
+     * @param panel Ventana de agregar plan
      */
-    public static void showAgregarPlanWindow(PanelPlan panel) {
+    public static void showAgregarPlanWindow() {
         AddPlan vista = new AddPlan();
         FrameUtils.showWindow(vista, "Crear un nuevo plan");
         vista.jtxtNombrePlan.requestFocus();
-        FrameUtils.addEnterEvent(vista.jtxtDuracion, () -> insertData(vista, true, 0));
-        FrameUtils.addOnClickEvent(vista.jbtnAction, () -> insertData(vista, true, 0));
+        FrameUtils.addEnterEvent(vista.jtxtDuracion, () -> insertData(vista, true, 0, 0));
+        FrameUtils.addOnClickEvent(vista.jbtnAction, () -> insertData(vista, true, 0, 0));
     }
 
     /**
@@ -75,8 +79,9 @@ public class ControladorPlan {
         vistaPlan.jtxtDuracion.setText(String.valueOf(plan.getDurationDays()));
         vistaPlan.jbtnAction.setText("Editar");
         vistaPlan.jtxtNombrePlan.requestFocus();
-        FrameUtils.addEnterEvent(vistaPlan.jtxtDuracion, () -> insertData(vistaPlan, false, plan.getId()));
-        FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> insertData(vistaPlan, false, plan.getId()));
+        int idx = getListaPlanes().indexOf(plan);
+        FrameUtils.addEnterEvent(vistaPlan.jtxtDuracion, () -> insertData(vistaPlan, false, plan.getId(), idx));
+        FrameUtils.addOnClickEvent(vistaPlan.jbtnAction, () -> insertData(vistaPlan, false, plan.getId(), idx));
     }
 
     public static void deletePlan(Plan plan) {
@@ -90,6 +95,7 @@ public class ControladorPlan {
             Messages.show(response.getMessage());
             return;
         }
+        getListaPlanes().remove(plan);
         showPanel();
     }
 
@@ -100,7 +106,7 @@ public class ControladorPlan {
      * @param isForAdd  Si es verdadero es para crear un plan
      * @param planId    Usado para actualizar un plan
      */
-    public static void insertData(AddPlan vistaPlan, boolean isForAdd, int planId) {
+    public static void insertData(AddPlan vistaPlan, boolean isForAdd, int planId, int positionInList) {
         String nombre = vistaPlan.jtxtNombrePlan.getText();
         String precio = vistaPlan.jtxtPrecio.getText();
         String duracion = vistaPlan.jtxtDuracion.getText();
@@ -115,16 +121,26 @@ public class ControladorPlan {
             Response<Plan> response;
             Plan plan = new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion), "V");
             if (isForAdd) {
+                Plan planWithTheSameName = getListaPlanes().stream().filter(p -> p.getName().equals(nombre)).findFirst()
+                        .orElse(null);
+                if (planWithTheSameName != null) {
+                    Messages.show("Ya existe un plan con el mismo nombre");
+                    return;
+                }
                 response = CRUDPlan.getInstance().create(plan);
             } else {
                 plan.setId(planId);
                 response = CRUDPlan.getInstance().update(plan);
             }
             if (response.isSuccess()) {
-                if (isForAdd)
+                if (isForAdd) {
                     Messages.show("Plan creado con exito");
-                else
+                    plan.setId(response.getId());
+                    getListaPlanes().add(plan);
+                } else {
+                    getListaPlanes().set(positionInList, plan);
                     Messages.show("Plan actualizado con exito");
+                }
 
                 vistaPlan.dispose();
                 showPanel();

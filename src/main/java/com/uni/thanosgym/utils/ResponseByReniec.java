@@ -1,6 +1,6 @@
 package com.uni.thanosgym.utils;
 
-public class ResponseByCliente {
+public class ResponseByReniec {
 
     String nombres;
     String apellidoPaterno;

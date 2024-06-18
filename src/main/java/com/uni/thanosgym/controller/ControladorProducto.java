@@ -23,29 +23,33 @@ public class ControladorProducto {
     public static boolean panelRendered = false;
     public static DefaultTableModel modelo;
     public static String[] titulosTabla = { "ID", "Nombre", "Cantidad", "Precio" };
+    public static List<Producto> listaProductos;
+
+    public static List<Producto> getListaProductos() {
+        if (listaProductos == null) {
+            listaProductos = CRUDProducto.getInstance().getAll().getDataList();
+        }
+        return listaProductos;
+    }
 
     public static void showPanel() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelProducto panel = ControladorProducto.getPanel();
-        modelo = new DefaultTableModel(null, titulosTabla);
-        panel.jtblProducto.setModel(modelo);
-        Response<Producto> response = CRUDProducto.getInstance().getAll();
-        if (!response.isSuccess()) {
-            Messages.show("Error al obtener todos los productos");
-            return;
-        }
-        fillTable(response.getDataList());
         if (!panelRendered) {
+            modelo = new DefaultTableModel(null, titulosTabla);
+            panel.jtblProducto.setModel(modelo);
             FrameUtils.addHandleChangeEvent(panel.jtxtBusquedaProducto, ControladorProducto::busqueda);
             FrameUtils.addOnClickEvent(panel.jbtnCrear, ControladorProducto::showAgregarWindow);
             panelRendered = true;
         }
+        fillTable(getListaProductos());
         FrameUtils.showPanel(vista, panel);
     }
 
     public static void showAgregarWindow() {
         VentanaAgregarProducto ventana = new VentanaAgregarProducto();
         ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        FrameUtils.addEnterEvent(ventana.jtxtCantidad, () -> ControladorProducto.crearProducto(ventana));
         FrameUtils.addOnClickEvent(ventana.jbtnCrear, () -> ControladorProducto.crearProducto(ventana));
         FrameUtils.showWindow(ventana, "Agregar Producto");
     }
@@ -66,23 +70,7 @@ public class ControladorProducto {
         return true;
     }
 
-    public static void showEditarWindow(int id) {
-        Response<Producto> response = CRUDProducto.getInstance().getById(id);
-        if (!response.isSuccess()) {
-            Messages.show("Error al obtener el producto");
-            return;
-        }
-        Producto producto = response.getData();
-        VentanaAgregarProducto ventana = new VentanaAgregarProducto();
-        ventana.jbtnCrear.setText("Editar");
-        ventana.jtxtNombreProducto.setText(producto.getNombre());
-        ventana.jtxtCantidad.setText(String.valueOf(producto.getCantidad()));
-        ventana.jtxtPrecio.setText(String.valueOf(producto.getPrecio()));
-        FrameUtils.addOnClickEvent(ventana.jbtnCrear, () -> editarProducto(ventana, id));
-        FrameUtils.showWindow(ventana, "Editar producto");
-    }
-
-    public static void showOptions(int idProducto) {
+    public static void showOptions(Producto producto) {
         JFrame ventana = new JFrame();
         ventana.setSize(300, 100);
         ventana.setLocationRelativeTo(null);
@@ -96,14 +84,14 @@ public class ControladorProducto {
         editarButton.setBounds(0, 0, 100, 50);
         FrameUtils.addOnClickEvent(editarButton, () -> {
             ventana.dispose();
-            ControladorProducto.showEditarWindow(idProducto);
+            ControladorProducto.showEditarWindow(producto);
         });
 
         JButton eliminarButton = new JButton("Eliminar");
         eliminarButton.setBounds(100, 0, 100, 50);
         FrameUtils.addOnClickEvent(eliminarButton, () -> {
             ventana.dispose();
-            ControladorProducto.eliminarProducto(idProducto);
+            ControladorProducto.eliminarProducto(producto.getId());
         });
 
         panel.add(editarButton);
@@ -112,19 +100,36 @@ public class ControladorProducto {
         ventana.setVisible(true);
     }
 
+    public static void showEditarWindow(Producto producto) {
+        VentanaAgregarProducto ventana = new VentanaAgregarProducto();
+        ventana.jbtnCrear.setText("Editar");
+        ventana.jtxtNombreProducto.setText(producto.getNombre());
+        ventana.jtxtCantidad.setText(String.valueOf(producto.getCantidad()));
+        ventana.jtxtPrecio.setText(String.valueOf(producto.getPrecio()));
+        FrameUtils.addOnClickEvent(ventana.jbtnCrear, () -> editarProducto(ventana, producto.getId()));
+        FrameUtils.showWindow(ventana, "Editar producto");
+    }
+
+    private static int getIndex(List<Producto> lista, int id) {
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getId() == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static void busqueda() {
         PanelProducto panel = ControladorProducto.getPanel();
         String query = panel.jtxtBusquedaProducto.getText();
         if (query.isEmpty()) {
             modelo.setRowCount(0);
-            fillTable(CRUDProducto.getInstance().getAll().getDataList());
+            fillTable(getListaProductos());
         } else {
-            Response<Producto> response = CRUDProducto.getInstance().getAllByName(query);
-            if (response.isSuccess()) {
-                modelo.setRowCount(0);
-                fillTable(response.getDataList());
-            } else
-                Messages.show("Error al obtener todos los productos");
+            List<Producto> filteredList = getListaProductos().stream()
+                    .filter(producto -> producto.getNombre().contains(query))
+                    .toList();
+            fillTable(filteredList);
         }
     }
 
@@ -140,6 +145,8 @@ public class ControladorProducto {
             Messages.show("Error al editar el producto");
             return;
         }
+        int position = getIndex(getListaProductos(), id);
+        ControladorProducto.getListaProductos().set(position, producto);
         showPanel();
         Messages.show("Producto editado exitosamente");
         ventana.dispose();
@@ -153,13 +160,22 @@ public class ControladorProducto {
             return;
         }
         Producto producto = new Producto(nombre, Integer.parseInt(cantidad), Double.parseDouble(precio));
+        Producto productoWithTheSameName = getListaProductos().stream().filter(p -> p.getNombre().equals(nombre))
+                .findFirst()
+                .orElse(null);
+        if (productoWithTheSameName != null) {
+            Messages.show("Ya existe un producto con el mismo nombre");
+            return;
+        }
         Response<Producto> response = CRUDProducto.getInstance().create(producto);
         if (!response.isSuccess()) {
             Messages.show("Error al crear el producto");
             return;
         }
-        modelo.addRow(response.getData().showAll());
+        producto.setId(response.getId());
+        getListaProductos().add(producto);
         Messages.show("Producto creado exitosamente");
+        showPanel();
         ventana.dispose();
     }
 
@@ -169,11 +185,14 @@ public class ControladorProducto {
             Messages.show("Error al eliminar el producto");
             return;
         }
+        int idx = getIndex(getListaProductos(), id);
+        getListaProductos().remove(idx);
         Messages.show("Producto eliminado exitosamente");
         showPanel();
     }
 
     public static void fillTable(List<Producto> lista) {
+        modelo.setRowCount(0);
         for (Producto producto : lista) {
             modelo.addRow(producto.showAll());
         }

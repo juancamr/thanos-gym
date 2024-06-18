@@ -23,23 +23,25 @@ public class ControladorUtilidad {
     public static boolean panelRendered = false;
     public static DefaultTableModel modelo;
     public static String[] titulosTabla = { "ID", "Nombre", "Cantidad", "peso" };
+    public static List<Utilidad> listaUtilidades;
+
+    public static List<Utilidad> getListaUtilidades() {
+        if (listaUtilidades == null)
+            listaUtilidades = CRUDUtilidad.getInstance().getAll().getDataList();
+        return listaUtilidades;
+    }
 
     public static void showPanel() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelUtilidad panel = ControladorUtilidad.getPanel();
-        modelo = new DefaultTableModel(null, titulosTabla);
-        panel.jtblUtilidad.setModel(modelo);
-        Response<Utilidad> response = CRUDUtilidad.getInstance().getAll();
-        if (!response.isSuccess()) {
-            Messages.show("Error al obtener todos los utilidads");
-            return;
-        }
-        fillTable(response.getDataList());
         if (!panelRendered) {
             FrameUtils.addHandleChangeEvent(panel.jtxtBusquedaUtilidad, ControladorUtilidad::busqueda);
             FrameUtils.addOnClickEvent(panel.jbtnCrear, ControladorUtilidad::showAgregarWindow);
             panelRendered = true;
+            modelo = new DefaultTableModel(null, titulosTabla);
+            panel.jtblUtilidad.setModel(modelo);
         }
+        fillTable(getListaUtilidades());
         FrameUtils.showPanel(vista, panel);
     }
 
@@ -66,23 +68,26 @@ public class ControladorUtilidad {
         return true;
     }
 
-    public static void showEditarWindow(int id) {
-        Response<Utilidad> response = CRUDUtilidad.getInstance().getById(id);
-        if (!response.isSuccess()) {
-            Messages.show("Error al obtener el utilidad");
-            return;
-        }
-        Utilidad utilidad = response.getData();
+    public static void showEditarWindow(Utilidad utilidad) {
         VentanaAgregarUtilidad ventana = new VentanaAgregarUtilidad();
         ventana.jbtnCrear.setText("Editar");
         ventana.jtxtNombreUtilidad.setText(utilidad.getNombre());
         ventana.jtxtCantidad.setText(String.valueOf(utilidad.getCantidad()));
         ventana.jtxtPeso.setText(String.valueOf(utilidad.getPeso()));
-        FrameUtils.addOnClickEvent(ventana.jbtnCrear, () -> editarUtilidad(ventana, id));
+        FrameUtils.addOnClickEvent(ventana.jbtnCrear, () -> editarUtilidad(ventana, utilidad.getId()));
         FrameUtils.showWindow(ventana, "Editar utilidad");
     }
 
-    public static void showOptions(int idUtilidad) {
+    private static int getIndex(List<Utilidad> lista, int id) {
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i).getId() == id) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static void showOptions(Utilidad utilidad) {
         JFrame ventana = new JFrame();
         ventana.setSize(300, 100);
         ventana.setLocationRelativeTo(null);
@@ -96,14 +101,14 @@ public class ControladorUtilidad {
         editarButton.setBounds(0, 0, 100, 50);
         FrameUtils.addOnClickEvent(editarButton, () -> {
             ventana.dispose();
-            ControladorUtilidad.showEditarWindow(idUtilidad);
+            ControladorUtilidad.showEditarWindow(utilidad);
         });
 
         JButton eliminarButton = new JButton("Eliminar");
         eliminarButton.setBounds(100, 0, 100, 50);
         FrameUtils.addOnClickEvent(eliminarButton, () -> {
             ventana.dispose();
-            ControladorUtilidad.eliminarUtilidad(idUtilidad);
+            ControladorUtilidad.eliminarUtilidad(utilidad.getId());
         });
 
         panel.add(editarButton);
@@ -117,14 +122,12 @@ public class ControladorUtilidad {
         String query = panel.jtxtBusquedaUtilidad.getText();
         if (query.isEmpty()) {
             modelo.setRowCount(0);
-            fillTable(CRUDUtilidad.getInstance().getAll().getDataList());
+            fillTable(getListaUtilidades());
         } else {
-            Response<Utilidad> response = CRUDUtilidad.getInstance().getAllByName(query);
-            if (response.isSuccess()) {
-                modelo.setRowCount(0);
-                fillTable(response.getDataList());
-            } else
-                Messages.show("Error al obtener todos los utilidads");
+            List<Utilidad> filteredList = getListaUtilidades().stream()
+                    .filter(utilidad -> utilidad.getNombre().contains(query))
+                    .toList();
+            fillTable(filteredList);
         }
     }
 
@@ -140,8 +143,10 @@ public class ControladorUtilidad {
             Messages.show("Error al editar el utilidad");
             return;
         }
-        showPanel();
+        int position = getIndex(getListaUtilidades(), id);
         Messages.show("Utilidad editado exitosamente");
+        getListaUtilidades().set(position, utilidad);
+        showPanel();
         ventana.dispose();
     }
 
@@ -153,13 +158,22 @@ public class ControladorUtilidad {
             return;
         }
         Utilidad utilidad = new Utilidad(nombre, Integer.parseInt(cantidad), Integer.parseInt(peso));
+        Utilidad utilidadWithTheSameName = getListaUtilidades().stream().filter(u -> u.getNombre().equals(nombre))
+                .findFirst()
+                .orElse(null);
+        if (utilidadWithTheSameName != null) {
+            Messages.show("Ya existe una utilidad con el mismo nombre");
+            return;
+        }
         Response<Utilidad> response = CRUDUtilidad.getInstance().create(utilidad);
         if (!response.isSuccess()) {
             Messages.show("Error al crear el utilidad");
             return;
         }
-        modelo.addRow(response.getData().showAll());
+        utilidad.setId(response.getId());
+        getListaUtilidades().add(utilidad);
         Messages.show("Utilidad creado exitosamente");
+        showPanel();
         ventana.dispose();
     }
 
@@ -169,11 +183,14 @@ public class ControladorUtilidad {
             Messages.show("Error al eliminar el utilidad");
             return;
         }
+        int idx = getIndex(getListaUtilidades(), id);
+        getListaUtilidades().remove(idx);
         Messages.show("Utilidad eliminado exitosamente");
         showPanel();
     }
 
     public static void fillTable(List<Utilidad> lista) {
+        modelo.setRowCount(0);
         for (Utilidad utilidad : lista) {
             modelo.addRow(utilidad.showAll());
         }

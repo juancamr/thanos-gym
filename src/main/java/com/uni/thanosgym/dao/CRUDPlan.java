@@ -22,16 +22,7 @@ public class CRUDPlan extends BaseCrud<Plan> {
     }
 
     public Response<Plan> create(Plan plan) {
-        try {
-            ps = connection.prepareStatement(Querys.plan.getByName);
-            ps.setString(1, plan.getName());
-            rs = ps.executeQuery();
-            boolean[] conditions = new boolean[] { !rs.next() };
-            String error = String.format("El plan %s ya existe", plan.getName());
-            return baseCreateWithConditions(plan, Querys.plan.create, conditions, error);
-        } catch (Exception e) {
-            return somethingWentWrong(e);
-        }
+        return baseCreate(plan, Querys.plan.create);
     }
 
     public Response<Plan> getById(int id) {

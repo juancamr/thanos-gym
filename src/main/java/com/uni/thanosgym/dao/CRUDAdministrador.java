@@ -85,6 +85,21 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         }
     }
 
+    public int getQuantity() {
+        try {
+            String query = "SELECT COUNT(*) FROM nombre_de_la_tabla";
+            rs = st.executeQuery(query);
+            if (rs.next()) {
+                return rs.getInt(1);
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public Response<Administrador> getById(int id) {
         return baseGetById(Querys.admin.getById, id);
     }

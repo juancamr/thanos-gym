@@ -14,11 +14,10 @@ import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelClient;
 import com.uni.thanosgym.view.PanelClientBuscar;
-import com.uni.thanosgym.controller.ControladorWindowClients;
 import com.google.gson.Gson;
 import com.uni.thanosgym.utils.EnvVariables;
 import com.uni.thanosgym.utils.HttpUtils;
-import com.uni.thanosgym.utils.ResponseByCliente;
+import com.uni.thanosgym.utils.ResponseByReniec;
 import com.uni.thanosgym.utils.Utils;
 
 import javax.swing.*;
@@ -47,15 +46,9 @@ public class ControladorClientBuscar {
             panelIsRendered = true;
         }
 
-        Response<Plan> response = CRUDPlan.getInstance().getAll();
-        if (response.isSuccess()) {
-            List<Plan> listaPlanes = response.getDataList();
-            panel.jcbxPlanRegistro.removeAllItems();
-            for (Plan plan : listaPlanes) {
-                panel.jcbxPlanRegistro.addItem(plan.getName());
-            }
-        } else {
-            Messages.show(response.getMessage());
+        panel.jcbxPlanRegistro.removeAllItems();
+        for (Plan plan : ControladorPlan.getListaPlanes()) {
+            panel.jcbxPlanRegistro.addItem(plan.getName());
         }
     }
 
@@ -251,15 +244,10 @@ public class ControladorClientBuscar {
             panelIsRendered = true;
         }
 
-        Response<Plan> response = CRUDPlan.getInstance().getAll();
-        if (response.isSuccess()) {
-            List<Plan> listaPlanes = response.getDataList();
-            panel.jcbxPlanRegistro.removeAllItems();
-            for (int i = 0; i < listaPlanes.size(); i++) {
-                panel.jcbxPlanRegistro.addItem(listaPlanes.get(i).getName());
-            }
-        } else {
-            Messages.show(response.getMessage());
+        List<Plan> listaPlanes = ControladorPlan.getListaPlanes();
+        panel.jcbxPlanRegistro.removeAllItems();
+        for (int i = 0; i < listaPlanes.size(); i++) {
+            panel.jcbxPlanRegistro.addItem(listaPlanes.get(i).getName());
         }
     }
 
@@ -287,7 +275,7 @@ public class ControladorClientBuscar {
 
         Gson gson = new Gson();
         getResponseFuture.thenAccept(response -> {
-            ResponseByCliente res = gson.fromJson(response, ResponseByCliente.class);
+            ResponseByReniec res = gson.fromJson(response, ResponseByReniec.class);
             panel.jblLoading.setText("");
             panel.jtxtNombreClienteAgregar.setText(
                     String.format("%s %s %s", res.getNombres(), res.getApellidoPaterno(), res.getApellidoMaterno()));

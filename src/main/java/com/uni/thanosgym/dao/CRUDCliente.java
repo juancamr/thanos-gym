@@ -27,7 +27,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             ps = connection.prepareStatement(Querys.cliente.getByEmail);
             ps.setString(1, cliente.getEmail());
             rs = ps.executeQuery();
-            boolean[] conditions = new boolean[]{!rs.next()};
+            boolean[] conditions = new boolean[] { !rs.next() };
             String error = String.format("El cliente con email %s ya existe", cliente.getEmail());
             return baseCreateWithConditions(cliente, Querys.cliente.create, conditions, error);
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     public Response<Cliente> getById(int id) {
         return baseGetById(Querys.cliente.getById, id);
     }
-    
+
     public Response<Cliente> getAll() {
         return baseGetAll(Querys.cliente.getAll);
     }
