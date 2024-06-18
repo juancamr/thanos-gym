@@ -12,7 +12,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.WindowSession;
-
+import javax.swing.JTable;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  * Utility class for JFrame and JPanel
@@ -32,9 +34,10 @@ public class FrameUtils {
         vista.setLocationRelativeTo(null);
         vista.setVisible(true);
     }
-    
+
     /**
-     * Limpiar el texto de todos los campos de texto proporcionados y establecer el foco en el primer campo.
+     * Limpiar el texto de todos los campos de texto proporcionados y establecer
+     * el foco en el primer campo.
      *
      * @param inputs An array of text fields to be cleared.
      */
@@ -58,7 +61,7 @@ public class FrameUtils {
     /**
      * Show panel at the right of the main window
      *
-     * @param vista Main window 1060 x 690 
+     * @param vista Main window 1060 x 690
      * @param panel Panel to show in the window
      */
     public static void showPanel(MainWindow vista, JPanel panel) {
@@ -129,7 +132,7 @@ public class FrameUtils {
             }
         });
     }
-    
+
     /**
      * Agregar evento cuando cambia el texto
      *
@@ -154,6 +157,26 @@ public class FrameUtils {
             }
         });
 
+    }
+
+    /**
+     * Agregar evento de selección de fila a una tabla
+     *
+     * @param table La tabla a la cual agregar el evento de selección
+     * @param onRowSelected La acción a ejecutar cuando se selecciona una fila
+     */
+    public static void addTableRowSelectionEvent(JTable table, Runnable onRowSelected) {
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = table.getSelectedRow();
+                    if (selectedRow != -1) { 
+                        onRowSelected.run();
+                    }
+                }
+            }
+        });
     }
 
 }

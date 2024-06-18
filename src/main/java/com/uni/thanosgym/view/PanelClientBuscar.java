@@ -54,7 +54,7 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jbtnRegistrar = new javax.swing.JButton();
         jbtnRenovar = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(840, 690));
+        setPreferredSize(new java.awt.Dimension(840, 790));
 
         jpnlInterfaz.setBackground(new java.awt.Color(255, 255, 255));
         jpnlInterfaz.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -166,7 +166,7 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jbtnEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(jbtnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 710, 230, 40));
+        jPanel1.add(jbtnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 230, 40));
 
         javax.swing.GroupLayout jPanelEstadoLayout = new javax.swing.GroupLayout(jPanelEstado);
         jPanelEstado.setLayout(jPanelEstadoLayout);

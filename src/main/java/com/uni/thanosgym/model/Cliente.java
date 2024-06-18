@@ -4,32 +4,38 @@ import java.util.Date;
 
 public class Cliente extends Persona {
 
+    public enum IsFrozen {
+        SI, NO
+    }
+
     private String direccion;
     private Date subscription_until;
     private int dni;
+    private IsFrozen isFrozen;
     public static String addressField = "address";
     public static String subscriptionUntilField = "subscription_until";
     public static String dniField = "dni";
     public static String idField = "client_id";
+    public static String isFrozenField = "is_frozen";
 
     public Cliente() {
         super();
     }
 
-    public Cliente(int dni, Date created_At, Date subscription_until, String fullName, String email,
-            String Direccion, int phone) {
+    public Cliente(int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, IsFrozen isFrozen) {
         super(created_At, fullName, phone, email);
         this.dni = dni;
         this.subscription_until = subscription_until;
         this.direccion = Direccion;
+        this.isFrozen = isFrozen;
     }
 
-    public Cliente(int id, int dni, Date created_At, Date subscription_until, String fullName, String email,
-            String Direccion, int phone) {
+    public Cliente(int id, int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, IsFrozen isFrozen) {
         super(id, created_At, fullName, phone, email);
         this.dni = dni;
         this.subscription_until = subscription_until;
         this.direccion = Direccion;
+        this.isFrozen = isFrozen;
     }
 
     public int getDni() {
@@ -56,9 +62,16 @@ public class Cliente extends Persona {
         this.direccion = Direccion;
     }
 
+    public IsFrozen getIsFrozen() {
+        return isFrozen;
+    }
+
+    public void setIsFrozen(IsFrozen isFrozen) {
+        this.isFrozen = isFrozen;
+    }
+
     public Object[] showAll() {
-        Object[] lista = {  idField, dni, fullNameField, createdAtField, emailField, phoneField, direccion };
+        Object[] lista = {idField, dni, fullNameField, createdAtField, emailField, phoneField, direccion, isFrozen};
         return lista;
     }
-    
 }

@@ -22,7 +22,7 @@ public class ControladorWindowClients {
         FrameUtils.showWindow(vista, "Búsqueda de Clientes");
         modelo = new DefaultTableModel(null, titulosTabla);
         vista.jtblClient.setModel(modelo);
-        vista.setSize(1060, 690);
+        vista.setSize(750, 590);
         vista.setResizable(false);
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);
@@ -32,6 +32,7 @@ public class ControladorWindowClients {
             fillTable(response.getDataList());
             if (!vistaRendered) {
                 FrameUtils.addHandleChangeEvent(vista.jtxtNameBuscar, ControladorWindowClients::busqueda);
+                FrameUtils.addTableRowSelectionEvent(vista.jtblClient, ControladorWindowClients::abrirVentanaPdfs);
                 vistaRendered = true;
             }
         } else {
@@ -53,6 +54,14 @@ public class ControladorWindowClients {
             } else {
                 Messages.show("Error al obtener todos los clientes");
             }
+        }
+    }
+
+    public static void abrirVentanaPdfs() {
+        int selectedRow = vista.jtblClient.getSelectedRow();
+        if (selectedRow != -1) {
+            int clientId = (int) vista.jtblClient.getValueAt(selectedRow, 0);
+            ControladorClientPdf.mostrarPagosClient(clientId);
         }
     }
 

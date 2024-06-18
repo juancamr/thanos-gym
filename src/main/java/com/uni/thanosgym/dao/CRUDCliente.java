@@ -29,6 +29,9 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             rs = ps.executeQuery();
             boolean[] conditions = new boolean[]{!rs.next()};
             String error = String.format("El cliente con email %s ya existe", cliente.getEmail());
+            if (cliente.getIsFrozen() == null) {
+                cliente.setIsFrozen(Cliente.IsFrozen.NO); // Puedes establecer el valor predeterminado según tu lógica
+            }
             return baseCreateWithConditions(cliente, Querys.cliente.create, conditions, error);
         } catch (Exception e) {
             return somethingWentWrong(e);
@@ -38,7 +41,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     public Response<Cliente> getById(int id) {
         return baseGetById(Querys.cliente.getById, id);
     }
-    
+
     public Response<Cliente> getAll() {
         return baseGetAll(Querys.cliente.getAll);
     }
@@ -59,7 +62,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     public Response<Cliente> update(Cliente cliente) {
         try {
             sendObject(Querys.cliente.update, cliente);
-            ps.setInt(1, cliente.getId());
+            ps.setInt(9, cliente.getId());
             ps.executeUpdate();
             ps.close();
             return new Response<Cliente>(true);
@@ -83,7 +86,9 @@ public class CRUDCliente extends BaseCrud<Cliente> {
                 rs.getString(Cliente.fullNameField),
                 rs.getString(Cliente.emailField),
                 rs.getString(Cliente.addressField),
-                rs.getInt(Cliente.phoneField));
+                rs.getInt(Cliente.phoneField),
+                Cliente.IsFrozen.valueOf(rs.getString(Cliente.isFrozenField))
+        );
     }
 
     @Override
@@ -96,5 +101,6 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         ps.setString(5, data.getEmail());
         ps.setString(6, data.getDireccion());
         ps.setInt(7, data.getPhone());
+        ps.setString(8, data.getIsFrozen().name());
     }
 }

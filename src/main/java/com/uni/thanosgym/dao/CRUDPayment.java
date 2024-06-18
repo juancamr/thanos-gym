@@ -6,10 +6,13 @@ import com.uni.thanosgym.model.Payment;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.model.Cliente;
+import com.uni.thanosgym.utils.Querys.payment;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CRUDPayment extends BaseCrud<Payment> {
 
@@ -27,14 +30,12 @@ public class CRUDPayment extends BaseCrud<Payment> {
 
     public Response<Payment> create(Payment payment) {
         try {
-            // Verificar si el cliente ya existe por email
             Cliente cliente = payment.getCliente();
             PreparedStatement psCliente = connection.prepareStatement(Querys.cliente.getByEmail);
             psCliente.setString(1, cliente.getEmail());
             ResultSet rsCliente = psCliente.executeQuery();
 
             if (rsCliente.next()) {
-                // Cliente ya existe, obtener su ID
                 cliente.setId(rsCliente.getInt(Cliente.idField));
             } else {
                 // Cliente no existe, crearlo
@@ -46,15 +47,12 @@ public class CRUDPayment extends BaseCrud<Payment> {
                 cliente = responseCliente.getData();
             }
 
-            // Crear el pago con el cliente existente o nuevo
             payment.setCliente(cliente);
-
-            // Llamar a baseCreate para insertar el pago en la base de datos
             return baseCreate(payment, Querys.payment.create);
         } catch (SQLException e) {
             return new Response<>(false, "Error: " + e.getMessage());
         }
-    }  
+    }
 
     public Response<Payment> getById(int id) {
         return baseGetById(Querys.payment.get, id);
@@ -66,25 +64,25 @@ public class CRUDPayment extends BaseCrud<Payment> {
 
     public Response<Payment> getByCliente(int clientId) {
         try {
-            ps = connection.prepareStatement(Querys.payment.getByCliente);
+            ps = connection.prepareStatement(payment.getByCliente);
             ps.setInt(1, clientId);
             rs = ps.executeQuery();
-            if (rs.next()) {
+
+            List<Payment> payments = new ArrayList<>();
+            while (rs.next()) {
                 Payment payment = generateObject(rs);
-                return new Response<>(true, "Pago encontrado", payment);
-            } else {
-                return new Response<>(false, "No se encontró el pago");
+                payments.add(payment);
             }
-        } catch (Exception e) {
-            return somethingWentWrong(e);
+            return new Response<>(true, "Lista de pagos obtenida correctamente", payments);
+        } catch (SQLException e) {
+            return new Response<>(false, "Error al obtener los pagos del cliente: " + e.getMessage());
         }
     }
 
-
     @Override
     public Payment generateObject(ResultSet rs) throws SQLException {
-        Response<Cliente> resCliente = CRUDCliente.getInstance().getById(rs.getInt(4));
-        Response<Plan> resPlan = CRUDPlan.getInstance().getById(rs.getInt(5));
+        Response<Cliente> resCliente = CRUDCliente.getInstance().getById(rs.getInt(3));
+        Response<Plan> resPlan = CRUDPlan.getInstance().getById(rs.getInt(4));
         return new Payment(rs.getInt(1), rs.getDate(2), rs.getInt(3), resCliente.getData(),
                 resPlan.getData());
     }

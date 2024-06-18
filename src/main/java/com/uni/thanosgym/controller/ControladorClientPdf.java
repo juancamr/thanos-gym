@@ -1,79 +1,74 @@
 package com.uni.thanosgym.controller;
 
-import com.uni.thanosgym.dao.CRUDCliente;
-import com.uni.thanosgym.model.Cliente;
+import com.uni.thanosgym.dao.CRUDPayment;
+import com.uni.thanosgym.model.Payment;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
-import com.uni.thanosgym.view.WindowTableClients;
+import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.view.PanelClientPayments;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
-public class ControladorWindowClients {
+public class ControladorClientPdf {
 
-    public static WindowTableClients vista;
-    public static boolean vistaRendered = false;
+    public static PanelClientPayments vista;
     public static DefaultTableModel modelo;
-    public static String[] titulosTabla = {"ID", "DNI", "Nombre", "Fecha de Creación", "Email", "Telefono", "Dirección"};
+    public static String[] titulosTabla = {"ID", "Codigo de transacción", "Fecha de Creación", "Nombre del cliente", "Total"};
 
-    public static void showWindow() {
-        vista = ControladorWindowClients.getWindowTableClients();
-        FrameUtils.showWindow(vista, "Búsqueda de Clientes");
+    public static void mostrarPagosClient(int clientId) {
+        vista = ControladorClientPdf.getWindowTablePdfs();
+        FrameUtils.showWindow(vista, "Lista de Pagos");
         modelo = new DefaultTableModel(null, titulosTabla);
-        vista.jtblClient.setModel(modelo);
-        vista.setSize(1060, 690);
+        vista.jtblPdfs.setModel(modelo);
+        vista.setSize(750, 590);
         vista.setResizable(false);
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);
-
-        Response<Cliente> response = CRUDCliente.getInstance().readAll();
+        Response<Payment> response = CRUDPayment.getInstance().getByCliente(clientId);
+        
+        vista.jbtnAtras.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                vista.dispose(); // Cierra la ventana
+            }
+        });
+        
         if (response.isSuccess()) {
-            fillTable(response.getDataList());
-            if (!vistaRendered) {
-                FrameUtils.addHandleChangeEvent(vista.jtxtNameBuscar, ControladorWindowClients::busqueda);
-                vistaRendered = true;
-            }
-        } else {
-            Messages.show("Error al obtener todos los productos");
-        }
-    }
-
-    public static void busqueda() {
-        WindowTableClients vista = ControladorWindowClients.getWindowTableClients();
-        String query = vista.jtxtNameBuscar.getText();
-        if (query.isEmpty()) {
             modelo.setRowCount(0);
-            fillTable(CRUDCliente.getInstance().getAll().getDataList());
-        } else {
-            Response<Cliente> response = CRUDCliente.getInstance().getAllByName(query);
-            if (response.isSuccess()) {
-                modelo.setRowCount(0);
-                fillTable(response.getDataList());
+            List<Payment> payments = response.getDataList();
+            if (payments != null) {
+                llenarTablaPagos(payments);
             } else {
-                Messages.show("Error al obtener todos los clientes");
+                Messages.show("El cliente no tiene pagos registrados.");
             }
+        } else {
+            Messages.show("Error al obtener los pagos del cliente: " + response.getMessage());
         }
     }
 
-    public static void fillTable(List<Cliente> lista) {
-        for (Cliente cliente : lista) {
-            modelo.addRow(new Object[]{
-                cliente.getId(),
-                cliente.getDni(),
-                cliente.getFullName(),
-                cliente.getCreated_At(),
-                cliente.getEmail(),
-                cliente.getPhone(),
-                cliente.getDireccion()
+    private static void llenarTablaPagos(List<Payment> lista) {
+        DefaultTableModel model = (DefaultTableModel) vista.jtblPdfs.getModel();
+
+        for (Payment payment : lista) {
+            model.addRow(new Object[]{
+                payment.getId(),
+                payment.getTransactionCode(),
+                StringUtils.parseSpanishDate(payment.getCreatedAt()),
+                payment.getCliente().getFullName(),
+                String.format("S/ %.2f", payment.getPlan().getPrice())
             });
         }
     }
 
-    public static WindowTableClients getWindowTableClients() {
+    public static PanelClientPayments getWindowTablePdfs() {
         if (vista == null) {
-            vista = new WindowTableClients();
+            vista = new PanelClientPayments();
         }
         return vista;
     }
+
 }

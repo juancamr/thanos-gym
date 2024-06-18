@@ -20,8 +20,8 @@ public class Querys {
         public static String getAllByName = "SELECT * FROM client WHERE full_name LIKE '%<query>%'";
         public static String delete = "DELETE FROM client WHERE client_id = ?";
         public static String getByEmail = "SELECT * FROM client WHERE email = ?";
-        public static String update = "UPDATE client SET dni = ?, created_at = ?, subscription_until = ?, full_name = ?, email = ?, address = ?, phone = ? WHERE client_id = ?";
-        public static String create = "INSERT INTO client(dni, created_at, subscription_until, full_name, email, address, phone) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        public static String update = "UPDATE client SET dni = ?, created_at = ?, subscription_until = ?, full_name = ?, email = ?, address = ?, phone = ?, is_frozen = ? WHERE client_id = ?";
+        public static String create = "INSERT INTO client(dni, created_at, subscription_until, full_name, email, address, phone, is_frozen) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
     public class admin {

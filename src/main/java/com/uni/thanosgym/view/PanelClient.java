@@ -32,8 +32,7 @@ public class PanelClient extends javax.swing.JPanel {
         jtxtDniClienteAgregar = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel14 = new javax.swing.JLabel();
-        jbtnAgregar = new javax.swing.JButton();
-        jlblExito = new javax.swing.JLabel();
+        jbtnAniadir = new javax.swing.JButton();
         jtxtNombreClienteAgregar = new javax.swing.JTextField();
         jSeparator13 = new javax.swing.JSeparator();
         jLabel23 = new javax.swing.JLabel();
@@ -87,20 +86,16 @@ public class PanelClient extends javax.swing.JPanel {
         jLabel14.setText("Nombres y Apellidos");
         jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, 30));
 
-        jbtnAgregar.setBackground(new java.awt.Color(20, 23, 31));
-        jbtnAgregar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
-        jbtnAgregar.setForeground(new java.awt.Color(241, 240, 243));
-        jbtnAgregar.setText("AGREGAR");
-        jbtnAgregar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnAniadir.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnAniadir.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnAniadir.setForeground(new java.awt.Color(241, 240, 243));
+        jbtnAniadir.setText("AGREGAR");
+        jbtnAniadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnAgregarActionPerformed(evt);
+                jbtnAniadirActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 600, 140, 40));
-
-        jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 310, 40));
+        jPanel3.add(jbtnAniadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 550, 140, 40));
 
         jtxtNombreClienteAgregar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtNombreClienteAgregar.setHorizontalAlignment(javax.swing.JTextField.LEFT);
@@ -191,7 +186,7 @@ public class PanelClient extends javax.swing.JPanel {
                 jbtnCancelarActionPerformed(evt);
             }
         });
-        jPanel3.add(jbtnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 600, 140, 40));
+        jPanel3.add(jbtnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 550, 140, 40));
 
         jpnlInterfaz.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
 
@@ -211,9 +206,9 @@ public class PanelClient extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtDniClienteAgregarActionPerformed
 
-    private void jbtnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarActionPerformed
+    private void jbtnAniadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAniadirActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnAgregarActionPerformed
+    }//GEN-LAST:event_jbtnAniadirActionPerformed
 
     private void jtxtNombreClienteAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtNombreClienteAgregarActionPerformed
         // TODO add your handling code here:
@@ -255,10 +250,9 @@ public class PanelClient extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator24;
     private javax.swing.JSeparator jSeparator4;
     public javax.swing.JLabel jblLoading;
-    public javax.swing.JButton jbtnAgregar;
+    public javax.swing.JButton jbtnAniadir;
     public javax.swing.JButton jbtnCancelar;
     public javax.swing.JComboBox<String> jcbxPlanRegistro;
-    public javax.swing.JLabel jlblExito;
     private javax.swing.JPanel jpnlInterfaz;
     public javax.swing.JTextField jtxtDireccionClienteAdd;
     public javax.swing.JTextField jtxtDireccionCorreoAdd;

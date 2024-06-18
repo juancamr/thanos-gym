@@ -62,7 +62,7 @@ public class ControladorMainWindow {
 
         // mostrar ventana
         vista.setSize(1060, 690);
-        vista.setResizable(false);
+        vista.setResizable(true);
         vista.setTitle("Thanos Gym");
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);
