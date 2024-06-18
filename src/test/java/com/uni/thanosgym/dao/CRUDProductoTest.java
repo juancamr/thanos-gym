@@ -4,6 +4,7 @@ import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.model.Producto;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +17,7 @@ public class CRUDProductoTest {
         // create
         Producto producto = new Producto("Test Producto", 100, 30);
         Response<Producto> response = crudProducto.create(producto);
-        assertEquals(true, response.isSuccess());
+        assertTrue(response.isSuccess());
 
         //update
         int id = response.getId();
@@ -24,10 +25,10 @@ public class CRUDProductoTest {
         producto.setNombre(nameEdited);
         producto.setId(id);
         Response<Producto> response2 = crudProducto.update(producto);
-        assertEquals(true, response2.isSuccess());
+        assertTrue(response2.isSuccess());
 
         // delete
         Response<Producto> response3 = crudProducto.delete(id);
-        assertEquals(true, response3.isSuccess());
+        assertTrue(response3.isSuccess());
     }
 }

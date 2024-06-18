@@ -2,7 +2,7 @@ package com.uni.thanosgym.controller;
 
 import java.util.Date;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.view.PanelLogin;
@@ -134,6 +134,7 @@ public class ControladorSession {
                 .setUsername(username)
                 .setPassword(StringUtils.sha256(password))
                 .build();
+        ventana.dispose();
         registrar(administrador, adminMaster);
     }
 
@@ -144,6 +145,10 @@ public class ControladorSession {
             Messages.show(response.getMessage());
             return;
         }
+        PanelRegister panel = ControladorSession.getPanelRegister();
+        FrameUtils.clearInputs(new JTextField[]{panel.jtxtCorreo, panel.jtxtNombresCompletos, panel.jtxtNombreUsuario, panel.jtxtPhone});
+        panel.jPassword.setText("");
+        panel.jtxtRepeatPassword.setText("");
         vista.dispose();
         Administrador admin = response.getData();
         admin.setId(response.getId());
@@ -166,6 +171,9 @@ public class ControladorSession {
             Messages.show(response.getMessage());
             return;
         }
+        panel.jtxtNombreUsuario.setText("");
+        panel.jPassword.setText("");
+        panel.jtxtNombreUsuario.requestFocus();
         Administrador administrador = response.getData();
         administrador.setPersistencia(panel.jCheckSesion.isSelected());
         view.dispose();

@@ -25,11 +25,11 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
     }
 
     public Response<Administrador> create(Administrador admin, Administrador masterAdmin) {
-        Response<Administrador> resQuantity = getAll();
-        if (!resQuantity.getDataList().isEmpty()) {
+        int quantity = getQuantity();
+        if (quantity != 0) {
             Response<Administrador> res = verify(masterAdmin.getUsername(), masterAdmin.getPassword(), true);
             if (!res.isSuccess()) {
-                return new Response<Administrador>(false,
+                return new Response<>(false,
                         "El administrador master no existe o la contraseña es incorrecta");
             }
         } else {
@@ -61,7 +61,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
             rs = ps.executeQuery();
             if (rs.next()) {
                 Administrador admin = generateObject(rs);
-                admin.setLastSignin(new Date());
+                if (!isForMaster) admin.setLastSignin(new Date());
                 update(admin);
                 return new Response<Administrador>(true, admin);
             } else {
@@ -87,7 +87,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
 
     public int getQuantity() {
         try {
-            String query = "SELECT COUNT(*) FROM nombre_de_la_tabla";
+            String query = "SELECT COUNT(*) FROM admin";
             rs = st.executeQuery(query);
             if (rs.next()) {
                 return rs.getInt(1);
@@ -110,7 +110,7 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
 
     @Override
     public Administrador generateObject(ResultSet rs) throws SQLException {
-        boolean isForMaster = rs.getString(7) == Administrador.Rol.MASTER.toString();
+        boolean isForMaster = rs.getString(7).equals(Administrador.Rol.MASTER.toString());
         return new Administrador.Builder()
                 .setId(rs.getInt(1))
                 .setFullName(rs.getString(2))

@@ -5,6 +5,7 @@ import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.model.Cliente;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
 
@@ -19,12 +20,12 @@ public class CRUDClienteTest {
     public void mainTest() {
         // create
         Cliente cliente = new Cliente(75201393, new Date(), DateUtils.addDays(new Date(), 30), "Juan carlos",
-                "test@test.com", "santoheu", 986327221);
+                "test@test.com", "santoheu", 986327221, Cliente.Frozen.NO);
         Response<Cliente> resClient = crudCliente.create(cliente);
-        assertEquals(true, resClient.isSuccess());
+        assertTrue(resClient.isSuccess());
 
         // delete 
         Response<Cliente> res3 = crudCliente.delete(resClient.getId());
-        assertEquals(true, res3.isSuccess());
+        assertTrue(res3.isSuccess());
     }
 }

@@ -8,6 +8,7 @@ import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.model.Cliente;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +20,9 @@ public class CRUDPaymentTest {
 
     @Test
     public void mainTest() {
-        // create cliente
+        // create client
         Cliente cliente = new Cliente(75201393, new Date(), DateUtils.addDays(new Date(), 30), "Juan carlos",
-                "test@test.com", "santoheu", 986327221);
+                "test@test.com", "santoheu", 986327221, Cliente.Frozen.NO);
         cliente.setId(crudCliente.create(cliente).getId());
 
         //create plan
@@ -31,16 +32,16 @@ public class CRUDPaymentTest {
         //create payment
         Payment payment = new Payment(new Date(), 30, cliente, plan);
         Response<Payment> resPayment = crudPayment.create(payment);
-        assertEquals(true, resPayment.isSuccess());
+        assertTrue(resPayment.isSuccess());
 
         // delete payment
         Response<Payment> resPayment2 = crudPayment.delete(resPayment.getId());
-        assertEquals(true, resPayment2.isSuccess());
+        assertTrue(resPayment2.isSuccess());
 
         //delete plan
         crudPlan.deleteOnlyForTesting(plan.getId());
 
-        // delete cliente
+        // delete client
         crudCliente.delete(cliente.getId());
     }
 }

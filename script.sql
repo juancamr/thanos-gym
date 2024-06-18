@@ -30,6 +30,7 @@ CREATE TABLE if not exists client (
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     address VARCHAR(255),
+    is_frozen ENUM('SI', 'NO'),
     phone BIGINT,
     CONSTRAINT PRIMARY KEY (client_id)
 );

@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class Cliente extends Persona {
 
-    public enum IsFrozen {
+    public enum Frozen {
         SI, NO
     }
 
     private String direccion;
     private Date subscription_until;
     private int dni;
-    private IsFrozen isFrozen;
+    private Frozen isFrozen;
     public static String addressField = "address";
     public static String subscriptionUntilField = "subscription_until";
     public static String dniField = "dni";
@@ -22,20 +22,20 @@ public class Cliente extends Persona {
         super();
     }
 
-    public Cliente(int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, IsFrozen isFrozen) {
+    public Cliente(int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, Frozen frozen) {
         super(created_At, fullName, phone, email);
         this.dni = dni;
         this.subscription_until = subscription_until;
         this.direccion = Direccion;
-        this.isFrozen = isFrozen;
+        this.isFrozen = frozen;
     }
 
-    public Cliente(int id, int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, IsFrozen isFrozen) {
+    public Cliente(int id, int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, Frozen frozen) {
         super(id, created_At, fullName, phone, email);
         this.dni = dni;
         this.subscription_until = subscription_until;
         this.direccion = Direccion;
-        this.isFrozen = isFrozen;
+        this.isFrozen = frozen;
     }
 
     public int getDni() {
@@ -62,12 +62,12 @@ public class Cliente extends Persona {
         this.direccion = Direccion;
     }
 
-    public IsFrozen getIsFrozen() {
+    public Frozen getIsFrozen() {
         return isFrozen;
     }
 
-    public void setIsFrozen(IsFrozen isFrozen) {
-        this.isFrozen = isFrozen;
+    public void setIsFrozen(Frozen frozen) {
+        this.isFrozen = frozen;
     }
 
     public Object[] showAll() {

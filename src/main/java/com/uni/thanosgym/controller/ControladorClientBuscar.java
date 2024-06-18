@@ -95,7 +95,7 @@ public class ControladorClientBuscar {
                         panel.jtxtDireccionCliente.setText(cli.getDireccion());
                         panel.jtxtTelefonoCliente.setText(String.valueOf(cli.getPhone()));
 
-                        if (cli.getIsFrozen() == Cliente.IsFrozen.SI) {
+                        if (cli.getIsFrozen() == Cliente.Frozen.SI) {
                             // Cliente congelado
                             panel.jPanelEstado.setBackground(Color.CYAN);
                             panel.jtxtPlanActual.setText("Cliente congelado");
@@ -457,7 +457,7 @@ public class ControladorClientBuscar {
                 Date currentEndDate = cliente.getSubscription_until();
                 Date newEndDate = DateUtils.addDays(currentEndDate, diasCongelacion);
                 cliente.setSubscription_until(newEndDate);
-                cliente.setIsFrozen(Cliente.IsFrozen.SI);
+                cliente.setIsFrozen(Cliente.Frozen.SI);
 
                 // Actualizar en la base de datos
                 Response<Cliente> updateResponse = CRUDCliente.getInstance().update(cliente);

@@ -30,7 +30,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             boolean[] conditions = new boolean[] { !rs.next() };
             String error = String.format("El cliente con email %s ya existe", cliente.getEmail());
             if (cliente.getIsFrozen() == null) {
-                cliente.setIsFrozen(Cliente.IsFrozen.NO); // Puedes establecer el valor predeterminado según tu lógica
+                cliente.setIsFrozen(Cliente.Frozen.NO); // Puedes establecer el valor predeterminado según tu lógica
             }
             return baseCreateWithConditions(cliente, Querys.cliente.create, conditions, error);
         } catch (Exception e) {
@@ -87,7 +87,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
                 rs.getString(Cliente.emailField),
                 rs.getString(Cliente.addressField),
                 rs.getInt(Cliente.phoneField),
-                Cliente.IsFrozen.valueOf(rs.getString(Cliente.isFrozenField))
+                Cliente.Frozen.valueOf(rs.getString(Cliente.isFrozenField))
         );
     }
 
