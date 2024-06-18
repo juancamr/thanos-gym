@@ -19,16 +19,7 @@ public class CRUDProducto extends BaseCrud<Producto> {
     }
 
     public Response<Producto> create(Producto producto) {
-        try {
-            ps = connection.prepareStatement(Querys.producto.getByName);
-            ps.setString(1, producto.getNombre());
-            rs = ps.executeQuery();
-            boolean[] conditions = new boolean[] { !rs.next() };
-            String error = String.format("El producto con el nombre %s ya existe", producto.getNombre());
-            return baseCreateWithConditions(producto, Querys.producto.create, conditions, error);
-        } catch (Exception e) {
-            return somethingWentWrong(e);
-        }
+        return baseCreate(producto, Querys.producto.create);
     }
 
     public Response<Producto> delete(int id) {
@@ -41,11 +32,6 @@ public class CRUDProducto extends BaseCrud<Producto> {
 
     public Response<Producto> getById(int id) {
         return baseGetById(Querys.producto.getById, id);
-    }
-
-    public Response<Producto> getAllByName(String query) {
-        String consulta = Querys.producto.getAllByName;
-        return baseGetAll(consulta.replace("<query>", query));
     }
 
     public Response<Producto> update(Producto producto) {

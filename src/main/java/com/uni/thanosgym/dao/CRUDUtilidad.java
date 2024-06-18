@@ -18,25 +18,11 @@ public class CRUDUtilidad extends BaseCrud<Utilidad> {
     }
 
     public Response<Utilidad> create(Utilidad utility) {
-        try {
-            ps = connection.prepareStatement(Querys.utility.getByName);
-            ps.setString(1, utility.getNombre());
-            rs = ps.executeQuery();
-            boolean[] conditions = new boolean[] { !rs.next() };
-            String error = String.format("El utility con el nombre %s ya existe", utility.getNombre());
-            return baseCreateWithConditions(utility, Querys.utility.create, conditions, error);
-        } catch (Exception e) {
-            return somethingWentWrong(e);
-        }
+        return baseCreate(utility, Querys.utility.create);
     }
 
     public Response<Utilidad> getAll() {
         return baseGetAll(Querys.utility.getAll);
-    }
-
-    public Response<Utilidad> getAllByName(String query) {
-        String consulta = Querys.utility.getAllByName;
-        return baseGetAll(consulta.replace("<query>", query));
     }
 
     public Response<Utilidad> getById(int id) {
@@ -59,17 +45,16 @@ public class CRUDUtilidad extends BaseCrud<Utilidad> {
         }
     }
 
-	@Override
-	public Utilidad generateObject(ResultSet rs) throws SQLException {
+    @Override
+    public Utilidad generateObject(ResultSet rs) throws SQLException {
         return new Utilidad(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
-	}
+    }
 
-	@Override
-	public void sendObject(String consulta, Utilidad data) throws SQLException {
+    @Override
+    public void sendObject(String consulta, Utilidad data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getNombre());
         ps.setInt(2, data.getPeso());
         ps.setInt(3, data.getCantidad());
-	}
+    }
 }
-

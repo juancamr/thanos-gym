@@ -5,6 +5,7 @@
 package com.uni.thanosgym.view;
 
 import com.uni.thanosgym.controller.ControladorProducto;
+import com.uni.thanosgym.model.Producto;
 
 /**
  *
@@ -76,8 +77,12 @@ public class PanelProducto extends javax.swing.JPanel {
     private void jtblProductoMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblProductoMouseClicked
         int fila = jtblProducto.getSelectedRow();
         if (fila != -1) {
-            String idProducto = String.valueOf(jtblProducto.getValueAt(fila, 0));
-            ControladorProducto.showOptions(Integer.parseInt(idProducto));
+            int idProducto = Integer.parseInt(String.valueOf(jtblProducto.getValueAt(fila, 0)));
+            String nombre = String.valueOf(jtblProducto.getValueAt(fila, 1));
+            int cantidad = Integer.parseInt(String.valueOf(jtblProducto.getValueAt(fila, 2)));
+            double precio = Double.parseDouble(String.valueOf(jtblProducto.getValueAt(fila, 3)));
+            Producto producto = new Producto(idProducto, nombre, cantidad, precio);
+            ControladorProducto.showOptions(producto);
         }
 
     }// GEN-LAST:event_jtblProductoMouseClicked

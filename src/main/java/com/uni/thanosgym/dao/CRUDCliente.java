@@ -27,7 +27,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             ps = connection.prepareStatement(Querys.cliente.getByEmail);
             ps.setString(1, cliente.getEmail());
             rs = ps.executeQuery();
-            boolean[] conditions = new boolean[]{!rs.next()};
+            boolean[] conditions = new boolean[] { !rs.next() };
             String error = String.format("El cliente con email %s ya existe", cliente.getEmail());
             if (cliente.getIsFrozen() == null) {
                 cliente.setIsFrozen(Cliente.IsFrozen.NO); // Puedes establecer el valor predeterminado según tu lógica

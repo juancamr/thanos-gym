@@ -104,13 +104,11 @@ public class ControladorSession {
             administrador.setPhone(Integer.parseInt(phone));
         }
         administrador.setLastSignin(new Date());
-
-        Response<Administrador> resQuantity = CRUDAdministrador.getInstance().getAll();
-        if (!resQuantity.getDataList().isEmpty()) {
-            showVerifyAdminMaster(administrador);
-        } else {
-            registrar(administrador, new Administrador.Builder().build()); 
+        if (CRUDAdministrador.getInstance().getQuantity() == 0) {
+            registrar(administrador, new Administrador.Builder().build());
+            return;
         }
+        showVerifyAdminMaster(administrador);
     }
 
     private static void showVerifyAdminMaster(Administrador administrador) {
@@ -151,7 +149,6 @@ public class ControladorSession {
         admin.setId(response.getId());
         Auth.signIn(admin);
     }
-
 
     public static void iniciarSesion() {
         WindowSession view = ControladorSession.getWindow();
