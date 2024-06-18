@@ -24,9 +24,9 @@ public class ControladorMainWindow {
         vista.jbtnPrimero.setText("    Dashboard");
         vista.jbtnSegundo.setText("    Planes");
         vista.jbtnTercero.setText("    Clientes");
-        vista.jbtnCuarto.setText("    Cuarto");
-        vista.jbtnQuinto.setText("    Producto");
-        vista.jbtnSexto.setText("    Utilidad");
+        vista.jbtnCuarto.setText("    Producto");
+        vista.jbtnQuinto.setText("    Utilidad");
+        vista.jbtnSexto.setVisible(false);
 
         if (!vistaRendered) {
             FrameUtils.addOnClickEvent(vista.jbtnPrimero, () -> {
@@ -38,23 +38,17 @@ public class ControladorMainWindow {
                 setFocusButton(vista.jbtnSegundo);
             });
             FrameUtils.addOnClickEvent(vista.jbtnTercero, () -> {
-                ControladorClientBuscar.showPanel();
+                ControladorClientBuscar.showPanelBuscar();
                 setFocusButton(vista.jbtnTercero);
             });
             FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {
-                System.out.println("Pronto mas :))");
-                // ControladorClientBuscar.showPanel();
-                // setFocusButton(vista.jbtnCuarto);
+                ControladorProducto.showPanel();
+                setFocusButton(vista.jbtnCuarto);
             });
             FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
-                ControladorProducto.showPanel();
+                ControladorUtilidad.showPanel();
                 setFocusButton(vista.jbtnQuinto);
             });
-            FrameUtils.addOnClickEvent(vista.jbtnSexto, () -> {
-                ControladorUtilidad.showPanel();
-                setFocusButton(vista.jbtnSexto);
-            });
-            vistaRendered = true;
         }
 
         vista.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());

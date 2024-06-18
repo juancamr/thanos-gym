@@ -51,7 +51,7 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         return baseGetAll(consulta.replace("<query>", query));
     }
 
-    public Response<Cliente> read(int dni) {
+    public Response<Cliente> getByDni(int dni) {
         return baseGetById(Querys.cliente.getByDni, dni);
     }
 

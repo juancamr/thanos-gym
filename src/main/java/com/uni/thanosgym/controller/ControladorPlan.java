@@ -24,6 +24,8 @@ import javax.swing.JButton;
 public class ControladorPlan {
 
     public static List<Plan> listaPlanes;
+    public static PanelPlan panel;
+    private static boolean panelIsRendered = false;
 
     public static List<Plan> getListaPlanes() {
         if (listaPlanes == null) {
@@ -39,18 +41,21 @@ public class ControladorPlan {
      * @param pan Panel principal
      */
     public static void showPanel() {
-        PanelPlan panel = new PanelPlan();
+        PanelPlan panel = getPanelPlan();
         MainWindow vista = ControladorMainWindow.getMainWindow();
         List<Plan> listaPlanes = getListaPlanes();
-        panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
         ControladorPlan.createPanelList(listaPlanes, panel.planesListPanel);
 
+        if (!panelIsRendered) {
+            panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
+            FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, ControladorPlan::showAgregarPlanWindow);
+            FrameUtils.addOnClickEvent(panel.jbtnCerrarSesion, () -> {
+                vista.dispose();
+                Auth.logOut();
+            });
+            panelIsRendered = true;
+        }
         FrameUtils.showPanel(vista, panel);
-        FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, ControladorPlan::showAgregarPlanWindow);
-        FrameUtils.addOnClickEvent(panel.jbtnCerrarSesion, () -> {
-            vista.dispose();
-            Auth.logOut();
-        });
     }
 
     /**
@@ -157,6 +162,7 @@ public class ControladorPlan {
      * @param mainPanel Panel padre
      */
     public static void createPanelList(List<Plan> dataList, JPanel mainPanel) {
+        mainPanel.removeAll();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         if (dataList.isEmpty()) {
             JLabel emptyLabel = new JLabel();
@@ -194,6 +200,12 @@ public class ControladorPlan {
             mainPanel.add(panel, BorderLayout.CENTER);
             mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
+    }
+
+    public static PanelPlan getPanelPlan() {
+        if (panel == null)
+            panel = new PanelPlan();
+        return panel;
     }
 
 }
