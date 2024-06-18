@@ -47,8 +47,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jtxtPlanActual = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
-        jcbxPlanRegistro = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
         jbtnBoletas = new javax.swing.JButton();
         jbtnCongelar = new javax.swing.JButton();
         jbtnRegistrar = new javax.swing.JButton();
@@ -200,18 +198,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 580, 200, 10));
 
-        jcbxPlanRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbxPlanRegistroActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jcbxPlanRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 630, 120, 30));
-
-        jLabel3.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(105, 105, 118));
-        jLabel3.setText("Nuevo Plan");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 600, 160, 30));
-
         jpnlInterfaz.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
 
         jbtnBoletas.setBackground(new java.awt.Color(20, 23, 31));
@@ -298,10 +284,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtxtPlanActualActionPerformed
 
-    private void jcbxPlanRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbxPlanRegistroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jcbxPlanRegistroActionPerformed
-
     private void jbtnCongelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCongelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnCongelarActionPerformed
@@ -325,7 +307,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanelEstado;
@@ -340,7 +321,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
     public javax.swing.JButton jbtnEditar;
     public javax.swing.JButton jbtnRegistrar;
     public javax.swing.JButton jbtnRenovar;
-    public javax.swing.JComboBox<String> jcbxPlanRegistro;
     private javax.swing.JPanel jpnlInterfaz;
     public javax.swing.JTextField jtxtDireccionCliente;
     public javax.swing.JTextField jtxtDniCliente;

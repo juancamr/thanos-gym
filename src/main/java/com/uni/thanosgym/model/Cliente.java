@@ -22,7 +22,8 @@ public class Cliente extends Persona {
         super();
     }
 
-    public Cliente(int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, Frozen frozen) {
+    public Cliente(int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion,
+            int phone, Frozen frozen) {
         super(created_At, fullName, phone, email);
         this.dni = dni;
         this.subscription_until = subscription_until;
@@ -30,7 +31,8 @@ public class Cliente extends Persona {
         this.isFrozen = frozen;
     }
 
-    public Cliente(int id, int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion, int phone, Frozen frozen) {
+    public Cliente(int id, int dni, Date created_At, Date subscription_until, String fullName, String email,
+            String Direccion, int phone, Frozen frozen) {
         super(id, created_At, fullName, phone, email);
         this.dni = dni;
         this.subscription_until = subscription_until;
@@ -71,7 +73,8 @@ public class Cliente extends Persona {
     }
 
     public Object[] showAll() {
-        Object[] lista = {idField, dni, fullNameField, createdAtField, emailField, phoneField, direccion, isFrozen};
+        Object[] lista = { super.getId(), dni, super.getFullName(), createdAtField, super.getEmail(), super.getPhone(),
+                direccion };
         return lista;
     }
 }

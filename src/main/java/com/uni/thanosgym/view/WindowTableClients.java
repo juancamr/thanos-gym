@@ -34,7 +34,6 @@ public class WindowTableClients extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(750, 590));
-        setPreferredSize(new java.awt.Dimension(750, 590));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -42,11 +41,10 @@ public class WindowTableClients extends javax.swing.JFrame {
 
         jLabel23.setBackground(new java.awt.Color(105, 105, 118));
         jLabel23.setFont(new java.awt.Font("Malgun Gothic", 0, 24)); // NOI18N
-        jLabel23.setText("Buscar Boletas");
+        jLabel23.setText("Buscar Clientes");
 
         jtxtNameBuscar.setBackground(new java.awt.Color(204, 204, 204));
         jtxtNameBuscar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jtxtNameBuscar.setForeground(new java.awt.Color(0, 0, 0));
         jtxtNameBuscar.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jtxtNameBuscar.setBorder(null);
         jtxtNameBuscar.addActionListener(new java.awt.event.ActionListener() {

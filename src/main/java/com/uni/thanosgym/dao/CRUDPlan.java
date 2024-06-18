@@ -29,10 +29,6 @@ public class CRUDPlan extends BaseCrud<Plan> {
         return baseGetById(Querys.plan.get, id);
     }
 
-    public Response<Plan> getByName(String planName) {
-        return baseGetByString(Querys.plan.getByName, planName);
-    }
-
     public Response<Plan> getAll() {
         return baseGetAll(Querys.plan.getAll);
     }

@@ -125,7 +125,7 @@ public class ControladorUtilidad {
             fillTable(getListaUtilidades());
         } else {
             List<Utilidad> filteredList = getListaUtilidades().stream()
-                    .filter(utilidad -> utilidad.getNombre().contains(query))
+                    .filter(utilidad -> utilidad.getNombre().toLowerCase().contains(query.toLowerCase()))
                     .toList();
             fillTable(filteredList);
         }

@@ -127,7 +127,7 @@ public class ControladorProducto {
             fillTable(getListaProductos());
         } else {
             List<Producto> filteredList = getListaProductos().stream()
-                    .filter(producto -> producto.getNombre().contains(query))
+                    .filter(producto -> producto.getNombre().toLowerCase().contains(query.toLowerCase()))
                     .toList();
             fillTable(filteredList);
         }

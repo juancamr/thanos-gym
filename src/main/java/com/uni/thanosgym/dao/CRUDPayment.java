@@ -71,7 +71,6 @@ public class CRUDPayment extends BaseCrud<Payment> {
             List<Payment> payments = new ArrayList<>();
             while (rs.next()) {
                 Payment payment = generateObject(rs);
-                System.out.println(payment.getId());
                 payments.add(payment);
             }
             return new Response<>(true, "Lista de pagos obtenida correctamente", payments);

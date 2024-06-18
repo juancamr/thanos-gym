@@ -15,7 +15,8 @@ public class ControladorWindowClients {
     public static WindowTableClients vista;
     public static boolean vistaRendered = false;
     public static DefaultTableModel modelo;
-    public static String[] titulosTabla = {"ID", "DNI", "Nombre", "Fecha de Creación", "Email", "Telefono", "Dirección"};
+    public static String[] titulosTabla = { "ID", "DNI", "Nombre", "Fecha de Creación", "Email", "Telefono",
+            "Dirección" };
 
     public static void showWindow() {
         vista = ControladorWindowClients.getWindowTableClients();
@@ -27,16 +28,21 @@ public class ControladorWindowClients {
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);
 
-        Response<Cliente> response = CRUDCliente.getInstance().readAll();
-        if (response.isSuccess()) {
-            fillTable(response.getDataList());
-            if (!vistaRendered) {
-                FrameUtils.addHandleChangeEvent(vista.jtxtNameBuscar, ControladorWindowClients::busqueda);
-                FrameUtils.addTableRowSelectionEvent(vista.jtblClient, ControladorWindowClients::abrirVentanaPdfs);
-                vistaRendered = true;
+        if (!ControladorClientBuscar.isFull) {
+            Response<Cliente> response = CRUDCliente.getInstance().getAll();
+            if (!response.isSuccess()) {
+                Messages.show("Error al obtener todos los productos");
+                return;
             }
-        } else {
-            Messages.show("Error al obtener todos los productos");
+            ControladorClientBuscar.listaClientes = response.getDataList();
+            ControladorClientBuscar.isFull = true;
+        }
+        fillTable(ControladorClientBuscar.listaClientes);
+
+        if (!vistaRendered) {
+            FrameUtils.addHandleChangeEvent(vista.jtxtNameBuscar, ControladorWindowClients::busqueda);
+            FrameUtils.addTableRowSelectionEvent(vista.jtblClient, ControladorWindowClients::abrirVentanaPdfs);
+            vistaRendered = true;
         }
     }
 
@@ -45,15 +51,13 @@ public class ControladorWindowClients {
         String query = vista.jtxtNameBuscar.getText();
         if (query.isEmpty()) {
             modelo.setRowCount(0);
-            fillTable(CRUDCliente.getInstance().getAll().getDataList());
+            fillTable(ControladorClientBuscar.listaClientes);
         } else {
-            Response<Cliente> response = CRUDCliente.getInstance().getAllByName(query);
-            if (response.isSuccess()) {
-                modelo.setRowCount(0);
-                fillTable(response.getDataList());
-            } else {
-                Messages.show("Error al obtener todos los clientes");
-            }
+            List<Cliente> filteredList = ControladorClientBuscar.listaClientes.stream()
+                    .filter(c -> c.getFullName().toLowerCase().contains(query.toLowerCase())
+                            || String.valueOf(c.getDni()).contains(query))
+                    .toList();
+            fillTable(filteredList);
         }
     }
 
@@ -66,16 +70,9 @@ public class ControladorWindowClients {
     }
 
     public static void fillTable(List<Cliente> lista) {
+        modelo.setRowCount(0);
         for (Cliente cliente : lista) {
-            modelo.addRow(new Object[]{
-                cliente.getId(),
-                cliente.getDni(),
-                cliente.getFullName(),
-                cliente.getCreated_At(),
-                cliente.getEmail(),
-                cliente.getPhone(),
-                cliente.getDireccion()
-            });
+            modelo.addRow(cliente.showAll());
         }
     }
 
