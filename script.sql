@@ -3,7 +3,7 @@ USE thanosgym;
 
 CREATE TABLE if not exists admin (
     admin_id INT NOT NULL AUTO_INCREMENT,
-    created_at DATE NOT NULL,
+    created_at DATE NOT NULL default current_timestamp,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
@@ -11,7 +11,7 @@ CREATE TABLE if not exists admin (
     password VARCHAR(255) NOT NULL,
     rol ENUM('MASTER', 'EMPLEADO'),
     photo_url VARCHAR(255),
-    last_signin DATE NOT NULL,
+    last_signin DATE NOT NULL default current_timestamp,
     PRIMARY KEY (admin_id)
 ) Engine=InnoDB;
 
@@ -27,7 +27,7 @@ CREATE TABLE if not exists plan (
 CREATE TABLE if not exists client (
     client_id INT NOT NULL AUTO_INCREMENT,
     dni varchar(20) NOT NULL,
-    created_at DATE NOT NULL,
+    created_at DATE NOT NULL default current_timestamp,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     address VARCHAR(255),
@@ -52,8 +52,13 @@ CREATE TABLE if not exists contrato (
     plan_id INT NOT NULL,
     admin_id INT NOT NULL,
     transaction_code varchar(100) NOT NULL,
-    congelado BOOLEAN NOT NULL,
-    created_at DATETIME NOT NULL,
+
+    is_frozen BOOLEAN NOT NULL default false,
+    freeze_until DATE not null,
+    freeze_count INT NOT NULL default 0,
+    last_freeze_date DATE NOT NULL,
+    
+    created_at DATETIME NOT NULL default CURRENT_TIMESTAMP,
     subscription_until DATE NOT NULL,
     PRIMARY KEY (contrato_id),
     FOREIGN KEY (client_id) REFERENCES client(client_id),
@@ -65,7 +70,7 @@ create table if not exists boleta (
     boleta_id INT NOT NULL AUTO_INCREMENT,
     client_id INT NOT NULL,
     admin_id INT NOT NULL,
-    created_at DATE NOT NULL,
+    created_at DATE NOT NULL default current_timestamp,
     total_boleta DECIMAL(10, 2) NOT NULL,
     PRIMARY KEY (boleta_id),
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id)
