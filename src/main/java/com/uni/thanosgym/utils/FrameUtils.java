@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -124,6 +125,21 @@ public class FrameUtils {
      * @param button Button
      * @param handleClick Lambda function
      */
+    public static <T> void addOnClickEvent(JComboBox<T> combo, Runnable handleClick) {
+        combo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleClick.run();
+            }
+        });
+    }
+
+    /**
+     * Agregar evento de clic a un boton
+     *
+     * @param button Button
+     * @param handleClick Lambda function
+     */
     public static void addOnClickEvent(JButton button, Runnable handleClick) {
         button.addActionListener(new ActionListener() {
             @Override
@@ -158,6 +174,20 @@ public class FrameUtils {
         });
 
     }
+
+    public static void removeAllEvents(JTextField input) {
+        for (ActionListener al : input.getActionListeners()) {
+            input.removeActionListener(al);
+        }
+    }
+
+
+    public static void removeAllEvents(JButton button) {
+        for (ActionListener al : button.getActionListeners()) {
+            button.removeActionListener(al);
+        }
+    }
+
 
     /**
      * Agregar evento de selección de fila a una tabla

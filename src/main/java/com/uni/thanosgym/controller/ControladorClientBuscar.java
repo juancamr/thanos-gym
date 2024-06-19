@@ -2,7 +2,6 @@ package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDPayment;
-import com.uni.thanosgym.dao.CRUDPlan;
 import com.uni.thanosgym.model.Cliente;
 import com.uni.thanosgym.model.Payment;
 import com.uni.thanosgym.model.Plan;
@@ -19,9 +18,11 @@ import com.uni.thanosgym.utils.EnvVariables;
 import com.uni.thanosgym.utils.HttpUtils;
 import com.uni.thanosgym.utils.ResponseByReniec;
 import com.uni.thanosgym.utils.Utils;
-import com.uni.thanosgym.view.CongelarPlan;
 
 import javax.swing.*;
+
+import org.netbeans.lib.awtextra.AbsoluteLayout;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -29,14 +30,13 @@ import java.util.concurrent.CompletableFuture;
 
 public class ControladorClientBuscar {
 
-    private static boolean flag = false;
     public static PanelClientBuscar panelBuscar;
     public static PanelClient panelClient;
-    public static CongelarPlan windowCongelar;
     public static boolean panelAgregarIsRendered = false;
     public static boolean panelBuscarIsRendered = false;
     public static List<Cliente> listaClientes = new ArrayList<>();
     public static boolean isFull = false;
+    private static Cliente clientTarget = null;
 
     public static void showPanelBuscar() {
         if (ControladorPlan.getListaPlanes().isEmpty()) {
@@ -46,39 +46,26 @@ public class ControladorClientBuscar {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelClientBuscar panel = getPanelBuscar();
         if (!panelBuscarIsRendered) {
-            FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::busqueda);
-            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editar);
-            // FrameUtils.addOnClickEvent(panel.jbtnRenovar,
-            // ControladorClientBuscar::renovar);
-            FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorClientBuscar::abrirWindowClients);
+            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+            FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorWindowClients::showWindow);
+            FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClientBuscar::renovar);
             FrameUtils.addOnClickEvent(panel.jbtnRegistrar, ControladorClientBuscar::showPanelClientAgregar);
-            // FrameUtils.addOnClickEvent(panel.jbtnCongelar, ControladorClientBuscar::showWindowCongelar);
-            panel.jtxtNombreCliente.setEnabled(false);
-            panel.jtxtPlanActual.setEnabled(false);
-            panel.jtxtNombreCliente.setBackground(new Color(240, 240, 240));
-            panel.jtxtPlanActual.setBackground(new Color(240, 240, 240));
+            FrameUtils.addOnClickEvent(panel.jbtnCongelar, ControladorClientBuscar::congelar);
+            FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::buscarPorDni);
+
+            isClientTargeted(false);
+            isClientEditable(false);
+
             panelBuscarIsRendered = true;
         }
         FrameUtils.showPanel(vista, panel);
     }
 
-    public static PanelClientBuscar getPanelBuscar() {
-        if (panelBuscar == null) {
-            panelBuscar = new PanelClientBuscar();
-        }
-        return panelBuscar;
-    }
-
-    public static void emptyFieldsBuscar() {
-        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
-        JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente, panel.jtxtDireccionCliente,
-                panel.jtxtTelefonoCliente, panel.jtxtPlanActual };
-        FrameUtils.clearInputs(inputs);
-    }
-
-    public static void busqueda() {
+    private static void buscarPorDni() {
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
         String dniString = panel.jtxtDniCliente.getText();
+
+        // validaciones
         if (dniString.isEmpty()) {
             Messages.show("Por favor, digite un DNI");
             return;
@@ -89,56 +76,54 @@ public class ControladorClientBuscar {
         }
 
         // busqueda ahorrativa xd
-        Cliente cliente = null;
         int dniCliente = Integer.parseInt(dniString);
         if (listaClientes.isEmpty()) {
             Response<Cliente> resCliente = CRUDCliente.getInstance().getByDni(dniCliente);
             if (!resCliente.isSuccess()) {
                 Messages.show("El cliente no está registrado");
-                emptyFieldsBuscar();
+                limpiarCamposBusqueda();
                 return;
             }
-            cliente = resCliente.getData();
-            listaClientes.add(cliente);
+            clientTarget = resCliente.getData();
+            isClientTargeted(true);
+            listaClientes.add(clientTarget);
         } else {
             Cliente clienteFound = listaClientes.stream().filter(c -> c.getDni() == dniCliente).findFirst()
                     .orElse(null);
             if (clienteFound != null) {
-                cliente = clienteFound;
+                isClientTargeted(true);
+                clientTarget = clienteFound;
             } else {
                 Response<Cliente> resCliente = CRUDCliente.getInstance().getByDni(dniCliente);
                 if (!resCliente.isSuccess()) {
                     Messages.show("El cliente no está registrado");
-                    emptyFieldsBuscar();
+                    limpiarCamposBusqueda();
                     return;
                 }
-                cliente = resCliente.getData();
-                listaClientes.add(cliente);
+                clientTarget = resCliente.getData();
+                isClientTargeted(true);
+                listaClientes.add(clientTarget);
             }
         }
 
-        Cliente cli = cliente;
-        panel.jtxtNombreCliente.setText(cli.getFullName());
-        panel.jtxtDireccionCliente.setText(cli.getDireccion());
-        panel.jtxtTelefonoCliente.setText(String.valueOf(cli.getPhone()));
+        panel.jtxtNombreCliente.setText(clientTarget.getFullName());
+        panel.jtxtDireccionCliente.setText(clientTarget.getDireccion());
+        panel.jtxtTelefonoCliente.setText(String.valueOf(clientTarget.getPhone()));
 
-        if (cli.getIsFrozen() == Cliente.Frozen.SI) {
+        if (clientTarget.getIsFrozen() == Cliente.Frozen.SI) {
             panel.jPanelEstado.setBackground(Color.CYAN);
+            Messages.show("El plan esta congelado");
         }
-        Response<Payment> paymentResponse = CRUDPayment.getInstance().getByCliente(cli.getId());
+        Response<Payment> paymentResponse = CRUDPayment.getInstance().getByCliente(clientTarget.getId());
         if (!paymentResponse.isSuccess()) {
             Messages.show("No se pudo encontrar el pago");
             return;
         }
-        Date fechaActual = new Date();
-        Date fechaFinal = cli.getSubscription_until();
 
-        if (fechaActual.after(fechaFinal)) {
-            // Plan vencido
+        if (new Date().after(clientTarget.getSubscription_until())) {
             panel.jPanelEstado.setBackground(Color.RED);
             panel.jtxtPlanActual.setText("Plan vencido");
         } else {
-            // Plan válido
             panel.jPanelEstado.setBackground(Color.GREEN);
             Payment lastPayment = paymentResponse.getDataList().getLast();
             panel.jtxtPlanActual.setText(lastPayment.getPlan().getName());
@@ -146,130 +131,72 @@ public class ControladorClientBuscar {
 
     }
 
-    public static void editar() {
+    public static void editMode() {
+        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        panel.jbtnEditar.setText("Guardar");
+        FrameUtils.removeAllEvents(panel.jbtnEditar);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::actualizar);
+        isClientEditable(true);
+    }
+
+    private static void isClientTargeted(boolean flag) {
+        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        panel.jbtnEditar.setEnabled(flag);
+        panel.jbtnCongelar.setEnabled(flag);
+        panel.jbtnRenovar.setEnabled(flag);
+    }
+
+    private static void isClientEditable(boolean flag) {
+        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        panel.jtxtNombreCliente.setEnabled(flag);
+        panel.jtxtDireccionCliente.setEnabled(flag);
+        panel.jtxtTelefonoCliente.setEnabled(flag);
+        panel.jtxtNombreCliente.requestFocus();
+    }
+
+    private static void actualizar() {
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
 
-        if (panel.jtxtNombreCliente.getText().isEmpty() || panel.jtxtDniCliente.getText().isEmpty()) {
-            Messages.show("Ingrese un cliente");
-        } else {
-            try {
-                int dniCliente = Integer.parseInt(panel.jtxtDniCliente.getText());
-                Response<Cliente> response = CRUDCliente.getInstance().getByDni(dniCliente);
-
-                if (response.isSuccess()) {
-                    Cliente cli = response.getData();
-
-                    if (flag) {
-                        cli.setFullName(panel.jtxtNombreCliente.getText());
-                        cli.setDireccion(panel.jtxtDireccionCliente.getText());
-                        cli.setPhone(Integer.parseInt(panel.jtxtTelefonoCliente.getText()));
-
-                        Response<Cliente> updateResponse = CRUDCliente.getInstance().update(cli);
-                        if (updateResponse.isSuccess()) {
-                            Messages.show("Datos actualizados");
-                        } else {
-                            Messages.show(updateResponse.getMessage());
-                        }
-
-                        panel.jbtnEditar.setText("EDITAR");
-
-                        JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente,
-                                panel.jtxtDireccionCliente, panel.jtxtTelefonoCliente, panel.jtxtPlanActual };
-                        FrameUtils.clearInputs(inputs);
-
-                        flag = false;
-                        isFocusable(panel, false);
-                        panel.jbtnEditar.setForeground(new Color(255, 255, 254));
-                        panel.jbtnEditar.setBackground(new Color(20, 23, 31));
-                        panel.jPanelEstado.setBackground(Color.GRAY);
-                    } else {
-                        flag = true;
-                        isFocusable(panel, true);
-                        panel.jbtnEditar.setText("ACTUALIZAR");
-                        panel.jbtnEditar.setForeground(new Color(0, 0, 0));
-                        panel.jbtnEditar.setBackground(new Color(255, 255, 254));
-                    }
-                } else {
-                    Messages.show("El cliente no está registrado");
-                }
-            } catch (NumberFormatException exception) {
-                Messages.show("Error, el DNI debe ser un número");
-                FrameUtils.clearInputs(panel.jtxtDniCliente);
-            }
+        String phone = panel.jtxtTelefonoCliente.getText();
+        String nombres = panel.jtxtNombreCliente.getText();
+        String direccion = panel.jtxtDireccionCliente.getText();
+        if (!StringUtils.isValidPhone(phone)) {
+            Messages.show("Telefono con formato incorrecto");
+            return;
         }
+
+        if (clientTarget.getFullName().equals(nombres) && clientTarget.getDireccion().equals(direccion)
+                && clientTarget.getPhone() == Integer.parseInt(phone)) {
+            Messages.show("No se ha realizado ningun cambio");
+            FrameUtils.removeAllEvents(panel.jbtnEditar);
+            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+            panel.jbtnEditar.setText("Editar");
+            return;
+        }
+        int idx = listaClientes.indexOf(clientTarget);
+        if (!nombres.equals(clientTarget.getFullName())) {
+            clientTarget.setFullName(panel.jtxtNombreCliente.getText());
+        }
+        if (!direccion.equals(clientTarget.getDireccion())) {
+            clientTarget.setDireccion(panel.jtxtDireccionCliente.getText());
+        }
+        if (!phone.equals(String.valueOf(clientTarget.getPhone()))) {
+            clientTarget.setPhone(Integer.parseInt(phone));
+        }
+        Response<Cliente> response = CRUDCliente.getInstance().update(clientTarget);
+        if (!response.isSuccess()) {
+            Messages.show(response.getMessage());
+            return;
+        }
+        listaClientes.set(idx, clientTarget);
+        FrameUtils.removeAllEvents(panel.jbtnEditar);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+        panel.jbtnEditar.setText("Editar");
+        Messages.show("Producto actualizado con exito");
     }
 
-    /**
-     * public static void renovar() {
-     * PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
-     * 
-     * try {
-     * int dniCliente = Integer.parseInt(panel.jtxtDniCliente.getText());
-     * Response<Cliente> responseCliente =
-     * CRUDCliente.getInstance().getByDni(dniCliente);
-     * 
-     * if (responseCliente.isSuccess()) {
-     * Cliente cliente = responseCliente.getData();
-     * 
-     * ComboItem item = (ComboItem) panel.jcbxplan.getSelectedItem();
-     * Response<Plan> responsePlan = CRUDPlan.getInstance().getById(id)
-     * 
-     * if (responsePlan.isSuccess()) {
-     * Plan planSeleccionado = responsePlan.getData();
-     * 
-     * Date subscriptionUntil = cliente.getSubscription_until();
-     * Date nuevaSubscriptionUntil = DateUtils.addDays(subscriptionUntil,
-     * planSeleccionado.getDurationDays());
-     * cliente.setSubscription_until(nuevaSubscriptionUntil);
-     * 
-     * Response<Cliente> responseUpdate = CRUDCliente.getInstance().update(cliente);
-     * 
-     * if (responseUpdate.isSuccess()) {
-     * // Actualizar el pago
-     * Payment payment = new Payment(new Date(), generateTransactionCode(), cliente,
-     * planSeleccionado);
-     * Response<Payment> paymentResponse =
-     * CRUDPayment.getInstance().create(payment);
-     * 
-     * if (paymentResponse.isSuccess()) {
-     * Messages.show("Suscripción renovada exitosamente");
-     * panel.jtxtPlanActual.setText(planSeleccionado.getName());
-     * payment.setPlan(planSeleccionado);
-     * } else {
-     * Messages.show("Error al registrar el pago: " + paymentResponse.getMessage());
-     * }
-     * } else {
-     * Messages.show("Error al actualizar la suscripción: " +
-     * responseUpdate.getMessage());
-     * }
-     * } else {
-     * Messages.show("Error al obtener el plan seleccionado: " +
-     * responsePlan.getMessage());
-     * }
-     * } else {
-     * Messages.show("Error al obtener el cliente: " +
-     * responseCliente.getMessage());
-     * }
-     * } catch (NumberFormatException e) {
-     * Messages.show("Error, el DNI debe ser un número válido");
-     * FrameUtils.clearInputs(panel.jtxtDniCliente);
-     * }
-     * }
-     */
-
-    // metodo congelar
     private static int generateTransactionCode() {
         return (int) (Math.random() * 1000000);
-    }
-
-    public static void isFocusable(PanelClientBuscar panel, boolean flag) {
-        panel.jtxtNombreCliente.setFocusable(flag);
-        panel.jtxtDireccionCliente.setFocusable(flag);
-        panel.jtxtTelefonoCliente.setFocusable(flag);
-    }
-
-    public static void abrirWindowClients() {
-        ControladorWindowClients.showWindow();
     }
 
     public static void showPanelClientAgregar() {
@@ -298,13 +225,6 @@ public class ControladorClientBuscar {
         }
     }
 
-    public static PanelClient getPanelClientAgregar() {
-        if (panelClient == null) {
-            panelClient = new PanelClient();
-        }
-        return panelClient;
-    }
-
     public static void showPanelClientBuscar() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelClientBuscar panelBuscar = ControladorClientBuscar.getPanelBuscar();
@@ -331,164 +251,164 @@ public class ControladorClientBuscar {
 
     public static void agregar() {
         PanelClient panel = ControladorClientBuscar.getPanelClientAgregar();
-        Cliente cli = new Cliente();
+
         String dni = panel.jtxtDniClienteAgregar.getText();
         String phone = panel.jtxtTelefonoClienteAdd.getText();
         String nombre = panel.jtxtNombreClienteAgregar.getText();
 
-        if (dni.isEmpty() || nombre.isEmpty()) {
+        if (dni.isEmpty() || nombre.isEmpty() || phone.isEmpty()) {
             Messages.show("Por favor, llene todos los campos");
-        } else {
-            if (!StringUtils.isValidDni(dni)) {
-                Messages.show("El DNI debe ser un número de 8 dígitos");
-                panel.jtxtDniClienteAgregar.setText("");
-                panel.jtxtDniClienteAgregar.requestFocus();
-                return;
-            }
-            if (!StringUtils.isValidPhone(phone)) {
-                Messages.show("Telefono con formato incorrecto");
-                panel.jtxtTelefonoClienteAdd.setText("");
-                panel.jtxtTelefonoClienteAdd.requestFocus();
-                return;
-            }
-            ComboItem item = (ComboItem) panel.jcbxPlanRegistro.getSelectedItem();
+            return;
+        }
+        if (!StringUtils.isValidDni(dni)) {
+            Messages.show("El DNI debe ser un número de 8 dígitos");
+            FrameUtils.clearInputs(panel.jtxtDniClienteAgregar);
+            return;
+        }
+        if (!StringUtils.isValidPhone(phone)) {
+            Messages.show("Telefono con formato incorrecto");
+            FrameUtils.clearInputs(panel.jtxtTelefonoClienteAdd);
+            return;
+        }
+        ComboItem item = (ComboItem) panel.jcbxPlanRegistro.getSelectedItem();
+        Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId() == item.getId()).findFirst()
+                .orElse(null);
+        Cliente cli = new Cliente();
+        cli.setDni(Integer.parseInt(dni));
+        cli.setCreated_At(new Date());
+        Date fechaFinal = DateUtils.addDays(cli.getCreated_At(), plan.getDurationDays());
+        cli.setSubscription_until(fechaFinal);
 
-            Response<Plan> response = CRUDPlan.getInstance().getById(item.getId());
+        cli.setFullName(panel.jtxtNombreClienteAgregar.getText());
+        cli.setEmail(panel.jtxtDireccionCorreoAdd.getText());
+        cli.setDireccion(panel.jtxtDireccionClienteAdd.getText());
+        cli.setPhone(Integer.parseInt(panel.jtxtTelefonoClienteAdd.getText()));
+
+        Response<Cliente> res = CRUDCliente.getInstance().create(cli);
+        if (!res.isSuccess()) {
+            Messages.show("Error al crear el cliente: " + res.getMessage());
+            return;
+        }
+        Cliente clienteCreado = res.getData();
+        listaClientes.add(clienteCreado);
+
+        // Crear el Payment asociado
+        Payment payment = new Payment(new Date(), generateTransactionCode(), clienteCreado, plan);
+        Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
+
+        if (!paymentResponse.isSuccess()) {
+            Messages.show("Error al crear el pago: " + paymentResponse.getMessage());
+            return;
+        }
+        JTextField[] inputs = { panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar,
+                panel.jtxtDireccionClienteAdd,
+                panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
+        FrameUtils.clearInputs(inputs);
+        Messages.show("Cliente y pago creados con exito");
+        String pdfPath = "payment.pdf";
+        String messageEmail = String.format("Gracias por tu dinero %s", payment.getCliente().getFullName());
+        Utils.generatePaymentPDF(payment, pdfPath);
+        Utils.sendMailWithPdf(
+                messageEmail,
+                payment.getCliente().getEmail(), "gracias por tu dinero",
+                pdfPath);
+    }
+
+    public static void renovar() {
+        JFrame frame= new JFrame();
+        frame.setSize(400, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        frame.setBackground(new Color(255, 255, 255));
+        JComboBox<ComboItem> jcbxPlanes = new JComboBox<>();
+        jcbxPlanes.setBounds(50, 50, 300, 30);
+        fillComboPlanes(ControladorPlan.getListaPlanes(), jcbxPlanes);
+        frame.add(jcbxPlanes);
+
+        FrameUtils.addOnClickEvent(jcbxPlanes, () -> {
+            ComboItem item = (ComboItem) jcbxPlanes.getSelectedItem();
+            Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId() == item.getId()).findFirst()
+                    .orElse(null);
+            Date fechaFinal = DateUtils.addDays(clientTarget.getSubscription_until(), plan.getDurationDays());
+            int idx = listaClientes.indexOf(clientTarget);
+            clientTarget.setSubscription_until(fechaFinal);
+            Response<Cliente> response = CRUDCliente.getInstance().update(clientTarget);
             if (!response.isSuccess()) {
-                Messages.show("No se pudo encontrar el plan");
+                Messages.show("Error al renovar la membresía: " + response.getMessage());
                 return;
             }
-            Plan plan = response.getData();
-            cli.setDni(Integer.parseInt(panel.jtxtDniClienteAgregar.getText()));
-            cli.setCreated_At(new Date());
-
-            Date fechaInicio = cli.getCreated_At();
-            Date fechaFinal = DateUtils.addDays(fechaInicio, plan.getDurationDays());
-            cli.setSubscription_until(fechaFinal);
-
-            cli.setFullName(panel.jtxtNombreClienteAgregar.getText());
-            cli.setEmail(panel.jtxtDireccionCorreoAdd.getText());
-            cli.setDireccion(panel.jtxtDireccionClienteAdd.getText());
-            cli.setPhone(Integer.parseInt(panel.jtxtTelefonoClienteAdd.getText()));
-
-            Response<Cliente> res = CRUDCliente.getInstance().create(cli);
-            if (res.isSuccess()) {
-                Cliente clienteCreado = res.getData();
-
-                // Crear el Payment asociado
-                Payment payment = new Payment(new Date(), generateTransactionCode(), clienteCreado, plan);
-                Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
-
-                if (paymentResponse.isSuccess()) {
-                    JTextField[] inputs = { panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar,
-                            panel.jtxtDireccionClienteAdd,
-                            panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
-                    FrameUtils.clearInputs(inputs);
-                    Messages.show("Cliente y pago creados con exito");
-                    String pdfPath = "payment.pdf";
-                    String messageEmail = String.format("Gracias por tu dinero %s", payment.getCliente().getFullName());
-                    try {
-                        Utils.generatePaymentPDF(payment, pdfPath);
-                        Utils.sendMailWithPdf(
-                                messageEmail,
-                                payment.getCliente().getEmail(), "gracias por tu dinero",
-                                pdfPath);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
-                } else {
-                    Messages.show("Error al crear el pago: " + paymentResponse.getMessage());
-                }
-            } else {
-                Messages.show(response.getMessage());
-            }
-        }
+            listaClientes.set(idx, clientTarget);
+            Messages.show("Membresía renovada con exito");
+            frame.dispose();
+        });
+        FrameUtils.showWindow(frame, "Selecciona un plan");
     }
 
-    public static CongelarPlan getWindowCongelar() {
-        if (windowCongelar == null) {
-            windowCongelar = new CongelarPlan();
+    public static void congelar() {
+        // validaciones
+        String answer = Messages.input("Indica cuantos días deseas congelar la membresía");
+        if (answer.isEmpty()) {
+            Messages.show("Por favor ingrese un numero");
+            return;
         }
-        return windowCongelar;
+        if (!StringUtils.isInteger(answer)) {
+            Messages.show("Por favor ingrese un numero valido");
+            return;
+        }
+
+        // agregar dias para el congelamiento de membresia
+        int days = Integer.parseInt(answer);
+
+        if (days > 15) {
+            Messages.show("No puedes congelar la membresía por más de 15 días");
+            return;
+        }
+        Date currentSubscriptionUntil = clientTarget.getSubscription_until();
+        clientTarget.setSubscription_until(DateUtils.addDays(currentSubscriptionUntil, days));
+
+        // verificar si en realidad deseas congelar la membresia
+        String warningMessage = String.format("¿Estás seguro de congelar la membresía de %s por %d días?",
+                clientTarget.getFullName(), days);
+        boolean sure = Messages.confirm(warningMessage, "Congelar membresía");
+        if (!sure)
+            return;
+
+        // actualizar el cliente en la base de datos
+        Response<Cliente> response = CRUDCliente.getInstance().update(clientTarget);
+        if (!response.isSuccess()) {
+            Messages.show("Error al congelar la membresía: " + response.getMessage());
+            return;
+        }
+
+        // actualizar el cliente en la lista local
+        int idx = listaClientes.indexOf(clientTarget);
+        ControladorClientBuscar.listaClientes.set(idx, clientTarget);
+        Messages.show("Membresia congelada con exito por " + days + " días");
     }
 
-    /**
-    public static void showWindowCongelar() {
+    public static PanelClient getPanelClientAgregar() {
+        if (panelClient == null) {
+            panelClient = new PanelClient();
+        }
+        return panelClient;
+    }
+
+    public static PanelClientBuscar getPanelBuscar() {
+        if (panelBuscar == null) {
+            panelBuscar = new PanelClientBuscar();
+        }
+        return panelBuscar;
+    }
+
+    public static void limpiarCamposBusqueda() {
+        clientTarget = null;
+        panelBuscar.jbtnCongelar.setVisible(false);
+        panelBuscar.jbtnEditar.setVisible(false);
+        panelBuscar.jbtnRenovar.setVisible(false);
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
-        String dniStr = panel.jtxtDniCliente.getText();
-
-        if (dniStr.isEmpty()) {
-            Messages.show("Por favor, ingrese un DNI válido");
-            return;
-        }
-
-        CongelarPlan vista = ControladorClientBuscar.getWindowCongelar();
-        FrameUtils.showWindow(vista, "Congelar Membresía");
-
-        try {
-            int dniCliente = Integer.parseInt(dniStr);
-            Response<Cliente> response = CRUDCliente.getInstance().getByDni(dniCliente);
-            if (response.isSuccess()) {
-                Cliente cliente = response.getData();
-                vista.jtxtDniCliente.setText(String.valueOf(cliente.getDni()));
-
-                vista.jbtnCongelar.addActionListener(e -> congelarPlan());
-
-            } else {
-                Messages.show("Error al obtener el cliente: " + response.getMessage());
-            }
-        } catch (NumberFormatException exception) {
-            Messages.show("Error, el DNI debe ser un número válido");
-        }
-    }
-    */
-
-    public static void congelarPlan() {
-        CongelarPlan vista = ControladorClientBuscar.getWindowCongelar();
-        String dniStr = vista.jtxtDniCliente.getText();
-        String diasCongelacionStr = vista.jtxtCongelarDays.getText();
-
-        if (dniStr.isEmpty() || diasCongelacionStr.isEmpty()) {
-            Messages.show("Por favor, llene todos los campos");
-            return;
-        }
-
-        if (!StringUtils.isInteger(diasCongelacionStr)) {
-            Messages.show("Por favor, ingrese un número válido para los días de congelación");
-            return;
-        }
-
-        int diasCongelacion = Integer.parseInt(diasCongelacionStr);
-        if (diasCongelacion >= 15) {
-            Messages.show("El número de días de congelación debe ser menor a 15");
-            return;
-        }
-
-        try {
-            int dniCliente = Integer.parseInt(dniStr);
-
-            Response<Cliente> response = CRUDCliente.getInstance().getByDni(dniCliente);
-            if (response.isSuccess()) {
-                Cliente cliente = response.getData();
-                Date currentEndDate = cliente.getSubscription_until();
-                Date newEndDate = DateUtils.addDays(currentEndDate, diasCongelacion);
-                cliente.setSubscription_until(newEndDate);
-                cliente.setIsFrozen(Cliente.Frozen.SI);
-
-                // Actualizar en la base de datos
-                Response<Cliente> updateResponse = CRUDCliente.getInstance().update(cliente);
-                if (updateResponse.isSuccess()) {
-                    Messages.show("Plan congelado exitosamente");
-                    vista.dispose();
-                } else {
-                    Messages.show("Error al actualizar el cliente: " + updateResponse.getMessage());
-                }
-            } else {
-                Messages.show("Cliente no encontrado: " + response.getMessage());
-            }
-        } catch (NumberFormatException exception) {
-            Messages.show("Error, el DNI debe ser un número válido");
-        }
+        JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente, panel.jtxtDireccionCliente,
+                panel.jtxtTelefonoCliente, panel.jtxtPlanActual };
+        FrameUtils.clearInputs(inputs);
     }
 
     public static class ComboItem {
@@ -513,4 +433,5 @@ public class ControladorClientBuscar {
             return name;
         }
     }
+
 }

@@ -47,10 +47,10 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jtxtPlanActual = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
-        jbtnBoletas = new javax.swing.JButton();
-        jbtnCongelar = new javax.swing.JButton();
-        jbtnRegistrar = new javax.swing.JButton();
         jbtnRenovar = new javax.swing.JButton();
+        jbtnRegistrar = new javax.swing.JButton();
+        jbtnCongelar = new javax.swing.JButton();
+        jbtnBoletas = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(840, 790));
 
@@ -99,7 +99,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jtxtNombreCliente.setBackground(new java.awt.Color(250, 250, 250));
         jtxtNombreCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtNombreCliente.setBorder(null);
-        jtxtNombreCliente.setFocusable(false);
         jtxtNombreCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtNombreClienteActionPerformed(evt);
@@ -119,7 +118,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jtxtDireccionCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtDireccionCliente.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jtxtDireccionCliente.setBorder(null);
-        jtxtDireccionCliente.setFocusable(false);
         jtxtDireccionCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtDireccionClienteActionPerformed(evt);
@@ -139,7 +137,6 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jtxtTelefonoCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jtxtTelefonoCliente.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         jtxtTelefonoCliente.setBorder(null);
-        jtxtTelefonoCliente.setFocusable(false);
         jtxtTelefonoCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtTelefonoClienteActionPerformed(evt);
@@ -164,7 +161,7 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jbtnEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(jbtnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 90, 230, 40));
+        jPanel1.add(jbtnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 620, 150, 40));
 
         javax.swing.GroupLayout jPanelEstadoLayout = new javax.swing.GroupLayout(jPanelEstado);
         jPanelEstado.setLayout(jPanelEstadoLayout);
@@ -198,29 +195,16 @@ public class PanelClientBuscar extends javax.swing.JPanel {
         jSeparator4.setForeground(new java.awt.Color(0, 0, 0));
         jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 580, 200, 10));
 
-        jpnlInterfaz.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
-
-        jbtnBoletas.setBackground(new java.awt.Color(20, 23, 31));
-        jbtnBoletas.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
-        jbtnBoletas.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnBoletas.setText("LISTA CLIENTES");
-        jbtnBoletas.addActionListener(new java.awt.event.ActionListener() {
+        jbtnRenovar.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnRenovar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnRenovar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnRenovar.setText("RENOVAR");
+        jbtnRenovar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnBoletasActionPerformed(evt);
+                jbtnRenovarActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 270, 250, 40));
-
-        jbtnCongelar.setBackground(new java.awt.Color(20, 23, 31));
-        jbtnCongelar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
-        jbtnCongelar.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnCongelar.setText("CONGELAR");
-        jbtnCongelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCongelarActionPerformed(evt);
-            }
-        });
-        jpnlInterfaz.add(jbtnCongelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 210, 250, 40));
+        jPanel1.add(jbtnRenovar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 620, 190, 40));
 
         jbtnRegistrar.setBackground(new java.awt.Color(20, 23, 31));
         jbtnRegistrar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
@@ -231,18 +215,31 @@ public class PanelClientBuscar extends javax.swing.JPanel {
                 jbtnRegistrarActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 150, 250, 40));
+        jPanel1.add(jbtnRegistrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 70, 250, 40));
 
-        jbtnRenovar.setBackground(new java.awt.Color(20, 23, 31));
-        jbtnRenovar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
-        jbtnRenovar.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnRenovar.setText("RENOVAR");
-        jbtnRenovar.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCongelar.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnCongelar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnCongelar.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnCongelar.setText("CONGELAR");
+        jbtnCongelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnRenovarActionPerformed(evt);
+                jbtnCongelarActionPerformed(evt);
             }
         });
-        jpnlInterfaz.add(jbtnRenovar, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 330, 250, 40));
+        jPanel1.add(jbtnCongelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 620, 180, 40));
+
+        jbtnBoletas.setBackground(new java.awt.Color(20, 23, 31));
+        jbtnBoletas.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jbtnBoletas.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnBoletas.setText("LISTA CLIENTES");
+        jbtnBoletas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnBoletasActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbtnBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 140, 250, 40));
+
+        jpnlInterfaz.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 790));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
