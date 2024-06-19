@@ -175,7 +175,6 @@ public abstract class BaseCrud<T> {
      *         Si ocurre una excepción, devuelve una respuesta con el error.
      */
     public Response<T> baseGetAll(String consulta) {
-        System.out.println(String.format("getting all with %s", consulta));
         try {
             rs = st.executeQuery(consulta);
             List<T> dataList = new ArrayList<T>();

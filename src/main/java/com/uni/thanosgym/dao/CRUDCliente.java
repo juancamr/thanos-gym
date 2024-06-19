@@ -52,7 +52,6 @@ public class CRUDCliente extends BaseCrud<Cliente> {
     }
 
     public Response<Cliente> getByDni(int dni) {
-        System.out.println("buscando por dni");
         return baseGetById(Querys.cliente.getByDni, dni);
     }
 
