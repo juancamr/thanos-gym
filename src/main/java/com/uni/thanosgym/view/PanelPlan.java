@@ -22,8 +22,6 @@ public class PanelPlan extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jbtnAgregarPlan = new javax.swing.JButton();
         planesListPanel = new javax.swing.JPanel();
-        jlblNombreAdministrador = new javax.swing.JLabel();
-        jbtnCerrarSesion = new javax.swing.JButton();
 
         jpnlInterfaz.setBackground(new java.awt.Color(255, 255, 255));
         jpnlInterfaz.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -69,26 +67,9 @@ public class PanelPlan extends javax.swing.JPanel {
             .addGap(0, 530, Short.MAX_VALUE)
         );
 
-        jPanel4.add(planesListPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 530));
+        jPanel4.add(planesListPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 200, 530));
 
-        jpnlInterfaz.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 840, 700));
-
-        jlblNombreAdministrador.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
-        jlblNombreAdministrador.setText("Administrador");
-        jpnlInterfaz.add(jlblNombreAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 20, 150, 40));
-
-        jbtnCerrarSesion.setBackground(new java.awt.Color(255, 255, 254));
-        jbtnCerrarSesion.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
-        jbtnCerrarSesion.setForeground(new java.awt.Color(204, 0, 51));
-        jbtnCerrarSesion.setText("Cerrar sesión");
-        jbtnCerrarSesion.setBorder(null);
-        jbtnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jbtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnCerrarSesionActionPerformed(evt);
-            }
-        });
-        jpnlInterfaz.add(jbtnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 50, 150, 30));
+        jpnlInterfaz.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 790));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -111,12 +92,8 @@ public class PanelPlan extends javax.swing.JPanel {
     }//GEN-LAST:event_jPanel4KeyPressed
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-        
-    }//GEN-LAST:event_jPanel4MouseClicked
 
-    private void jbtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCerrarSesionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnCerrarSesionActionPerformed
+    }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jbtnAgregarPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnAgregarPlanActionPerformed
         // TODO add your handling code here:
@@ -126,8 +103,6 @@ public class PanelPlan extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel4;
     public javax.swing.JButton jbtnAgregarPlan;
-    public javax.swing.JButton jbtnCerrarSesion;
-    public javax.swing.JLabel jlblNombreAdministrador;
     private javax.swing.JPanel jpnlInterfaz;
     public javax.swing.JPanel planesListPanel;
     // End of variables declaration//GEN-END:variables

@@ -46,6 +46,7 @@ public class MainWindow extends javax.swing.JFrame {
         jbtnSexto = new javax.swing.JButton();
         jbtnCuarto = new javax.swing.JButton();
         jbtnTercero = new javax.swing.JButton();
+        jbtnCerrarSesion = new javax.swing.JButton();
         content = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -136,9 +137,9 @@ public class MainWindow extends javax.swing.JFrame {
         jpnlBarra.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, -1));
 
         jlblNombreAdministrador.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
-        jlblNombreAdministrador.setForeground(new java.awt.Color(181, 181, 186));
+        jlblNombreAdministrador.setForeground(new java.awt.Color(102, 102, 102));
         jlblNombreAdministrador.setText("Administrador");
-        jpnlBarra.add(jlblNombreAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, 140, -1));
+        jpnlBarra.add(jlblNombreAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 580, 140, -1));
 
         jLabel9.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
@@ -248,6 +249,19 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         jpnlBarra.add(jbtnTercero, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 130, 50));
+
+        jbtnCerrarSesion.setBackground(new java.awt.Color(250, 250, 250));
+        jbtnCerrarSesion.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
+        jbtnCerrarSesion.setForeground(new java.awt.Color(204, 0, 51));
+        jbtnCerrarSesion.setText("Cerrar sesión");
+        jbtnCerrarSesion.setBorder(null);
+        jbtnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCerrarSesionActionPerformed(evt);
+            }
+        });
+        jpnlBarra.add(jbtnCerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 600, 110, 30));
 
         getContentPane().add(jpnlBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 690));
 
@@ -363,6 +377,10 @@ public class MainWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jbtnTerceroActionPerformed
 
+    private void jbtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCerrarSesionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnCerrarSesionActionPerformed
+
     private void jbtnTerceroMouseMoved(java.awt.event.MouseEvent evt) {
     }                                      
 
@@ -412,6 +430,7 @@ public class MainWindow extends javax.swing.JFrame {
     public javax.swing.JPanel content;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
+    public javax.swing.JButton jbtnCerrarSesion;
     public javax.swing.JButton jbtnCuarto;
     public javax.swing.JButton jbtnPrimero;
     public javax.swing.JButton jbtnQuinto;

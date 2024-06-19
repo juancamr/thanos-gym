@@ -27,7 +27,7 @@ public class PanelProducto extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -44,21 +44,22 @@ public class PanelProducto extends javax.swing.JPanel {
 
         jtxtBusquedaProducto.setBackground(new java.awt.Color(250, 250, 250));
         jtxtBusquedaProducto.setBorder(null);
-        jPanel1.add(jtxtBusquedaProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 330, 40));
+        jPanel1.add(jtxtBusquedaProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 330, 40));
 
         jLabel2.setText("Busqueda");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, -1, -1));
 
         jtblProducto.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "Title 1", "Title 2", "Title 3", "Title 4"
-                }));
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
         jtblProducto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtblProductoMouseClicked(evt);
@@ -66,10 +67,11 @@ public class PanelProducto extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jtblProducto);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 630, 450));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 630, 450));
 
+        jbtnCrear.setBackground(new java.awt.Color(254, 254, 254));
         jbtnCrear.setText("Crear");
-        jPanel1.add(jbtnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 50, 140, 40));
+        jPanel1.add(jbtnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 50, 140, 40));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 890, 690));
     }// </editor-fold>//GEN-END:initComponents

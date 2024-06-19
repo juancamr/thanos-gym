@@ -27,7 +27,7 @@ public class PanelUtilidad extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -43,25 +43,28 @@ public class PanelUtilidad extends javax.swing.JPanel {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setText("Busqueda");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, -1));
 
+        jbtnCrear.setBackground(new java.awt.Color(254, 254, 254));
         jbtnCrear.setText("Crear");
-        jPanel1.add(jbtnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 50, 140, 40));
+        jPanel1.add(jbtnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 140, 40));
 
         jtxtBusquedaUtilidad.setBackground(new java.awt.Color(250, 250, 250));
         jtxtBusquedaUtilidad.setBorder(null);
-        jPanel1.add(jtxtBusquedaUtilidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 50, 330, 40));
+        jPanel1.add(jtxtBusquedaUtilidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 330, 40));
 
+        jtblUtilidad.setBackground(new java.awt.Color(254, 254, 254));
         jtblUtilidad.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "Title 1", "Title 2", "Title 3", "Title 4"
-                }));
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
         jtblUtilidad.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jtblUtilidadMouseClicked(evt);
@@ -69,7 +72,7 @@ public class PanelUtilidad extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jtblUtilidad);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 630, 450));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 630, 450));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 690));
     }// </editor-fold>//GEN-END:initComponents

@@ -8,11 +8,9 @@ import com.uni.thanosgym.model.Response;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
-import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.PanelPlan;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.AddPlan;
@@ -47,12 +45,7 @@ public class ControladorPlan {
         ControladorPlan.createPanelList(listaPlanes, panel.planesListPanel);
 
         if (!panelIsRendered) {
-            panel.jlblNombreAdministrador.setText(UserPreferences.getData().getFullName());
             FrameUtils.addOnClickEvent(panel.jbtnAgregarPlan, ControladorPlan::showAgregarPlanWindow);
-            FrameUtils.addOnClickEvent(panel.jbtnCerrarSesion, () -> {
-                vista.dispose();
-                Auth.logOut();
-            });
             panelIsRendered = true;
         }
         FrameUtils.showPanel(vista, panel);

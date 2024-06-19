@@ -310,17 +310,20 @@ public class ControladorClientBuscar {
                 panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
         FrameUtils.clearInputs(inputs);
         Messages.show("Cliente y pago creados con exito");
-        String pdfPath = "payment.pdf";
-        String messageEmail = String.format("Gracias por tu dinero %s", payment.getCliente().getFullName());
+        String pdfPath = "contrato.pdf";
+        String messageEmail = String.format(
+                "Gracias por ser parte de Thanosgym %s, te dejamos tu contrato de membresia adjuntado en este correo.",
+                payment.getCliente().getFullName());
         Utils.generatePaymentPDF(payment, pdfPath);
         Utils.sendMailWithPdf(
+                clienteCreado.getEmail(),
+                String.format("Bienvenido %s", clienteCreado.getFullName()),
                 messageEmail,
-                payment.getCliente().getEmail(), "gracias por tu dinero",
                 pdfPath);
     }
 
     public static void renovar() {
-        JFrame frame= new JFrame();
+        JFrame frame = new JFrame();
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
