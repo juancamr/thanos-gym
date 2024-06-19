@@ -3,6 +3,7 @@ USE thanosgym;
 
 CREATE TABLE if not exists admin (
     admin_id INT NOT NULL AUTO_INCREMENT,
+    created_at DATE NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
@@ -25,14 +26,13 @@ CREATE TABLE if not exists plan (
 
 CREATE TABLE if not exists client (
     client_id INT NOT NULL AUTO_INCREMENT,
-    dni INT NOT NULL,
+    dni varchar(20) NOT NULL,
     created_at DATE NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     address VARCHAR(255),
-    is_frozen ENUM('SI', 'NO'),
-    photo_url VARCHAR(255),
     phone VARCHAR(20),
+    photo_url VARCHAR(255),
     PRIMARY KEY (client_id)
 ) Engine=InnoDB;
 
@@ -51,7 +51,8 @@ CREATE TABLE if not exists contrato (
     client_id INT NOT NULL,
     plan_id INT NOT NULL,
     admin_id INT NOT NULL,
-    transaction_code INT NOT NULL,
+    transaction_code varchar(100) NOT NULL,
+    congelado BOOLEAN NOT NULL,
     created_at DATETIME NOT NULL,
     subscription_until DATE NOT NULL,
     PRIMARY KEY (contrato_id),

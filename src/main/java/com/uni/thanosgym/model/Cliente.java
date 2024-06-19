@@ -4,56 +4,39 @@ import java.util.Date;
 
 public class Cliente extends Persona {
 
-    public enum Frozen {
-        SI, NO
-    }
-
     private String direccion;
-    private Date subscription_until;
-    private int dni;
-    private Frozen isFrozen;
-    public static String addressField = "address";
-    public static String subscriptionUntilField = "subscription_until";
-    public static String dniField = "dni";
-    public static String idField = "client_id";
-    public static String isFrozenField = "is_frozen";
+    private String dni;
 
-    public Cliente() {
-        super();
-    }
+    // client_id INT NOT NULL AUTO_INCREMENT,
+    // dni varchar(20) NOT NULL,
+    // created_at DATE NOT NULL,
+    // full_name VARCHAR(255) NOT NULL,
+    // email VARCHAR(255) NOT NULL,
+    // address VARCHAR(255),
+    // phone VARCHAR(20),
+    // photo_url VARCHAR(255),
+    // PRIMARY KEY (client_id)
 
-    public Cliente(int dni, Date created_At, Date subscription_until, String fullName, String email, String Direccion,
-            int phone, Frozen frozen) {
-        super(created_At, fullName, phone, email);
+    public Cliente(String dni, Date created_At, String fullName, String email, String direccion,
+            String phone, String photoUrl) {
+        super(created_At, fullName, phone, email, photoUrl);
         this.dni = dni;
-        this.subscription_until = subscription_until;
-        this.direccion = Direccion;
-        this.isFrozen = frozen;
+        this.direccion = direccion;
     }
 
-    public Cliente(int id, int dni, Date created_At, Date subscription_until, String fullName, String email,
-            String Direccion, int phone, Frozen frozen) {
-        super(id, created_At, fullName, phone, email);
+    public Cliente(int id, String dni, Date created_At, String fullName, String email,
+            String direccion, String phone, String photoUrl) {
+        super(id, created_At, fullName, phone, email, photoUrl);
         this.dni = dni;
-        this.subscription_until = subscription_until;
-        this.direccion = Direccion;
-        this.isFrozen = frozen;
+        this.direccion = direccion;
     }
 
-    public int getDni() {
+    public String getDni() {
         return dni;
     }
 
-    public void setDni(int dni) {
+    public void setDni(String dni) {
         this.dni = dni;
-    }
-
-    public Date getSubscription_until() {
-        return subscription_until;
-    }
-
-    public void setSubscription_until(Date subscription_until) {
-        this.subscription_until = subscription_until;
     }
 
     public String getDireccion() {
@@ -64,16 +47,8 @@ public class Cliente extends Persona {
         this.direccion = Direccion;
     }
 
-    public Frozen getIsFrozen() {
-        return isFrozen;
-    }
-
-    public void setIsFrozen(Frozen frozen) {
-        this.isFrozen = frozen;
-    }
-
     public Object[] showAll() {
-        Object[] lista = { super.getId(), dni, super.getFullName(), createdAtField, super.getEmail(), super.getPhone(),
+        Object[] lista = { super.getId(), dni, super.getFullName(), super.getCreated_At(), super.getEmail(), super.getPhone(),
                 direccion };
         return lista;
     }

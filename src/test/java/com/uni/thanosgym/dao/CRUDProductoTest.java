@@ -3,7 +3,6 @@ package com.uni.thanosgym.dao;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.model.Producto;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,7 @@ public class CRUDProductoTest {
     @Test
     public void mainTest() {
         // create
-        Producto producto = new Producto("Test Producto", 100, 30);
+        Producto producto = new Producto("Test Producto", 100, 30, "photo");
         Response<Producto> response = crudProducto.create(producto);
         assertTrue(response.isSuccess());
 

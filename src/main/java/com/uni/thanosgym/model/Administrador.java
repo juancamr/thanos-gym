@@ -11,16 +11,42 @@ public class Administrador extends Persona {
 
     private String username;
     private String password;
-    private Date lastSignin;
     private Rol rol;
+    private Date lastSignin;
     private boolean persistencia = false;
 
-    private Administrador(Builder builder) {
-        super(builder.id, builder.createdAt, builder.fullName, builder.phone, builder.email);
-        this.username = builder.username;
-        this.password = builder.password;
-        this.lastSignin = builder.lastSignin;
-        this.rol = builder.rol;
+    // admin_id INT NOT NULL AUTO_INCREMENT,
+    // created_at DATE NOT NULL,
+    // full_name VARCHAR(255) NOT NULL,
+    // email VARCHAR(255) NOT NULL,
+    // phone VARCHAR(20),
+    // username VARCHAR(255) NOT NULL,
+    // password VARCHAR(255) NOT NULL,
+    // rol ENUM('MASTER', 'EMPLEADO'),
+    // photo_url VARCHAR(255),
+    // last_signin DATE NOT NULL,
+    // PRIMARY KEY (admin_id)
+
+    public Administrador() {
+        super();
+    }
+
+    public Administrador(Date createdAt, String fullName, String phone, String email, String username, String password,
+            Rol rol, String photoUrl, Date lastSignin) {
+        super(createdAt, fullName, phone, email, photoUrl);
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
+        this.lastSignin = lastSignin;
+    }
+
+    public Administrador(int id, Date createdAt, String fullName, String phone, String email, String username,
+            String password, Rol rol, String photoUrl, Date lastSignin) {
+        super(id, createdAt, fullName, phone, email, photoUrl);
+        this.username = username;
+        this.password = password;
+        this.rol = rol;
+        this.lastSignin = lastSignin;
     }
 
     public String getUsername() {
@@ -42,7 +68,7 @@ public class Administrador extends Persona {
     public void setRol(Rol rol) {
         this.rol = rol;
     }
-    
+
     public boolean isSesionPersistente() {
         return persistencia;
     }
@@ -55,63 +81,12 @@ public class Administrador extends Persona {
         this.persistencia = per;
     }
 
-    public static class Builder {
-        private int id;
-        private String fullName;
-        private String email;
-        private int phone;
-        private String username;
-        private String password;
-        private Date lastSignin;
-        private Date createdAt;
-        private Rol rol;
+    public void setUserName(String username) {
+        this.username = username;
+    }
 
-        public Builder() {
-        }
-
-        public Builder setId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setFullName(String fullName) {
-            this.fullName = fullName;
-            return this;
-        }
-
-        public Builder setEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder setPhone(int phone) {
-            this.phone = phone;
-            return this;
-        }
-
-        public Builder setUsername(String username) {
-            this.username = username;
-            return this;
-        }
-
-        public Builder setPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder setRol(Rol rol) {
-            this.rol = rol;
-            return this;
-        }
-
-        public Builder setLastSignin(Date lastSignin) {
-            this.lastSignin = lastSignin;
-            return this;
-        }
-
-        public Administrador build() {
-            return new Administrador(this);
-        }
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.uni.thanosgym.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
 import com.uni.thanosgym.utils.Querys;
 import com.uni.thanosgym.utils.StringUtils;
 import java.sql.SQLException;
@@ -61,7 +62,8 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
             rs = ps.executeQuery();
             if (rs.next()) {
                 Administrador admin = generateObject(rs);
-                if (!isForMaster) admin.setLastSignin(new Date());
+                if (!isForMaster)
+                    admin.setLastSignin(new Date());
                 update(admin);
                 return new Response<Administrador>(true, admin);
             } else {
@@ -110,28 +112,32 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
 
     @Override
     public Administrador generateObject(ResultSet rs) throws SQLException {
-        boolean isForMaster = rs.getString(7).equals(Administrador.Rol.MASTER.toString());
-        return new Administrador.Builder()
-                .setId(rs.getInt(1))
-                .setFullName(rs.getString(2))
-                .setEmail(rs.getString(3))
-                .setPhone(rs.getInt(4))
-                .setUsername(rs.getString(5))
-                .setPassword(rs.getString(6))
-                .setRol(isForMaster ? Administrador.Rol.MASTER : Administrador.Rol.EMPLEADO)
-                .setLastSignin(rs.getDate(8))
-                .build();
+        boolean isForMaster = rs.getString(8).equals(Administrador.Rol.MASTER.toString());
+        return new Administrador(
+            rs.getInt(1),
+            rs.getDate(2),
+            rs.getString(3),
+            rs.getString(4),
+            rs.getString(5),
+            rs.getString(6),
+            rs.getString(7),
+            isForMaster ? Administrador.Rol.MASTER : Administrador.Rol.EMPLEADO,
+            rs.getString(9),
+            rs.getDate(10)
+        );
     }
 
     @Override
-    public void sendObject(String consulta, Administrador data) throws SQLException {
+    public void sendObject(String consulta, Administrador admin) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setString(1, data.getFullName());
-        ps.setString(2, data.getUsername());
-        ps.setString(3, data.getPassword());
-        ps.setString(4, data.getEmail());
-        ps.setInt(5, data.getPhone());
-        ps.setString(6, data.getRol().toString());
-        ps.setString(7, StringUtils.parseDate(data.getLastSignin()));
+        ps.setString(1, StringUtils.parseDate(admin.getCreated_At()));
+        ps.setString(2, admin.getFullName());
+        ps.setString(3, admin.getEmail());
+        ps.setString(4, admin.getPhone());
+        ps.setString(5, admin.getUsername());
+        ps.setString(6, admin.getPassword());
+        ps.setString(7, admin.getRol().toString());
+        ps.setString(8, admin.getPhotoUrl());
+        ps.setString(9, StringUtils.parseDate(admin.getLastSignin()));
     }
 }

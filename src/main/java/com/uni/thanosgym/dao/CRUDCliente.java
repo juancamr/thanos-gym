@@ -29,9 +29,6 @@ public class CRUDCliente extends BaseCrud<Cliente> {
             rs = ps.executeQuery();
             boolean[] conditions = new boolean[] { !rs.next() };
             String error = String.format("El cliente con email %s ya existe", cliente.getEmail());
-            if (cliente.getIsFrozen() == null) {
-                cliente.setIsFrozen(Cliente.Frozen.NO); // Puedes establecer el valor predeterminado según tu lógica
-            }
             return baseCreateWithConditions(cliente, Querys.cliente.create, conditions, error);
         } catch (Exception e) {
             return somethingWentWrong(e);
@@ -44,11 +41,6 @@ public class CRUDCliente extends BaseCrud<Cliente> {
 
     public Response<Cliente> getAll() {
         return baseGetAll(Querys.cliente.getAll);
-    }
-
-    public Response<Cliente> getAllByName(String query) {
-        String consulta = Querys.cliente.getAllByName;
-        return baseGetAll(consulta.replace("<query>", query));
     }
 
     public Response<Cliente> getByDni(int dni) {
@@ -73,35 +65,31 @@ public class CRUDCliente extends BaseCrud<Cliente> {
         }
     }
 
-    public Response<Cliente> delete(int id) {
+    public Response<Cliente> deleteOnlyForTesting(int id) {
         return baseDeleteById(Querys.cliente.delete, id);
     }
 
     @Override
     public Cliente generateObject(ResultSet rs) throws SQLException {
         return new Cliente(
-                rs.getInt(Cliente.idField),
-                rs.getInt(Cliente.dniField),
-                rs.getDate(Cliente.createdAtField),
-                rs.getDate(Cliente.subscriptionUntilField),
-                rs.getString(Cliente.fullNameField),
-                rs.getString(Cliente.emailField),
-                rs.getString(Cliente.addressField),
-                rs.getInt(Cliente.phoneField),
-                Cliente.Frozen.valueOf(rs.getString(Cliente.isFrozenField))
-        );
+                rs.getString(1),
+                rs.getDate(2),
+                rs.getString(3),
+                rs.getString(4),
+                rs.getString(5),
+                rs.getString(6),
+                rs.getString(7));
     }
 
     @Override
     public void sendObject(String consulta, Cliente data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, data.getDni());
+        ps.setString(1, data.getDni());
         ps.setString(2, StringUtils.parseDate(data.getCreated_At()));
-        ps.setString(3, StringUtils.parseDate(data.getSubscription_until()));
-        ps.setString(4, data.getFullName());
-        ps.setString(5, data.getEmail());
-        ps.setString(6, data.getDireccion());
-        ps.setInt(7, data.getPhone());
-        ps.setString(8, data.getIsFrozen().name());
+        ps.setString(3, data.getFullName());
+        ps.setString(4, data.getEmail());
+        ps.setString(5, data.getDireccion());
+        ps.setString(6, data.getPhone());
+        ps.setString(7, data.getPhotoUrl());
     }
 }

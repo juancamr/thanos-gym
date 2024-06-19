@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import com.uni.thanosgym.dao.CRUDUtilidad;
-import com.uni.thanosgym.model.Utilidad;
+import com.uni.thanosgym.model.Utility;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
@@ -23,9 +23,9 @@ public class ControladorUtilidad {
     public static boolean panelRendered = false;
     public static DefaultTableModel modelo;
     public static String[] titulosTabla = { "ID", "Nombre", "Cantidad", "peso" };
-    public static List<Utilidad> listaUtilidades;
+    public static List<Utility> listaUtilidades;
 
-    public static List<Utilidad> getListaUtilidades() {
+    public static List<Utility> getListaUtilidades() {
         if (listaUtilidades == null)
             listaUtilidades = CRUDUtilidad.getInstance().getAll().getDataList();
         return listaUtilidades;
@@ -68,7 +68,7 @@ public class ControladorUtilidad {
         return true;
     }
 
-    public static void showEditarWindow(Utilidad utilidad) {
+    public static void showEditarWindow(Utility utilidad) {
         VentanaAgregarUtilidad ventana = new VentanaAgregarUtilidad();
         ventana.jbtnCrear.setText("Editar");
         ventana.jtxtNombreUtilidad.setText(utilidad.getNombre());
@@ -78,7 +78,7 @@ public class ControladorUtilidad {
         FrameUtils.showWindow(ventana, "Editar utilidad");
     }
 
-    private static int getIndex(List<Utilidad> lista, int id) {
+    private static int getIndex(List<Utility> lista, int id) {
         for (int i = 0; i < lista.size(); i++) {
             if (lista.get(i).getId() == id) {
                 return i;
@@ -87,7 +87,7 @@ public class ControladorUtilidad {
         return -1;
     }
 
-    public static void showOptions(Utilidad utilidad) {
+    public static void showOptions(Utility utilidad) {
         JFrame ventana = new JFrame();
         ventana.setSize(300, 100);
         ventana.setLocationRelativeTo(null);
@@ -124,7 +124,7 @@ public class ControladorUtilidad {
             modelo.setRowCount(0);
             fillTable(getListaUtilidades());
         } else {
-            List<Utilidad> filteredList = getListaUtilidades().stream()
+            List<Utility> filteredList = getListaUtilidades().stream()
                     .filter(utilidad -> utilidad.getNombre().toLowerCase().contains(query.toLowerCase()))
                     .toList();
             fillTable(filteredList);
@@ -137,8 +137,8 @@ public class ControladorUtilidad {
         String peso = ventana.jtxtPeso.getText();
         if (!validaciones(nombre, cantidad, peso))
             return;
-        Utilidad utilidad = new Utilidad(id, nombre, Integer.parseInt(cantidad), Integer.parseInt(peso));
-        Response<Utilidad> response = CRUDUtilidad.getInstance().update(utilidad);
+        Utility utilidad = new Utility(id, nombre, Integer.parseInt(cantidad), Integer.parseInt(peso));
+        Response<Utility> response = CRUDUtilidad.getInstance().update(utilidad);
         if (!response.isSuccess()) {
             Messages.show("Error al editar el utilidad");
             return;
@@ -157,15 +157,15 @@ public class ControladorUtilidad {
         if (!validaciones(nombre, cantidad, peso)) {
             return;
         }
-        Utilidad utilidad = new Utilidad(nombre, Integer.parseInt(cantidad), Integer.parseInt(peso));
-        Utilidad utilidadWithTheSameName = getListaUtilidades().stream().filter(u -> u.getNombre().equals(nombre))
+        Utility utilidad = new Utility(nombre, Integer.parseInt(cantidad), Integer.parseInt(peso));
+        Utility utilidadWithTheSameName = getListaUtilidades().stream().filter(u -> u.getNombre().equals(nombre))
                 .findFirst()
                 .orElse(null);
         if (utilidadWithTheSameName != null) {
             Messages.show("Ya existe una utilidad con el mismo nombre");
             return;
         }
-        Response<Utilidad> response = CRUDUtilidad.getInstance().create(utilidad);
+        Response<Utility> response = CRUDUtilidad.getInstance().create(utilidad);
         if (!response.isSuccess()) {
             Messages.show("Error al crear el utilidad");
             return;
@@ -178,7 +178,7 @@ public class ControladorUtilidad {
     }
 
     public static void eliminarUtilidad(int id) {
-        Response<Utilidad> res = CRUDUtilidad.getInstance().delete(id);
+        Response<Utility> res = CRUDUtilidad.getInstance().delete(id);
         if (!res.isSuccess()) {
             Messages.show("Error al eliminar el utilidad");
             return;
@@ -189,9 +189,9 @@ public class ControladorUtilidad {
         showPanel();
     }
 
-    public static void fillTable(List<Utilidad> lista) {
+    public static void fillTable(List<Utility> lista) {
         modelo.setRowCount(0);
-        for (Utilidad utilidad : lista) {
+        for (Utility utilidad : lista) {
             modelo.addRow(utilidad.showAll());
         }
     }

@@ -1,9 +1,9 @@
 package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.dao.CRUDCliente;
-import com.uni.thanosgym.dao.CRUDPayment;
+import com.uni.thanosgym.dao.CRUDContrato;
 import com.uni.thanosgym.model.Cliente;
-import com.uni.thanosgym.model.Payment;
+import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.DateUtils;
@@ -114,7 +114,7 @@ public class ControladorClientBuscar {
             panel.jPanelEstado.setBackground(Color.CYAN);
             Messages.show("El plan esta congelado");
         }
-        Response<Payment> paymentResponse = CRUDPayment.getInstance().getByCliente(clientTarget.getId());
+        Response<Contrato> paymentResponse = CRUDContrato.getInstance().getByCliente(clientTarget.getId());
         if (!paymentResponse.isSuccess()) {
             Messages.show("No se pudo encontrar el pago");
             return;
@@ -125,7 +125,7 @@ public class ControladorClientBuscar {
             panel.jtxtPlanActual.setText("Plan vencido");
         } else {
             panel.jPanelEstado.setBackground(Color.GREEN);
-            Payment lastPayment = paymentResponse.getDataList().getLast();
+            Contrato lastPayment = paymentResponse.getDataList().getLast();
             panel.jtxtPlanActual.setText(lastPayment.getPlan().getName());
         }
 
@@ -293,8 +293,8 @@ public class ControladorClientBuscar {
         listaClientes.add(clienteCreado);
 
         // Crear el Payment asociado
-        Payment payment = new Payment(new Date(), generateTransactionCode(), clienteCreado, plan);
-        Response<Payment> paymentResponse = CRUDPayment.getInstance().create(payment);
+        Contrato payment = new Contrato(new Date(), generateTransactionCode(), clienteCreado, plan);
+        Response<Contrato> paymentResponse = CRUDContrato.getInstance().create(payment);
 
         if (!paymentResponse.isSuccess()) {
             Messages.show("Error al crear el pago: " + paymentResponse.getMessage());

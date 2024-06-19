@@ -11,7 +11,7 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.uni.thanosgym.model.Payment;
+import com.uni.thanosgym.model.Contrato;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -109,7 +109,7 @@ public class Utils {
         }
     }
 
-    public static void generatePaymentPDF(Payment payment, String pdfPath) {
+    public static void generatePaymentPDF(Contrato payment, String pdfPath) {
         try {
             PdfWriter writer = new PdfWriter(pdfPath);
             PdfDocument pdf = new PdfDocument(writer);

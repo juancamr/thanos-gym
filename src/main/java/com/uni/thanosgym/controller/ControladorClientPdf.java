@@ -1,7 +1,7 @@
 package com.uni.thanosgym.controller;
 
-import com.uni.thanosgym.dao.CRUDPayment;
-import com.uni.thanosgym.model.Payment;
+import com.uni.thanosgym.dao.CRUDContrato;
+import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
@@ -28,7 +28,7 @@ public class ControladorClientPdf {
         vista.setResizable(false);
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);
-        Response<Payment> response = CRUDPayment.getInstance().getByCliente(clientId);
+        Response<Contrato> response = CRUDContrato.getInstance().getByCliente(clientId);
         
         vista.jbtnAtras.addActionListener(new ActionListener() {
             @Override
@@ -39,7 +39,7 @@ public class ControladorClientPdf {
         
         if (response.isSuccess()) {
             modelo.setRowCount(0);
-            List<Payment> payments = response.getDataList();
+            List<Contrato> payments = response.getDataList();
             if (payments != null) {
                 llenarTablaPagos(payments);
             } else {
@@ -50,10 +50,10 @@ public class ControladorClientPdf {
         }
     }
 
-    private static void llenarTablaPagos(List<Payment> lista) {
+    private static void llenarTablaPagos(List<Contrato> lista) {
         DefaultTableModel model = (DefaultTableModel) vista.jtblPdfs.getModel();
 
-        for (Payment payment : lista) {
+        for (Contrato payment : lista) {
             model.addRow(new Object[]{
                 payment.getId(),
                 payment.getTransactionCode(),

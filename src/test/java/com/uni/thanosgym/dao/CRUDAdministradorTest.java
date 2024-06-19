@@ -17,42 +17,45 @@ public class CRUDAdministradorTest {
     public void mainTest() {
 
         // create admin master
-        Administrador adminMaster = new Administrador.Builder()
-                .setPhone(986327221)
-                .setUsername("testusername")
-                .setPassword("testusername")
-                .setEmail("test.testmaster@gmail")
-                .setFullName("Admin test")
-                .setLastSignin(new Date())
-                .setRol(Administrador.Rol.MASTER)
-                .build();
+        Administrador adminMaster = new Administrador(
+                new Date(),
+                "Admin test",
+                "986327221",
+                "test.testmaster@gmail",
+                "testusername",
+                "testusername",
+                Administrador.Rol.MASTER,
+                "photo",
+                new Date());
         Response<Administrador> resAdminMaster = crudAdministrador.create(adminMaster,
-                new Administrador.Builder().build());
+                new Administrador());
         assertEquals(true, resAdminMaster.isSuccess());
 
         // create empleado 1
-        Administrador adminEmpleado1 = new Administrador.Builder()
-                .setPhone(986327241)
-                .setUsername("testusername1")
-                .setPassword("testusername1")
-                .setEmail("test.testemple1@gmail")
-                .setFullName("Empleado test 1")
-                .setLastSignin(new Date())
-                .setRol(Administrador.Rol.EMPLEADO)
-                .build();
+        Administrador adminEmpleado1 = new Administrador(
+                new Date(),
+                "Empleado test 1",
+                "986327241",
+                "test.testemple1@gmail",
+                "testusername1",
+                "testusername1",
+                Administrador.Rol.EMPLEADO,
+                "photo",
+                new Date());
         Response<Administrador> resEmpleado1 = crudAdministrador.create(adminEmpleado1, resAdminMaster.getData());
         assertEquals(true, resEmpleado1.isSuccess());
 
         // create empleado 2
-        Administrador adminEmpleado2 = new Administrador.Builder()
-                .setPhone(986327242)
-                .setUsername("testusername2")
-                .setPassword("testusername2")
-                .setEmail("test.testemple2@gmail")
-                .setFullName("Empleado test 2")
-                .setLastSignin(new Date())
-                .setRol(Administrador.Rol.EMPLEADO)
-                .build();
+        Administrador adminEmpleado2 = new Administrador(
+                new Date(),
+                "Empleado test 2",
+                "986327242",
+                "test.testemple2@gmail",
+                "testusername2",
+                "testusername2",
+                Administrador.Rol.EMPLEADO,
+                "photo",
+                new Date());
         Response<Administrador> resEmpleado2 = crudAdministrador.create(adminEmpleado2, resEmpleado1.getData());
         assertEquals(false, resEmpleado2.isSuccess());
 

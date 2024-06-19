@@ -14,20 +14,29 @@ public class Querys {
 
     public class cliente {
 
+    // client_id INT NOT NULL AUTO_INCREMENT,
+    // dni varchar(20) NOT NULL,
+    // created_at DATE NOT NULL,
+    // full_name VARCHAR(255) NOT NULL,
+    // email VARCHAR(255) NOT NULL,
+    // address VARCHAR(255),
+    // phone VARCHAR(20),
+    // photo_url VARCHAR(255),
+    // PRIMARY KEY (client_id)
+
+        public static String create = "INSERT INTO client(dni, created_at, full_name, email, address, phone, photo_url) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        public static String update = "UPDATE client SET dni = ?, created_at = ?, full_name = ?, email = ?, address = ?, phone = ?, photo_url = ? WHERE client_id = ?";
         public static String getByDni = "SELECT * FROM client WHERE dni = ?";
         public static String getById = "SELECT * FROM client WHERE client_id = ?";
         public static String getAll = "SELECT * FROM client";
-        public static String getAllByName = "SELECT * FROM client WHERE full_name LIKE '%<query>%'";
         public static String delete = "DELETE FROM client WHERE client_id = ?";
         public static String getByEmail = "SELECT * FROM client WHERE email = ?";
-        public static String update = "UPDATE client SET dni = ?, created_at = ?, subscription_until = ?, full_name = ?, email = ?, address = ?, phone = ?, is_frozen = ? WHERE client_id = ?";
-        public static String create = "INSERT INTO client(dni, created_at, subscription_until, full_name, email, address, phone, is_frozen) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
     }
 
     public class admin {
 
-        public static String create = "INSERT INTO admin(full_name, username, password, email, phone, rol, last_signin) VALUES(?, ?, ?, ?, ?, ?, ?)";
-        public static String update = "UPDATE admin SET full_name=?, username=?, password=?, email=?, phone=?, rol=?, last_signin=? WHERE admin_id=?";
+        public static String create = "INSERT INTO admin(created_at, full_name, email, phone, username, password, rol, photo_url, last_signin) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        public static String update = "UPDATE admin SET created_at=?, full_name=?, email=?, phone=?, username=?, password=?, rol=?, photo_url, last_signin=? WHERE admin_id=?";
         public static String getByUsername = "SELECT * FROM admin WHERE username = ?";
         public static String getById = "SELECT * from admin where admin_id=?";
         public static String getAll = "SELECT * from admin";
@@ -51,7 +60,6 @@ public class Querys {
 
         public static String create = "INSERT INTO utility(nombre, peso, cantidad) values(?, ?, ?)";
         public static String getByName = "SELECT * FROM utility where nombre=?";
-        public static String getAllByName = "SELECT * FROM utility WHERE nombre LIKE '%<query>%'";
         public static String getAll = "SELECT * FROM utility";
         public static String getById = "SELECT * FROM utility where utility_id=?";
         public static String delete = "DELETE from utility where utility_id=?";

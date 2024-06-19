@@ -5,9 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
-import com.uni.thanosgym.model.Utilidad;
+import com.uni.thanosgym.model.Utility;
 
-public class CRUDUtilidad extends BaseCrud<Utilidad> {
+public class CRUDUtilidad extends BaseCrud<Utility> {
     public static CRUDUtilidad crudUtility;
 
     public static CRUDUtilidad getInstance() {
@@ -17,41 +17,41 @@ public class CRUDUtilidad extends BaseCrud<Utilidad> {
         return crudUtility;
     }
 
-    public Response<Utilidad> create(Utilidad utility) {
+    public Response<Utility> create(Utility utility) {
         return baseCreate(utility, Querys.utility.create);
     }
 
-    public Response<Utilidad> getAll() {
+    public Response<Utility> getAll() {
         return baseGetAll(Querys.utility.getAll);
     }
 
-    public Response<Utilidad> getById(int id) {
+    public Response<Utility> getById(int id) {
         return baseGetById(Querys.utility.getById, id);
     }
 
-    public Response<Utilidad> delete(int id) {
+    public Response<Utility> delete(int id) {
         return baseDeleteById(Querys.utility.delete, id);
     }
 
-    public Response<Utilidad> update(Utilidad utility) {
+    public Response<Utility> update(Utility utility) {
         try {
             sendObject(Querys.utility.update, utility);
             ps.setInt(4, utility.getId());
             ps.executeUpdate();
             ps.close();
-            return new Response<Utilidad>(true, "Datos actualizados con exito");
+            return new Response<Utility>(true, "Datos actualizados con exito");
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
     }
 
     @Override
-    public Utilidad generateObject(ResultSet rs) throws SQLException {
-        return new Utilidad(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
+    public Utility generateObject(ResultSet rs) throws SQLException {
+        return new Utility(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getInt(4));
     }
 
     @Override
-    public void sendObject(String consulta, Utilidad data) throws SQLException {
+    public void sendObject(String consulta, Utility data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getNombre());
         ps.setInt(2, data.getPeso());

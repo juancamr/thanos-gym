@@ -93,19 +93,34 @@ public class ControladorSession {
 
         password = StringUtils.sha256(password);
         boolean isForMaster = panel.jCheckIsForMaster.isSelected();
-        Administrador administrador = new Administrador.Builder()
-                .setEmail(email)
-                .setFullName(nombres)
-                .setUsername(userName)
-                .setPassword(password)
-                .setRol(isForMaster ? Administrador.Rol.MASTER : Administrador.Rol.EMPLEADO)
-                .build();
+    // admin_id INT NOT NULL AUTO_INCREMENT,
+    // created_at DATE NOT NULL,
+    // full_name VARCHAR(255) NOT NULL,
+    // email VARCHAR(255) NOT NULL,
+    // phone VARCHAR(20),
+    // username VARCHAR(255) NOT NULL,
+    // password VARCHAR(255) NOT NULL,
+    // rol ENUM('MASTER', 'EMPLEADO'),
+    // photo_url VARCHAR(255),
+    // last_signin DATE NOT NULL,
+    // PRIMARY KEY (admin_id)
+
+        Administrador administrador = new Administrador(
+            new Date(),
+            nombres,
+            email,
+            phone,
+            userName,
+            password,
+            isForMaster ? Administrador.Rol.MASTER : Administrador.Rol.EMPLEADO,
+            "",
+            new Date()
+        );
         if (!phone.isEmpty()) {
-            administrador.setPhone(Integer.parseInt(phone));
+            administrador.setPhone(phone);
         }
-        administrador.setLastSignin(new Date());
         if (CRUDAdministrador.getInstance().getQuantity() == 0) {
-            registrar(administrador, new Administrador.Builder().build());
+            registrar(administrador, new Administrador());
             return;
         }
         showVerifyAdminMaster(administrador);
@@ -130,10 +145,9 @@ public class ControladorSession {
             Messages.show("Complete todos los campos");
             return;
         }
-        Administrador adminMaster = new Administrador.Builder()
-                .setUsername(username)
-                .setPassword(StringUtils.sha256(password))
-                .build();
+        Administrador adminMaster = new Administrador();
+        adminMaster.setUserName(username);
+        adminMaster.setPassword(StringUtils.sha256(password));
         ventana.dispose();
         registrar(administrador, adminMaster);
     }

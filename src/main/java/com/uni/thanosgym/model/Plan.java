@@ -7,13 +7,13 @@ public class Plan {
     private double price;
     private int durationDays;
     private String indicador;
-    public static String idField = "plan_id";
-    public static String nameField = "name";
-    public static String priceField = "price";
-    public static String durationField = "duration_days";
-
-    public Plan() {
-    }
+    
+    // plan_id INT NOT NULL AUTO_INCREMENT,
+    // name VARCHAR(255) NOT NULL,
+    // price DECIMAL(10, 2) NOT NULL,
+    // duration_days INT NOT NULL,
+    // indicador ENUM('V', 'F') NOT NULL,
+    // PRIMARY KEY (plan_id)
 
     public Plan(String name, double price, int durationDays, String indicador) {
         this.name = name;
