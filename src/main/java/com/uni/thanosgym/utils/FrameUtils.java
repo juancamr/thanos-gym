@@ -4,9 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -212,6 +217,19 @@ public class FrameUtils {
 
     public static Font getMainFont(int weight, int size) {
         return new Font("Malgun Gothic", weight, size);
+
+
+    }
+
+    public static void renderImageFromWeb(String imageUrl, JPanel panel) {
+        try {
+            URL url = new URL(imageUrl);
+            ImageIcon imageIcon = new ImageIcon(url);
+            JLabel imageLabel = new JLabel(imageIcon);
+            panel.add(imageLabel, BorderLayout.CENTER);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
