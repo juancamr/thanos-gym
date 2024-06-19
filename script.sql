@@ -5,13 +5,14 @@ CREATE TABLE if not exists admin (
     admin_id INT NOT NULL AUTO_INCREMENT,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    phone BIGINT,
+    phone VARCHAR(20),
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     rol ENUM('MASTER', 'EMPLEADO'),
-    last_signin DATE not null,
+    photo_url VARCHAR(255),
+    last_signin DATE NOT NULL,
     PRIMARY KEY (admin_id)
-);
+) Engine=InnoDB;
 
 CREATE TABLE if not exists plan (
     plan_id INT NOT NULL AUTO_INCREMENT,
@@ -20,45 +21,81 @@ CREATE TABLE if not exists plan (
     duration_days INT NOT NULL,
     indicador ENUM('V', 'F') NOT NULL,
     PRIMARY KEY (plan_id)
-);
+) Engine=InnoDB;
 
 CREATE TABLE if not exists client (
     client_id INT NOT NULL AUTO_INCREMENT,
     dni INT NOT NULL,
     created_at DATE NOT NULL,
-    subscription_until DATE NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     address VARCHAR(255),
     is_frozen ENUM('SI', 'NO'),
-    phone BIGINT,
-    CONSTRAINT PRIMARY KEY (client_id)
-);
-
-CREATE TABLE if not exists payment (
-    payment_id INT NOT NULL AUTO_INCREMENT,
-    created_at DATETIME NOT NULL,
-    client_id INT NOT NULL,
-    plan_id INT NOT NULL,
-    transaction_code INT NOT NULL,
-    PRIMARY KEY (payment_id),
-    FOREIGN KEY (client_id) REFERENCES client(client_id),
-    FOREIGN KEY (plan_id) REFERENCES plan(plan_id)
-);
+    photo_url VARCHAR(255),
+    phone VARCHAR(20),
+    PRIMARY KEY (client_id)
+) Engine=InnoDB;
 
 CREATE TABLE if not exists producto (
     producto_id INT NOT NULL AUTO_INCREMENT,
     nombre VARCHAR(255) NOT NULL,
-    cantidad VARCHAR(255) NOT NULL,
-    precio INT NOT NULL,
+    cantidad int NOT NULL,
+    precio decimal(10, 2) NOT NULL,
+    photo_url VARCHAR(255),
     PRIMARY KEY (producto_id)
-);
+) Engine=InnoDB;
 
+
+CREATE TABLE if not exists contrato (
+    contrato_id INT NOT NULL AUTO_INCREMENT,
+    client_id INT NOT NULL,
+    plan_id INT NOT NULL,
+    admin_id INT NOT NULL,
+    transaction_code INT NOT NULL,
+    created_at DATETIME NOT NULL,
+    subscription_until DATE NOT NULL,
+    PRIMARY KEY (contrato_id),
+    FOREIGN KEY (client_id) REFERENCES client(client_id),
+    FOREIGN KEY (plan_id) REFERENCES plan(plan_id),
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id)
+) Engine=InnoDB;
+
+create table if not exists boleta (
+    boleta_id INT NOT NULL AUTO_INCREMENT,
+    client_id INT NOT NULL,
+    admin_id INT NOT NULL,
+    created_at DATE NOT NULL,
+    total_boleta DECIMAL(10, 2) NOT NULL,
+    PRIMARY KEY (boleta_id),
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id)
+) Engine=InnoDB;
+
+create table if not exists detalle_boleta (
+    detalle_boleta_id int not null auto_increment,
+    boleta_id int not null,
+    producto_id int not null,
+    cantidad int not null,
+    precio int not null,
+    PRIMARY KEY (detalle_boleta_id),
+    FOREIGN KEY (boleta_id) REFERENCES boleta(boleta_id),
+    FOREIGN KEY (producto_id) REFERENCES producto(producto_id)
+) Engine=InnoDB;
 
 CREATE TABLE if not exists utility (
     utility_id INT NOT NULL AUTO_INCREMENT,
+    admin_id INT NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     peso DECIMAL(10,2) NOT NULL,
     cantidad INT NOT NULL,
-    PRIMARY KEY (utility_id)
-);
+    photo_url VARCHAR(255),
+    PRIMARY KEY (utility_id),
+    FOREIGN key (admin_id) REFERENCES admin(admin_id)
+) Engine=InnoDB;
+
+create table if not exists asistencia (
+    asistencia_id INT NOT NULL AUTO_INCREMENT,
+    client_id INT NOT NULL,
+    ingreso DATETIME NOT NULL,
+    primary key (asistencia_id),
+    FOREIGN KEY (client_id) REFERENCES client(client_id)
+) Engine=InnoDB;
