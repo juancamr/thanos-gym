@@ -1,6 +1,7 @@
 package com.uni.thanosgym.utils;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -207,6 +208,10 @@ public class FrameUtils {
                 }
             }
         });
+    }
+
+    public static Font getMainFont(int weight, int size) {
+        return new Font("Malgun Gothic", weight, size);
     }
 
 }

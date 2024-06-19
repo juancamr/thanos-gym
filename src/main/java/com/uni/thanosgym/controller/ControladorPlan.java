@@ -6,15 +6,20 @@ import com.uni.thanosgym.dao.CRUDPlan;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.view.PanelPlan;
+import com.uni.thanosgym.view.components.RoundedPanel;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.AddPlan;
 import java.util.List;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -57,6 +62,10 @@ public class ControladorPlan {
      * @param panel Ventana de agregar plan
      */
     public static void showAgregarPlanWindow() {
+        if (getListaPlanes().size() >= 3) {
+            Messages.show("No puedes tener más de 3 planes");
+            return;
+        }
         AddPlan vista = new AddPlan();
         FrameUtils.showWindow(vista, "Crear un nuevo plan");
         vista.jtxtNombrePlan.requestFocus();
@@ -166,32 +175,37 @@ public class ControladorPlan {
         }
 
         for (Plan plan : dataList) {
-            JPanel panel = new JPanel();
-            int alto = 100;
-            int ancho = 100;
-
-            panel.setLayout(new GridLayout(5, 1));
-            panel.setPreferredSize(new Dimension(ancho, alto));
-            panel.setMaximumSize(new Dimension(ancho, alto));
-            panel.setMinimumSize(new Dimension(ancho, alto));
+            RoundedPanel panel = new RoundedPanel(15, new Color(250, 250, 250));
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            panel.setPreferredSize(new Dimension(500, 150));
+            panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JLabel name = new JLabel(plan.getName());
-            JLabel precio = new JLabel(String.valueOf(plan.getPrice()));
-            JLabel duracion = new JLabel(String.valueOf(plan.getDurationDays()));
+            name.setFont(new Font("Malgun Gothic", Font.BOLD, 16));
+            String price = String.valueOf(plan.getPrice());
+            String duracion = String.valueOf(plan.getDurationDays());
+            JLabel precioLabel = new JLabel("Precio: $" + price);
+            JLabel duracionLabel = new JLabel("Duración: " + duracion + " días");
             JButton editButton = new JButton("Editar");
+            editButton.setBackground(new Color(254, 254, 254));
             JButton deleteButton = new JButton("Eliminar");
+            deleteButton.setBackground(new Color(254, 254, 254));
 
             FrameUtils.addOnClickEvent(editButton, () -> showEditarPlanWindow(new AddPlan(), plan));
             FrameUtils.addOnClickEvent(deleteButton, () -> deletePlan(plan));
 
             panel.add(name);
-            panel.add(precio);
-            panel.add(duracion);
+            panel.add(Box.createRigidArea(new Dimension(0, 5)));
+            panel.add(precioLabel);
+            panel.add(Box.createRigidArea(new Dimension(0, 5)));
+            panel.add(duracionLabel);
+            panel.add(Box.createRigidArea(new Dimension(0, 10)));
             panel.add(editButton);
+            panel.add(Box.createRigidArea(new Dimension(0, 5)));
             panel.add(deleteButton);
 
-            mainPanel.add(panel, BorderLayout.CENTER);
-            mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+            mainPanel.add(panel);
+            mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
         }
     }
 
