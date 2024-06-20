@@ -39,7 +39,6 @@ public class CRUDAdministradorTest {
                 .setRol(Admin.Rol.EMPLEADO)
                 .setPhotoUrl("photo")
                 .build();
-
         Response<Admin> resEmpleado1 = crudAdministrador.create(adminEmpleado1, resAdminMaster.getData());
         assertEquals(true, resEmpleado1.isSuccess());
 

@@ -25,6 +25,7 @@ public class CRUDContratoTest {
         // create client
         Client cliente = new Client.Builder()
                 .setFullName("Juan carlos")
+                .setDni("75423447")
                 .setEmail("test@test.com")
                 .setPhone("986327221")
                 .setPhotoUrl("photo_url")
@@ -43,16 +44,16 @@ public class CRUDContratoTest {
         // create administrador
         Admin admin = new Admin.Builder()
                 .setFullName("Admin test")
+                .setEmail("test.testcontrato@gmail")
                 .setPhone("986327221")
-                .setEmail("test.testmaster@gmail")
-                .setUsername("testusername")
-                .setPassword("testusername")
+                .setUsername("testusernamecontrato")
+                .setPassword("testusernamecontrato")
                 .setRol(Admin.Rol.MASTER)
                 .setPhotoUrl("photo")
                 .build();
         admin.setId(crudAdministrador.create(admin, new Admin.Builder().build()).getId());
 
-        // create payment
+        // create contrato
         Contrato contrato = new Contrato.Builder()
                 .setCliente(cliente)
                 .setPlan(plan)
