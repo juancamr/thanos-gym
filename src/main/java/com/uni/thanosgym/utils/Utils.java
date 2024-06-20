@@ -62,7 +62,7 @@ public class Utils {
         }
     }
 
-    public static boolean sendMailWithPdf(String messageEmail, String para, String titulo, String pdfPath) {
+    public static boolean sendMailWithPdf(String para, String titulo, String messageEmail, String pdfPath) {
         try {
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -115,7 +115,7 @@ public class Utils {
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
-            document.add(new Paragraph(String.format("Detalle de boleta para %s", payment.getCliente().getFullName())));
+            document.add(new Paragraph(String.format("Detalle de contrato a nombre de %s", payment.getCliente().getFullName())));
             Table table = new Table(4);
 
             table.addHeaderCell("Nro boleta");
@@ -126,7 +126,7 @@ public class Utils {
             table.addCell(StringUtils.parseIdBoleta(payment.getId()));
             table.addCell(StringUtils.parseSpanishDate(payment.getCreatedAt()));
             table.addCell(payment.getPlan().getName());
-            table.addCell(String.format("S/ %f", payment.getPlan().getPrice()));
+            table.addCell(String.valueOf(payment.getPlan().getPrice()));
 
             document.add(table);
             document.close();

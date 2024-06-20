@@ -165,6 +165,7 @@ public class PanelRegister extends javax.swing.JPanel {
         jtxtRepeatPassword.setBorder(null);
         jPanel3.add(jtxtRepeatPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 300, 30));
 
+        jCheckIsForMaster.setBackground(new java.awt.Color(255, 255, 255));
         jCheckIsForMaster.setText("Master");
         jPanel3.add(jCheckIsForMaster, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 570, -1, -1));
 

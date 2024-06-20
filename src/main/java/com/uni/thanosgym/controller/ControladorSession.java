@@ -1,5 +1,8 @@
 package com.uni.thanosgym.controller;
 
+import java.awt.BorderLayout;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 import javax.swing.*;
@@ -24,8 +27,13 @@ public class ControladorSession {
     public static boolean panelRegisterRendered = false;
 
     public static void initWindow() {
-        showLoginPanel();
+        String imageUrl = "https://i.pinimg.com/736x/1d/bc/ef/1dbcef30ca20a90b82c60490804de803.jpg";
         WindowSession view = ControladorSession.getWindow();
+        view.jpanelImage.removeAll();
+        FrameUtils.renderImageFromWeb(imageUrl, view.jpanelImage);
+        view.jpanelImage.revalidate();
+        view.jpanelImage.repaint();
+        showLoginPanel();
         FrameUtils.showWindow(view, "Inicia sesion");
     }
 
@@ -160,7 +168,8 @@ public class ControladorSession {
             return;
         }
         PanelRegister panel = ControladorSession.getPanelRegister();
-        FrameUtils.clearInputs(new JTextField[]{panel.jtxtCorreo, panel.jtxtNombresCompletos, panel.jtxtNombreUsuario, panel.jtxtPhone});
+        FrameUtils.clearInputs(new JTextField[] { panel.jtxtCorreo, panel.jtxtNombresCompletos, panel.jtxtNombreUsuario,
+                panel.jtxtPhone });
         panel.jPassword.setText("");
         panel.jtxtRepeatPassword.setText("");
         vista.dispose();

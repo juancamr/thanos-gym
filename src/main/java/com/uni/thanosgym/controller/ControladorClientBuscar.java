@@ -21,8 +21,6 @@ import com.uni.thanosgym.utils.Utils;
 
 import javax.swing.*;
 
-import org.netbeans.lib.awtextra.AbsoluteLayout;
-
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -62,8 +60,12 @@ public class ControladorClientBuscar {
     }
 
     private static void buscarPorDni() {
+        isClientEditable(false);
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
         String dniString = panel.jtxtDniCliente.getText();
+        FrameUtils.removeAllEvents(panel.jbtnEditar);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+        panel.jbtnEditar.setText("Editar");
 
         // validaciones
         if (dniString.isEmpty()) {
@@ -113,6 +115,7 @@ public class ControladorClientBuscar {
         if (clientTarget.getIsFrozen() == Cliente.Frozen.SI) {
             panel.jPanelEstado.setBackground(Color.CYAN);
             Messages.show("El plan esta congelado");
+            return;
         }
         Response<Contrato> paymentResponse = CRUDContrato.getInstance().getByCliente(clientTarget.getId());
         if (!paymentResponse.isSuccess()) {
@@ -141,9 +144,9 @@ public class ControladorClientBuscar {
 
     private static void isClientTargeted(boolean flag) {
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
-        panel.jbtnEditar.setEnabled(flag);
-        panel.jbtnCongelar.setEnabled(flag);
-        panel.jbtnRenovar.setEnabled(flag);
+        panel.jbtnEditar.setVisible(flag);
+        panel.jbtnCongelar.setVisible(flag);
+        panel.jbtnRenovar.setVisible(flag);
     }
 
     private static void isClientEditable(boolean flag) {
@@ -168,6 +171,7 @@ public class ControladorClientBuscar {
         if (clientTarget.getFullName().equals(nombres) && clientTarget.getDireccion().equals(direccion)
                 && clientTarget.getPhone() == Integer.parseInt(phone)) {
             Messages.show("No se ha realizado ningun cambio");
+            isClientEditable(false);
             FrameUtils.removeAllEvents(panel.jbtnEditar);
             FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
             panel.jbtnEditar.setText("Editar");
@@ -192,7 +196,8 @@ public class ControladorClientBuscar {
         FrameUtils.removeAllEvents(panel.jbtnEditar);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
         panel.jbtnEditar.setText("Editar");
-        Messages.show("Producto actualizado con exito");
+        isClientEditable(false);
+        Messages.show("Cliente actualizado con exito");
     }
 
     private static int generateTransactionCode() {
@@ -305,17 +310,20 @@ public class ControladorClientBuscar {
                 panel.jtxtDireccionCorreoAdd, panel.jtxtTelefonoClienteAdd };
         FrameUtils.clearInputs(inputs);
         Messages.show("Cliente y pago creados con exito");
-        String pdfPath = "payment.pdf";
-        String messageEmail = String.format("Gracias por tu dinero %s", payment.getCliente().getFullName());
+        String pdfPath = "contrato.pdf";
+        String messageEmail = String.format(
+                "Gracias por ser parte de Thanosgym %s, te dejamos tu contrato de membresia adjuntado en este correo.",
+                payment.getCliente().getFullName());
         Utils.generatePaymentPDF(payment, pdfPath);
         Utils.sendMailWithPdf(
+                clienteCreado.getEmail(),
+                String.format("Bienvenido %s", clienteCreado.getFullName()),
                 messageEmail,
-                payment.getCliente().getEmail(), "gracias por tu dinero",
                 pdfPath);
     }
 
     public static void renovar() {
-        JFrame frame= new JFrame();
+        JFrame frame = new JFrame();
         frame.setSize(400, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -374,6 +382,7 @@ public class ControladorClientBuscar {
             return;
 
         // actualizar el cliente en la base de datos
+        clientTarget.setIsFrozen(Cliente.Frozen.SI);
         Response<Cliente> response = CRUDCliente.getInstance().update(clientTarget);
         if (!response.isSuccess()) {
             Messages.show("Error al congelar la membresía: " + response.getMessage());
@@ -405,6 +414,7 @@ public class ControladorClientBuscar {
         panelBuscar.jbtnCongelar.setVisible(false);
         panelBuscar.jbtnEditar.setVisible(false);
         panelBuscar.jbtnRenovar.setVisible(false);
+        panelBuscar.jPanelEstado.setBackground(Color.WHITE);
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
         JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente, panel.jtxtDireccionCliente,
                 panel.jtxtTelefonoCliente, panel.jtxtPlanActual };

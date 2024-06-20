@@ -110,6 +110,7 @@ public class PanelLogin extends javax.swing.JPanel {
         });
         jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 300, 30));
 
+        jCheckSesion.setBackground(new java.awt.Color(255, 255, 255));
         jCheckSesion.setText("Mantener mi sesion iniciada");
         jPanel3.add(jCheckSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, -1, -1));
 

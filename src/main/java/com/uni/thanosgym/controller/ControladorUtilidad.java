@@ -14,6 +14,7 @@ import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.TablaUtils;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelUtilidad;
 import com.uni.thanosgym.view.VentanaAgregarUtilidad;
@@ -39,6 +40,7 @@ public class ControladorUtilidad {
             FrameUtils.addOnClickEvent(panel.jbtnCrear, ControladorUtilidad::showAgregarWindow);
             panelRendered = true;
             modelo = new DefaultTableModel(null, titulosTabla);
+            TablaUtils.formatoTablaProductoOUtilildad(panel.jtblUtilidad);
             panel.jtblUtilidad.setModel(modelo);
         }
         fillTable(getListaUtilidades());

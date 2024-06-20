@@ -3,6 +3,8 @@ package com.uni.thanosgym.controller;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
+
+import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.MainWindow;
@@ -48,6 +50,10 @@ public class ControladorMainWindow {
             FrameUtils.addOnClickEvent(vista.jbtnQuinto, () -> {
                 ControladorUtilidad.showPanel();
                 setFocusButton(vista.jbtnQuinto);
+            });
+            FrameUtils.addOnClickEvent(vista.jbtnCerrarSesion, () -> {
+                vista.dispose();
+                Auth.logOut();
             });
         }
 

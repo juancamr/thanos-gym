@@ -14,6 +14,7 @@ import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.TablaUtils;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelProducto;
 import com.uni.thanosgym.view.VentanaAgregarProducto;
@@ -37,6 +38,7 @@ public class ControladorProducto {
         PanelProducto panel = ControladorProducto.getPanel();
         if (!panelRendered) {
             modelo = new DefaultTableModel(null, titulosTabla);
+            TablaUtils.formatoTablaProductoOUtilildad(panel.jtblProducto);
             panel.jtblProducto.setModel(modelo);
             FrameUtils.addHandleChangeEvent(panel.jtxtBusquedaProducto, ControladorProducto::busqueda);
             FrameUtils.addOnClickEvent(panel.jbtnCrear, ControladorProducto::showAgregarWindow);
