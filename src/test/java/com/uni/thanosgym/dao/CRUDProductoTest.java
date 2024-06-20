@@ -14,7 +14,12 @@ public class CRUDProductoTest {
     @Test
     public void mainTest() {
         // create
-        Producto producto = new Producto("Test Producto", 100, 30, "photo");
+        Producto producto = new Producto.Builder()
+                .setNombre("Test Producto")
+                .setCantidad(10)
+                .setPrecio(100)
+                .setPhotoUrl("photo_url")
+                .build();
         Response<Producto> response = crudProducto.create(producto);
         assertTrue(response.isSuccess());
 

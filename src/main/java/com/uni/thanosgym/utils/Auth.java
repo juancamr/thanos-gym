@@ -3,22 +3,22 @@ package com.uni.thanosgym.utils;
 import com.uni.thanosgym.controller.ControladorSession;
 import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.controller.ControladorMainWindow;
-import com.uni.thanosgym.model.Administrador;
+import com.uni.thanosgym.model.Admin;
 import com.uni.thanosgym.model.Response;
 
 public class Auth {
 
     public static boolean isAdminLoggedIn() {
-        Administrador admin = UserPreferences.getData();
-        boolean adminPersistence = admin.isSesionPersistente();
-        Response<Administrador> response = CRUDAdministrador.getInstance().getById(admin.getId());
+        Admin admin = UserPreferences.getData();
+        boolean adminPersistence = admin.isSesionPersistence();
+        Response<Admin> response = CRUDAdministrador.getInstance().getById(admin.getId());
         if (adminPersistence && response.isSuccess()) {
             return true;
         } 
         return false;
     }
 
-    public static void signIn(Administrador admin) {
+    public static void signIn(Admin admin) {
         UserPreferences.setData(admin);
         ControladorMainWindow.initMainWindow();
     }

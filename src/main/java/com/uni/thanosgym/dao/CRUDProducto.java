@@ -23,15 +23,15 @@ public class CRUDProducto extends BaseCrud<Producto> {
     }
 
     public Response<Producto> delete(int id) {
-        return baseDeleteById(Querys.producto.delete, id);
+        return baseDeleteById(Querys.deleteTemplate(Producto.tableName), id);
     }
 
     public Response<Producto> getAll() {
-        return baseGetAll(Querys.producto.getAll);
+        return baseGetAll(Querys.getAllTemplate(Producto.tableName));
     }
 
     public Response<Producto> getById(int id) {
-        return baseGetById(Querys.producto.getById, id);
+        return baseGetById(Querys.getByIdTemplate(Producto.tableName), id);
     }
 
     public Response<Producto> update(Producto producto) {
@@ -48,12 +48,13 @@ public class CRUDProducto extends BaseCrud<Producto> {
 
     @Override
     public Producto generateObject(ResultSet rs) throws SQLException {
-        Producto producto = new Producto();
-        producto.setId(rs.getInt(1));
-        producto.setNombre(rs.getString(2));
-        producto.setCantidad(rs.getInt(3));
-        producto.setPrecio(rs.getDouble(4));
-        return producto;
+        return new Producto.Builder()
+                .setId(rs.getInt(Producto.idField))
+                .setNombre(rs.getString(Producto.nombreField))
+                .setCantidad(rs.getInt(Producto.cantidadField))
+                .setPrecio(rs.getDouble(Producto.precioField))
+                .setPhotoUrl(rs.getString(Producto.photoUrlField))
+                .build();
     }
 
     @Override

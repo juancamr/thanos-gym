@@ -2,7 +2,7 @@ package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDContrato;
-import com.uni.thanosgym.model.Cliente;
+import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
@@ -10,6 +10,7 @@ import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelClient;
 import com.uni.thanosgym.view.PanelClientBuscar;
@@ -32,9 +33,9 @@ public class ControladorClientBuscar {
     public static PanelClient panelClient;
     public static boolean panelAgregarIsRendered = false;
     public static boolean panelBuscarIsRendered = false;
-    public static List<Cliente> listaClientes = new ArrayList<>();
+    public static List<Client> listaClientes = new ArrayList<>();
     public static boolean isFull = false;
-    private static Cliente clientTarget = null;
+    private static Client clientTarget = null;
 
     public static void showPanelBuscar() {
         if (ControladorPlan.getListaPlanes().isEmpty()) {
@@ -62,25 +63,24 @@ public class ControladorClientBuscar {
     private static void buscarPorDni() {
         isClientEditable(false);
         PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
-        String dniString = panel.jtxtDniCliente.getText();
+        String dniCliente = panel.jtxtDniCliente.getText();
         FrameUtils.removeAllEvents(panel.jbtnEditar);
         FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
         panel.jbtnEditar.setText("Editar");
 
         // validaciones
-        if (dniString.isEmpty()) {
+        if (dniCliente.isEmpty()) {
             Messages.show("Por favor, digite un DNI");
             return;
         }
-        if (!StringUtils.isValidDni(dniString)) {
+        if (!StringUtils.isValidDni(dniCliente)) {
             Messages.show("El DNI debe ser un número de 8 dígitos");
             return;
         }
 
         // busqueda ahorrativa xd
-        int dniCliente = Integer.parseInt(dniString);
         if (listaClientes.isEmpty()) {
-            Response<Cliente> resCliente = CRUDCliente.getInstance().getByDni(dniCliente);
+            Response<Client> resCliente = CRUDCliente.getInstance().getByDni(dniCliente);
             if (!resCliente.isSuccess()) {
                 Messages.show("El cliente no está registrado");
                 limpiarCamposBusqueda();
@@ -90,13 +90,13 @@ public class ControladorClientBuscar {
             isClientTargeted(true);
             listaClientes.add(clientTarget);
         } else {
-            Cliente clienteFound = listaClientes.stream().filter(c -> c.getDni() == dniCliente).findFirst()
+            Client clienteFound = listaClientes.stream().filter(c -> c.getDni() == dniCliente).findFirst()
                     .orElse(null);
             if (clienteFound != null) {
                 isClientTargeted(true);
                 clientTarget = clienteFound;
             } else {
-                Response<Cliente> resCliente = CRUDCliente.getInstance().getByDni(dniCliente);
+                Response<Client> resCliente = CRUDCliente.getInstance().getByDni(dniCliente);
                 if (!resCliente.isSuccess()) {
                     Messages.show("El cliente no está registrado");
                     limpiarCamposBusqueda();
@@ -112,25 +112,27 @@ public class ControladorClientBuscar {
         panel.jtxtDireccionCliente.setText(clientTarget.getDireccion());
         panel.jtxtTelefonoCliente.setText(String.valueOf(clientTarget.getPhone()));
 
-        if (clientTarget.getIsFrozen() == Cliente.Frozen.SI) {
-            panel.jPanelEstado.setBackground(Color.CYAN);
-            Messages.show("El plan esta congelado");
-            return;
-        }
+        // TODO: Añadir la opción de congelar el plan
+        // if (clientTarget.is() == Cliente.Client.SI) {
+        // panel.jPanelEstado.setBackground(Color.CYAN);
+        // Messages.show("El plan esta congelado");
+        // return;
+        // }
         Response<Contrato> paymentResponse = CRUDContrato.getInstance().getByCliente(clientTarget.getId());
         if (!paymentResponse.isSuccess()) {
             Messages.show("No se pudo encontrar el pago");
             return;
         }
 
-        if (new Date().after(clientTarget.getSubscription_until())) {
-            panel.jPanelEstado.setBackground(Color.RED);
-            panel.jtxtPlanActual.setText("Plan vencido");
-        } else {
-            panel.jPanelEstado.setBackground(Color.GREEN);
-            Contrato lastPayment = paymentResponse.getDataList().getLast();
-            panel.jtxtPlanActual.setText(lastPayment.getPlan().getName());
-        }
+        // TODO: check this out
+        // if (new Date().after(clientTarget.getSubscription_until())) {
+        // panel.jPanelEstado.setBackground(Color.RED);
+        // panel.jtxtPlanActual.setText("Plan vencido");
+        // } else {
+        // panel.jPanelEstado.setBackground(Color.GREEN);
+        // Contrato lastPayment = paymentResponse.getDataList().getLast();
+        // panel.jtxtPlanActual.setText(lastPayment.getPlan().getName());
+        // }
 
     }
 
@@ -169,7 +171,7 @@ public class ControladorClientBuscar {
         }
 
         if (clientTarget.getFullName().equals(nombres) && clientTarget.getDireccion().equals(direccion)
-                && clientTarget.getPhone() == Integer.parseInt(phone)) {
+                && clientTarget.getPhone().equals(phone)) {
             Messages.show("No se ha realizado ningun cambio");
             isClientEditable(false);
             FrameUtils.removeAllEvents(panel.jbtnEditar);
@@ -185,9 +187,9 @@ public class ControladorClientBuscar {
             clientTarget.setDireccion(panel.jtxtDireccionCliente.getText());
         }
         if (!phone.equals(String.valueOf(clientTarget.getPhone()))) {
-            clientTarget.setPhone(Integer.parseInt(phone));
+            clientTarget.setPhone(phone);
         }
-        Response<Cliente> response = CRUDCliente.getInstance().update(clientTarget);
+        Response<Client> response = CRUDCliente.getInstance().update(clientTarget);
         if (!response.isSuccess()) {
             Messages.show(response.getMessage());
             return;
@@ -278,28 +280,33 @@ public class ControladorClientBuscar {
         ComboItem item = (ComboItem) panel.jcbxPlanRegistro.getSelectedItem();
         Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId() == item.getId()).findFirst()
                 .orElse(null);
-        Cliente cli = new Cliente();
-        cli.setDni(Integer.parseInt(dni));
-        cli.setCreated_At(new Date());
-        Date fechaFinal = DateUtils.addDays(cli.getCreated_At(), plan.getDurationDays());
-        cli.setSubscription_until(fechaFinal);
 
-        cli.setFullName(panel.jtxtNombreClienteAgregar.getText());
-        cli.setEmail(panel.jtxtDireccionCorreoAdd.getText());
-        cli.setDireccion(panel.jtxtDireccionClienteAdd.getText());
-        cli.setPhone(Integer.parseInt(panel.jtxtTelefonoClienteAdd.getText()));
+        Client cli = new Client.Builder()
+                .setDni(dni)
+                .setFullName(panel.jtxtNombreClienteAgregar.getText())
+                .setEmail(panel.jtxtDireccionCorreoAdd.getText())
+                .setDireccion(panel.jtxtDireccionClienteAdd.getText())
+                .setPhone(panel.jtxtTelefonoClienteAdd.getText())
+                .build();
 
-        Response<Cliente> res = CRUDCliente.getInstance().create(cli);
+        Response<Client> res = CRUDCliente.getInstance().create(cli);
         if (!res.isSuccess()) {
             Messages.show("Error al crear el cliente: " + res.getMessage());
             return;
         }
-        Cliente clienteCreado = res.getData();
+        Client clienteCreado = res.getData();
         listaClientes.add(clienteCreado);
 
         // Crear el Payment asociado
-        Contrato payment = new Contrato(new Date(), generateTransactionCode(), clienteCreado, plan);
-        Response<Contrato> paymentResponse = CRUDContrato.getInstance().create(payment);
+        Contrato contrato = new Contrato.Builder()
+                .setCliente(clienteCreado)
+                .setPlan(plan)
+                .setAdmin(UserPreferences.getData())
+                .setTransactionCode(String.valueOf(generateTransactionCode()))
+                .setSubscriptionUntil(DateUtils.addDays(new Date(), plan.getDurationDays()))
+                .build();
+
+        Response<Contrato> paymentResponse = CRUDContrato.getInstance().create(contrato);
 
         if (!paymentResponse.isSuccess()) {
             Messages.show("Error al crear el pago: " + paymentResponse.getMessage());
@@ -313,8 +320,8 @@ public class ControladorClientBuscar {
         String pdfPath = "contrato.pdf";
         String messageEmail = String.format(
                 "Gracias por ser parte de Thanosgym %s, te dejamos tu contrato de membresia adjuntado en este correo.",
-                payment.getCliente().getFullName());
-        Utils.generatePaymentPDF(payment, pdfPath);
+                contrato.getCliente().getFullName());
+        Utils.generatePaymentPDF(contrato, pdfPath);
         Utils.sendMailWithPdf(
                 clienteCreado.getEmail(),
                 String.format("Bienvenido %s", clienteCreado.getFullName()),
@@ -333,22 +340,22 @@ public class ControladorClientBuscar {
         fillComboPlanes(ControladorPlan.getListaPlanes(), jcbxPlanes);
         frame.add(jcbxPlanes);
 
-        FrameUtils.addOnClickEvent(jcbxPlanes, () -> {
-            ComboItem item = (ComboItem) jcbxPlanes.getSelectedItem();
-            Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId() == item.getId()).findFirst()
-                    .orElse(null);
-            Date fechaFinal = DateUtils.addDays(clientTarget.getSubscription_until(), plan.getDurationDays());
-            int idx = listaClientes.indexOf(clientTarget);
-            clientTarget.setSubscription_until(fechaFinal);
-            Response<Cliente> response = CRUDCliente.getInstance().update(clientTarget);
-            if (!response.isSuccess()) {
-                Messages.show("Error al renovar la membresía: " + response.getMessage());
-                return;
-            }
-            listaClientes.set(idx, clientTarget);
-            Messages.show("Membresía renovada con exito");
-            frame.dispose();
-        });
+        // FrameUtils.addOnClickEvent(jcbxPlanes, () -> {
+        //     ComboItem item = (ComboItem) jcbxPlanes.getSelectedItem();
+        //     Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId() == item.getId()).findFirst()
+        //             .orElse(null);
+        //     Date fechaFinal = DateUtils.addDays(, plan.getDurationDays());
+        //     int idx = listaClientes.indexOf(clientTarget);
+        //     clientTarget.setSubscription_until(fechaFinal);
+        //     Response<Client> response = CRUDCliente.getInstance().update(clientTarget);
+        //     if (!response.isSuccess()) {
+        //         Messages.show("Error al renovar la membresía: " + response.getMessage());
+        //         return;
+        //     }
+        //     listaClientes.set(idx, clientTarget);
+        //     Messages.show("Membresía renovada con exito");
+        //     frame.dispose();
+        // });
         FrameUtils.showWindow(frame, "Selecciona un plan");
     }
 
@@ -371,8 +378,8 @@ public class ControladorClientBuscar {
             Messages.show("No puedes congelar la membresía por más de 15 días");
             return;
         }
-        Date currentSubscriptionUntil = clientTarget.getSubscription_until();
-        clientTarget.setSubscription_until(DateUtils.addDays(currentSubscriptionUntil, days));
+        // Date currentSubscriptionUntil = clientTarget.getSubscription_until();
+        // clientTarget.setSubscription_until(DateUtils.addDays(currentSubscriptionUntil, days));
 
         // verificar si en realidad deseas congelar la membresia
         String warningMessage = String.format("¿Estás seguro de congelar la membresía de %s por %d días?",
@@ -382,8 +389,8 @@ public class ControladorClientBuscar {
             return;
 
         // actualizar el cliente en la base de datos
-        clientTarget.setIsFrozen(Cliente.Frozen.SI);
-        Response<Cliente> response = CRUDCliente.getInstance().update(clientTarget);
+        //clientTarget.setIsFrozen(Cliente.Client.SI);
+        Response<Client> response = CRUDCliente.getInstance().update(clientTarget);
         if (!response.isSuccess()) {
             Messages.show("Error al congelar la membresía: " + response.getMessage());
             return;

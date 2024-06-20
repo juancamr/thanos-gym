@@ -4,14 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.uni.thanosgym.utils.Querys;
-import com.uni.thanosgym.utils.StringUtils;
 import java.sql.SQLException;
 import java.util.Date;
 
-import com.uni.thanosgym.model.Administrador;
+import com.uni.thanosgym.model.Admin;
 import com.uni.thanosgym.model.Response;
 
-public class CRUDAdministrador extends BaseCrud<Administrador> {
+public class CRUDAdministrador extends BaseCrud<Admin> {
 
     public static CRUDAdministrador crudAdministrador;
 
@@ -25,19 +24,20 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         return crudAdministrador;
     }
 
-    public Response<Administrador> create(Administrador admin, Administrador masterAdmin) {
+    public Response<Admin> create(Admin admin, Admin masterAdmin) {
         int quantity = getQuantity();
         if (quantity != 0) {
-            Response<Administrador> res = verify(masterAdmin.getUsername(), masterAdmin.getPassword(), true);
+            Response<Admin> res = verify(masterAdmin.getUsername(), masterAdmin.getPassword(), true);
             if (!res.isSuccess()) {
                 return new Response<>(false,
                         "El administrador master no existe o la contraseña es incorrecta");
             }
         } else {
-            admin.setRol(Administrador.Rol.MASTER);
+            admin.setRol(Admin.Rol.MASTER);
         }
         try {
-            ps = connection.prepareStatement(Querys.admin.getByUsername);
+            ps = connection.prepareStatement(
+                    Querys.getTemplateWithConditions(Admin.tableName, Admin.usernameField));
             ps.setString(1, admin.getUsername());
             rs = ps.executeQuery();
             boolean adminWithThatUsernameNotExist = !rs.next();
@@ -49,39 +49,43 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         }
     }
 
-    public Response<Administrador> getAll() {
-        return baseGetAll(Querys.admin.getAll);
+    public Response<Admin> getAll() {
+        return baseGetAll(Querys.getAllTemplate(Admin.tableName));
     }
 
-    public Response<Administrador> verify(String username, String password, boolean isForMaster) {
+    public Response<Admin> verify(String username, String password, boolean isForMaster) {
         try {
-            String query = isForMaster ? Querys.admin.verifyMaster : Querys.admin.verify;
+            String queryMaster = Querys.getTemplateWithConditions(Admin.tableName,
+                    new String[] { Admin.usernameField, Admin.passwordField, Admin.rolField });
+            String queryVerify = Querys.getTemplateWithConditions(Admin.tableName,
+                    new String[] { Admin.usernameField, Admin.passwordField });
+            String query = isForMaster ? queryMaster : queryVerify;
             ps = connection.prepareStatement(query);
             ps.setString(1, username);
             ps.setString(2, password);
             rs = ps.executeQuery();
             if (rs.next()) {
-                Administrador admin = generateObject(rs);
+                Admin admin = generateObject(rs);
                 if (!isForMaster)
                     admin.setLastSignin(new Date());
                 update(admin);
-                return new Response<Administrador>(true, admin);
+                return new Response<Admin>(true, admin);
             } else {
-                return new Response<Administrador>(false, "El administrador no existe");
+                return new Response<Admin>(false, "El administrador no existe");
             }
         } catch (SQLException e) {
             System.out.println(e);
-            return new Response<Administrador>(false, "Error al verificar el administrador");
+            return new Response<Admin>(false, "Error al verificar el administrador");
         }
     }
 
-    public Response<Administrador> update(Administrador admin) {
+    public Response<Admin> update(Admin admin) {
         try {
             sendObject(Querys.admin.update, admin);
             ps.setInt(8, admin.getId());
             ps.executeUpdate();
             ps.close();
-            return new Response<Administrador>(true, "Datos actualizados con exito");
+            return new Response<Admin>(true, "Datos actualizados con exito");
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
@@ -102,42 +106,40 @@ public class CRUDAdministrador extends BaseCrud<Administrador> {
         }
     }
 
-    public Response<Administrador> getById(int id) {
-        return baseGetById(Querys.admin.getById, id);
+    public Response<Admin> getById(int id) {
+        return baseGetById(Querys.getByIdTemplate(Admin.tableName), id);
     }
 
-    public Response<Administrador> deleteOnlyForTesting(int id) {
-        return baseDeleteById(Querys.admin.delete, id);
-    }
-
-    @Override
-    public Administrador generateObject(ResultSet rs) throws SQLException {
-        boolean isForMaster = rs.getString(8).equals(Administrador.Rol.MASTER.toString());
-        return new Administrador(
-            rs.getInt(1),
-            rs.getDate(2),
-            rs.getString(3),
-            rs.getString(4),
-            rs.getString(5),
-            rs.getString(6),
-            rs.getString(7),
-            isForMaster ? Administrador.Rol.MASTER : Administrador.Rol.EMPLEADO,
-            rs.getString(9),
-            rs.getDate(10)
-        );
+    public Response<Admin> deleteOnlyForTesting(int id) {
+        return baseDeleteById(Querys.deleteTemplate(Admin.tableName), id);
     }
 
     @Override
-    public void sendObject(String consulta, Administrador admin) throws SQLException {
+    public Admin generateObject(ResultSet rs) throws SQLException {
+        boolean isForMaster = rs.getString(8).equals(Admin.Rol.MASTER.toString());
+        return new Admin.Builder()
+                .setId(rs.getInt(Admin.idField))
+                .setCreatedAt(rs.getDate(Admin.createdAtField))
+                .setFullName(rs.getString(Admin.fullNameField))
+                .setEmail(rs.getString(Admin.emailField))
+                .setPhone(rs.getString(Admin.phoneField))
+                .setUsername(rs.getString(Admin.usernameField))
+                .setPassword(rs.getString(Admin.passwordField))
+                .setRol(isForMaster ? Admin.Rol.MASTER : Admin.Rol.EMPLEADO)
+                .setPhotoUrl(rs.getString(Admin.photoUrlField))
+                .setLastSignin(rs.getDate(Admin.lastSigninField))
+                .build();
+    }
+
+    @Override
+    public void sendObject(String consulta, Admin admin) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setString(1, StringUtils.parseDate(admin.getCreated_At()));
-        ps.setString(2, admin.getFullName());
-        ps.setString(3, admin.getEmail());
-        ps.setString(4, admin.getPhone());
-        ps.setString(5, admin.getUsername());
-        ps.setString(6, admin.getPassword());
-        ps.setString(7, admin.getRol().toString());
-        ps.setString(8, admin.getPhotoUrl());
-        ps.setString(9, StringUtils.parseDate(admin.getLastSignin()));
+        ps.setString(1, admin.getFullName());
+        ps.setString(2, admin.getEmail());
+        ps.setString(3, admin.getPhone());
+        ps.setString(4, admin.getUsername());
+        ps.setString(5, admin.getPassword());
+        ps.setString(6, admin.getRol().toString());
+        ps.setString(7, admin.getPhotoUrl());
     }
 }

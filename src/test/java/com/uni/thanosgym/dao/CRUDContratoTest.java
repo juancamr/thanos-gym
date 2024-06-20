@@ -1,12 +1,13 @@
 package com.uni.thanosgym.dao;
+
 import java.util.Date;
 
 import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.DateUtils;
-import com.uni.thanosgym.model.Administrador;
-import com.uni.thanosgym.model.Cliente;
+import com.uni.thanosgym.model.Admin;
+import com.uni.thanosgym.model.Client;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 public class CRUDContratoTest {
 
-    CRUDContrato crudPayment = CRUDContrato.getInstance();
+    CRUDContrato crudContrato = CRUDContrato.getInstance();
     CRUDCliente crudCliente = CRUDCliente.getInstance();
     CRUDAdministrador crudAdministrador = CRUDAdministrador.getInstance();
     CRUDPlan crudPlan = CRUDPlan.getInstance();
@@ -22,35 +23,49 @@ public class CRUDContratoTest {
     @Test
     public void mainTest() {
         // create client
-        Cliente cliente = new Cliente("75201393", new Date(), "Juan carlos",
-                "test@test.com", "santoheu", "986327221", "photo_url");
+        Client cliente = new Client.Builder()
+                .setFullName("Juan carlos")
+                .setEmail("test@test.com")
+                .setPhone("986327221")
+                .setPhotoUrl("photo_url")
+                .setDireccion("asontehunsa")
+                .build();
         cliente.setId(crudCliente.create(cliente).getId());
 
-        //create plan
-        Plan plan = new Plan("Test Plan", 100, 30, "V");
+        // create plan
+        Plan plan = new Plan.Builder()
+                .setName("plan")
+                .setPrice(100)
+                .setDurationDays(1)
+                .build();
         plan.setId(crudPlan.create(plan).getId());
 
-        //create administrador
-        Administrador admin = new Administrador(
-                new Date(),
-                "Admin test",
-                "986327221",
-                "test.testmaster@gmail",
-                "testusername",
-                "testusername",
-                Administrador.Rol.MASTER,
-                "photo",
-                new Date());
-        admin.setId(crudAdministrador.create(admin, new Administrador()).getId());
+        // create administrador
+        Admin admin = new Admin.Builder()
+                .setFullName("Admin test")
+                .setPhone("986327221")
+                .setEmail("test.testmaster@gmail")
+                .setUsername("testusername")
+                .setPassword("testusername")
+                .setRol(Admin.Rol.MASTER)
+                .setPhotoUrl("photo")
+                .build();
+        admin.setId(crudAdministrador.create(admin, new Admin.Builder().build()).getId());
 
-        //create payment
-        Contrato contrato = new Contrato(cliente, plan, admin, "123456", false, new Date(), DateUtils.addDays(new Date(), plan.getDurationDays()));
-        Response<Contrato> resPayment = crudPayment.create(contrato);
-        assertTrue(resPayment.isSuccess());
+        // create payment
+        Contrato contrato = new Contrato.Builder()
+                .setCliente(cliente)
+                .setPlan(plan)
+                .setAdmin(admin)
+                .setTransactionCode("123456")
+                .setSubscriptionUntil(DateUtils.addDays(new Date(), plan.getDurationDays()))
+                .build();
+        Response<Contrato> resContrato = crudContrato.create(contrato);
+        assertTrue(resContrato.isSuccess());
 
         // delete payment
-        Response<Contrato> resPayment2 = crudPayment.delete(resPayment.getId());
-        assertTrue(resPayment2.isSuccess());
+        Response<Contrato> resContrato2 = crudContrato.delete(resContrato.getId());
+        assertTrue(resContrato2.isSuccess());
 
         // delete admin
         crudAdministrador.deleteOnlyForTesting(admin.getId());

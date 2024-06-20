@@ -141,7 +141,12 @@ public class ControladorProducto {
         String precio = ventana.jtxtPrecio.getText();
         if (!validaciones(nombre, cantidad, precio))
             return;
-        Producto producto = new Producto(id, nombre, Integer.parseInt(cantidad), Double.parseDouble(precio));
+        Producto producto = new Producto.Builder()
+                .setId(id)
+                .setNombre(nombre)
+                .setCantidad(Integer.parseInt(cantidad))
+                .setPrecio(Double.parseDouble(precio))
+                .build();
         Response<Producto> response = CRUDProducto.getInstance().update(producto);
         if (!response.isSuccess()) {
             Messages.show("Error al editar el producto");
@@ -161,7 +166,11 @@ public class ControladorProducto {
         if (!validaciones(nombre, cantidad, precio)) {
             return;
         }
-        Producto producto = new Producto(nombre, Integer.parseInt(cantidad), Double.parseDouble(precio));
+        Producto producto = new Producto.Builder()
+                .setNombre(nombre)
+                .setCantidad(Integer.parseInt(cantidad))
+                .setPrecio(Double.parseDouble(precio))
+                .build();
         Producto productoWithTheSameName = getListaProductos().stream().filter(p -> p.getNombre().equals(nombre))
                 .findFirst()
                 .orElse(null);

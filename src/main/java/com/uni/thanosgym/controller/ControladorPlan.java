@@ -5,11 +5,9 @@ import javax.swing.JPanel;
 import com.uni.thanosgym.dao.CRUDPlan;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
@@ -96,7 +94,7 @@ public class ControladorPlan {
                 "Eliminar plan");
         if (!allowed)
             return;
-        plan.setIndicador("F");
+        plan.setIsVisible(false);
         Response<Plan> response = CRUDPlan.getInstance().update(plan);
         if (!response.isSuccess()) {
             Messages.show(response.getMessage());
@@ -126,7 +124,11 @@ public class ControladorPlan {
                 return;
             }
             Response<Plan> response;
-            Plan plan = new Plan(nombre, Double.valueOf(precio), Integer.valueOf(duracion), "V");
+            Plan plan = new Plan.Builder()
+                    .setName(nombre)
+                    .setPrice(Double.valueOf(precio))
+                    .setDurationDays(Integer.valueOf(duracion))
+                    .build();
             if (isForAdd) {
                 Plan planWithTheSameName = getListaPlanes().stream().filter(p -> p.getName().equals(nombre)).findFirst()
                         .orElse(null);

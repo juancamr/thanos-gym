@@ -2,49 +2,93 @@ package com.uni.thanosgym.model;
 
 public class Utility extends Item {
 
-    private Administrador admin;
+    private Admin admin;
     private int peso;
 
-    // utility_id INT NOT NULL AUTO_INCREMENT,
-    // admin_id INT NOT NULL,
-    // nombre VARCHAR(255) NOT NULL,
-    // peso DECIMAL(10,2) NOT NULL,
-    // cantidad INT NOT NULL,
-    // photo_url VARCHAR(255),
-    // PRIMARY KEY (utility_id),
-    // FOREIGN key (admin_id) REFERENCES admin(admin_id)
+    public static String tableName = "utility";
+    public static String idField = "utility_id";
+    public static String adminIdField = "admin_id";
+    public static String nombreField = "nombre";
+    public static String pesoField = "peso";
+    public static String cantidadField = "cantidad";
+    public static String photoUrlField = "photo_url";
 
-    public Utility(Administrador admin, String nombre, int peso, int cantidad, String photoUrl) {
-        super(nombre, cantidad, photoUrl);
-        this.admin = admin;
-        this.peso = peso;
+    // Constructor privado para el Builder
+    private Utility(Builder builder) {
+        super(builder.id, builder.nombre, builder.cantidad, builder.photoUrl);
+        this.admin = builder.admin;
+        this.peso = builder.peso;
     }
 
-    public Utility(int id, Administrador admin, String nombre, int peso, int cantidad, String photoUrl) {
-        super(id, nombre, cantidad, photoUrl);
-        this.admin = admin;
-        this.peso = peso;
+    // Getters
+    public Admin getAdmin() {
+        return admin;
     }
 
     public int getPeso() {
         return peso;
     }
 
-    public void setPeso(int peso) {
-        this.peso = peso;
+    // Builder estático
+    public static class Builder {
+        private int id;
+        private String nombre;
+        private int cantidad;
+        private String photoUrl;
+        private Admin admin;
+        private int peso;
+
+        // Métodos setters para Utility
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setNombre(String nombre) {
+            this.nombre = nombre;
+            return this;
+        }
+
+        public Builder setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+            return this;
+        }
+
+        public Builder setPhotoUrl(String photoUrl) {
+            this.photoUrl = photoUrl;
+            return this;
+        }
+
+        public Builder setAdmin(Admin admin) {
+            this.admin = admin;
+            return this;
+        }
+
+        public Builder setPeso(int peso) {
+            this.peso = peso;
+            return this;
+        }
+
+        // Método build que retorna una instancia de Utility
+        public Utility build() {
+            return new Utility(this);
+        }
     }
 
-    public Administrador getAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(Administrador admin) {
-        this.admin = admin;
+    @Override
+    public String toString() {
+        return "Utility{" +
+                "id=" + getId() +
+                ", nombre='" + getNombre() + '\'' +
+                ", cantidad=" + getCantidad() +
+                ", photoUrl='" + getPhotoUrl() + '\'' +
+                ", admin=" + admin +
+                ", peso=" + peso +
+                '}';
     }
 
     public Object[] showAll() {
         Object[] lista = { super.getId(), super.getNombre(), super.getCantidad(), peso };
         return lista;
     }
-
 }

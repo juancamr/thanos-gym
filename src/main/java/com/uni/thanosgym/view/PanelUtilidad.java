@@ -84,7 +84,12 @@ public class PanelUtilidad extends javax.swing.JPanel {
             String nombre = String.valueOf(jtblUtilidad.getValueAt(fila, 1));
             int cantidad = Integer.parseInt(String.valueOf(jtblUtilidad.getValueAt(fila, 2)));
             int peso = Integer.parseInt(String.valueOf(jtblUtilidad.getValueAt(fila, 3)));
-            Utility producto = new Utility(idUtilidad, nombre, peso, cantidad);
+            Utility producto = new Utility.Builder()
+                    .setId(idUtilidad)
+                    .setNombre(nombre)
+                    .setCantidad(cantidad)
+                    .setPeso(peso)
+                    .build();
             ControladorUtilidad.showOptions(producto);
         }
     }// GEN-LAST:event_jtblUtilidadMouseClicked

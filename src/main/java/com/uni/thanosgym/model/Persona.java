@@ -22,18 +22,10 @@ class Persona {
         this.photoUrl = photoUrl;
     }
 
-    public Persona(Date created_At, String fullName, String phone, String email, String photoUrl) {
-        this.created_At = created_At;
-        this.fullName = fullName;
-        this.phone = phone;
-        this.email = email;
-        this.photoUrl = photoUrl;
-    }
-
     public int getId() {
         return id;
     }
-
+    
     public void setId(int id) {
         this.id = id;
     }
@@ -42,39 +34,27 @@ class Persona {
         return created_At;
     }
 
-    public void setCreated_At(Date created_At) {
-        this.created_At = created_At;
-    }
-
     public String getFullName() {
         return fullName;
     }
 
-    public void setFullName(String nombre) {
-        this.fullName = nombre;
+    public void setFullName(String fullName) {        
+        this.fullName = fullName;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public void setPhone(String telefono) {
-        this.phone = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhotoUrl() {
         return photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
     }
 }

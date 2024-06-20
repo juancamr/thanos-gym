@@ -26,15 +26,15 @@ public class CRUDPlan extends BaseCrud<Plan> {
     }
 
     public Response<Plan> getById(int id) {
-        return baseGetById(Querys.plan.get, id);
+        return baseGetById(Querys.getByIdTemplate(Plan.tableName), id);
     }
 
     public Response<Plan> getAll() {
-        return baseGetAll(Querys.plan.getAll);
+        return baseGetAll(Querys.getAllTemplate(Plan.tableName));
     }
 
     public Response<Plan> deleteOnlyForTesting(int id) {
-        return baseDeleteById(Querys.plan.delete, id);
+        return baseDeleteById(Querys.deleteTemplate(Plan.tableName), id);
     }
 
     public Response<Plan> update(Plan plan) {
@@ -51,21 +51,24 @@ public class CRUDPlan extends BaseCrud<Plan> {
 
     @Override
     public Plan generateObject(ResultSet rs) throws SQLException {
-        return new Plan(
-                rs.getInt(1),
-                rs.getString(2),
-                rs.getDouble(3),
-                rs.getInt(4),
-                rs.getString(5));
+        return new Plan.Builder()
+                .setId(rs.getInt(Plan.idField))
+                .setName(rs.getString(Plan.nameField))
+                .setPrice(rs.getDouble(Plan.priceField))
+                .setDurationDays(rs.getInt(Plan.durationDaysField))
+                .setIsVisible(rs.getBoolean(Plan.isVisibleField))
+                .build();
     }
 
     @Override
+    /**
+     * see Querys
+     */
     public void sendObject(String consulta, Plan data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getName());
         ps.setDouble(2, data.getPrice());
         ps.setInt(3, data.getDurationDays());
-        ps.setString(4, data.getIndicador());
     }
 
 }

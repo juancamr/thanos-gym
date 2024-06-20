@@ -2,7 +2,7 @@ package com.uni.thanosgym.utils;
 
 import java.util.prefs.Preferences;
 
-import com.uni.thanosgym.model.Administrador;
+import com.uni.thanosgym.model.Admin;
 
 public class UserPreferences {
 
@@ -11,14 +11,14 @@ public class UserPreferences {
     public static final String ID = "id";
     public static final String PERSISTENCE = "persistence";
 
-    public static void setData(Administrador admin) {
+    public static void setData(Admin admin) {
         prefs.put(FULLNAME, admin.getFullName());
         prefs.put(ID, String.valueOf(admin.getId()));
-        prefs.put(PERSISTENCE, String.valueOf(admin.isSesionPersistente()));
+        prefs.put(PERSISTENCE, String.valueOf(admin.isSesionPersistence()));
     }
 
-    public static Administrador getData() {
-        Administrador admin = new Administrador.Builder()
+    public static Admin getData() {
+        Admin admin = new Admin.Builder()
                 .setFullName(prefs.get(FULLNAME, ""))
                 .setId(Integer.parseInt(prefs.get(ID, "0")))
                 .build();

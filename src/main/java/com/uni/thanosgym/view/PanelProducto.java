@@ -83,7 +83,12 @@ public class PanelProducto extends javax.swing.JPanel {
             String nombre = String.valueOf(jtblProducto.getValueAt(fila, 1));
             int cantidad = Integer.parseInt(String.valueOf(jtblProducto.getValueAt(fila, 2)));
             double precio = Double.parseDouble(String.valueOf(jtblProducto.getValueAt(fila, 3)));
-            Producto producto = new Producto(idProducto, nombre, cantidad, precio);
+            Producto producto = new Producto.Builder()
+                    .setId(idProducto)
+                    .setNombre(nombre)
+                    .setCantidad(cantidad)
+                    .setPrecio(precio)
+                    .build();
             ControladorProducto.showOptions(producto);
         }
 

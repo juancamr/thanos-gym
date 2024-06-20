@@ -139,7 +139,12 @@ public class ControladorUtilidad {
         String peso = ventana.jtxtPeso.getText();
         if (!validaciones(nombre, cantidad, peso))
             return;
-        Utility utilidad = new Utility(id, nombre, Integer.parseInt(cantidad), Integer.parseInt(peso));
+        Utility utilidad = new Utility.Builder()
+                .setId(id)
+                .setNombre(nombre)
+                .setCantidad(Integer.parseInt(cantidad))
+                .setPeso(Integer.parseInt(peso))
+                .build();
         Response<Utility> response = CRUDUtilidad.getInstance().update(utilidad);
         if (!response.isSuccess()) {
             Messages.show("Error al editar el utilidad");
@@ -159,7 +164,11 @@ public class ControladorUtilidad {
         if (!validaciones(nombre, cantidad, peso)) {
             return;
         }
-        Utility utilidad = new Utility(nombre, Integer.parseInt(cantidad), Integer.parseInt(peso));
+        Utility utilidad = new Utility.Builder()
+                .setNombre(nombre)
+                .setCantidad(Integer.parseInt(cantidad))
+                .setPeso(Integer.parseInt(peso))
+                .build();
         Utility utilidadWithTheSameName = getListaUtilidades().stream().filter(u -> u.getNombre().equals(nombre))
                 .findFirst()
                 .orElse(null);

@@ -14,21 +14,29 @@ public class CRUDPlanTest {
 
     @Test
     public void mainTest() {
-        //create
-        Plan plan = new Plan("Test Plan", 100, 30, "V");
+        // create
+        Plan plan = new Plan.Builder()
+                .setName("Test plan")
+                .setPrice(100)
+                .setDurationDays(1)
+                .build();
+
         Response<Plan> response = crudPlan.create(plan);
         assertTrue(response.isSuccess());
 
-        //update
+        // update
         int id = response.getId();
         String nameEdited = "Test plan edited";
-        plan.setName(nameEdited);
-        plan.setId(id);
-        Response<Plan> response2 = crudPlan.update(plan);
+        Plan planEdited = new Plan.Builder()
+                .setName("Test plan edited")
+                .setPrice(100)
+                .setDurationDays(1)
+                .build();
+        Response<Plan> response2 = crudPlan.update(planEdited);
         assertTrue(response2.isSuccess());
         assertEquals(nameEdited, crudPlan.getById(id).getData().getName());
 
-        //delete
+        // delete
         Response<Plan> response3 = crudPlan.deleteOnlyForTesting(id);
         assertTrue(response3.isSuccess());
     }

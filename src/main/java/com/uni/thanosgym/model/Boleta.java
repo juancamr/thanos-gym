@@ -5,37 +5,39 @@ import java.util.Date;
 public class Boleta {
 
     private int id;
-    private Cliente cliente;
-    private Administrador admin;
+    private Client cliente;
+    private Admin admin;
     private Date createdAt;
     private double total;
-    private Producto[] productos;
+    private DetalleBoleta[] detallesBoleta;
 
-    public Boleta(Cliente cliente, Administrador admin, Date createdAt, double total) {
-        this.cliente = cliente;
-        this.admin = admin;
-        this.createdAt = createdAt;
-        this.total = total;
+    public static String tableName = "boleta";
+    public static String idField = "boleta_id";
+    public static String clientIdField = "client_id";
+    public static String adminIdField = "admin_id";
+    public static String createdAtField = "created_at";
+    public static String totalField = "total_boleta";
+
+    // Constructor privado para el Builder
+    private Boleta(Builder builder) {
+        this.id = builder.id;
+        this.cliente = builder.cliente;
+        this.admin = builder.admin;
+        this.createdAt = builder.createdAt;
+        this.total = builder.total;
+        this.detallesBoleta = builder.detallesBoleta;
     }
 
-    public Boleta(int id, Cliente cliente, Administrador admin, Date createdAt, double total, Producto[] productos) {
-        this.id = id;
-        this.cliente = cliente;
-        this.admin = admin;
-        this.createdAt = createdAt;
-        this.total = total;
-        this.productos = productos;
-    }
-
+    // Getters
     public int getId() {
         return id;
     }
 
-    public Cliente getCliente() {
+    public Client getCliente() {
         return cliente;
     }
 
-    public Administrador getAdmin() {
+    public Admin getAdmin() {
         return admin;
     }
 
@@ -47,17 +49,73 @@ public class Boleta {
         return total;
     }
 
-    public Producto[] getProductos() {
-        return productos;
+    public DetalleBoleta[] getDetallesBoleta() {
+        return detallesBoleta;
     }
 
-    public void setProductos(Producto[] productos) {
-        this.productos = productos;
+    // Builder estático
+    public static class Builder {
+        private int id;
+        private Client cliente;
+        private Admin admin;
+        private Date createdAt;
+        private double total;
+        private DetalleBoleta[] detallesBoleta;
+
+        // Métodos setters para Boleta
+        public Builder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setCliente(Client cliente) {
+            this.cliente = cliente;
+            return this;
+        }
+
+        public Builder setAdmin(Admin admin) {
+            this.admin = admin;
+            return this;
+        }
+
+        public Builder setCreatedAt(Date createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public Builder setTotal(double total) {
+            this.total = total;
+            return this;
+        }
+
+        public Builder setDetallesBoleta(DetalleBoleta[] detalleBoletas) {
+            this.detallesBoleta = detalleBoletas;
+            return this;
+        }
+
+        // Método build que retorna una instancia de Boleta
+        public Boleta build() {
+            return new Boleta(this);
+        }
     }
 
-    public Object[] showAll() {
-        Object[] lista = { id, cliente.getFullName(), admin.getFullName(), createdAt, total };
-        return lista;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Boleta{")
+          .append("id=").append(id)
+          .append(", cliente=").append(cliente)
+          .append(", admin=").append(admin)
+          .append(", createdAt=").append(createdAt)
+          .append(", total=").append(total)
+          .append(", detallesBoleta=[");
+        if (detallesBoleta != null) {
+            for (DetalleBoleta detalleBoleta : detallesBoleta) {
+                sb.append(detalleBoleta).append(", ");
+            }
+        }
+        sb.append("]}");
+        return sb.toString();
     }
-
 }
+

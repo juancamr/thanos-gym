@@ -1,7 +1,7 @@
 package com.uni.thanosgym.controller;
 
 import com.uni.thanosgym.dao.CRUDCliente;
-import com.uni.thanosgym.model.Cliente;
+import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
@@ -29,7 +29,7 @@ public class ControladorWindowClients {
         vista.setVisible(true);
 
         if (!ControladorClientBuscar.isFull) {
-            Response<Cliente> response = CRUDCliente.getInstance().getAll();
+            Response<Client> response = CRUDCliente.getInstance().getAll();
             if (!response.isSuccess()) {
                 Messages.show("Error al obtener todos los productos");
                 return;
@@ -53,7 +53,7 @@ public class ControladorWindowClients {
             modelo.setRowCount(0);
             fillTable(ControladorClientBuscar.listaClientes);
         } else {
-            List<Cliente> filteredList = ControladorClientBuscar.listaClientes.stream()
+            List<Client> filteredList = ControladorClientBuscar.listaClientes.stream()
                     .filter(c -> c.getFullName().toLowerCase().contains(query.toLowerCase())
                             || String.valueOf(c.getDni()).contains(query))
                     .toList();
@@ -69,9 +69,9 @@ public class ControladorWindowClients {
         }
     }
 
-    public static void fillTable(List<Cliente> lista) {
+    public static void fillTable(List<Client> lista) {
         modelo.setRowCount(0);
-        for (Cliente cliente : lista) {
+        for (Client cliente : lista) {
             modelo.addRow(cliente.showAll());
         }
     }

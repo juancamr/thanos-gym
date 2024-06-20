@@ -1,11 +1,9 @@
 package com.uni.thanosgym.dao;
 
 import com.uni.thanosgym.model.Response;
-import com.uni.thanosgym.model.Cliente;
+import com.uni.thanosgym.model.Client;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,13 +15,18 @@ public class CRUDClienteTest {
     @Test
     public void mainTest() {
         // create
-        Cliente cliente = new Cliente("75201393", new Date(), "Juan carlos",
-                "test@test.com", "santoheu", "986327221", "photo_url");
-        Response<Cliente> resClient = crudCliente.create(cliente);
+        Client cliente = new Client.Builder()
+                .setFullName("Juan carlos")
+                .setEmail("test@test.com")
+                .setPhone("986327221")
+                .setPhotoUrl("photo_url")
+                .setDireccion("asontehunsa")
+                .build();
+        Response<Client> resClient = crudCliente.create(cliente);
         assertTrue(resClient.isSuccess());
 
         // delete
-        Response<Cliente> res3 = crudCliente.deleteOnlyForTesting(resClient.getId());
+        Response<Client> res3 = crudCliente.deleteOnlyForTesting(resClient.getId());
         assertTrue(res3.isSuccess());
     }
 }

@@ -1,11 +1,9 @@
 package com.uni.thanosgym.dao;
 
-import com.uni.thanosgym.model.Administrador;
+import com.uni.thanosgym.model.Admin;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.model.Utility;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,20 +16,24 @@ public class CRUDUtilityTest {
     public void mainTest() {
 
         //create administrador
-        Administrador admin = new Administrador(
-                new Date(),
-                "Admin test",
-                "986327221",
-                "test.testmaster@gmail",
-                "testusername",
-                "testusername",
-                Administrador.Rol.MASTER,
-                "photo",
-                new Date());
-        admin.setId(crudAdministrador.create(admin, new Administrador()).getId());
+        Admin admin = new Admin.Builder()
+                .setFullName("Admin test")
+                .setPhone("986327221")
+                .setEmail("test.testmaster@gmail")
+                .setUsername("testusername")
+                .setPassword("testusername")
+                .setRol(Admin.Rol.MASTER)
+                .setPhotoUrl("photo")
+                .build();
+        admin.setId(crudAdministrador.create(admin, new Admin.Builder().build()).getId());
 
         // create utility
-        Utility utility = new Utility(admin, "Test Utility", 100, 30, "photo");
+        Utility utility = new Utility.Builder()
+                .setNombre("Test Utility")
+                .setPeso(100)
+                .setCantidad(10)
+                .setPhotoUrl("photo_url")
+                .build();
         Response<Utility> response = crudUtility.create(utility);
         assertTrue(response.isSuccess());
 
