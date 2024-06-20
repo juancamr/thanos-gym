@@ -35,7 +35,6 @@ public class CRUDProducto extends BaseCrud<Producto> {
     }
 
     public Response<Producto> update(Producto producto) {
-        System.out.println(Querys.producto.update);
         try {
             sendObject(Querys.producto.update, producto);
             ps.setInt(4, producto.getId());

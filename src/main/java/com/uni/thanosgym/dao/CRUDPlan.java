@@ -38,8 +38,6 @@ public class CRUDPlan extends BaseCrud<Plan> {
     }
 
     public Response<Plan> update(Plan plan) {
-        System.out.println(Querys.plan.update);
-        System.out.println(plan.getId());
         try {
             sendObject(Querys.plan.update, plan);
             ps.setBoolean(4, plan.isVisible());

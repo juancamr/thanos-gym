@@ -15,11 +15,11 @@ public class CRUDUtilityTest {
     @Test
     public void mainTest() {
 
-        //create administrador
+        // create administrador
         Admin admin = new Admin.Builder()
                 .setFullName("Admin test")
-                .setPhone("986327221")
                 .setEmail("test.testmaster@gmail")
+                .setPhone("986327221")
                 .setUsername("testusername")
                 .setPassword("testusername")
                 .setRol(Admin.Rol.MASTER)
@@ -38,7 +38,7 @@ public class CRUDUtilityTest {
         Response<Utility> response = crudUtility.create(utility);
         assertTrue(response.isSuccess());
 
-        //update
+        // update
         int id = response.getId();
         String nameEdited = "Test Utility edited";
         utility.setNombre(nameEdited);
@@ -46,12 +46,11 @@ public class CRUDUtilityTest {
         Response<Utility> response2 = crudUtility.update(utility);
         assertTrue(response2.isSuccess());
 
-        // delete admin
-        crudAdministrador.deleteOnlyForTesting(admin.getId());
-
         // delete utility
         Response<Utility> response3 = crudUtility.delete(id);
         assertTrue(response3.isSuccess());
+
+        // delete admin
+        crudAdministrador.deleteOnlyForTesting(admin.getId());
     }
 }
-

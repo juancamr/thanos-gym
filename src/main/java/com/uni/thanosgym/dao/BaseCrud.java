@@ -37,7 +37,6 @@ public abstract class BaseCrud<T> {
      *         Si ocurre una excepción, devuelve una respuesta con el error.
      */
     public Response<T> baseCreate(T data, String query) {
-        System.out.println(query);
         try {
             sendObject(query, data);
             ps.executeUpdate();
@@ -63,7 +62,6 @@ public abstract class BaseCrud<T> {
      *         Si ocurre una excepción, devuelve una respuesta con el error.
      */
     public Response<T> baseDeleteById(String consulta, int id) {
-        System.out.println(consulta);
         try {
             ps = connection.prepareStatement(consulta);
             ps.setInt(1, id);
@@ -152,7 +150,6 @@ public abstract class BaseCrud<T> {
      *         Si ocurre una excepción, devuelve una respuesta con el error.
      */
     public Response<T> baseGetById(String consulta, int identity) {
-        System.out.println(consulta);
         try {
             ps = connection.prepareStatement(consulta);
             ps.setInt(1, identity);
@@ -203,7 +200,6 @@ public abstract class BaseCrud<T> {
      *         Si ocurre una excepción, devuelve una respuesta con el error.
      */
     public Response<T> baseUpdate(String consulta, T data) {
-        System.out.println(consulta);
         try {
             sendObject(consulta, data);
             return new Response<T>(true, "Datos actualizados con exito");
