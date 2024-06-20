@@ -29,7 +29,7 @@ public class PanelClientPayments extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtblPdfs = new javax.swing.JTable();
+        jtblBoletas = new javax.swing.JTable();
         jbtnAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -43,7 +43,7 @@ public class PanelClientPayments extends javax.swing.JFrame {
         jLabel23.setFont(new java.awt.Font("Malgun Gothic", 0, 24)); // NOI18N
         jLabel23.setText("Boletas del usuario");
 
-        jtblPdfs.setModel(new javax.swing.table.DefaultTableModel(
+        jtblBoletas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -54,7 +54,7 @@ public class PanelClientPayments extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jtblPdfs);
+        jScrollPane1.setViewportView(jtblBoletas);
 
         jbtnAtras.setText("Atrás");
 
@@ -160,6 +160,6 @@ public class PanelClientPayments extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JButton jbtnAtras;
-    public javax.swing.JTable jtblPdfs;
+    public javax.swing.JTable jtblBoletas;
     // End of variables declaration//GEN-END:variables
 }

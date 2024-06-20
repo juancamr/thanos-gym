@@ -65,9 +65,10 @@ public class CRUDCliente extends BaseCrud<Client> {
 
     @Override
     public Client generateObject(ResultSet rs) throws SQLException {
-        return new Client.Builder()
+        System.out.println(rs.getTimestamp(Client.createdAtField));
+        Client cliente = new Client.Builder()
                 .setId(rs.getInt(Client.idField))
-                .setCreatedAt(rs.getDate(Client.createdAtField))
+                .setCreatedAt(rs.getTimestamp(Client.createdAtField))
                 .setDni(rs.getString(Client.dniField))
                 .setFullName(rs.getString(Client.fullNameField))
                 .setEmail(rs.getString(Client.emailField))
@@ -75,6 +76,8 @@ public class CRUDCliente extends BaseCrud<Client> {
                 .setPhone(rs.getString(Client.phoneField))
                 .setPhotoUrl(rs.getString(Client.photoUrlField))
                 .build();
+                System.out.println(cliente.getCreated_At());
+                return cliente;
     }
 
     @Override

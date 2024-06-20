@@ -1,5 +1,6 @@
 package com.uni.thanosgym.controller;
 
+import com.uni.thanosgym.controller.client.ControladorClient;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -40,7 +41,7 @@ public class ControladorMainWindow {
                 setFocusButton(vista.jbtnSegundo);
             });
             FrameUtils.addOnClickEvent(vista.jbtnTercero, () -> {
-                ControladorClientBuscar.showPanelBuscar();
+                ControladorClient.showPanelBuscar();
                 setFocusButton(vista.jbtnTercero);
             });
             FrameUtils.addOnClickEvent(vista.jbtnCuarto, () -> {

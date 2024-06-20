@@ -1,4 +1,4 @@
-package com.uni.thanosgym.controller;
+package com.uni.thanosgym.controller.client;
 
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.model.Client;
@@ -28,20 +28,20 @@ public class ControladorWindowClients {
         vista.setLocationRelativeTo(vista);
         vista.setVisible(true);
 
-        if (!ControladorClientBuscar.isFull) {
+        if (!ControladorClient.isFull) {
             Response<Client> response = CRUDCliente.getInstance().getAll();
             if (!response.isSuccess()) {
                 Messages.show("Error al obtener todos los productos");
                 return;
             }
-            ControladorClientBuscar.listaClientes = response.getDataList();
-            ControladorClientBuscar.isFull = true;
+            ControladorClient.listaClientes = response.getDataList();
+            ControladorClient.isFull = true;
         }
-        fillTable(ControladorClientBuscar.listaClientes);
+        fillTable(ControladorClient.listaClientes);
 
         if (!vistaRendered) {
             FrameUtils.addHandleChangeEvent(vista.jtxtNameBuscar, ControladorWindowClients::busqueda);
-            FrameUtils.addTableRowSelectionEvent(vista.jtblClient, ControladorWindowClients::abrirVentanaPdfs);
+            FrameUtils.addTableRowSelectionEvent(vista.jtblClient, ControladorWindowClients::abrirVentanaBoletas);
             vistaRendered = true;
         }
     }
@@ -51,9 +51,9 @@ public class ControladorWindowClients {
         String query = vista.jtxtNameBuscar.getText();
         if (query.isEmpty()) {
             modelo.setRowCount(0);
-            fillTable(ControladorClientBuscar.listaClientes);
+            fillTable(ControladorClient.listaClientes);
         } else {
-            List<Client> filteredList = ControladorClientBuscar.listaClientes.stream()
+            List<Client> filteredList = ControladorClient.listaClientes.stream()
                     .filter(c -> c.getFullName().toLowerCase().contains(query.toLowerCase())
                             || String.valueOf(c.getDni()).contains(query))
                     .toList();
@@ -61,11 +61,11 @@ public class ControladorWindowClients {
         }
     }
 
-    public static void abrirVentanaPdfs() {
+    public static void abrirVentanaBoletas() {
         int selectedRow = vista.jtblClient.getSelectedRow();
         if (selectedRow != -1) {
             int clientId = (int) vista.jtblClient.getValueAt(selectedRow, 0);
-            ControladorClientPdf.mostrarPagosClient(clientId);
+            ControladorClientBoletas.mostrarPagosClient(clientId);
         }
     }
 

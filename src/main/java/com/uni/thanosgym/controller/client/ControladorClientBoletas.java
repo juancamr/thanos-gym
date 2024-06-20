@@ -1,4 +1,4 @@
-package com.uni.thanosgym.controller;
+package com.uni.thanosgym.controller.client;
 
 import com.uni.thanosgym.dao.CRUDContrato;
 import com.uni.thanosgym.model.Contrato;
@@ -13,17 +13,17 @@ import java.awt.event.ActionListener;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
-public class ControladorClientPdf {
+public class ControladorClientBoletas {
 
     public static PanelClientPayments vista;
     public static DefaultTableModel modelo;
     public static String[] titulosTabla = {"ID", "Codigo de transacción", "Fecha de Creación", "Nombre del cliente", "Total"};
 
     public static void mostrarPagosClient(int clientId) {
-        vista = ControladorClientPdf.getWindowTablePdfs();
+        vista = ControladorClientBoletas.getWindowTableBoletas();
         FrameUtils.showWindow(vista, "Lista de Pagos");
         modelo = new DefaultTableModel(null, titulosTabla);
-        vista.jtblPdfs.setModel(modelo);
+        vista.jtblBoletas.setModel(modelo);
         vista.setSize(750, 590);
         vista.setResizable(false);
         vista.setLocationRelativeTo(vista);
@@ -51,7 +51,7 @@ public class ControladorClientPdf {
     }
 
     private static void llenarTablaPagos(List<Contrato> lista) {
-        DefaultTableModel model = (DefaultTableModel) vista.jtblPdfs.getModel();
+        DefaultTableModel model = (DefaultTableModel) vista.jtblBoletas.getModel();
 
         for (Contrato payment : lista) {
             model.addRow(new Object[]{
@@ -64,7 +64,7 @@ public class ControladorClientPdf {
         }
     }
 
-    public static PanelClientPayments getWindowTablePdfs() {
+    public static PanelClientPayments getWindowTableBoletas() {
         if (vista == null) {
             vista = new PanelClientPayments();
         }

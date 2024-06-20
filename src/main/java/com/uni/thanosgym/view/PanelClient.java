@@ -4,7 +4,7 @@
  */
 package com.uni.thanosgym.view;
 
-import com.uni.thanosgym.controller.ControladorClientBuscar;
+import com.uni.thanosgym.controller.client.ControladorClient;
 
 /**
  *
@@ -254,7 +254,7 @@ public class PanelClient extends javax.swing.JPanel {
     public javax.swing.JLabel jblLoading;
     public javax.swing.JButton jbtnAniadir;
     public javax.swing.JButton jbtnCancelar;
-    public javax.swing.JComboBox<ControladorClientBuscar.ComboItem> jcbxPlanRegistro;
+    public javax.swing.JComboBox<ControladorClient.ComboItem> jcbxPlanRegistro;
     private javax.swing.JPanel jpnlInterfaz;
     public javax.swing.JTextField jtxtDireccionClienteAdd;
     public javax.swing.JTextField jtxtDireccionCorreoAdd;

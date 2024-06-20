@@ -1,4 +1,4 @@
-package com.uni.thanosgym.controller;
+package com.uni.thanosgym.controller.client;
 
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDContrato;
@@ -15,6 +15,8 @@ import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.PanelClient;
 import com.uni.thanosgym.view.PanelClientBuscar;
 import com.google.gson.Gson;
+import com.uni.thanosgym.controller.ControladorMainWindow;
+import com.uni.thanosgym.controller.ControladorPlan;
 import com.uni.thanosgym.utils.EnvVariables;
 import com.uni.thanosgym.utils.HttpUtils;
 import com.uni.thanosgym.utils.ResponseByReniec;
@@ -27,7 +29,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class ControladorClientBuscar {
+public class ControladorClient {
 
     public static PanelClientBuscar panelBuscar;
     public static PanelClient panelClient;
@@ -45,12 +47,12 @@ public class ControladorClientBuscar {
         MainWindow vista = ControladorMainWindow.getMainWindow();
         PanelClientBuscar panel = getPanelBuscar();
         if (!panelBuscarIsRendered) {
-            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::editMode);
             FrameUtils.addOnClickEvent(panel.jbtnBoletas, ControladorWindowClients::showWindow);
-            FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClientBuscar::renovar);
-            FrameUtils.addOnClickEvent(panel.jbtnRegistrar, ControladorClientBuscar::showPanelClientAgregar);
-            FrameUtils.addOnClickEvent(panel.jbtnCongelar, ControladorClientBuscar::congelar);
-            FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClientBuscar::buscarPorDni);
+            FrameUtils.addOnClickEvent(panel.jbtnRenovar, ControladorClient::renovar);
+            FrameUtils.addOnClickEvent(panel.jbtnRegistrar, ControladorClient::showPanelClientAgregar);
+            FrameUtils.addOnClickEvent(panel.jbtnCongelar, ControladorClient::congelar);
+            FrameUtils.addOnClickEvent(panel.jbtnBuscarCliente, ControladorClient::buscarPorDni);
 
             isClientTargeted(false);
             isClientEditable(false);
@@ -62,10 +64,10 @@ public class ControladorClientBuscar {
 
     private static void buscarPorDni() {
         isClientEditable(false);
-        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        PanelClientBuscar panel = ControladorClient.getPanelBuscar();
         String dniCliente = panel.jtxtDniCliente.getText();
         FrameUtils.removeAllEvents(panel.jbtnEditar);
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::editMode);
         panel.jbtnEditar.setText("Editar");
 
         // validaciones
@@ -137,22 +139,22 @@ public class ControladorClientBuscar {
     }
 
     public static void editMode() {
-        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        PanelClientBuscar panel = ControladorClient.getPanelBuscar();
         panel.jbtnEditar.setText("Guardar");
         FrameUtils.removeAllEvents(panel.jbtnEditar);
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::actualizar);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::actualizar);
         isClientEditable(true);
     }
 
     private static void isClientTargeted(boolean flag) {
-        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        PanelClientBuscar panel = ControladorClient.getPanelBuscar();
         panel.jbtnEditar.setVisible(flag);
         panel.jbtnCongelar.setVisible(flag);
         panel.jbtnRenovar.setVisible(flag);
     }
 
     private static void isClientEditable(boolean flag) {
-        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        PanelClientBuscar panel = ControladorClient.getPanelBuscar();
         panel.jtxtNombreCliente.setEnabled(flag);
         panel.jtxtDireccionCliente.setEnabled(flag);
         panel.jtxtTelefonoCliente.setEnabled(flag);
@@ -160,7 +162,7 @@ public class ControladorClientBuscar {
     }
 
     private static void actualizar() {
-        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        PanelClientBuscar panel = ControladorClient.getPanelBuscar();
 
         String phone = panel.jtxtTelefonoCliente.getText();
         String nombres = panel.jtxtNombreCliente.getText();
@@ -175,7 +177,7 @@ public class ControladorClientBuscar {
             Messages.show("No se ha realizado ningun cambio");
             isClientEditable(false);
             FrameUtils.removeAllEvents(panel.jbtnEditar);
-            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+            FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::editMode);
             panel.jbtnEditar.setText("Editar");
             return;
         }
@@ -196,7 +198,7 @@ public class ControladorClientBuscar {
         }
         listaClientes.set(idx, clientTarget);
         FrameUtils.removeAllEvents(panel.jbtnEditar);
-        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClientBuscar::editMode);
+        FrameUtils.addOnClickEvent(panel.jbtnEditar, ControladorClient::editMode);
         panel.jbtnEditar.setText("Editar");
         isClientEditable(false);
         Messages.show("Cliente actualizado con exito");
@@ -208,19 +210,19 @@ public class ControladorClientBuscar {
 
     public static void showPanelClientAgregar() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
-        PanelClient panel = ControladorClientBuscar.getPanelClientAgregar();
+        PanelClient panel = ControladorClient.getPanelClientAgregar();
         FrameUtils.showPanel(vista, panel);
         panel.jtxtDniClienteAgregar.requestFocus();
         FrameUtils.addEnterEvent(panel.jtxtDniClienteAgregar, () -> {
             String dni = panel.jtxtDniClienteAgregar.getText();
-            ControladorClientBuscar.searchByDni(dni);
+            ControladorClient.searchByDni(dni);
         });
         panel.jtxtNombreClienteAgregar.setEnabled(false);
         panel.jtxtNombreClienteAgregar.setBackground(new Color(240, 240, 240));
         if (!panelAgregarIsRendered) {
-            FrameUtils.addOnClickEvent(panel.jbtnAniadir, ControladorClientBuscar::agregar);
-            FrameUtils.addEnterEvent(panel.jtxtTelefonoClienteAdd, ControladorClientBuscar::agregar);
-            FrameUtils.addOnClickEvent(panel.jbtnCancelar, ControladorClientBuscar::showPanelClientBuscar);
+            FrameUtils.addOnClickEvent(panel.jbtnAniadir, ControladorClient::agregar);
+            FrameUtils.addEnterEvent(panel.jtxtTelefonoClienteAdd, ControladorClient::agregar);
+            FrameUtils.addOnClickEvent(panel.jbtnCancelar, ControladorClient::showPanelClientBuscar);
             panelAgregarIsRendered = true;
         }
         fillComboPlanes(ControladorPlan.getListaPlanes(), panel.jcbxPlanRegistro);
@@ -234,12 +236,12 @@ public class ControladorClientBuscar {
 
     public static void showPanelClientBuscar() {
         MainWindow vista = ControladorMainWindow.getMainWindow();
-        PanelClientBuscar panelBuscar = ControladorClientBuscar.getPanelBuscar();
+        PanelClientBuscar panelBuscar = ControladorClient.getPanelBuscar();
         FrameUtils.showPanel(vista, panelBuscar);
     }
 
     public static void searchByDni(String dni) {
-        PanelClient panel = ControladorClientBuscar.getPanelClientAgregar();
+        PanelClient panel = ControladorClient.getPanelClientAgregar();
         panel.jblLoading.setText("Buscando datos...");
         String token = EnvVariables.getInstance().get("TOKEN_RENIEC");
         Map<String, String> headers = Map.of("Authorization",
@@ -257,7 +259,7 @@ public class ControladorClientBuscar {
     }
 
     public static void agregar() {
-        PanelClient panel = ControladorClientBuscar.getPanelClientAgregar();
+        PanelClient panel = ControladorClient.getPanelClientAgregar();
 
         String dni = panel.jtxtDniClienteAgregar.getText();
         String phone = panel.jtxtTelefonoClienteAdd.getText();
@@ -398,7 +400,7 @@ public class ControladorClientBuscar {
 
         // actualizar el cliente en la lista local
         int idx = listaClientes.indexOf(clientTarget);
-        ControladorClientBuscar.listaClientes.set(idx, clientTarget);
+        ControladorClient.listaClientes.set(idx, clientTarget);
         Messages.show("Membresia congelada con exito por " + days + " días");
     }
 
@@ -422,7 +424,7 @@ public class ControladorClientBuscar {
         panelBuscar.jbtnEditar.setVisible(false);
         panelBuscar.jbtnRenovar.setVisible(false);
         panelBuscar.jPanelEstado.setBackground(Color.WHITE);
-        PanelClientBuscar panel = ControladorClientBuscar.getPanelBuscar();
+        PanelClientBuscar panel = ControladorClient.getPanelBuscar();
         JTextField[] inputs = { panel.jtxtDniCliente, panel.jtxtNombreCliente, panel.jtxtDireccionCliente,
                 panel.jtxtTelefonoCliente, panel.jtxtPlanActual };
         FrameUtils.clearInputs(inputs);
