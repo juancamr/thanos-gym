@@ -77,6 +77,10 @@ public class Contrato {
         return createdAt;
     }
 
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Date getSubscriptionUntil() {
         return subscriptionUntil;
     }

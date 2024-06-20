@@ -29,30 +29,7 @@ public class CRUDContrato extends BaseCrud<Contrato> {
     }
 
     public Response<Contrato> create(Contrato contrato) {
-        try {
-            Client cliente = contrato.getCliente();
-            PreparedStatement psCliente = connection
-                    .prepareStatement(Querys.getTemplateWithConditions(Client.tableName, Client.emailField));
-            psCliente.setString(1, cliente.getEmail());
-            ResultSet rsCliente = psCliente.executeQuery();
-
-            if (rsCliente.next()) {
-                cliente.setId(rsCliente.getInt(1));
-            } else {
-                // Cliente no existe, crearlo
-                CRUDCliente crudCliente = CRUDCliente.getInstance();
-                Response<Client> responseCliente = crudCliente.create(cliente);
-                if (!responseCliente.isSuccess()) {
-                    return new Response<>(false, "No se pudo crear el cliente: " + responseCliente.getMessage());
-                }
-                cliente = responseCliente.getData();
-            }
-
-            contrato.setCliente(cliente);
-            return baseCreate(contrato, Querys.contrato.create);
-        } catch (SQLException e) {
-            return new Response<>(false, "Error: " + e.getMessage());
-        }
+        return baseCreate(contrato, Querys.contrato.create);
     }
 
     public Response<Contrato> getById(int id) {

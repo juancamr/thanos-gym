@@ -263,7 +263,9 @@ public class ControladorClient {
 
         String dni = panel.jtxtDniClienteAgregar.getText();
         String phone = panel.jtxtTelefonoClienteAdd.getText();
+        String email = panel.jtxtDireccionCorreoAdd.getText();
         String nombre = panel.jtxtNombreClienteAgregar.getText();
+        String direccion = panel.jtxtDireccionClienteAdd.getText();
 
         if (dni.isEmpty() || nombre.isEmpty() || phone.isEmpty()) {
             Messages.show("Por favor, llene todos los campos");
@@ -283,35 +285,37 @@ public class ControladorClient {
         Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId() == item.getId()).findFirst()
                 .orElse(null);
 
-        Client cli = new Client.Builder()
+        Client cliente = new Client.Builder()
+                .setFullName(nombre)
                 .setDni(dni)
-                .setFullName(panel.jtxtNombreClienteAgregar.getText())
-                .setEmail(panel.jtxtDireccionCorreoAdd.getText())
-                .setDireccion(panel.jtxtDireccionClienteAdd.getText())
-                .setPhone(panel.jtxtTelefonoClienteAdd.getText())
+                .setEmail(email)
+                .setPhone(phone)
+                .setPhotoUrl("photo_url")
+                .setDireccion(direccion)
                 .build();
 
-        Response<Client> res = CRUDCliente.getInstance().create(cli);
+        Response<Client> res = CRUDCliente.getInstance().create(cliente);
         if (!res.isSuccess()) {
             Messages.show("Error al crear el cliente: " + res.getMessage());
             return;
         }
-        Client clienteCreado = res.getData();
-        listaClientes.add(clienteCreado);
+        cliente.setId(res.getId());
+        listaClientes.add(cliente);
 
         // Crear el Payment asociado
         Contrato contrato = new Contrato.Builder()
-                .setCliente(clienteCreado)
+                .setCliente(cliente)
                 .setPlan(plan)
                 .setAdmin(UserPreferences.getData())
                 .setTransactionCode(String.valueOf(generateTransactionCode()))
                 .setSubscriptionUntil(DateUtils.addDays(new Date(), plan.getDurationDays()))
                 .build();
 
-        Response<Contrato> paymentResponse = CRUDContrato.getInstance().create(contrato);
+        Response<Contrato> contratoResponse = CRUDContrato.getInstance().create(contrato);
+        contrato.setCreatedAt(new Date());
 
-        if (!paymentResponse.isSuccess()) {
-            Messages.show("Error al crear el pago: " + paymentResponse.getMessage());
+        if (!contratoResponse.isSuccess()) {
+            Messages.show("Error al crear el pago: " + contratoResponse.getMessage());
             return;
         }
         JTextField[] inputs = { panel.jtxtDniClienteAgregar, panel.jtxtNombreClienteAgregar,
@@ -325,8 +329,8 @@ public class ControladorClient {
                 contrato.getCliente().getFullName());
         Utils.generatePaymentPDF(contrato, pdfPath);
         Utils.sendMailWithPdf(
-                clienteCreado.getEmail(),
-                String.format("Bienvenido %s", clienteCreado.getFullName()),
+                cliente.getEmail(),
+                String.format("Bienvenido %s", cliente.getFullName()),
                 messageEmail,
                 pdfPath);
     }
@@ -343,20 +347,21 @@ public class ControladorClient {
         frame.add(jcbxPlanes);
 
         // FrameUtils.addOnClickEvent(jcbxPlanes, () -> {
-        //     ComboItem item = (ComboItem) jcbxPlanes.getSelectedItem();
-        //     Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId() == item.getId()).findFirst()
-        //             .orElse(null);
-        //     Date fechaFinal = DateUtils.addDays(, plan.getDurationDays());
-        //     int idx = listaClientes.indexOf(clientTarget);
-        //     clientTarget.setSubscription_until(fechaFinal);
-        //     Response<Client> response = CRUDCliente.getInstance().update(clientTarget);
-        //     if (!response.isSuccess()) {
-        //         Messages.show("Error al renovar la membresía: " + response.getMessage());
-        //         return;
-        //     }
-        //     listaClientes.set(idx, clientTarget);
-        //     Messages.show("Membresía renovada con exito");
-        //     frame.dispose();
+        // ComboItem item = (ComboItem) jcbxPlanes.getSelectedItem();
+        // Plan plan = ControladorPlan.getListaPlanes().stream().filter(p -> p.getId()
+        // == item.getId()).findFirst()
+        // .orElse(null);
+        // Date fechaFinal = DateUtils.addDays(, plan.getDurationDays());
+        // int idx = listaClientes.indexOf(clientTarget);
+        // clientTarget.setSubscription_until(fechaFinal);
+        // Response<Client> response = CRUDCliente.getInstance().update(clientTarget);
+        // if (!response.isSuccess()) {
+        // Messages.show("Error al renovar la membresía: " + response.getMessage());
+        // return;
+        // }
+        // listaClientes.set(idx, clientTarget);
+        // Messages.show("Membresía renovada con exito");
+        // frame.dispose();
         // });
         FrameUtils.showWindow(frame, "Selecciona un plan");
     }
@@ -381,7 +386,8 @@ public class ControladorClient {
             return;
         }
         // Date currentSubscriptionUntil = clientTarget.getSubscription_until();
-        // clientTarget.setSubscription_until(DateUtils.addDays(currentSubscriptionUntil, days));
+        // clientTarget.setSubscription_until(DateUtils.addDays(currentSubscriptionUntil,
+        // days));
 
         // verificar si en realidad deseas congelar la membresia
         String warningMessage = String.format("¿Estás seguro de congelar la membresía de %s por %d días?",
@@ -391,7 +397,7 @@ public class ControladorClient {
             return;
 
         // actualizar el cliente en la base de datos
-        //clientTarget.setIsFrozen(Cliente.Client.SI);
+        // clientTarget.setIsFrozen(Cliente.Client.SI);
         Response<Client> response = CRUDCliente.getInstance().update(clientTarget);
         if (!response.isSuccess()) {
             Messages.show("Error al congelar la membresía: " + response.getMessage());
