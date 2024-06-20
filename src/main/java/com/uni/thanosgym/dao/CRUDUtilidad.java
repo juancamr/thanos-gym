@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import com.uni.thanosgym.model.Admin;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
+import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.model.Utility;
 
 public class CRUDUtilidad extends BaseCrud<Utility> {
@@ -66,5 +67,6 @@ public class CRUDUtilidad extends BaseCrud<Utility> {
         ps.setString(1, data.getNombre());
         ps.setInt(2, data.getPeso());
         ps.setInt(3, data.getCantidad());
+        ps.setInt(4, data.getAdmin().getId());
     }
 }

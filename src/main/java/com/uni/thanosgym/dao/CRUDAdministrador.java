@@ -60,9 +60,13 @@ public class CRUDAdministrador extends BaseCrud<Admin> {
             String queryVerify = Querys.getTemplateWithConditions(Admin.tableName,
                     new String[] { Admin.usernameField, Admin.passwordField });
             String query = isForMaster ? queryMaster : queryVerify;
+            System.out.println(query);
             ps = connection.prepareStatement(query);
             ps.setString(1, username);
             ps.setString(2, password);
+            if (isForMaster) {
+                ps.setString(3, Admin.Rol.MASTER.toString());
+            }
             rs = ps.executeQuery();
             if (rs.next()) {
                 Admin admin = generateObject(rs);
@@ -133,6 +137,7 @@ public class CRUDAdministrador extends BaseCrud<Admin> {
 
     @Override
     public void sendObject(String consulta, Admin admin) throws SQLException {
+        System.out.println(consulta);
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, admin.getFullName());
         ps.setString(2, admin.getEmail());

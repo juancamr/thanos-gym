@@ -7,9 +7,9 @@ public class Querys {
     public class admin {
 
         public static String create = generateCreateQuery(Admin.tableName,
-                new String[] { Admin.emailField,
+                new String[] { Admin.fullNameField, Admin.emailField,
                         Admin.phoneField, Admin.usernameField, Admin.passwordField,
-                        Admin.rolField, Admin.photoUrlField });
+                        Admin.rolField, Admin.photoUrlField, });
         public static String update = generateUpdateQuery(Admin.tableName,
                 new String[] { Admin.emailField,
                         Admin.phoneField, Admin.usernameField, Admin.passwordField,
@@ -85,7 +85,7 @@ public class Querys {
     public class utility {
 
         public static String create = generateCreateQuery(Utility.tableName,
-                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField });
+                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField });
         public static String update = generateUpdateQuery(Utility.tableName,
                 new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField });
     }
@@ -116,8 +116,9 @@ public class Querys {
     public static String getTemplateWithConditions(String tableName, String[] conditions) {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM ").append(tableName);
+        query.append(" WHERE ");
         for (int i = 0; i < conditions.length; i++) {
-            query.append(" WHERE ").append(conditions[i]);
+            query.append(conditions[i]);
             query.append("=?");
             if (i != conditions.length - 1) {
                 query.append(" AND ");
@@ -150,7 +151,10 @@ public class Querys {
         StringBuilder query = new StringBuilder();
         query.append("UPDATE ").append(tableName).append(" SET ");
         for (int i = 0; i < columns.length; i++) {
-            query.append(columns[i]).append("=?, ");
+            query.append(columns[i]).append("=? ");
+            if (i != columns.length - 1) {
+                query.append(", ");
+            }
         }
         query.append("WHERE ").append(tableName).append("_id=?");
         return query.toString();

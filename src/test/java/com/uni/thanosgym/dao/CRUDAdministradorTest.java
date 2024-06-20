@@ -17,8 +17,8 @@ public class CRUDAdministradorTest {
         // create admin master
         Admin adminMaster = new Admin.Builder()
                 .setFullName("Admin test")
-                .setPhone("986327221")
                 .setEmail("test.testmaster@gmail")
+                .setPhone("986327221")
                 .setUsername("testusername")
                 .setPassword("testusername")
                 .setRol(Admin.Rol.MASTER)

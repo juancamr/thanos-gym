@@ -28,6 +28,7 @@ public class CRUDPlanTest {
         int id = response.getId();
         String nameEdited = "Test plan edited";
         Plan planEdited = new Plan.Builder()
+                .setId(id)
                 .setName("Test plan edited")
                 .setPrice(100)
                 .setDurationDays(1)

@@ -17,6 +17,7 @@ public class CRUDClienteTest {
         // create
         Client cliente = new Client.Builder()
                 .setFullName("Juan carlos")
+                .setDni("75423447")
                 .setEmail("test@test.com")
                 .setPhone("986327221")
                 .setPhotoUrl("photo_url")

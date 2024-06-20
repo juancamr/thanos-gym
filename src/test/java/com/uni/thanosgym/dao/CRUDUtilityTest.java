@@ -29,6 +29,7 @@ public class CRUDUtilityTest {
 
         // create utility
         Utility utility = new Utility.Builder()
+                .setAdmin(admin)
                 .setNombre("Test Utility")
                 .setPeso(100)
                 .setCantidad(10)
