@@ -2,6 +2,8 @@ package com.uni.thanosgym.controller;
 
 import javax.swing.*;
 
+import java.io.File;
+
 import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.view.PanelLogin;
 import com.uni.thanosgym.view.PanelRegister;
@@ -13,6 +15,7 @@ import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.Uploader;
 
 public class ControladorSession {
     public static WindowSession vista;
@@ -20,6 +23,7 @@ public class ControladorSession {
     public static PanelRegister panelRegister;
     public static boolean panelLoginRendered = false;
     public static boolean panelRegisterRendered = false;
+    public static File imageSelected = null;
 
     public static void initWindow() {
         String imageUrl = "https://i.pinimg.com/736x/1d/bc/ef/1dbcef30ca20a90b82c60490804de803.jpg";
@@ -54,10 +58,23 @@ public class ControladorSession {
             FrameUtils.addEnterEvent(panel.jtxtRepeatPassword, ControladorSession::registrarAction);
             FrameUtils.addOnClickEvent(panel.jbtnInicioSesion, ControladorSession::showLoginPanel);
             FrameUtils.addOnClickEvent(panel.jbtnRegistro, ControladorSession::registrarAction);
-            panelRegisterRendered = true;
+            FrameUtils.addOnClickEvent(panel.jbtnUploadImagen, ControladorSession::chooseImageAction);
         }
         FrameUtils.showPanel(view, panel);
         panel.jtxtNombresCompletos.requestFocus();
+    }
+
+    private static void chooseImageAction() {
+        PanelRegister panel = getPanelRegister();
+        Response<File> response = FrameUtils.chooseImage(getPanelRegister());
+        if (response.isSuccess()) {
+            imageSelected = response.getData();
+            panel.jlblFileName.setText(imageSelected.getName());
+        } else {
+            Messages.show(response.getMessage());
+            imageSelected = null;
+            panel.jlblFileName.setText("");
+        }
     }
 
     private static void registrarAction() {
@@ -103,8 +120,8 @@ public class ControladorSession {
                 .setPhone(phone)
                 .setUsername(userName)
                 .setPassword(password)
-                .setRol(isForMaster ? Admin.Rol.MASTER : Admin.Rol.EMPLEADO)
                 .setPhotoUrl("")
+                .setRol(isForMaster ? Admin.Rol.MASTER : Admin.Rol.EMPLEADO)
                 .build();
         if (!phone.isEmpty()) {
             administrador.setPhone(phone);
@@ -143,9 +160,19 @@ public class ControladorSession {
         registrar(administrador, adminMaster);
     }
 
-    private static void registrar(Admin administrador, Admin adminMaster) {
+    private static void registrar(Admin admin, Admin adminMaster) {
+        if (imageSelected != null) {
+            Uploader.UploaderResponse resUploader = Uploader.uploadImage(imageSelected);
+            if (!resUploader.isSuccess()) {
+                Messages.show(resUploader.getMessage());
+                imageSelected = null;
+                return;
+            }
+            admin.setPhotoUrl(resUploader.getUrl());
+            imageSelected = null;
+        }
         Response<Admin> response = CRUDAdministrador.getInstance()
-                .create(administrador, adminMaster);
+                .create(admin, adminMaster);
         if (!response.isSuccess()) {
             Messages.show(response.getMessage());
             return;
@@ -156,9 +183,9 @@ public class ControladorSession {
         panel.jPassword.setText("");
         panel.jtxtRepeatPassword.setText("");
         vista.dispose();
-        Admin admin = response.getData();
-        admin.setId(response.getId());
-        Auth.signIn(admin);
+        Admin adminForSignin = response.getData();
+        adminForSignin.setId(response.getId());
+        Auth.signIn(adminForSignin);
     }
 
     public static void iniciarSesion() {

@@ -44,6 +44,8 @@ public class PanelRegister extends javax.swing.JPanel {
         jLabel19 = new javax.swing.JLabel();
         jtxtRepeatPassword = new javax.swing.JPasswordField();
         jCheckIsForMaster = new javax.swing.JCheckBox();
+        jbtnUploadImagen = new javax.swing.JButton();
+        jlblFileName = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(420, 690));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -99,7 +101,7 @@ public class PanelRegister extends javax.swing.JPanel {
         jLabel15.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(105, 105, 118));
         jLabel15.setText("Nombres *");
-        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, -1, 30));
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, -1, 30));
 
         jtxtNombresCompletos.setBackground(new java.awt.Color(241, 241, 241));
         jtxtNombresCompletos.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -110,7 +112,7 @@ public class PanelRegister extends javax.swing.JPanel {
                 jtxtNombresCompletosActionPerformed(evt);
             }
         });
-        jPanel3.add(jtxtNombresCompletos, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 300, 30));
+        jPanel3.add(jtxtNombresCompletos, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 300, 30));
 
         jbtnInicioSesion.setBackground(new java.awt.Color(255, 255, 254));
         jbtnInicioSesion.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
@@ -133,12 +135,12 @@ public class PanelRegister extends javax.swing.JPanel {
                 jtxtCorreoActionPerformed(evt);
             }
         });
-        jPanel3.add(jtxtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 300, 30));
+        jPanel3.add(jtxtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 140, 30));
 
         jLabel16.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(105, 105, 118));
         jLabel16.setText("Correo *");
-        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, -1, 30));
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, 30));
 
         jtxtPhone.setBackground(new java.awt.Color(241, 241, 241));
         jtxtPhone.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -149,12 +151,12 @@ public class PanelRegister extends javax.swing.JPanel {
                 jtxtPhoneActionPerformed(evt);
             }
         });
-        jPanel3.add(jtxtPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, 300, 30));
+        jPanel3.add(jtxtPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 140, 30));
 
         jLabel17.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(105, 105, 118));
         jLabel17.setText("Celular");
-        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 250, -1, 30));
+        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, -1, 30));
 
         jLabel19.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(105, 105, 118));
@@ -168,6 +170,11 @@ public class PanelRegister extends javax.swing.JPanel {
         jCheckIsForMaster.setBackground(new java.awt.Color(255, 255, 255));
         jCheckIsForMaster.setText("Master");
         jPanel3.add(jCheckIsForMaster, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 570, -1, -1));
+
+        jbtnUploadImagen.setBackground(new java.awt.Color(254, 254, 254));
+        jbtnUploadImagen.setText("Foto");
+        jPanel3.add(jbtnUploadImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 90, 30));
+        jPanel3.add(jlblFileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 108, 180, 40));
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 720));
     }// </editor-fold>//GEN-END:initComponents
@@ -210,7 +217,9 @@ public class PanelRegister extends javax.swing.JPanel {
     public javax.swing.JPasswordField jPassword;
     public javax.swing.JButton jbtnInicioSesion;
     public javax.swing.JButton jbtnRegistro;
+    public javax.swing.JButton jbtnUploadImagen;
     public javax.swing.JLabel jlblExito;
+    public javax.swing.JLabel jlblFileName;
     public javax.swing.JTextField jtxtCorreo;
     public javax.swing.JTextField jtxtNombreUsuario;
     public javax.swing.JTextField jtxtNombresCompletos;

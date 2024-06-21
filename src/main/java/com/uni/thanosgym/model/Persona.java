@@ -57,4 +57,8 @@ class Persona {
     public String getPhotoUrl() {
         return photoUrl;
     }
+
+    public void setPhotoUrl(String url) {
+        this.photoUrl = url;
+    }
 }

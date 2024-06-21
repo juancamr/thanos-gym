@@ -11,7 +11,7 @@ public class Querys {
                         Admin.phoneField, Admin.usernameField, Admin.passwordField,
                         Admin.rolField, Admin.photoUrlField, });
         public static String update = generateUpdateQuery(Admin.tableName,
-                new String[] { Admin.emailField,
+                new String[] { Admin.fullNameField, Admin.emailField,
                         Admin.phoneField, Admin.usernameField, Admin.passwordField,
                         Admin.rolField, Admin.photoUrlField, Admin.lastSigninField });
 

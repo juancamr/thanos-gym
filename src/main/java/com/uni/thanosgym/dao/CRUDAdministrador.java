@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import com.uni.thanosgym.utils.Querys;
+import java.sql.Timestamp;
+
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -85,7 +87,8 @@ public class CRUDAdministrador extends BaseCrud<Admin> {
     public Response<Admin> update(Admin admin) {
         try {
             sendObject(Querys.admin.update, admin);
-            ps.setInt(8, admin.getId());
+            ps.setTimestamp(8, new Timestamp(admin.getLastSignin().getTime()));
+            ps.setInt(9, admin.getId());
             ps.executeUpdate();
             ps.close();
             return new Response<Admin>(true, "Datos actualizados con exito");
@@ -118,12 +121,13 @@ public class CRUDAdministrador extends BaseCrud<Admin> {
     }
 
     public Response<Admin> getAdminMasterOnlyForTesting() {
-        return baseGetByString(Querys.getTemplateWithConditions(Admin.tableName, Admin.rolField), Admin.Rol.MASTER.toString());
+        return baseGetByString(Querys.getTemplateWithConditions(Admin.tableName, Admin.rolField),
+                Admin.Rol.MASTER.toString());
     }
 
     @Override
     public Admin generateObject(ResultSet rs) throws SQLException {
-        boolean isForMaster = rs.getString(8).equals(Admin.Rol.MASTER.toString());
+        boolean isForMaster = rs.getString(Admin.rolField).equals(Admin.Rol.MASTER.toString());
         return new Admin.Builder()
                 .setId(rs.getInt(Admin.idField))
                 .setCreatedAt(rs.getDate(Admin.createdAtField))

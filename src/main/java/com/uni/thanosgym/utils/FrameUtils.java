@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -17,11 +18,17 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.WindowSession;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.imageio.ImageIO;
 
 /**
  * Utility class for JFrame and JPanel
@@ -99,7 +106,7 @@ public class FrameUtils {
      * Submit on enter key press
      *
      * @param input Text field
-     * @param r Lambda function
+     * @param r     Lambda function
      */
     public static void addEnterEvent(JTextField input, Runnable r) {
         input.addActionListener(new ActionListener() {
@@ -114,7 +121,7 @@ public class FrameUtils {
      * Submit on enter key press
      *
      * @param input Password field
-     * @param r Lambda function
+     * @param r     Lambda function
      */
     public static void addEnterEvent(JPasswordField input, Runnable r) {
         input.addActionListener(new ActionListener() {
@@ -128,7 +135,7 @@ public class FrameUtils {
     /**
      * Agregar evento de clic a un boton
      *
-     * @param button Button
+     * @param button      Button
      * @param handleClick Lambda function
      */
     public static <T> void addOnClickEvent(JComboBox<T> combo, Runnable handleClick) {
@@ -143,7 +150,7 @@ public class FrameUtils {
     /**
      * Agregar evento de clic a un boton
      *
-     * @param button Button
+     * @param button      Button
      * @param handleClick Lambda function
      */
     public static void addOnClickEvent(JButton button, Runnable handleClick) {
@@ -158,7 +165,7 @@ public class FrameUtils {
     /**
      * Agregar evento cuando cambia el texto
      *
-     * @param input TextField
+     * @param input    TextField
      * @param function Lambda function
      */
     public static void addHandleChangeEvent(JTextField input, Runnable function) {
@@ -187,18 +194,16 @@ public class FrameUtils {
         }
     }
 
-
     public static void removeAllEvents(JButton button) {
         for (ActionListener al : button.getActionListeners()) {
             button.removeActionListener(al);
         }
     }
 
-
     /**
      * Agregar evento de selección de fila a una tabla
      *
-     * @param table La tabla a la cual agregar el evento de selección
+     * @param table         La tabla a la cual agregar el evento de selección
      * @param onRowSelected La acción a ejecutar cuando se selecciona una fila
      */
     public static void addTableRowSelectionEvent(JTable table, Runnable onRowSelected) {
@@ -207,7 +212,7 @@ public class FrameUtils {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = table.getSelectedRow();
-                    if (selectedRow != -1) { 
+                    if (selectedRow != -1) {
                         onRowSelected.run();
                     }
                 }
@@ -217,7 +222,6 @@ public class FrameUtils {
 
     public static Font getMainFont(int weight, int size) {
         return new Font("Malgun Gothic", weight, size);
-
 
     }
 
@@ -232,4 +236,34 @@ public class FrameUtils {
         }
     }
 
+    public static Response<File> chooseImage(JPanel ventana) {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Selecciona una imagen");
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        // Only allow image files to be selected
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory()) {
+                    return true;
+                } else {
+                    String filename = f.getName().toLowerCase();
+                    return filename.endsWith(".jpg") || filename.endsWith(".jpeg") || filename.endsWith(".png")
+                            || filename.endsWith(".gif");
+                }
+            }
+
+            @Override
+            public String getDescription() {
+                return "Image Files (*.jpg, *.jpeg, *.png, *.gif)";
+            }
+        });
+
+        int result = fileChooser.showOpenDialog(ventana);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            return new Response<File>(true, fileChooser.getSelectedFile());
+        } else
+            return new Response<File>(false, "No se pudo seleccionar la imagen");
+    }
 }

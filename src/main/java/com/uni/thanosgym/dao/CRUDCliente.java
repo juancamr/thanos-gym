@@ -65,7 +65,6 @@ public class CRUDCliente extends BaseCrud<Client> {
 
     @Override
     public Client generateObject(ResultSet rs) throws SQLException {
-        System.out.println(rs.getTimestamp(Client.createdAtField));
         Client cliente = new Client.Builder()
                 .setId(rs.getInt(Client.idField))
                 .setCreatedAt(rs.getTimestamp(Client.createdAtField))
@@ -76,7 +75,6 @@ public class CRUDCliente extends BaseCrud<Client> {
                 .setPhone(rs.getString(Client.phoneField))
                 .setPhotoUrl(rs.getString(Client.photoUrlField))
                 .build();
-                System.out.println(cliente.getCreated_At());
                 return cliente;
     }
 
