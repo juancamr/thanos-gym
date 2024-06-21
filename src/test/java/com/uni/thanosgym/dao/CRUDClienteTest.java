@@ -16,7 +16,7 @@ public class CRUDClienteTest {
     public void mainTest() {
         // create
         Client cliente = new Client.Builder()
-                .setFullName("Juan carlos")
+                .setFullName("Client test")
                 .setDni("75423447")
                 .setEmail("test@test.com")
                 .setPhone("986327221")

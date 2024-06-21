@@ -14,7 +14,10 @@ public class CRUDUtilityTest {
 
     @Test
     public void mainTest() {
-
+        Admin adminForVerify = new Admin.Builder().build();
+        if (crudAdministrador.getQuantity() != 0) {
+            adminForVerify = crudAdministrador.getAdminMasterOnlyForTesting().getData();
+        }
         // create administrador
         Admin admin = new Admin.Builder()
                 .setFullName("Admin test")
@@ -25,7 +28,7 @@ public class CRUDUtilityTest {
                 .setRol(Admin.Rol.MASTER)
                 .setPhotoUrl("photo")
                 .build();
-        admin.setId(crudAdministrador.create(admin, new Admin.Builder().build()).getId());
+        admin.setId(crudAdministrador.create(admin, adminForVerify).getId());
 
         // create utility
         Utility utility = new Utility.Builder()

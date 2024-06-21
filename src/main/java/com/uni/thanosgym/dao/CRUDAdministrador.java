@@ -117,6 +117,10 @@ public class CRUDAdministrador extends BaseCrud<Admin> {
         return baseDeleteById(Querys.deleteTemplate(Admin.tableName), id);
     }
 
+    public Response<Admin> getAdminMasterOnlyForTesting() {
+        return baseGetByString(Querys.getTemplateWithConditions(Admin.tableName, Admin.rolField), Admin.Rol.MASTER.toString());
+    }
+
     @Override
     public Admin generateObject(ResultSet rs) throws SQLException {
         boolean isForMaster = rs.getString(8).equals(Admin.Rol.MASTER.toString());

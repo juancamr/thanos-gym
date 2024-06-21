@@ -35,12 +35,16 @@ public class CRUDContratoTest {
 
         // create plan
         Plan plan = new Plan.Builder()
-                .setName("plan")
+                .setName("test plan for contrato")
                 .setPrice(100)
                 .setDurationDays(1)
                 .build();
         plan.setId(crudPlan.create(plan).getId());
 
+        Admin adminForVerify = new Admin.Builder().build();
+        if (crudAdministrador.getQuantity() != 0) {
+            adminForVerify = crudAdministrador.getAdminMasterOnlyForTesting().getData();
+        }
         // create administrador
         Admin admin = new Admin.Builder()
                 .setFullName("Admin test")
@@ -51,7 +55,7 @@ public class CRUDContratoTest {
                 .setRol(Admin.Rol.MASTER)
                 .setPhotoUrl("photo")
                 .build();
-        admin.setId(crudAdministrador.create(admin, new Admin.Builder().build()).getId());
+        admin.setId(crudAdministrador.create(admin, adminForVerify).getId());
 
         // create contrato
         Contrato contrato = new Contrato.Builder()

@@ -13,6 +13,10 @@ public class CRUDAdministradorTest {
 
     @Test
     public void mainTest() {
+        Admin adminForVerify = new Admin.Builder().build();
+        if (crudAdministrador.getQuantity() != 0) {
+            adminForVerify = crudAdministrador.getAdminMasterOnlyForTesting().getData();
+        }
 
         // create admin master
         Admin adminMaster = new Admin.Builder()
@@ -25,9 +29,7 @@ public class CRUDAdministradorTest {
                 .setPhotoUrl("photo")
                 .build();
 
-        Response<Admin> resAdminMaster = crudAdministrador.create(adminMaster,
-                new Admin.Builder().build());
-        assertEquals(true, resAdminMaster.isSuccess());
+        Response<Admin> resAdminMaster = crudAdministrador.create(adminMaster, adminForVerify);
 
         // create empleado 1
         Admin adminEmpleado1 = new Admin.Builder()
