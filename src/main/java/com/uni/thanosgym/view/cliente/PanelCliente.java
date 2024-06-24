@@ -1,13 +1,16 @@
 package com.uni.thanosgym.view;
 
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import com.uni.thanosgym.utils.FrameUtils;
 import java.awt.Color;
 import com.uni.thanosgym.components.InputComponent;
 import com.uni.thanosgym.components.ButtonComponent;
 
-public class PanelUtilidad extends BasePanelForMainWindow {
+public class PanelCliente {
+    public static JPanel panel;
 
-    @Override
-    protected void build() {
+    private void build() {
         int width = 840;
         int height = 690;
         panel.setLayout(null);
@@ -29,4 +32,13 @@ public class PanelUtilidad extends BasePanelForMainWindow {
         panel.add(button);
     }
 
+    public static void showPanelCliente() {
+        if (panel == null) {
+            panel = new JPanel();
+            new PanelCliente().build();
+        }
+        JFrame window = VentanaPrincipal.getWindow();
+        FrameUtils.changePanel(VentanaPrincipal.content, panel);
+        window.setVisible(true);
+    }
 }

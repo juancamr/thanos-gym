@@ -12,7 +12,7 @@ import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.view.PanelPlan;
-import com.uni.thanosgym.view.components.RoundedPanel;
+import com.uni.thanosgym.components.lib.RoundedPanel;
 import com.uni.thanosgym.view.MainWindow;
 import com.uni.thanosgym.view.AddPlan;
 import java.util.List;

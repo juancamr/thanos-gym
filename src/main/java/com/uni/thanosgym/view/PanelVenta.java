@@ -4,7 +4,7 @@ import java.awt.Color;
 import com.uni.thanosgym.components.InputComponent;
 import com.uni.thanosgym.components.ButtonComponent;
 
-public class PanelUtilidad extends BasePanelForMainWindow {
+public class PanelVenta extends BasePanelForMainWindow {
 
     @Override
     protected void build() {
@@ -30,3 +30,4 @@ public class PanelUtilidad extends BasePanelForMainWindow {
     }
 
 }
+

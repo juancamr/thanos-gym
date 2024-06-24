@@ -87,6 +87,20 @@ public class FrameUtils {
         vista.content.repaint();
     }
 
+    public static void setupWindow(JFrame window, int width, int height) {
+        window.setResizable(false);
+        window.setLayout(null);
+        window.setSize(width, height);
+        window.setLocationRelativeTo(null);
+    }
+
+    public static void changePanel(JPanel mainPanel, JPanel contentPanel) {
+        mainPanel.removeAll();
+        mainPanel.add(contentPanel, BorderLayout.CENTER);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
     /**
      * Show panel at the right of the session window 760 x 690
      *

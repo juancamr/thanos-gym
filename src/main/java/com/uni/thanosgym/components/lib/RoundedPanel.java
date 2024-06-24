@@ -1,4 +1,4 @@
-package com.uni.thanosgym.view.components;
+package com.uni.thanosgym.components.lib;
 
 import javax.swing.*;
 import java.awt.*;
