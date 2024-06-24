@@ -3,6 +3,7 @@ package com.uni.thanosgym.view.auth;
 import java.awt.Color;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.uni.thanosgym.components.lib.RoundedPanel;
@@ -21,6 +22,7 @@ public class VentanaSession {
 
         content = new JPanel();
         content.setLayout(null);
+        content.setBackground(Color.WHITE);
         content.setSize(width / 2, height);
         content.setLocation(0, 0);
 

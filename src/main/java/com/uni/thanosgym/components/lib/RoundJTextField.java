@@ -11,8 +11,8 @@ import com.uni.thanosgym.common.Theme;
 public class RoundJTextField extends JTextField {
     private Shape shape;
 
-    public RoundJTextField() {
-        super(10);
+    public RoundJTextField(int radius) {
+        super(radius);
         this.setBackground(Theme.inputColor);
         setOpaque(false);
     }

@@ -12,8 +12,8 @@ import com.uni.thanosgym.common.Theme;
 public class RoundedJPassword extends JPasswordField {
     private Shape shape;
 
-    public RoundedJPassword() {
-        super();
+    public RoundedJPassword(int radius) {
+        super(radius);
         this.setBackground(Theme.inputColor);
         setOpaque(false);
     }

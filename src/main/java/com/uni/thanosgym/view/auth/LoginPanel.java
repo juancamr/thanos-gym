@@ -1,34 +1,32 @@
 package com.uni.thanosgym.view.auth;
 
-import java.awt.Color;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.uni.thanosgym.components.ButtonComponent;
+import com.uni.thanosgym.components.Typography;
 import com.uni.thanosgym.components.InputComponent;
 
 public class LoginPanel extends BasePanelForSessionWindow {
 
     @Override
-    protected void build() {
-        System.out.println("building...");
-        int width = 760;
-        int height = 690;
-        panel.setLayout(null);
-        panel.setBackground(Color.WHITE);
-        panel.setSize(width / 2, height);
-        panel.setLocation(0, 0);
+    protected List<Component> build() {
+        List<Component> components = new ArrayList<>();
 
-        InputComponent usernameInput = new InputComponent("Username", 20, 100, InputComponent.InputType.TEXT);
-        usernameInput.addToPanel(panel);
+        components.add(new Typography.Builder()
+                .setText("Inicia sesion")
+                .setType(Typography.Type.HEADING)
+                .setPosition(0, 0)
+                .setWidth(contentWidth)
+                .build());
 
-        InputComponent passwordInput = new InputComponent("Password", 20, 180, InputComponent.InputType.PASSWORD);
-        passwordInput.addToPanel(panel);
+        InputComponent username = new InputComponent("Username", 0, 200, contentWidth, InputComponent.Type.TEXT);
+        username.insert(components);
 
-        ButtonComponent button = new ButtonComponent("Press me", 20, 300, 200, 40);
-        button.addOnClickEvent(() -> {
-            System.out.println(usernameInput.getInputContent());
-        });
+        InputComponent password = new InputComponent("Password", 0, 300, contentWidth, InputComponent.Type.PASSWORD);
+        password.insert(components);
 
-        panel.add(button);
+        return components;
     }
 
 }

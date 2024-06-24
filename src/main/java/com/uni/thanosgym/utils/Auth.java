@@ -7,8 +7,8 @@ import com.uni.thanosgym.view.PanelDashboard;
 import com.uni.thanosgym.view.auth.LoginPanel;
 
 public class Auth {
-    public static PanelDashboard panelDashboard;
-    public static LoginPanel loginPanel;
+    public static PanelDashboard panelDashboard = new PanelDashboard();
+    public static LoginPanel loginPanel = new LoginPanel();
 
     public static boolean isAdminLoggedIn() {
         Admin admin = UserPreferences.getData();
