@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -19,15 +21,13 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.uni.thanosgym.components.lib.RoundedLabel;
 import com.uni.thanosgym.model.Response;
-import com.uni.thanosgym.view.MainWindow;
-import com.uni.thanosgym.view.WindowSession;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
 import javax.imageio.ImageIO;
 
 /**
@@ -78,14 +78,14 @@ public class FrameUtils {
      * @param vista Main window 1060 x 690
      * @param panel Panel to show in the window
      */
-    public static void showPanel(MainWindow vista, JPanel panel) {
-        panel.setSize(840, 690);
-        panel.setLocation(0, 0);
-        vista.content.removeAll();
-        vista.content.add(panel, BorderLayout.CENTER);
-        vista.content.revalidate();
-        vista.content.repaint();
-    }
+    // public static void showPanel(MainWindow vista, JPanel panel) {
+    // panel.setSize(840, 690);
+    // panel.setLocation(0, 0);
+    // vista.content.removeAll();
+    // vista.content.add(panel, BorderLayout.CENTER);
+    // vista.content.revalidate();
+    // vista.content.repaint();
+    // }
 
     public static void setupWindow(JFrame window, int width, int height) {
         window.setResizable(false);
@@ -107,14 +107,14 @@ public class FrameUtils {
      * @param vista Session window
      * @param panel Panel to show in the window
      */
-    public static void showPanel(WindowSession vista, JPanel panel) {
-        panel.setSize(380, 690);
-        panel.setLocation(0, 0);
-        vista.content.removeAll();
-        vista.content.add(panel, BorderLayout.CENTER);
-        vista.content.revalidate();
-        vista.content.repaint();
-    }
+    // public static void showPanel(WindowSession vista, JPanel panel) {
+    // panel.setSize(380, 690);
+    // panel.setLocation(0, 0);
+    // vista.content.removeAll();
+    // vista.content.add(panel, BorderLayout.CENTER);
+    // vista.content.revalidate();
+    // vista.content.repaint();
+    // }
 
     /**
      * Submit on enter key press
@@ -239,13 +239,34 @@ public class FrameUtils {
 
     }
 
-    public static void renderImageFromWeb(String imageUrl, JPanel panel) {
+    public static void renderImageFromWeb(String imageUrl, JPanel panel, int borderRadius) {
         try {
             URL url = new URL(imageUrl);
-            ImageIcon imageIcon = new ImageIcon(url);
-            JLabel imageLabel = new JLabel(imageIcon);
+            BufferedImage originalImage = ImageIO.read(url);
+
+            // Crop the image to its center
+            int width = originalImage.getWidth();
+            int height = originalImage.getHeight();
+            int newWidth = Math.min(width, height);
+            int newHeight = newWidth;
+
+            int x = (width - newWidth) / 2;
+            int y = (height - newHeight) / 2;
+
+            BufferedImage croppedImage = originalImage.getSubimage(x, y, newWidth, newHeight);
+
+            // Create an ImageIcon from the cropped image
+            ImageIcon imageIcon = new ImageIcon(croppedImage);
+
+            // Create a custom JLabel
+            RoundedLabel imageLabel = new RoundedLabel(imageIcon, borderRadius);
+
+            // Add the label to the panel
+            panel.setLayout(new BorderLayout());
             panel.add(imageLabel, BorderLayout.CENTER);
         } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

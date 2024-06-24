@@ -4,15 +4,15 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import com.uni.thanosgym.utils.FrameUtils;
 
-public class BasePanelForSessionWindow {
-    public static JPanel panel;
+public abstract class BasePanelForSessionWindow {
+    protected static JPanel panel;
 
-    protected void build() {}
+    protected abstract void build();
 
-    public static void showPanel() {
+    public void showPanel() {
         if (panel == null) {
             panel = new JPanel();
-            new BasePanelForSessionWindow().build();
+            build();
         }
         JFrame window = VentanaSession.getWindow();
         FrameUtils.changePanel(VentanaSession.content, panel);
