@@ -60,7 +60,7 @@ public class InputComponent {
         return "";
     }
 
-    public void insert(List<Component> components) {
+    public void insertComponent(List<Component> components) {
         components.add(label);
         if (type == Type.PASSWORD) {
             components.add(password);
