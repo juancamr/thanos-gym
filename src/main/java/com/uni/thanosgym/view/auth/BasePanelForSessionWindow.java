@@ -11,7 +11,7 @@ import java.util.List;
 import com.uni.thanosgym.utils.FrameUtils;
 
 public abstract class BasePanelForSessionWindow {
-    protected static JPanel panel;
+    protected JPanel panel;
     public static int windowWidth = 760;
     public static int windowHeight = 690;
     public static int margin = 40;
@@ -21,6 +21,7 @@ public abstract class BasePanelForSessionWindow {
 
     public void showPanel() {
         if (panel == null) {
+            System.out.println("it was null");
             panel = new JPanel();
             panel.setLayout(null);
             panel.setBackground(Color.WHITE);

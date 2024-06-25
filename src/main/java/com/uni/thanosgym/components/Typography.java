@@ -5,14 +5,16 @@ import javax.swing.JLabel;
 import com.uni.thanosgym.common.Theme;
 
 public class Typography extends JLabel {
-    public static int headerHeight = 20;
-    public static int subheaderHeight = 18;
-    public static int bodyHeight = 15;
+    public static int headerHeight = 28;
+    public static int subheaderHeight = 26;
+    public static int bodyHeight = 21;
+    public static int smallHeight = 18;
 
     public static enum Type {
         HEADING,
         SUBHEADING,
-        BODY
+        BODY,
+        SMALL
     }
 
     public Typography(String text, Type type, int x, int y, int width) {
@@ -27,6 +29,9 @@ public class Typography extends JLabel {
         } else if (type == Type.BODY) {
             setFont(Theme.getMainFont(Font.PLAIN, 16));
             height = bodyHeight;
+        } else if (type == Type.SMALL) {
+            setFont(Theme.getMainFont(Font.PLAIN, 12));
+            height = 18;
         }
         setBounds(x, y, width, height);
     }

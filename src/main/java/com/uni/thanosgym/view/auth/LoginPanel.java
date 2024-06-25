@@ -25,7 +25,8 @@ public class LoginPanel extends BasePanelForSessionWindow {
 
         ButtonComponent button = new ButtonComponent("Login", 0, 400, contentWidth, ButtonComponent.Type.PRIMARY);
         button.onClick(() -> {
-            System.out.println("hola mundo");
+            System.out.println("clicking");
+            new RegisterPanel().showPanel();
         });
         components.add(button);
 

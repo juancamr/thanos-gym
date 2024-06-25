@@ -271,7 +271,7 @@ public class FrameUtils {
         }
     }
 
-    public static Response<File> chooseImage(JPanel ventana) {
+    public static Response<File> chooseImage(JPanel panel) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Selecciona una imagen");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -295,7 +295,7 @@ public class FrameUtils {
             }
         });
 
-        int result = fileChooser.showOpenDialog(ventana);
+        int result = fileChooser.showOpenDialog(panel);
         if (result == JFileChooser.APPROVE_OPTION) {
             return new Response<File>(true, fileChooser.getSelectedFile());
         } else
