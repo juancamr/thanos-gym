@@ -1,6 +1,6 @@
 package com.uni.thanosgym.view.auth;
 
-import java.awt.*;
+import java.awt.Component;
 
 import com.uni.thanosgym.components.ButtonComponent;
 import com.uni.thanosgym.components.CheckBoxComponent;

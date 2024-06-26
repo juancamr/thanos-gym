@@ -27,6 +27,10 @@ public class ButtonComponent extends JButton {
         FrameUtils.addOnClickEvent(this, builder.function);
     }
 
+    public void setPosition(int x, int y, int width) {
+        setBounds(x, y, width, height);
+    }
+
     public void setDataFromType(Type type) {
         if (type == Type.PRIMARY) {
             background = new Color(0, 123, 255);
