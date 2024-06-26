@@ -5,6 +5,7 @@ import com.uni.thanosgym.model.Admin;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.PanelDashboard;
 import com.uni.thanosgym.view.auth.LoginPanel;
+import com.uni.thanosgym.view.auth.VentanaSession;
 
 public class Auth {
     public static PanelDashboard panelDashboard = new PanelDashboard();
@@ -22,6 +23,7 @@ public class Auth {
 
     public static void signIn(Admin admin) {
         UserPreferences.setData(admin);
+        VentanaSession.getWindow().dispose();
         panelDashboard.showPanel();
     }
 

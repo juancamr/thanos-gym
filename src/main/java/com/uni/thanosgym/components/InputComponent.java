@@ -1,18 +1,19 @@
 package com.uni.thanosgym.components;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.Font;
-import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.uni.thanosgym.common.Theme;
-import com.uni.thanosgym.components.lib.RoundJTextField;
-import com.uni.thanosgym.components.lib.RoundedJPassword;
+import com.uni.thanosgym.components.lib.RoundedPanel;
+import com.uni.thanosgym.utils.FrameUtils;
 
-public class InputComponent {
+public class InputComponent extends JPanel {
 
     public static enum Type {
         TEXT,
@@ -24,48 +25,97 @@ public class InputComponent {
     private JPasswordField password;
     private Type type;
 
-    public InputComponent(String label, int x, int y, int width, Type type) {
-        this.type = type;
-        this.label = new JLabel(label);
-        this.label.setFont(Theme.getMainFont(Font.PLAIN, 16));
-        this.label.setBounds(x, y, width, 15);
+    public InputComponent(Builder builder) {
+        super();
+        int height = 35;
+        this.setLayout(null);
+        this.setBounds(builder.x, builder.y, builder.width, 60);
+        setBackground(Color.WHITE);
+
+        type = builder.type;
+        label = new JLabel(builder.label);
+        label.setFont(Theme.getMainFont(Font.PLAIN, 16));
+        label.setBounds(0, 0, builder.width, 15);
+
+        add(this.label);
+
+        JPanel inputPanel = new RoundedPanel(10);
+        inputPanel.setBounds(0, 25, builder.width, height);
+        inputPanel.setLayout(null);
+        inputPanel.setBackground(Theme.inputColor);
+
         if (type == Type.PASSWORD) {
-            password = new RoundedJPassword(5);
-            password.setBounds(x, y + 25, width, 35);
+            password = new JPasswordField();
+            password.setBounds(10, 0, builder.width - 20, height);
+            password.setBackground(Theme.inputColor);
+            password.setBorder(BorderFactory.createEmptyBorder());
+            inputPanel.add(this.password);
         } else if (type == Type.TEXT) {
-            input = new RoundJTextField(5);
+            input = new JTextField();
             input.setFont(Theme.getMainFont(Font.PLAIN, 14));
-            input.setBounds(x, y + 25, width, 35);
+            input.setBounds(10, 0, builder.width - 20, height);
+            input.setBackground(Theme.inputColor);
+            input.setBorder(BorderFactory.createEmptyBorder());
+            inputPanel.add(this.input);
         }
+        add(inputPanel);
     }
 
-    public Component getInput() {
-        if (type == Type.TEXT) {
-            return input;
-        } else {
-            return password;
-        }
+    public JTextField getInput() {
+        return input;
     }
 
-    public JLabel getLabel() {
-        return label;
+    public JPasswordField getPasswordInput() {
+        return password;
     }
 
-    public String getInputContent() {
+    public String getContent() {
         if (type == Type.TEXT) {
             return input.getText();
-        } else if (type == Type.PASSWORD) {
+        } else {
             return String.valueOf(password.getPassword());
         }
-        return "";
     }
 
-    public void insertComponent(List<Component> components) {
-        components.add(label);
-        if (type == Type.PASSWORD) {
-            components.add(password);
-        } else if (type == Type.TEXT) {
-            components.add(input);
+    public void addOnEnterToInput(Runnable function) {
+        FrameUtils.addEnterEvent(input, function);
+    }
+
+    public void addOnEnterToPassword(Runnable function) {
+        FrameUtils.addEnterEvent(password, function);
+    }
+
+    public static class Builder {
+        private String label;
+        private int x = 0;
+        private int y = 0;
+        private int width = 0;
+        private Type type;
+
+        public Builder label(String label) {
+            this.label = label;
+            return this;
         }
+
+        public Builder position(int x, int y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+
+        public Builder width(int width) {
+            this.width = width;
+            return this;
+        }
+
+        public Builder type(Type type) {
+            this.type = type;
+            return this;
+        }
+
+        public InputComponent build() {
+            return new InputComponent(this);
+        }
+
     }
 }

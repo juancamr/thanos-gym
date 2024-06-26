@@ -43,23 +43,23 @@ public class Typography extends JLabel {
         private int y;
         private int width;
 
-        public Builder setText(String text) {
+        public Builder text(String text) {
             this.text = text;
             return this;
         }
 
-        public Builder setType(Type type) {
+        public Builder type(Type type) {
             this.type = type;
             return this;
         }
 
-        public Builder setPosition(int x, int y) {
+        public Builder position(int x, int y) {
             this.x = x;
             this.y = y;
             return this;
         }
 
-        public Builder setWidth(int width) {
+        public Builder width(int width) {
             this.width = width;
             return this;
         }

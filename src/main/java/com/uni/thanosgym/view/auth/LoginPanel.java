@@ -1,36 +1,77 @@
 package com.uni.thanosgym.view.auth;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.uni.thanosgym.components.ButtonComponent;
+import com.uni.thanosgym.components.CheckBoxComponent;
 import com.uni.thanosgym.components.Typography;
 import com.uni.thanosgym.components.InputComponent;
+import com.uni.thanosgym.controller.SessionController;
 
 public class LoginPanel extends BasePanelForSessionWindow {
 
     @Override
-    protected List<Component> build() {
-        List<Component> components = new ArrayList<>();
+    protected Component[] build() {
 
-        Typography title = new Typography("ThanosGym", Typography.Type.HEADING, 0, 0, contentWidth);
-        components.add(title);
+        Typography title = new Typography.Builder()
+                .text("ThanosGym")
+                .type(Typography.Type.HEADING)
+                .position(0, 0)
+                .width(contentWidth)
+                .build();
 
-        InputComponent username = new InputComponent("Username", 0, 200, contentWidth, InputComponent.Type.TEXT);
-        username.insertComponent(components);
+        InputComponent username = new InputComponent.Builder()
+                .label("Nombre de usuario")
+                .position(0, 200)
+                .width(contentWidth)
+                .type(InputComponent.Type.TEXT)
+                .build();
 
-        InputComponent password = new InputComponent("Password", 0, 300, contentWidth, InputComponent.Type.PASSWORD);
-        password.insertComponent(components);
+        InputComponent password = new InputComponent.Builder()
+                .label("Contraseña")
+                .position(0, 275)
+                .width(contentWidth)
+                .type(InputComponent.Type.PASSWORD)
+                .build();
 
-        ButtonComponent button = new ButtonComponent("Login", 0, 400, contentWidth, ButtonComponent.Type.PRIMARY);
-        button.onClick(() -> {
-            System.out.println("clicking");
-            new RegisterPanel().showPanel();
+        CheckBoxComponent checkbox = new CheckBoxComponent.Builder()
+                .text("Mantener sesión")
+                .position(0, 350)
+                .width(contentWidth)
+                .build();
+
+        ButtonComponent button = new ButtonComponent.Builder()
+                .text("Ingresar")
+                .position(0, 380)
+                .width(contentWidth)
+                .type(ButtonComponent.Type.PRIMARY)
+                .onClick(() -> {
+                    SessionController.iniciarSesion(username.getInput(), password.getPasswordInput(), checkbox);
+                })
+                .build();
+
+        ButtonComponent buttonRegistrar = new ButtonComponent.Builder()
+                .text("No tengo una cuenta")
+                .position(0, 450)
+                .width(contentWidth)
+                .type(ButtonComponent.Type.PRIMARY)
+                .onClick(() -> {
+                    new RegisterPanel().showPanel();
+                })
+                .build();
+
+        password.addOnEnterToPassword(() -> {
+            SessionController.iniciarSesion(username.getInput(), password.getPasswordInput(), checkbox);
         });
-        components.add(button);
 
-        return components;
+        return new Component[] {
+                title,
+                username,
+                password,
+                checkbox,
+                button,
+                buttonRegistrar
+        };
     }
 
 }

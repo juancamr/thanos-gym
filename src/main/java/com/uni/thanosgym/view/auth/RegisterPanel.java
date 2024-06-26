@@ -1,52 +1,102 @@
 package com.uni.thanosgym.view.auth;
 
 import com.uni.thanosgym.components.ButtonComponent;
+import com.uni.thanosgym.components.CheckBoxComponent;
 import com.uni.thanosgym.components.ChooserComponent;
 import com.uni.thanosgym.components.Typography;
+import com.uni.thanosgym.controller.SessionController;
 import com.uni.thanosgym.components.InputComponent;
 
 import java.awt.Component;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RegisterPanel extends BasePanelForSessionWindow {
-
     @Override
-    protected List<Component> build() {
-        List<Component> components = new ArrayList<>();
-        int[] pos = {50, 125, 200, 275, 350, 425, 500, 550};
+    protected Component[] build() {
+        int[] pos = { 50, 125, 200, 275, 350, 425, 500, 550, 580 };
 
-        Typography title = new Typography("Registrate", Typography.Type.HEADING, 0, 0, contentWidth);
-        components.add(title);
+        Typography title = new Typography.Builder()
+                .text("Registrate")
+                .type(Typography.Type.HEADING)
+                .position(0, 0)
+                .width(contentWidth)
+                .build();
 
-        InputComponent names = new InputComponent("Nombres completos", 0, pos[0], contentWidth, InputComponent.Type.TEXT);
-        names.insertComponent(components);
+        InputComponent names = new InputComponent.Builder()
+                .label("Nombres completos")
+                .position(0, pos[0])
+                .width(contentWidth)
+                .type(InputComponent.Type.TEXT)
+                .build();
 
-        InputComponent email = new InputComponent("Correo", 0, pos[1], contentWidth, InputComponent.Type.TEXT);
-        email.insertComponent(components);
+        InputComponent email = new InputComponent.Builder()
+                .label("Correo")
+                .position(0, pos[1])
+                .width(contentWidth)
+                .type(InputComponent.Type.TEXT)
+                .build();
 
-        InputComponent phone = new InputComponent("Telefono", 0, pos[2], contentWidth, InputComponent.Type.TEXT);
-        phone.insertComponent(components);
+        InputComponent phone = new InputComponent.Builder()
+                .label("Telefono")
+                .position(0, pos[2])
+                .width(contentWidth)
+                .type(InputComponent.Type.TEXT)
+                .build();
 
-        InputComponent username = new InputComponent("Username", 0, pos[3], contentWidth, InputComponent.Type.TEXT);
-        username.insertComponent(components);
+        InputComponent username = new InputComponent.Builder()
+                .label("Nombre de usuario")
+                .position(0, pos[3])
+                .width(contentWidth)
+                .type(InputComponent.Type.TEXT)
+                .build();
 
-        InputComponent password = new InputComponent("Contraseña", 0, pos[4], contentWidth, InputComponent.Type.PASSWORD);
-        password.insertComponent(components);
+        InputComponent password = new InputComponent.Builder()
+                .label("Contraseña")
+                .position(0, pos[4])
+                .width(contentWidth)
+                .type(InputComponent.Type.PASSWORD)
+                .build();
 
-        InputComponent repeatedPassword = new InputComponent("Repetir la Contrseña", 0, pos[5], contentWidth, InputComponent.Type.PASSWORD);
-        repeatedPassword.insertComponent(components);
+        InputComponent repeatedPassword = new InputComponent.Builder()
+                .label("Repetir contraseña")
+                .position(0, pos[5])
+                .width(contentWidth)
+                .type(InputComponent.Type.PASSWORD)
+                .build();
 
-        ChooserComponent chooser = new ChooserComponent(contentWidth, 0, pos[6]);
-        components.add(chooser);
+        ChooserComponent chooser = new ChooserComponent.Builder()
+                .width(contentWidth)
+                .position(0, pos[6])
+                .build();
 
-        ButtonComponent button = new ButtonComponent("Registrarme", 0, pos[7], contentWidth, ButtonComponent.Type.PRIMARY);
-        button.onClick(() -> {
-            new LoginPanel().showPanel();
-        }); 
-        components.add(button);
+        CheckBoxComponent checkbox = new CheckBoxComponent.Builder()
+                .text("Para ser administrador master")
+                .position(0, pos[7])
+                .width(contentWidth)
+                .build();
 
-        return components;
+        ButtonComponent button = new ButtonComponent.Builder()
+                .text("Registrarme")
+                .position(0, pos[8])
+                .width(contentWidth)
+                .type(ButtonComponent.Type.PRIMARY)
+                .onClick(() -> {
+                    SessionController.registrar(names.getInput(), username.getInput(), password.getPasswordInput(),
+                            repeatedPassword.getPasswordInput(), email.getInput(), phone.getInput(), checkbox,
+                            chooser);
+                })
+                .build();
+
+        return new Component[] {
+                title,
+                names,
+                email,
+                phone,
+                username, password,
+                repeatedPassword,
+                checkbox,
+                chooser,
+                button
+        };
     }
 
 }

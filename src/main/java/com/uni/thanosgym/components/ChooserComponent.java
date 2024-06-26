@@ -12,28 +12,63 @@ import com.uni.thanosgym.utils.Messages;
 public class ChooserComponent extends JPanel {
 
     private File selected;
+    public static int height = 30;
 
-    public ChooserComponent(int width, int x, int y) {
+    public ChooserComponent(Builder builder) {
         setLayout(null);
         setBackground(Color.WHITE);
-        setSize(width, 30);
-        setLocation(x, y);
+        setSize(builder.width, 30);
+        setLocation(builder.x, builder.y);
 
-        Typography label = new Typography("Sin seleccionar", Typography.Type.SMALL, width / 2, 0,
-            width / 2);
+        Typography label = new Typography.Builder()
+                .text("Sin seleccionar")
+                .type(Typography.Type.SMALL)
+                .position(builder.width / 2, 0)
+                .width(builder.width / 2)
+                .build();
 
-        ButtonComponent button = new ButtonComponent("Seleccionar", 0, 0, width / 2 - 10,
-                ButtonComponent.Type.SMALL);
-        button.onClick(() -> {
-            Response<File> response = FrameUtils.chooseImage(this);
-            if (response.isSuccess()) {
-                selected = response.getData();
-                label.setText(selected.getName());
-            } else {
-                Messages.show("Selecciona una imagen");
-            }
-        });
+        ButtonComponent button = new ButtonComponent.Builder()
+                .text("Seleccionar")
+                .position(0, 0)
+                .width(builder.width / 2 - 10)
+                .type(ButtonComponent.Type.SMALL)
+                .onClick(() -> {
+                    Response<File> response = FrameUtils.chooseImage(this);
+                    if (response.isSuccess()) {
+                        selected = response.getData();
+                        label.setText(selected.getName());
+                    } else {
+                        Messages.show("Selecciona una imagen");
+                    }
+                })
+                .build();
+
         add(button);
         add(label);
+    }
+
+    public File getSelected() {
+        return selected;
+    }
+
+    public static class Builder {
+        private int x = 0;
+        private int y = 0;
+        private int width = 0;
+
+        public Builder position(int x, int y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+
+        public Builder width(int width) {
+            this.width = width;
+            return this;
+        }
+
+        public ChooserComponent build() {
+            return new ChooserComponent(this);
+        }
     }
 }

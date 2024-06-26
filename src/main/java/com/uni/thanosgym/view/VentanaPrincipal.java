@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.uni.thanosgym.components.Typography;
 import com.uni.thanosgym.utils.FrameUtils;
 
 public class VentanaPrincipal {
@@ -24,6 +25,15 @@ public class VentanaPrincipal {
         JPanel sidebar = new JPanel();
         sidebar.setBackground(new Color(250, 250, 250));
         sidebar.setLayout(null);
+
+        Typography title = new Typography.Builder()
+                .text("ThanosGym")
+                .type(Typography.Type.HEADING)
+                .position(0, 0)
+                .width(1060-840)
+                .build();
+        sidebar.add(title);
+
         sidebar.setSize(1060-840, 690);
         sidebar.setLocation(0, 0);
 

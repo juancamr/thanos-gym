@@ -7,7 +7,6 @@ import java.awt.Component;
 
 import javax.swing.JFrame;
 
-import java.util.List;
 import com.uni.thanosgym.utils.FrameUtils;
 
 public abstract class BasePanelForSessionWindow {
@@ -17,7 +16,7 @@ public abstract class BasePanelForSessionWindow {
     public static int margin = 40;
     public static int contentWidth = windowWidth / 2 - margin * 2;
 
-    protected abstract List<Component> build();
+    protected abstract Component[] build();
 
     public void showPanel() {
         if (panel == null) {
@@ -27,7 +26,7 @@ public abstract class BasePanelForSessionWindow {
             panel.setBackground(Color.WHITE);
             panel.setSize(windowWidth / 2 - margin * 2, windowHeight-margin * 2);
             panel.setLocation(margin, margin);
-            List<Component> components = build();
+            Component[] components = build();
             for (Component component : components) {
                 panel.add(component);
             }
