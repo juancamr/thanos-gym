@@ -1,4 +1,5 @@
 package com.uni.thanosgym.config;
+
 import java.sql.*;
 import com.uni.thanosgym.utils.EnvVariables;
 
@@ -13,7 +14,7 @@ public class DbConnection {
             String user = EnvVariables.getInstance().get("DB_USER");
             String password = EnvVariables.getInstance().get("DB_PASSWORD");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(host, user, password);
+            connection = DriverManager.getConnection(host + "?serverTimezone=UTC", user, password);
             System.out.println("Connected to database!");
         } catch (Exception e) {
             System.out.println(e);

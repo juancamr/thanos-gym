@@ -35,14 +35,15 @@ public class VentanaPrincipal {
         sidebar.setLocation(0, 0);
 
         JPanel sidebarContent = new JPanel();
+        int margin = 40;
         sidebarContent.setBackground(new Color(250, 250, 250));
         sidebarContent.setLayout(null);
-        sidebarContent.setLocation(20, 20);
-        dashboardWidth -= 40;
-        sidebarContent.setSize(dashboardWidth, 690 - 40);
+        sidebarContent.setLocation(margin, margin);
+        dashboardWidth -= margin * 2;
+        sidebarContent.setSize(dashboardWidth, 690 - margin * 2);
 
         Typography title = new Typography.Builder()
-                .text("ThanosGym")
+                .text("Menu")
                 .type(Typography.Type.HEADING)
                 .position(0, 0)
                 .width(dashboardWidth)
@@ -81,16 +82,27 @@ public class VentanaPrincipal {
                 .build());
 
         for (int i = 0; i < buttons.size(); ++i) {
-            buttons.get(i).setPosition(0, 50 * (i + 1), dashboardWidth);
+            buttons.get(i).setPosition(0, 60 * (i + 2), dashboardWidth);
             sidebarContent.add(buttons.get(i));
         }
 
         Typography adminName = new Typography.Builder()
                 .text(UserPreferences.getData().getFullName())
                 .type(Typography.Type.SMALL)
-                .position(0, 690 - 60)
+                .position(0, 690 - margin * 2 - 20)
                 .width(dashboardWidth)
                 .build();
+
+        ButtonComponent myButton = new ButtonComponent.Builder()
+                .text("ThanosGym")
+                .type(ButtonComponent.Type.PRIMARY)
+                .position(0, 0)
+                .width(dashboardWidth)
+                .build();
+        myButton.setBorderPainted(false);
+        myButton.setText("Logout");
+        myButton.setBounds(0, 690 - margin * 3 - 40, dashboardWidth, 40);
+        sidebarContent.add(myButton);
 
         sidebarContent.add(title);
         sidebarContent.add(adminName);
