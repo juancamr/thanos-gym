@@ -17,8 +17,8 @@ public class RegisterPanel extends BasePanelForSessionWindow {
         Typography title = new Typography.Builder()
                 .text("Registrate")
                 .type(Typography.Type.HEADING)
-                .position(0, 0)
-                .width(contentWidth)
+                .position(60, 0)
+                .width(contentWidth/2)
                 .build();
 
         InputComponent names = new InputComponent.Builder()
@@ -31,52 +31,52 @@ public class RegisterPanel extends BasePanelForSessionWindow {
         InputComponent email = new InputComponent.Builder()
                 .label("Correo")
                 .position(0, pos[1])
-                .width(contentWidth)
+                .width(contentWidth/2-10)
                 .type(InputComponent.Type.TEXT)
                 .build();
 
         InputComponent phone = new InputComponent.Builder()
                 .label("Telefono")
-                .position(0, pos[2])
-                .width(contentWidth)
+                .position(contentWidth/2+10, pos[1])
+                .width(contentWidth/2-10)
                 .type(InputComponent.Type.TEXT)
                 .build();
 
         InputComponent username = new InputComponent.Builder()
                 .label("Nombre de usuario")
-                .position(0, pos[3])
+                .position(0, pos[2])
                 .width(contentWidth)
                 .type(InputComponent.Type.TEXT)
                 .build();
 
         InputComponent password = new InputComponent.Builder()
                 .label("Contraseña")
-                .position(0, pos[4])
+                .position(0, pos[3])
                 .width(contentWidth)
                 .type(InputComponent.Type.PASSWORD)
                 .build();
 
         InputComponent repeatedPassword = new InputComponent.Builder()
                 .label("Repetir contraseña")
-                .position(0, pos[5])
+                .position(0, pos[4])
                 .width(contentWidth)
                 .type(InputComponent.Type.PASSWORD)
                 .build();
 
         ChooserComponent chooser = new ChooserComponent.Builder()
                 .width(contentWidth)
-                .position(0, pos[6])
+                .position(0, pos[5])
                 .build();
 
         CheckBoxComponent checkbox = new CheckBoxComponent.Builder()
-                .text("Para ser administrador master")
-                .position(0, pos[7])
+                .text("Administrador master")
+                .position(0, pos[6])
                 .width(contentWidth)
                 .build();
 
         ButtonComponent button = new ButtonComponent.Builder()
                 .text("Registrarme")
-                .position(0, pos[8])
+                .position(0, pos[7])
                 .width(contentWidth)
                 .type(ButtonComponent.Type.PRIMARY)
                 .onClick(() -> {

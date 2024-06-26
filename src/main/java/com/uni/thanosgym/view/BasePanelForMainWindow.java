@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import com.uni.thanosgym.utils.FrameUtils;
 
 public abstract class BasePanelForMainWindow {
-    protected static JPanel panel;
+    protected JPanel panel;
     public static int windowWidth = 1060;
     public static int windowHeight = 690;
     public static int contentWidth = 840;

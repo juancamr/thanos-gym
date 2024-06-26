@@ -42,6 +42,8 @@ public class ChooserComponent extends JPanel {
                     }
                 })
                 .build();
+        button.setBackground(Color.BLACK);
+        button.setForeground(Color.WHITE);
 
         add(button);
         add(label);

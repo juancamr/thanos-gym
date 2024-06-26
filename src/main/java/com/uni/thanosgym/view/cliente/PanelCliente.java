@@ -9,8 +9,9 @@ public class PanelCliente extends BasePanelForMainWindow {
 
 	@Override
     protected Component[] build() {
+
         Typography title = new Typography.Builder()
-                .text("ThanosGym")
+                .text("Clientes")
                 .type(Typography.Type.HEADING)
                 .position(0, 0)
                 .width(contentWidth)

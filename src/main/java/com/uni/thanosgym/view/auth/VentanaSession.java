@@ -12,6 +12,8 @@ public class VentanaSession {
 
     public static JPanel content;
     public static JFrame window;
+    public static LoginPanel loginPanel = new LoginPanel();
+    public static RegisterPanel registerPanel = new RegisterPanel();
 
     private void build() {
         int width = 760;
@@ -34,7 +36,7 @@ public class VentanaSession {
         JPanel imagePanel = new RoundedPanel(40);
         imagePanel.setSize(width / 2 - 40, height - 40);
         imagePanel.setLocation(20, 20);
-        String imageUrl = "https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTA4L3JtNjg1ZGVzaWduLXRuLXJlbWl4LTAwMWMuanBn.jpg";
+        String imageUrl = "https://img.freepik.com/free-photo/3d-gym-equipment_23-2151114137.jpg";
         FrameUtils.renderImageFromWeb(imageUrl, imagePanel, 10);
 
         rightPanel.add(imagePanel);

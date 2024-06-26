@@ -1,5 +1,6 @@
 package com.uni.thanosgym.view.auth;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import com.uni.thanosgym.components.ButtonComponent;
@@ -35,7 +36,7 @@ public class LoginPanel extends BasePanelForSessionWindow {
                 .build();
 
         CheckBoxComponent checkbox = new CheckBoxComponent.Builder()
-                .text("Mantener sesión")
+                .text("Mantener sesión iniciada")
                 .position(0, 350)
                 .width(contentWidth)
                 .build();
@@ -52,13 +53,14 @@ public class LoginPanel extends BasePanelForSessionWindow {
 
         ButtonComponent buttonRegistrar = new ButtonComponent.Builder()
                 .text("No tengo una cuenta")
-                .position(0, 450)
+                .position(0, 440)
                 .width(contentWidth)
-                .type(ButtonComponent.Type.PRIMARY)
+                .type(ButtonComponent.Type.SMALL)
                 .onClick(() -> {
-                    new RegisterPanel().showPanel();
+                    VentanaSession.registerPanel.showPanel();
                 })
                 .build();
+        buttonRegistrar.setForeground(new Color(1, 71, 171));
 
         password.addOnEnterToPassword(() -> {
             SessionController.iniciarSesion(username.getInput(), password.getPasswordInput(), checkbox);

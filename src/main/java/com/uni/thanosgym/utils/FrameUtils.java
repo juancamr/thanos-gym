@@ -2,6 +2,9 @@ package com.uni.thanosgym.utils;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -14,7 +17,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -244,24 +246,47 @@ public class FrameUtils {
             URL url = new URL(imageUrl);
             BufferedImage originalImage = ImageIO.read(url);
 
-            // Crop the image to its center
-            int width = originalImage.getWidth();
-            int height = originalImage.getHeight();
-            int newWidth = Math.min(width, height);
-            int newHeight = newWidth;
+            // Obtener las dimensiones del panel
+            int panelWidth = panel.getWidth();
+            int panelHeight = panel.getHeight();
 
-            int x = (width - newWidth) / 2;
-            int y = (height - newHeight) / 2;
+            // Calcular las proporciones de escalado
+            float panelAspect = (float) panelWidth / panelHeight;
+            float imageAspect = (float) originalImage.getWidth() / originalImage.getHeight();
 
-            BufferedImage croppedImage = originalImage.getSubimage(x, y, newWidth, newHeight);
+            int newWidth, newHeight;
+            if (panelAspect > imageAspect) {
+                // El panel es más ancho en relación a su altura que la imagen
+                newWidth = panelWidth;
+                newHeight = (int) (panelWidth / imageAspect);
+            } else {
+                // El panel es más alto en relación a su ancho que la imagen
+                newWidth = (int) (panelHeight * imageAspect);
+                newHeight = panelHeight;
+            }
 
-            // Create an ImageIcon from the cropped image
+            // Escalar la imagen manteniendo la proporción
+            Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+
+            // Convertir la imagen escalada a BufferedImage
+            BufferedImage bufferedScaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = bufferedScaledImage.createGraphics();
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2d.drawImage(scaledImage, 0, 0, null);
+            g2d.dispose();
+
+            // Recortar la imagen para que coincida con las dimensiones del panel
+            int x = (newWidth - panelWidth) / 2;
+            int y = (newHeight - panelHeight) / 2;
+            BufferedImage croppedImage = bufferedScaledImage.getSubimage(x, y, panelWidth, panelHeight);
+
+            // Crear un ImageIcon desde la imagen recortada
             ImageIcon imageIcon = new ImageIcon(croppedImage);
 
-            // Create a custom JLabel
+            // Crear un JLabel personalizado
             RoundedLabel imageLabel = new RoundedLabel(imageIcon, borderRadius);
 
-            // Add the label to the panel
+            // Añadir el JLabel al panel
             panel.setLayout(new BorderLayout());
             panel.add(imageLabel, BorderLayout.CENTER);
         } catch (MalformedURLException e) {

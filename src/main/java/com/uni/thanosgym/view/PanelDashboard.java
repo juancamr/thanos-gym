@@ -8,6 +8,7 @@ public class PanelDashboard extends BasePanelForMainWindow {
 
     @Override
     protected Component[] build() {
+
         Typography title = new Typography.Builder()
                 .text("Dashboard")
                 .type(Typography.Type.HEADING)
@@ -15,7 +16,6 @@ public class PanelDashboard extends BasePanelForMainWindow {
                 .width(contentWidth)
                 .build();
 
-        
         return new Component[] {
             title
         };

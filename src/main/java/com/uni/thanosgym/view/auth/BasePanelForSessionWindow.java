@@ -20,7 +20,6 @@ public abstract class BasePanelForSessionWindow {
 
     public void showPanel() {
         if (panel == null) {
-            System.out.println("it was null");
             panel = new JPanel();
             panel.setLayout(null);
             panel.setBackground(Color.WHITE);

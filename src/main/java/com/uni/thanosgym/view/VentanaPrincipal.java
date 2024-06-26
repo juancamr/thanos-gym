@@ -9,18 +9,32 @@ import javax.swing.JPanel;
 
 import com.uni.thanosgym.components.ButtonComponent;
 import com.uni.thanosgym.components.Typography;
+import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
-import com.uni.thanosgym.utils.UserPreferences;
+import com.uni.thanosgym.view.cliente.PanelCliente;
 
 public class VentanaPrincipal {
 
     public static JFrame window;
     public static JPanel content;
+    public static Color sidebarBackground = new Color(250, 250, 250);
+    private static Color selectedBackground = new Color(240, 240, 240);
+
+    public static PanelDashboard panelDashboard = new PanelDashboard();
+    public static PanelPlan panelPlan = new PanelPlan();
+    public static PanelCliente panelCliente = new PanelCliente();
+    public static PanelVenta panelVenta = new PanelVenta();
+
+    private void removeSelected(List<ButtonComponent> buttons) {
+        for (ButtonComponent button : buttons) {
+            button.setBackground(sidebarBackground);
+        }
+    }
 
     private void build() {
         FrameUtils.setupWindow(window, 1060, 690);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        int dashboardWidth = 1060 - 840;
+        int sidebarWidth = 1060 - 840;
 
         content = new JPanel();
         content.setLayout(null);
@@ -29,83 +43,86 @@ public class VentanaPrincipal {
         content.setLocation(1060 - 840, 0);
 
         JPanel sidebar = new JPanel();
-        sidebar.setBackground(new Color(250, 250, 250));
+        sidebar.setBackground(sidebarBackground);
         sidebar.setLayout(null);
-        sidebar.setSize(dashboardWidth, 690);
+        sidebar.setSize(sidebarWidth, 690);
         sidebar.setLocation(0, 0);
 
         JPanel sidebarContent = new JPanel();
-        int margin = 40;
-        sidebarContent.setBackground(new Color(250, 250, 250));
+        int margin = 20;
+        sidebarContent.setBackground(sidebarBackground);
         sidebarContent.setLayout(null);
         sidebarContent.setLocation(margin, margin);
-        dashboardWidth -= margin * 2;
-        sidebarContent.setSize(dashboardWidth, 690 - margin * 2);
+        sidebarWidth -= margin * 2;
+        int sidebarHeight = 690 - margin * 2;
+        sidebarContent.setSize(sidebarWidth, 690 - margin * 2);
 
         Typography title = new Typography.Builder()
                 .text("Menu")
                 .type(Typography.Type.HEADING)
-                .position(0, 0)
-                .width(dashboardWidth)
+                .position(margin, margin)
+                .width(sidebarWidth)
                 .build();
         List<ButtonComponent> buttons = new ArrayList<>();
 
         buttons.add(new ButtonComponent.Builder()
-                .text("Primero")
-                .type(ButtonComponent.Type.PRIMARY)
+                .text("Dashboard")
+                .type(ButtonComponent.Type.MENU)
                 .onClick(() -> {
-                    new PanelPlan().showPanel();
+                    panelDashboard.showPanel();
                 })
                 .build());
 
         buttons.add(new ButtonComponent.Builder()
-                .text("Segundo")
-                .type(ButtonComponent.Type.PRIMARY)
+                .text("Planes")
+                .type(ButtonComponent.Type.MENU)
                 .onClick(() -> {
+                    panelPlan.showPanel();
                 })
                 .build());
 
         buttons.add(new ButtonComponent.Builder()
-                .text("Tercero")
-                .type(ButtonComponent.Type.PRIMARY)
+                .text("Clientes")
+                .type(ButtonComponent.Type.MENU)
                 .onClick(() -> {
-                    System.out.println("pressing tercero");
+                    panelCliente.showPanel();
                 })
                 .build());
 
         buttons.add(new ButtonComponent.Builder()
-                .text("Cuarto")
-                .type(ButtonComponent.Type.PRIMARY)
+                .text("Ventas")
+                .type(ButtonComponent.Type.MENU)
                 .onClick(() -> {
-                    System.out.println("pressing cuarto");
+                    panelVenta.showPanel();
                 })
                 .build());
 
         for (int i = 0; i < buttons.size(); ++i) {
-            buttons.get(i).setPosition(0, 60 * (i + 2), dashboardWidth);
+            ButtonComponent button = buttons.get(i);
+            button.setPosition(0, 60 * (i + 2), sidebarWidth);
+
+            button.addOnClickEvent(() -> {
+                removeSelected(buttons);
+                button.setBackground(selectedBackground);
+            });
+
             sidebarContent.add(buttons.get(i));
         }
+        buttons.get(0).setBackground(selectedBackground);
 
-        Typography adminName = new Typography.Builder()
-                .text(UserPreferences.getData().getFullName())
-                .type(Typography.Type.SMALL)
-                .position(0, 690 - margin * 2 - 20)
-                .width(dashboardWidth)
+        ButtonComponent logout = new ButtonComponent.Builder()
+                .text("Logout")
+                .type(ButtonComponent.Type.MENU)
+                .position(0, sidebarHeight - 50)
+                .width(sidebarWidth)
+                .onClick(() -> {
+                    Auth.logOut();
+                })
                 .build();
-
-        ButtonComponent myButton = new ButtonComponent.Builder()
-                .text("ThanosGym")
-                .type(ButtonComponent.Type.PRIMARY)
-                .position(0, 0)
-                .width(dashboardWidth)
-                .build();
-        myButton.setBorderPainted(false);
-        myButton.setText("Logout");
-        myButton.setBounds(0, 690 - margin * 3 - 40, dashboardWidth, 40);
-        sidebarContent.add(myButton);
+        logout.setForeground(Color.RED);
 
         sidebarContent.add(title);
-        sidebarContent.add(adminName);
+        sidebarContent.add(logout);
 
         sidebar.add(sidebarContent);
         window.add(sidebar);
@@ -119,4 +136,4 @@ public class VentanaPrincipal {
         }
         return window;
     }
-}
+};
