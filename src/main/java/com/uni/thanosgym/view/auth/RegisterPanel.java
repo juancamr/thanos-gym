@@ -80,7 +80,7 @@ public class RegisterPanel extends BasePanelForSessionWindow {
                 .width(contentWidth)
                 .type(ButtonComponent.Type.PRIMARY)
                 .onClick(() -> {
-                    SessionController.registrar(names.getInput(), username.getInput(), password.getPasswordInput(),
+                    SessionController.registrarAction(names.getInput(), username.getInput(), password.getPasswordInput(),
                             repeatedPassword.getPasswordInput(), email.getInput(), phone.getInput(), checkbox,
                             chooser);
                 })

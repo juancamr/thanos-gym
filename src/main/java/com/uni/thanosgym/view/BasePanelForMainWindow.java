@@ -11,18 +11,18 @@ import com.uni.thanosgym.utils.FrameUtils;
 public abstract class BasePanelForMainWindow {
     protected JPanel panel;
     public static int windowWidth = 1060;
-    public static int windowHeight = 690;
-    public static int contentWidth = 840;
+    public static int margin = 40;
+    public static int windowHeight = 690 - margin * 2;
+    public static int contentWidth = 840 - margin * 2;
 
     protected abstract Component[] build();
 
     public void showPanel() {
-        int margin = 40;
         if (panel == null) {
             panel = new JPanel();
             panel.setLayout(null);
             panel.setBackground(Color.WHITE);
-            panel.setSize(contentWidth - margin * 2, windowHeight - margin * 2);
+            panel.setSize(contentWidth, windowHeight);
             panel.setLocation(margin, margin);
             Component[] components = build();
             for (Component component : components) {

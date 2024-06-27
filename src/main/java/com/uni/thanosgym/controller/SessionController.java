@@ -39,7 +39,7 @@ public class SessionController {
         Auth.signIn(administrador);
     }
 
-    public static void registrar(JTextField nombres, JTextField userName, JPasswordField passwordInput,
+    public static void registrarAction(JTextField nombres, JTextField userName, JPasswordField passwordInput,
             JPasswordField repeatedPasswordInput, JTextField emailInput, JTextField phoneInput,
             CheckBoxComponent checkbox,
             ChooserComponent chooser) {
@@ -93,7 +93,7 @@ public class SessionController {
             admin.setPhone(phone);
         }
         if (CRUDAdministrador.getInstance().getQuantity() == 0) {
-            registrar2(admin, new Admin.Builder().build(), chooser, fields);
+            registrar(admin, new Admin.Builder().build(), chooser, fields);
             return;
         }
 
@@ -133,7 +133,7 @@ public class SessionController {
                     .setUsername(usernameTextMaster)
                     .setPassword(StringUtils.sha256(passwordTextMaster))
                     .build();
-            registrar2(admin, adminMaster, chooser, fields);
+            registrar(admin, adminMaster, chooser, fields);
         });
 
         panel.add(usernameInputMaster);
@@ -143,7 +143,7 @@ public class SessionController {
         frame.setVisible(true);
     }
 
-    public static void registrar2(Admin admin, Admin adminMaster, ChooserComponent chooser, JTextField fields[]) {
+    public static void registrar(Admin admin, Admin adminMaster, ChooserComponent chooser, JTextField fields[]) {
         if (chooser.getSelected() != null) {
             Uploader.UploaderResponse resUploader = Uploader.uploadImage(chooser.getSelected());
             if (!resUploader.isSuccess()) {

@@ -69,6 +69,10 @@ public class InputComponent extends JPanel {
         return password;
     }
 
+    public void setContent(String content) {
+        input.setText(content);
+    }
+
     public String getContent() {
         if (type == Type.TEXT) {
             return input.getText();

@@ -62,7 +62,7 @@ public class ButtonComponent extends JButton {
     public void setDataFromType(Type type) {
         switch (type) {
             case PRIMARY:
-                backgroundColor = new Color(229, 190, 1);
+                backgroundColor = Theme.colors.primary;
                 foreground = Color.BLACK;
                 break;
             case SECONDARY:

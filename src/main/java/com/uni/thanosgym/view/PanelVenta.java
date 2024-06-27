@@ -10,7 +10,7 @@ public class PanelVenta extends BasePanelForMainWindow {
     protected Component[] build() {
 
         Typography title = new Typography.Builder()
-                .text("Dashboard")
+                .text("Ventas")
                 .type(Typography.Type.HEADING)
                 .position(0, 0)
                 .width(contentWidth)
