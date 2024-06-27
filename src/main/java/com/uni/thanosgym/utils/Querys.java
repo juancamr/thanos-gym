@@ -85,9 +85,17 @@ public class Querys {
     public class utility {
 
         public static String create = generateCreateQuery(Utility.tableName,
-                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField });
+                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField, Utility.proveedorIdField });
         public static String update = generateUpdateQuery(Utility.tableName,
                 new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField });
+    }
+
+    public class proveedor {
+
+        public static String create = generateCreateQuery(Proveedor.tableName,
+                new String[] { Proveedor.nombreField, Proveedor.rucField, Proveedor.phoneField, Proveedor.addressField });
+        public static String update = generateUpdateQuery(Proveedor.tableName,
+                new String[] { Proveedor.nombreField, Proveedor.rucField, Proveedor.phoneField, Proveedor.addressField, Proveedor.isVisibleField });
     }
 
     public class asistencia {
