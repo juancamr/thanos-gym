@@ -20,8 +20,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import com.uni.thanosgym.model.Response;
-import com.uni.thanosgym.view.MainWindow;
-import com.uni.thanosgym.view.WindowSession;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -70,36 +68,6 @@ public class FrameUtils {
     public static void clearInputs(JTextField input) {
         input.setText("");
         input.requestFocus();
-    }
-
-    /**
-     * Show panel at the right of the main window
-     *
-     * @param vista Main window 1060 x 690
-     * @param panel Panel to show in the window
-     */
-    public static void showPanel(MainWindow vista, JPanel panel) {
-        panel.setSize(840, 690);
-        panel.setLocation(0, 0);
-        vista.content.removeAll();
-        vista.content.add(panel, BorderLayout.CENTER);
-        vista.content.revalidate();
-        vista.content.repaint();
-    }
-
-    /**
-     * Show panel at the right of the session window 760 x 690
-     *
-     * @param vista Session window
-     * @param panel Panel to show in the window
-     */
-    public static void showPanel(WindowSession vista, JPanel panel) {
-        panel.setSize(380, 690);
-        panel.setLocation(0, 0);
-        vista.content.removeAll();
-        vista.content.add(panel, BorderLayout.CENTER);
-        vista.content.revalidate();
-        vista.content.repaint();
     }
 
     /**

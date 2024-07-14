@@ -1,8 +1,7 @@
 package com.uni.thanosgym.utils;
 
-import com.uni.thanosgym.controller.ControladorSession;
+import com.uni.thanosgym.config.Router;
 import com.uni.thanosgym.dao.CRUDAdministrador;
-import com.uni.thanosgym.controller.ControladorMainWindow;
 import com.uni.thanosgym.model.Admin;
 import com.uni.thanosgym.model.Response;
 
@@ -14,26 +13,25 @@ public class Auth {
         Response<Admin> response = CRUDAdministrador.getInstance().getById(admin.getId());
         if (adminPersistence && response.isSuccess()) {
             return true;
-        } 
+        }
         return false;
     }
 
     public static void signIn(Admin admin) {
         UserPreferences.setData(admin);
-        ControladorMainWindow.initMainWindow();
+        Router.getInstance().go("dashboard");
     }
 
     public static void logOut() {
         UserPreferences.clearData();
-        FrameUtils.showWindow(ControladorSession.getWindow(), "Iniciar sesion");
-        ControladorSession.showLoginPanel();
+        Router.getInstance().go("auth/login");
     }
 
     public static void verifySession() {
         if (Auth.isAdminLoggedIn()) {
-            ControladorMainWindow.initMainWindow();
+            Router.getInstance().go("dashboard");
         } else {
-            ControladorSession.initWindow();
+            Router.getInstance().go("auth/login");
         }
     }
 

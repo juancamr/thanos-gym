@@ -85,16 +85,29 @@ create table if not exists detalle_boleta (
     FOREIGN KEY (producto_id) REFERENCES producto(producto_id)
 ) Engine=InnoDB;
 
+CREATE TABLE if not exists proveedor (
+    proveedor_id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL,
+    ruc VARCHAR(20) NOT NULL,
+    phone VARCHAR(20),
+    address VARCHAR(255),
+    is_visible boolean NOT NULL default true,
+    created_at DATETIME NOT NULL default current_timestamp,
+    PRIMARY KEY (proveedor_id)
+) Engine=InnoDB;
+
 CREATE TABLE if not exists utility (
     utility_id INT NOT NULL AUTO_INCREMENT,
     admin_id INT NOT NULL,
+    proveedor_id INT NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     peso DECIMAL(10,2) NOT NULL,
     cantidad INT NOT NULL,
     photo_url VARCHAR(255),
     created_at DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (utility_id),
-    FOREIGN key (admin_id) REFERENCES admin(admin_id)
+    FOREIGN key (admin_id) REFERENCES admin(admin_id),
+    FOREIGN key (proveedor_id) REFERENCES proveedor(proveedor_id)
 ) Engine=InnoDB;
 
 create table if not exists asistencia (
