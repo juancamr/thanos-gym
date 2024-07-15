@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.uni.thanosgym.routes.auth;
+package com.uni.thanosgym.view.routes.auth;
 
 import java.awt.event.KeyEvent;
 
@@ -12,7 +12,7 @@ import com.uni.thanosgym.config.Route;
  *
  * @author jcmro
  */
-@Route("auth/login")
+@Route("auth:auth/login")
 public class PanelLogin extends javax.swing.JPanel {
 
     /**

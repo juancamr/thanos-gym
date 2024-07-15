@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.uni.thanosgym.routes;
+package com.uni.thanosgym.view.routes;
 
 import com.uni.thanosgym.config.Route;
 
@@ -10,7 +10,7 @@ import com.uni.thanosgym.config.Route;
  *
  * @author juancamr
  */
-@Route("dashboard")
+@Route("main:dashboard")
 public class PanelDashboard extends javax.swing.JPanel {
 
     /**

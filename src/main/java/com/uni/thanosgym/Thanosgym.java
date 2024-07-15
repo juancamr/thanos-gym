@@ -8,9 +8,11 @@ public class Thanosgym {
 
     public static void main(String[] args) {
         int dimensions[] = {1060, 690};
-        String packageRoute = "com.uni.thanosgym.routes";
+        String packageRoute = "com.uni.thanosgym.view.routes";
+        String packageLayouts = "com.uni.thanosgym.view.layouts";
 
-        Router.getInstance().init(dimensions, packageRoute);
+        Router.getInstance().init(dimensions, packageRoute, packageLayouts);
+        Router.getInstance().go("auth/login");
         DbConnection.connectToDatabase();
         Auth.verifySession();
     }

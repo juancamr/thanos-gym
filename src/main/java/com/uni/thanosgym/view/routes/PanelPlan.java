@@ -1,4 +1,4 @@
-package com.uni.thanosgym.routes;
+package com.uni.thanosgym.view.routes;
 
 import com.uni.thanosgym.config.Route;
 
