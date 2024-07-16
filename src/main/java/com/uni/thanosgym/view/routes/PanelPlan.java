@@ -2,7 +2,7 @@ package com.uni.thanosgym.view.routes;
 
 import com.juancamr.route.Route;
 
-@Route("plan")
+@Route("main:plan")
 public class PanelPlan extends javax.swing.JPanel {
 
     /**

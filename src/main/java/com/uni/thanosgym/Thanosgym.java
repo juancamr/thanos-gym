@@ -13,7 +13,6 @@ public class Thanosgym {
         String packageLayouts = "com.uni.thanosgym.view.layouts";
 
         Router.getInstance().init(dimensions, packageRoute, packageLayouts);
-        Router.getInstance().go("auth/login");
         DbConnection.connectToDatabase();
         Auth.verifySession();
     }

@@ -10,7 +10,7 @@ import com.uni.thanosgym.model.Producto;
  *
  * @author juancamr
  */
-@Route("producto")
+@Route("main:producto")
 public class PanelProducto extends javax.swing.JPanel {
 
     /**

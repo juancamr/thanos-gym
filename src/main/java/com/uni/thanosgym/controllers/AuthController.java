@@ -68,13 +68,12 @@ public class AuthController {
             return false;
         }
 
-        password = StringUtils.sha256(password);
         Admin admin = new Admin.Builder()
                 .setFullName(nombres)
                 .setEmail(email)
                 .setPhone(phone)
                 .setUsername(username)
-                .setPassword(password)
+                .setPassword(StringUtils.sha256(password))
                 .setRol(isForMaster ? Admin.Rol.MASTER : Admin.Rol.EMPLEADO)
                 .build();
         if (!phone.isEmpty()) {
@@ -93,6 +92,10 @@ public class AuthController {
         Admin adminMaster = null;
         if (CRUDAdministrador.getInstance().getQuantity() != 0) {
             Map<String, Object> respuesta = RoutingUtils.openDialog(new VerificacionMaster());
+            if (respuesta == null) {
+                Messages.show("Es necesario que ingrese el usuario y contraseña del administrador master");
+                return false;
+            }
             String usernameMaster = (String) respuesta.get("username");
             String passwordMaster = (String) respuesta.get("password");
             if (usernameMaster.isEmpty() || passwordMaster.isEmpty()) {
@@ -100,9 +103,9 @@ public class AuthController {
                 return false;
             }
             adminMaster = new Admin.Builder()
-                .setUsername(usernameMaster)
-                .setPassword(passwordMaster)
-                .build();
+                    .setUsername(usernameMaster)
+                    .setPassword(StringUtils.sha256(passwordMaster))
+                    .build();
         }
         Response<Admin> response = CRUDAdministrador.getInstance()
                 .create(admin, adminMaster);

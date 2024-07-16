@@ -34,6 +34,7 @@ public class PanelRegister extends javax.swing.JPanel {
         initComponents();
         FrameUtils.addOnClickEvent(jbtnUploadImagen, this::chooseImageEvent);
         FrameUtils.addOnClickEvent(jbtnRegistro, this::registerEvent);
+        FrameUtils.addEnterEvent(jtxtRepeatPassword, this::registerEvent);
         FrameUtils.addOnClickEvent(jbtnInicioSesion, () -> {
             Router.getInstance().go("auth/login");
         });

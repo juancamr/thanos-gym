@@ -12,7 +12,7 @@ import com.uni.thanosgym.model.Utility;
  * @author juancamr
  */
 
-@Route("utilidad")
+@Route("main:utilidad")
 public class PanelUtilidad extends javax.swing.JPanel {
 
     /**

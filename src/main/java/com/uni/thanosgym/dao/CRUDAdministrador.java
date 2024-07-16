@@ -29,6 +29,7 @@ public class CRUDAdministrador extends BaseCrud<Admin> {
     public Response<Admin> create(Admin admin, Admin masterAdmin) {
         int quantity = getQuantity();
         if (quantity != 0) {
+            System.out.println("verificando administrador");
             Response<Admin> res = verify(masterAdmin.getUsername(), masterAdmin.getPassword(), true);
             if (!res.isSuccess()) {
                 return new Response<>(false,
