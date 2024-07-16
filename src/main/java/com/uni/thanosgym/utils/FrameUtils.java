@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,14 +19,14 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.juancamr.route.DialogPanel;
+import com.juancamr.route.Router;
 import com.uni.thanosgym.model.Response;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
+import javax.swing.text.JTextComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.imageio.ImageIO;
 
 /**
  * Utility class for JFrame and JPanel
@@ -53,8 +53,8 @@ public class FrameUtils {
      *
      * @param inputs An array of text fields to be cleared.
      */
-    public static void clearInputs(JTextField[] inputs) {
-        for (JTextField input : inputs) {
+    public static void clearInputs(JTextComponent[] inputs) {
+        for (JTextComponent input : inputs) {
             input.setText("");
         }
         inputs[0].requestFocus();

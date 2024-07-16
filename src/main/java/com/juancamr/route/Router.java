@@ -1,4 +1,4 @@
-package com.uni.thanosgym.config;
+package com.juancamr.route;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class Router {
 
     private Map<String, ArrayList<Class<? extends JPanel>>> anidados = new HashMap<>();
 
-    private JFrame window = new JFrame();
+    private JFrame window;
     private static Router router;
 
     private LayoutPanel currentLayout;
@@ -137,5 +137,9 @@ public class Router {
         JPanel panel = routeComponents.get("panel");
         JPanel panelLayout = routeComponents.get("layout");
         return new JPanel[] { panel, panelLayout };
+    }
+
+    public JFrame getMainWindow() {
+        return window;
     }
 }

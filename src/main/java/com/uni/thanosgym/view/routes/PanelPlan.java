@@ -1,6 +1,6 @@
 package com.uni.thanosgym.view.routes;
 
-import com.uni.thanosgym.config.Route;
+import com.juancamr.route.Route;
 
 @Route("plan")
 public class PanelPlan extends javax.swing.JPanel {

@@ -1,4 +1,4 @@
-package com.uni.thanosgym.common;
+package com.uni.thanosgym.config;
 
 import java.awt.Color;
 import java.awt.Font;

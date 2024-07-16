@@ -6,7 +6,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JTextField;
 
-import com.uni.thanosgym.common.Theme;
+import com.uni.thanosgym.config.Theme;
 
 public class RoundJTextField extends JTextField {
     private Shape shape;

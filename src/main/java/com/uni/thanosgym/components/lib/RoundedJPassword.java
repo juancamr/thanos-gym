@@ -7,7 +7,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JPasswordField;
 
-import com.uni.thanosgym.common.Theme;
+import com.uni.thanosgym.config.Theme;
 
 public class RoundedJPassword extends JPasswordField {
     private Shape shape;

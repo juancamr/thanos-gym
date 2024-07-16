@@ -1,4 +1,4 @@
-package com.uni.thanosgym.config;
+package com.juancamr.route;
 
 import javax.swing.JPanel;
 

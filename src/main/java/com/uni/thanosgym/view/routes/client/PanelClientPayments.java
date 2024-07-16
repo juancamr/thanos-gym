@@ -1,6 +1,6 @@
 package com.uni.thanosgym.view.routes.client;
 
-import com.uni.thanosgym.config.Route;
+import com.juancamr.route.Route;
 
 /**
  *

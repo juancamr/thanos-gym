@@ -1,6 +1,6 @@
 package com.uni.thanosgym.utils;
 
-import com.uni.thanosgym.config.Router;
+import com.juancamr.route.Router;
 import com.uni.thanosgym.dao.CRUDAdministrador;
 import com.uni.thanosgym.model.Admin;
 import com.uni.thanosgym.model.Response;
@@ -11,10 +11,7 @@ public class Auth {
         Admin admin = UserPreferences.getData();
         boolean adminPersistence = admin.isSesionPersistence();
         Response<Admin> response = CRUDAdministrador.getInstance().getById(admin.getId());
-        if (adminPersistence && response.isSuccess()) {
-            return true;
-        }
-        return false;
+        return adminPersistence && response.isSuccess();
     }
 
     public static void signIn(Admin admin) {

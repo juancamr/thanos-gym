@@ -2,7 +2,7 @@ package com.uni.thanosgym.components;
 
 import java.awt.Font;
 import javax.swing.JLabel;
-import com.uni.thanosgym.common.Theme;
+import com.uni.thanosgym.config.Theme;
 
 public class Typography extends JLabel {
     public static int headerHeight = 28;

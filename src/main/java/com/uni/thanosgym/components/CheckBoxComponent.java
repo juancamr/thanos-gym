@@ -5,7 +5,7 @@ import java.awt.Font;
 
 import javax.swing.JCheckBox;
 
-import com.uni.thanosgym.common.Theme;
+import com.uni.thanosgym.config.Theme;
 
 public class CheckBoxComponent extends JCheckBox {
     public static int height = 20;

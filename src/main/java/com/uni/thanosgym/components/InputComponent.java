@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import com.uni.thanosgym.common.Theme;
+import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.components.lib.RoundedPanel;
 import com.uni.thanosgym.utils.FrameUtils;
 

@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JButton;
 
-import com.uni.thanosgym.common.Theme;
+import com.uni.thanosgym.config.Theme;
 
 public class ButtonComponent extends JButton {
 

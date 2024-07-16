@@ -4,8 +4,8 @@
  */
 package com.uni.thanosgym.view.layouts;
 
-import com.uni.thanosgym.config.Layout;
-import com.uni.thanosgym.config.LayoutPanel;
+import com.juancamr.route.Layout;
+import com.juancamr.route.LayoutPanel;
 
 /**
  *
