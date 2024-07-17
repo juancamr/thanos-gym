@@ -421,6 +421,19 @@
             </Component>
           </SubComponents>
         </Container>
+        <Component class="com.juancamr.components.ButtonComponent" name="buttonComponent1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="buttonComponent1"/>
+            <Property name="type" type="com.juancamr.components.ButtonComponent$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
+              <Value id="SMALL"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="580" y="120" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
       </SubComponents>
     </Container>
   </SubComponents>

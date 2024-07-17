@@ -35,7 +35,6 @@ public class Router {
     public void init(int dimensions[], String packageRoute, String packageLayout) {
         int width = dimensions[0];
         int height = dimensions[1];
-        System.out.println("Inicializando la ventana principal...");
         window = new JFrame();
         window.setResizable(false);
         window.setSize(width, height);
@@ -43,8 +42,6 @@ public class Router {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLayout(new BorderLayout());
 
-        // init layout classes
-        System.out.println("Inicializando layouts...");
         Reflections reflections2 = new Reflections(packageLayout, new SubTypesScanner(false));
         Set<Class<? extends LayoutPanel>> subTypes2 = reflections2.getSubTypesOf(LayoutPanel.class);
         if (subTypes2.isEmpty()) {
@@ -56,8 +53,6 @@ public class Router {
             layoutsClasses.put(path, clazz);
         }
 
-        // init route classes
-        System.out.println("Inicializando rutas...");
         Reflections reflections = new Reflections(packageRoute, new SubTypesScanner(false));
         Set<Class<? extends JPanel>> subTypes = reflections.getSubTypesOf(JPanel.class);
         if (subTypes.isEmpty()) {

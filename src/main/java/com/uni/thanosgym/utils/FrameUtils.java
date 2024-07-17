@@ -1,6 +1,5 @@
 package com.uni.thanosgym.utils;
 
-import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +9,6 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,8 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import com.juancamr.route.DialogPanel;
-import com.juancamr.route.Router;
 import com.uni.thanosgym.model.Response;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;

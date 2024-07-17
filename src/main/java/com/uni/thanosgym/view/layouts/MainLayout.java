@@ -39,49 +39,22 @@ public class MainLayout extends LayoutPanel {
         String userExample = "https://cdn-icons-png.flaticon.com/512/219/219970.png";
         FrameUtils.renderImageFromWeb(userExample, photoAdmin);
         jlblNombreAdmin.setText(UserPreferences.getData().getFullName());
-        
-        jbtnPrimero.setText("    Dashboard");
-        jbtnPrimero.setFont(fontButtonMenu);
+        JButton[] buttons = new JButton[]{jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto};
+        String[] labels = {"Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades"};
+        String[] routes = {"dashboard", "plan", "client", "producto", "venta", "utilidad"};
+
+        for (int i = 0; i < buttons.length; i++) {
+            JButton button = buttons[i];
+            button.setText("    " + labels[i]);
+            button.setFont(fontButtonMenu);
+            button.setBackground(baseColor);
+            int finalI = i;
+            FrameUtils.addOnClickEvent(button, () -> {
+                setFocusButton(button);
+                Router.getInstance().go(routes[finalI]);
+            });
+        }
         jbtnPrimero.setBackground(focusColor);
-
-        jbtnSegundo.setText("    Plan");
-        jbtnSegundo.setFont(fontButtonMenu);
-        jbtnSegundo.setBackground(baseColor);
-
-        jbtnTercero.setText("    Clientes");
-        jbtnTercero.setFont(fontButtonMenu);
-        jbtnTercero.setBackground(baseColor);
-
-        jbtnCuarto.setText("    Producto");
-        jbtnCuarto.setFont(fontButtonMenu);
-        jbtnCuarto.setBackground(baseColor);
-
-        jbtnQuinto.setText("    Utilidad");
-        jbtnQuinto.setFont(fontButtonMenu);
-        jbtnQuinto.setBackground(baseColor);
-
-        jbtnSexto.setBackground(baseColor);
-
-        FrameUtils.addOnClickEvent(jbtnPrimero, () -> {
-            setFocusButton(jbtnPrimero);
-            Router.getInstance().go("dashboard");
-        });
-        FrameUtils.addOnClickEvent(jbtnSegundo, () -> {
-            setFocusButton(jbtnSegundo);
-            Router.getInstance().go("plan");
-        });
-        FrameUtils.addOnClickEvent(jbtnTercero, () -> {
-            Router.getInstance().go("client");
-            setFocusButton(jbtnTercero);
-        });
-        FrameUtils.addOnClickEvent(jbtnCuarto, () -> {
-            Router.getInstance().go("producto");
-            setFocusButton(jbtnCuarto);
-        });
-        FrameUtils.addOnClickEvent(jbtnQuinto, () -> {
-            Router.getInstance().go("utilidad");
-            setFocusButton(jbtnQuinto);
-        });
     }
 
     private void quitarFondosBotones(JButton[] botones) {

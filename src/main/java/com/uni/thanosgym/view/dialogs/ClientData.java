@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.uni.thanosgym.view.layouts;
+package com.uni.thanosgym.view.dialogs;
 
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;

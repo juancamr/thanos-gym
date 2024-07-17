@@ -92,6 +92,12 @@
             <artifactId>reflections</artifactId>
             <version>0.9.12</version>
         </dependency>
+        <!-- quickchart -->
+        <dependency>
+            <groupId>io.quickchart</groupId>
+            <artifactId>QuickChart</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
     <build>
         <!-- cofiguration for generate executable jar -->

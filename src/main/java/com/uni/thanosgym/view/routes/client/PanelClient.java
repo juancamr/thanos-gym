@@ -52,6 +52,7 @@ public class PanelClient extends javax.swing.JPanel {
         jcbxPlanRegistro = new javax.swing.JComboBox<>();
         jblLoading = new javax.swing.JLabel();
         jbtnCancelar = new javax.swing.JButton();
+        buttonComponent1 = new com.juancamr.components.ButtonComponent();
 
         setPreferredSize(new java.awt.Dimension(840, 690));
 
@@ -193,6 +194,10 @@ public class PanelClient extends javax.swing.JPanel {
 
         jpnlInterfaz.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 790));
 
+        buttonComponent1.setText("buttonComponent1");
+        buttonComponent1.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jpnlInterfaz.add(buttonComponent1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 120, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,6 +244,7 @@ public class PanelClient extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.juancamr.components.ButtonComponent buttonComponent1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel18;
