@@ -1,4 +1,4 @@
-package com.uni.thanosgym.components;
+package com.juancamr.components;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -10,7 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import com.uni.thanosgym.config.Theme;
-import com.uni.thanosgym.components.lib.RoundedPanel;
+import com.juancamr.components.lib.RoundedPanel;
 import com.uni.thanosgym.utils.FrameUtils;
 
 public class InputComponent extends JPanel {

@@ -1,4 +1,4 @@
-package com.uni.thanosgym.components;
+package com.juancamr.components;
 
 import java.awt.Color;
 import java.awt.Font;

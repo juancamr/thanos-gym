@@ -1,4 +1,4 @@
-package com.uni.thanosgym.components.lib;
+package com.juancamr.components.lib;
 
 import javax.swing.*;
 import java.awt.*;

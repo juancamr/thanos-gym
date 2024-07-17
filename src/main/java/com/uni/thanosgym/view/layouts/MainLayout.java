@@ -4,6 +4,11 @@
  */
 package com.uni.thanosgym.view.layouts;
 
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.JButton;
+
 import com.juancamr.route.Layout;
 import com.juancamr.route.LayoutPanel;
 import com.juancamr.route.Router;
@@ -17,31 +22,64 @@ import com.uni.thanosgym.utils.FrameUtils;
 @Layout("main")
 public class MainLayout extends LayoutPanel {
 
+    static Color base = new Color(250, 250, 250);
+    static Color focus = new Color(245, 245, 245);
+    static Color foregroundColorBase = new Color(20, 20, 20);
+    static Color foregroundColorFocus = new Color(0, 0, 0);
+    static Font fontFocus = new Font("Malgun Gothic", 1, 16);
+    static Font fontBase = new Font("Malgun Gothic", 4, 16);
+
     /**
      * Creates new form MainLayout
      */
     public MainLayout() {
         initComponents();
         setContent(content);
-        jbtnPrimero.setText("Dashboard");
+        jbtnPrimero.setText("    Dashboard");
+        jbtnSegundo.setText("    Plan");
+        jbtnTercero.setText("    Clientes");
+        jbtnCuarto.setText("    Producto");
+        jbtnQuinto.setText("    Utilidad");
+
         FrameUtils.addOnClickEvent(jbtnPrimero, () -> {
+            setFocusButton(jbtnPrimero);
             Router.getInstance().go("dashboard");
         });
         FrameUtils.addOnClickEvent(jbtnSegundo, () -> {
+            setFocusButton(jbtnSegundo);
             Router.getInstance().go("plan");
         });
         FrameUtils.addOnClickEvent(jbtnTercero, () -> {
             Router.getInstance().go("client");
+            setFocusButton(jbtnTercero);
         });
         FrameUtils.addOnClickEvent(jbtnCuarto, () -> {
             Router.getInstance().go("producto");
+            setFocusButton(jbtnCuarto);
         });
         FrameUtils.addOnClickEvent(jbtnQuinto, () -> {
             Router.getInstance().go("utilidad");
+            setFocusButton(jbtnQuinto);
         });
         FrameUtils.addOnClickEvent(jbtnCerrarSesion, () -> {
             Auth.logOut();
         });
+    }
+
+    private void quitarFondosBotones(JButton[] botones) {
+        for (JButton boton : botones) {
+            boton.setBackground(base);
+            boton.setForeground(foregroundColorBase);
+            boton.setFont(fontBase);
+        }
+    }
+
+    private void setFocusButton(JButton boton) {
+        quitarFondosBotones(new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto,
+                jbtnQuinto, jbtnSexto });
+        boton.setBackground(focus);
+        boton.setForeground(foregroundColorFocus);
+        boton.setFont(fontFocus);
     }
 
     /**

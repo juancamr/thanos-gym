@@ -1,4 +1,4 @@
-package com.uni.thanosgym.components.lib;
+package com.juancamr.components.lib;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

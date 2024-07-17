@@ -13,11 +13,13 @@ import java.awt.BorderLayout;
 
 public class Router {
 
-    private Map<String, Map<String, JPanel>> routes = new HashMap<>();
+    private Map<String, JPanel> routes = new HashMap<>();
+    private Map<String, LayoutPanel> layouts = new HashMap<>();
 
     private Map<String, Class<? extends LayoutPanel>> layoutsClasses = new HashMap<>();
+    private Map<String, Class<? extends JPanel>> routesClasses = new HashMap<>();
 
-    private Map<String, ArrayList<Class<? extends JPanel>>> anidados = new HashMap<>();
+    private Map<String, ArrayList<String>> relaciones = new HashMap<>();
 
     private JFrame window;
     private static Router router;
@@ -47,12 +49,11 @@ public class Router {
         Set<Class<? extends LayoutPanel>> subTypes2 = reflections2.getSubTypesOf(LayoutPanel.class);
         if (subTypes2.isEmpty()) {
             System.out.println("No se encontraron layouts");
-        } else {
-            for (Class<? extends LayoutPanel> clazz : subTypes2) {
-                String path = clazz.getAnnotation(Layout.class).value();
-                layoutsClasses.put(path, clazz);
-
-            }
+            return;
+        }
+        for (Class<? extends LayoutPanel> clazz : subTypes2) {
+            String path = clazz.getAnnotation(Layout.class).value();
+            layoutsClasses.put(path, clazz);
         }
 
         // init route classes
@@ -70,10 +71,11 @@ public class Router {
                 layout = path.split(":")[0];
                 path = path.split(":")[1];
             }
-            ArrayList<Class<? extends JPanel>> components = new ArrayList<>();
-            components.add(clazz);
-            components.add(layoutsClasses.get(layout));
-            anidados.put(path, components);
+            routesClasses.put(path, clazz);
+            ArrayList<String> components = new ArrayList<>();
+            components.add(path);
+            components.add(layout);
+            relaciones.put(path, components);
         }
 
     }
@@ -102,6 +104,7 @@ public class Router {
             window.getContentPane().add(layout, BorderLayout.CENTER);
             window.revalidate();
             window.repaint();
+            currentLayout = layout;
         }
         if (!window.isVisible()) {
             window.setVisible(true);
@@ -109,34 +112,34 @@ public class Router {
     }
 
     private JPanel[] findPanelAndLayout(String route) {
-        Map<String, JPanel> routeComponents = routes.get(route);
-        if (routeComponents == null) {
+        ArrayList<String> rComponents = relaciones.get(route);
+        if (rComponents == null) {
+            System.out.println("La ruta \"" + route + "\" no existe");
+            System.exit(0);
+        }
+
+        JPanel panel = routes.get(rComponents.get(0));
+        LayoutPanel layout = layouts.get(rComponents.get(1));
+
+        if (panel == null) {
             try {
-                ArrayList<Class<? extends JPanel>> rComponents = anidados.get(route);
-                if (rComponents == null) {
-                    System.out.println("La ruta \"" + route + "\" no existe");
-                    System.exit(0);
-                }
-                JPanel panel = rComponents.get(0).getConstructor().newInstance();
-                LayoutPanel panelLayout = null;
-                if (rComponents.get(1) != null) {
-                    panelLayout = (LayoutPanel) rComponents.get(1).getConstructor().newInstance();
-                }
-
-                Map<String, JPanel> elements = new HashMap<>();
-                elements.put("panel", panel);
-                elements.put("layout", panelLayout);
-
-                routes.put(route, elements);
-                return new JPanel[] { panel, panelLayout };
+                panel = routesClasses.get(rComponents.get(0)).getConstructor().newInstance();
+                routes.put(route, panel);
             } catch (Exception error) {
                 System.out.println(error);
-                return null;
             }
         }
-        JPanel panel = routeComponents.get("panel");
-        JPanel panelLayout = routeComponents.get("layout");
-        return new JPanel[] { panel, panelLayout };
+
+        if (layout == null) {
+            try {
+                layout = (LayoutPanel) layoutsClasses.get(rComponents.get(1)).getConstructor().newInstance();
+                layouts.put(rComponents.get(1), layout);
+            } catch (Exception error) {
+                System.out.println(error);
+            }
+        }
+
+        return new JPanel[] { panel, layout };
     }
 
     public JFrame getMainWindow() {
