@@ -13,6 +13,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.uni.thanosgym.model.Contrato;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -132,5 +133,17 @@ public class Utils {
         } catch (FileNotFoundException e) {
             System.out.println(e);
         }
+    }
+
+    public static Color hexToRGB(String hex) {
+        if (hex.startsWith("#")) {
+            hex = hex.substring(1);
+        }
+
+        int r = Integer.parseInt(hex.substring(0, 2), 16);
+        int g = Integer.parseInt(hex.substring(2, 4), 16);
+        int b = Integer.parseInt(hex.substring(4, 6), 16);
+
+        return new Color(r, g, b);
     }
 }

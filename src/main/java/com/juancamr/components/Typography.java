@@ -5,71 +5,47 @@ import javax.swing.JLabel;
 import com.uni.thanosgym.config.Theme;
 
 public class Typography extends JLabel {
-    public static int headerHeight = 28;
-    public static int subheaderHeight = 26;
-    public static int bodyHeight = 21;
-    public static int smallHeight = 18;
+    private Type type = Type.BODY;
 
     public static enum Type {
-        HEADING,
-        SUBHEADING,
+        HEADING1,
+        HEADING2,
+        HEADING3,
         BODY,
         SMALL
     }
 
-    public Typography(String text, Type type, int x, int y, int width) {
-        super(text);
-        int height = 0;
-        if (type == Type.HEADING) {
-            setFont(Theme.getMainFont(Font.BOLD, 24));
-            height = headerHeight;
-        } else if (type == Type.SUBHEADING) {
-            setFont(Theme.getMainFont(Font.BOLD, 18));
-            height = subheaderHeight;
-        } else if (type == Type.BODY) {
-            setFont(Theme.getMainFont(Font.PLAIN, 16));
-            height = bodyHeight;
-        } else if (type == Type.SMALL) {
-            setFont(Theme.getMainFont(Font.PLAIN, 12));
-            height = 18;
-        }
-        setBounds(x, y, width, height);
+    public Typography() {
+        super();
+        updateTypography();
     }
 
-    public static class Builder {
-        private String text;
-        private Type type;
-        private int x;
-        private int y;
-        private int width;
+    public void setType(Type type) {
+        this.type = type;
+        updateTypography();
+        revalidate();
+        repaint();
+    }
 
-        public Builder text(String text) {
-            this.text = text;
-            return this;
-        }
-
-        public Builder type(Type type) {
-            this.type = type;
-            return this;
-        }
-
-        public Builder position(int x, int y) {
-            this.x = x;
-            this.y = y;
-            return this;
-        }
-
-        public Builder width(int width) {
-            this.width = width;
-            return this;
-        }
-
-        public Typography build() {
-            if (text == null || type == null) {
-                throw new IllegalArgumentException("Text and type must be set");
-            }
-            return new Typography(text, type, x, y, width);
+    private void updateTypography() {
+        switch (type) {
+            case HEADING1:
+                setFont(Theme.getMainFont(Font.BOLD, 32));
+                break;
+            case HEADING2:
+                setFont(Theme.getMainFont(Font.BOLD, 20));
+                break;
+            case HEADING3:
+                setFont(Theme.getMainFont(Font.BOLD, 18));
+                break;
+            case BODY:
+                setFont(Theme.getMainFont(Font.PLAIN, 15));
+                break;
+            case SMALL:
+                setFont(Theme.getMainFont(Font.PLAIN, 10));
+                break;
+            default:
+                break;
         }
     }
 }
-

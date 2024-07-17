@@ -6,40 +6,52 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.JButton;
-
 import com.uni.thanosgym.config.Theme;
 
 public class ButtonComponent extends JButton {
 
-    private Color backgroundColor = Color.BLACK;
-    Color foreground = Color.WHITE;
+    private Color backgroundColor = Theme.colors.primary;
+    private Color foreground = Color.WHITE;
+    private int weight = Font.BOLD;
     private int radius = 10;
-    int fontSize = 16;
-    int fontWeight = Font.BOLD;
-    int height = 40;
+    private int fontSize = 16;
 
-    private enum Type {
+    public static enum Type {
         PRIMARY, SECONDARY, SUCCESS, DANGER, WARNING, INFO, LIGHT, DARK, SMALL, MENU
     }
 
     public ButtonComponent() {
         super();
+        initializeButton();
+    }
+
+    private void initializeButton() {
         setBackground(backgroundColor);
         setForeground(foreground);
         setBorderPainted(false);
         setContentAreaFilled(false);
-        setFont(Theme.getMainFont(fontWeight, fontSize));
+        setFont(Theme.getMainFont(weight, fontSize));
     }
 
     public void setType(Type type) {
-        if (type == Type.PRIMARY) {
-            backgroundColor = Theme.colors.primary;
-            setBackground(backgroundColor);
+        switch (type) {
+            case PRIMARY:
+                backgroundColor = Theme.colors.primary;
+                foreground = Color.white;
+                fontSize = 20;
+                break;
+            case SMALL:
+                backgroundColor = Theme.colors.gray;
+                foreground = Color.black;
+                weight = Font.PLAIN;
+                fontSize = 16;
+                break;
+            default:
+                break;
         }
-    }
-
-    public void onClick(Runnable action) {
-        addActionListener(e -> action.run());
+        initializeButton();
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -54,5 +66,4 @@ public class ButtonComponent extends JButton {
         g2.fillRoundRect(2, 2, getWidth() - 4, getHeight() - 4, radius, radius);
         super.paintComponent(grphcs);
     }
-
 }

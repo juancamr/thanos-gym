@@ -4,6 +4,10 @@
  */
 package com.uni.thanosgym.view.layouts;
 
+import com.uni.thanosgym.model.Client;
+import com.uni.thanosgym.model.Contrato;
+import com.uni.thanosgym.utils.FrameUtils;
+
 /**
  *
  * @author juancamr
@@ -13,8 +17,28 @@ public class ClientData extends javax.swing.JFrame {
     /**
      * Creates new form ClientData
      */
-    public ClientData() {
+    public ClientData(Contrato contrato) {
         initComponents();
+        Client client = contrato.getCliente();
+        jlblNombre.setText(client.getFullName());
+        inputDni.setText(client.getDni());
+        inputNombres.setText(client.getFullName());
+        inputTelefono.setText(client.getPhone());
+        inputDireccion.setText(client.getDireccion());
+        inputCorreo.setText(client.getEmail());
+
+        statusPlan.setText("ACTIVO");
+        jlblPlan.setText(contrato.getPlan().getName());
+        jlblSubscriptionSince.setText("Desde: " + contrato.getCreatedAt().toString());
+
+        String imageUrl = "https://img.freepik.com/free-photo/snowy-mountain-peak-starry-galaxy-majesty-generative-ai_188544-9650.jpg";
+        FrameUtils.renderImageFromWeb(imageUrl, photo);
+
+        revalidate();
+        repaint();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     /**
@@ -27,11 +51,146 @@ public class ClientData extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        inputDni = new com.juancamr.components.InputComponent();
+        typography2 = new com.juancamr.components.Typography();
+        typography3 = new com.juancamr.components.Typography();
+        inputNombres = new com.juancamr.components.InputComponent();
+        typography4 = new com.juancamr.components.Typography();
+        inputDireccion = new com.juancamr.components.InputComponent();
+        typography6 = new com.juancamr.components.Typography();
+        jlblNombre = new com.juancamr.components.Typography();
+        inputTelefono = new com.juancamr.components.InputComponent();
+        jPanel2 = new javax.swing.JPanel();
+        jlblPlan = new com.juancamr.components.Typography();
+        jlblSubscriptionSince = new com.juancamr.components.Typography();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        typography1 = new com.juancamr.components.Typography();
+        buttonComponent1 = new com.juancamr.components.ButtonComponent();
+        buttonComponent2 = new com.juancamr.components.ButtonComponent();
+        buttonComponent3 = new com.juancamr.components.ButtonComponent();
+        buttonComponent4 = new com.juancamr.components.ButtonComponent();
+        buttonComponent5 = new com.juancamr.components.ButtonComponent();
+        typography8 = new com.juancamr.components.Typography();
+        typography9 = new com.juancamr.components.Typography();
+        inputCorreo = new com.juancamr.components.InputComponent();
+        jPanel5 = new javax.swing.JPanel();
+        statusPlan = new com.juancamr.components.Typography();
+        photo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        inputDni.setEnabled(false);
+        jPanel1.add(inputDni, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 240, -1));
+
+        typography2.setText("DNI");
+        typography2.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, -1, -1));
+
+        typography3.setText("Nombres completos");
+        typography3.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel1.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, -1));
+
+        inputNombres.setEnabled(false);
+        jPanel1.add(inputNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 240, -1));
+
+        typography4.setText("Teléfono");
+        typography4.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel1.add(typography4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, -1, -1));
+
+        inputDireccion.setEnabled(false);
+        jPanel1.add(inputDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, 240, -1));
+
+        typography6.setText("Dirección");
+        typography6.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel1.add(typography6, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 280, -1, -1));
+
+        jlblNombre.setText("typography7");
+        jlblNombre.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel1.add(jlblNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
+
+        inputTelefono.setEnabled(false);
+        jPanel1.add(inputTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 240, -1));
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jlblPlan.setText("typography5");
+        jlblPlan.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel2.add(jlblPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        jlblSubscriptionSince.setText("typography5");
+        jlblSubscriptionSince.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel2.add(jlblSubscriptionSince, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 350, 110));
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 730, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 730, 120));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography1.setText("ACCIONES");
+        typography1.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel4.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
+
+        buttonComponent1.setText("EDITAR");
+        buttonComponent1.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel4.add(buttonComponent1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, -1));
+
+        buttonComponent2.setText("CONGELAR");
+        buttonComponent2.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel4.add(buttonComponent2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+
+        buttonComponent3.setText("RENOVAR");
+        buttonComponent3.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel4.add(buttonComponent3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, -1, -1));
+
+        buttonComponent4.setText("HISTORIAL");
+        buttonComponent4.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel4.add(buttonComponent4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, -1, -1));
+
+        buttonComponent5.setText("ASISTENCIAS");
+        buttonComponent5.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel4.add(buttonComponent5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, -1, -1));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 170, 450));
+
+        typography8.setText("DATOS DEL CLIENTE");
+        typography8.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel1.add(typography8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+
+        typography9.setText("Correo");
+        typography9.setType(com.juancamr.components.Typography.Type.BODY);
+        jPanel1.add(typography9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 210, -1, -1));
+
+        inputCorreo.setEnabled(false);
+        jPanel1.add(inputCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 240, 240, -1));
+
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        statusPlan.setText("ACTIVA");
+        statusPlan.setType(com.juancamr.components.Typography.Type.HEADING2);
+        jPanel5.add(statusPlan, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 80, -1));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 380, 140, 110));
+
+        photo.setText("jLabel1");
+        jPanel1.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, 180, 110));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -47,42 +206,33 @@ public class ClientData extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClientData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClientData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClientData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClientData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClientData().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.juancamr.components.ButtonComponent buttonComponent1;
+    private com.juancamr.components.ButtonComponent buttonComponent2;
+    private com.juancamr.components.ButtonComponent buttonComponent3;
+    private com.juancamr.components.ButtonComponent buttonComponent4;
+    private com.juancamr.components.ButtonComponent buttonComponent5;
+    private com.juancamr.components.InputComponent inputCorreo;
+    private com.juancamr.components.InputComponent inputDireccion;
+    private com.juancamr.components.InputComponent inputDni;
+    private com.juancamr.components.InputComponent inputNombres;
+    private com.juancamr.components.InputComponent inputTelefono;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private com.juancamr.components.Typography jlblNombre;
+    private com.juancamr.components.Typography jlblPlan;
+    private com.juancamr.components.Typography jlblSubscriptionSince;
+    private javax.swing.JLabel photo;
+    private com.juancamr.components.Typography statusPlan;
+    private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography2;
+    private com.juancamr.components.Typography typography3;
+    private com.juancamr.components.Typography typography4;
+    private com.juancamr.components.Typography typography6;
+    private com.juancamr.components.Typography typography8;
+    private com.juancamr.components.Typography typography9;
     // End of variables declaration//GEN-END:variables
 }

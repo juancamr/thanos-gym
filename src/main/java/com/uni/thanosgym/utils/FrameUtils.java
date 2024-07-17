@@ -193,12 +193,11 @@ public class FrameUtils {
 
     }
 
-    public static void renderImageFromWeb(String imageUrl, JPanel panel) {
+    public static void renderImageFromWeb(String imageUrl, JLabel label) {
         try {
             URL url = new URL(imageUrl);
             ImageIcon imageIcon = new ImageIcon(url);
-            JLabel imageLabel = new JLabel(imageIcon);
-            panel.add(imageLabel, BorderLayout.CENTER);
+            label.setIcon(imageIcon);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

@@ -5,6 +5,8 @@
 package com.uni.thanosgym.view.routes;
 
 import com.juancamr.route.Route;
+import com.uni.thanosgym.config.Theme;
+import com.uni.thanosgym.utils.FrameUtils;
 
 /**
  *
@@ -18,6 +20,12 @@ public class PanelDashboard extends javax.swing.JPanel {
      */
     public PanelDashboard() {
         initComponents();
+        String grafico = "https://images.edrawsoft.com/es/article/line-chart-3.png";
+        panelGanancias.setBackground(Theme.colors.blue);
+        jlblClientesSuscritos.setForeground(Theme.colors.orange);
+        lblClientesTodoElTiempo.setForeground(Theme.colors.purple);
+        
+        FrameUtils.renderImageFromWeb(grafico, lblGrafico);
     }
 
     /**
@@ -30,37 +38,315 @@ public class PanelDashboard extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        typography1 = new com.juancamr.components.Typography();
+        typography2 = new com.juancamr.components.Typography();
+        contadorNotificaciones = new com.juancamr.components.Typography();
+        jPanel2 = new javax.swing.JPanel();
+        typography3 = new com.juancamr.components.Typography();
+        lblGrafico = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        typography5 = new com.juancamr.components.Typography();
+        jPanel5 = new javax.swing.JPanel();
+        typography14 = new com.juancamr.components.Typography();
+        typography15 = new com.juancamr.components.Typography();
+        jlblUltimosClientes = new com.juancamr.components.Typography();
+        typography20 = new com.juancamr.components.Typography();
+        typography22 = new com.juancamr.components.Typography();
+        typography23 = new com.juancamr.components.Typography();
+        jlblUltimosClientes1 = new com.juancamr.components.Typography();
+        jlblUltimosClientes2 = new com.juancamr.components.Typography();
+        jPanel4 = new javax.swing.JPanel();
+        typography4 = new com.juancamr.components.Typography();
+        jPanel9 = new javax.swing.JPanel();
+        typography16 = new com.juancamr.components.Typography();
+        typography17 = new com.juancamr.components.Typography();
+        typography18 = new com.juancamr.components.Typography();
+        typography21 = new com.juancamr.components.Typography();
+        typography24 = new com.juancamr.components.Typography();
+        typography25 = new com.juancamr.components.Typography();
+        typography19 = new com.juancamr.components.Typography();
+        typography26 = new com.juancamr.components.Typography();
+        panelGanancias = new javax.swing.JPanel();
+        typography8 = new com.juancamr.components.Typography();
+        typography12 = new com.juancamr.components.Typography();
+        lblGanancias = new com.juancamr.components.Typography();
+        jPanel6 = new javax.swing.JPanel();
+        typography6 = new com.juancamr.components.Typography();
+        typography13 = new com.juancamr.components.Typography();
+        jlblClientesSuscritos = new com.juancamr.components.Typography();
+        jPanel7 = new javax.swing.JPanel();
+        typography9 = new com.juancamr.components.Typography();
+        typography10 = new com.juancamr.components.Typography();
+        lblAsistencias = new com.juancamr.components.Typography();
+        jPanel8 = new javax.swing.JPanel();
+        typography7 = new com.juancamr.components.Typography();
+        typography11 = new com.juancamr.components.Typography();
+        lblClientesTodoElTiempo = new com.juancamr.components.Typography();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("dashboard section");
+        typography1.setText("Dashboard");
+        typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(397, 397, 397)
-                .addComponent(jLabel1)
-                .addContainerGap(323, Short.MAX_VALUE))
+        typography2.setText("Notificaciones");
+        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, -1, -1));
+
+        contadorNotificaciones.setText("(0)");
+        jPanel1.add(contadorNotificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 50, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography3.setText("Ingresos totales");
+        typography3.setType(com.juancamr.components.Typography.Type.HEADING3);
+        jPanel2.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        lblGrafico.setText("grafico");
+        jPanel2.add(lblGrafico, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 320, 240));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 365, 318));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography5.setText("Últimos clientes");
+        typography5.setType(com.juancamr.components.Typography.Type.HEADING3);
+        jPanel3.add(typography5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography14.setText("Membresía");
+        typography14.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel5.add(typography14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 20));
+
+        typography15.setText("Nombres completos");
+        typography15.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel5.add(typography15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 20));
+
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 320, 20));
+
+        jlblUltimosClientes.setText("typography18");
+        jlblUltimosClientes.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jlblUltimosClientes.setType(com.juancamr.components.Typography.Type.SMALL);
+        jlblUltimosClientes.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(jlblUltimosClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 140, 20));
+
+        typography20.setText("typography18");
+        typography20.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography20.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography20.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(typography20, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 120, 20));
+
+        typography22.setText("typography18");
+        typography22.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography22.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography22.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(typography22, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 120, 20));
+
+        typography23.setText("typography18");
+        typography23.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography23.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography23.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(typography23, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 120, 20));
+
+        jlblUltimosClientes1.setText("typography18");
+        jlblUltimosClientes1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jlblUltimosClientes1.setType(com.juancamr.components.Typography.Type.SMALL);
+        jlblUltimosClientes1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(jlblUltimosClientes1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 20));
+
+        jlblUltimosClientes2.setText("typography18");
+        jlblUltimosClientes2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        jlblUltimosClientes2.setType(com.juancamr.components.Typography.Type.SMALL);
+        jlblUltimosClientes2.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel3.add(jlblUltimosClientes2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 140, 20));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 365, 180));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography4.setText("Últimas ventas");
+        typography4.setType(com.juancamr.components.Typography.Type.HEADING3);
+        jPanel4.add(typography4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography16.setText("Cliente");
+        typography16.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel9.add(typography16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 20));
+
+        typography17.setText("Total");
+        typography17.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel9.add(typography17, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 20));
+
+        jPanel4.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 320, 20));
+
+        typography18.setText("typography18");
+        typography18.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography18.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography18.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel4.add(typography18, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 110, 20));
+
+        typography21.setText("typography18");
+        typography21.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography21.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography21.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel4.add(typography21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 120, 20));
+
+        typography24.setText("typography18");
+        typography24.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography24.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography24.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel4.add(typography24, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 120, 20));
+
+        typography25.setText("typography18");
+        typography25.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography25.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography25.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel4.add(typography25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 120, 20));
+
+        typography19.setText("typography18");
+        typography19.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography19.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography19.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel4.add(typography19, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 110, 20));
+
+        typography26.setText("typography18");
+        typography26.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        typography26.setType(com.juancamr.components.Typography.Type.SMALL);
+        typography26.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        jPanel4.add(typography26, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 110, 20));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 365, 180));
+
+        panelGanancias.setBackground(new java.awt.Color(0, 0, 0));
+        panelGanancias.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography8.setForeground(new java.awt.Color(255, 255, 255));
+        typography8.setText("Ganancias");
+        panelGanancias.add(typography8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        typography12.setForeground(new java.awt.Color(255, 255, 255));
+        typography12.setText("Este último mes");
+        typography12.setType(com.juancamr.components.Typography.Type.SMALL);
+        panelGanancias.add(typography12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        lblGanancias.setForeground(new java.awt.Color(255, 255, 51));
+        lblGanancias.setText("40.0%");
+        lblGanancias.setType(com.juancamr.components.Typography.Type.HEADING1);
+        panelGanancias.add(lblGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+
+        jPanel1.add(panelGanancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 110, 172, 150));
+
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography6.setText("Clientes suscritos");
+        jPanel6.add(typography6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        typography13.setText("Este último mes");
+        typography13.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel6.add(typography13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        jlblClientesSuscritos.setText("136");
+        jlblClientesSuscritos.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel6.add(jlblClientesSuscritos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 280, 172, 150));
+
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography9.setText("Asistencias");
+        jPanel7.add(typography9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        typography10.setText("Clientes el día de hoy");
+        typography10.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel7.add(typography10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        lblAsistencias.setText("304");
+        lblAsistencias.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel7.add(lblAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 110, 172, 150));
+
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography7.setText("Clientes");
+        jPanel8.add(typography7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+
+        typography11.setText("Todo el tiempo");
+        typography11.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel8.add(typography11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+
+        lblClientesTodoElTiempo.setText("12.43K");
+        lblClientesTodoElTiempo.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel8.add(lblClientesTodoElTiempo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 280, 172, 150));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(jLabel1)
-                .addContainerGap(579, Short.MAX_VALUE))
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 690));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private com.juancamr.components.Typography contadorNotificaciones;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private com.juancamr.components.Typography jlblClientesSuscritos;
+    private com.juancamr.components.Typography jlblUltimosClientes;
+    private com.juancamr.components.Typography jlblUltimosClientes1;
+    private com.juancamr.components.Typography jlblUltimosClientes2;
+    private com.juancamr.components.Typography lblAsistencias;
+    private com.juancamr.components.Typography lblClientesTodoElTiempo;
+    private com.juancamr.components.Typography lblGanancias;
+    private javax.swing.JLabel lblGrafico;
+    private javax.swing.JPanel panelGanancias;
+    private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography10;
+    private com.juancamr.components.Typography typography11;
+    private com.juancamr.components.Typography typography12;
+    private com.juancamr.components.Typography typography13;
+    private com.juancamr.components.Typography typography14;
+    private com.juancamr.components.Typography typography15;
+    private com.juancamr.components.Typography typography16;
+    private com.juancamr.components.Typography typography17;
+    private com.juancamr.components.Typography typography18;
+    private com.juancamr.components.Typography typography19;
+    private com.juancamr.components.Typography typography2;
+    private com.juancamr.components.Typography typography20;
+    private com.juancamr.components.Typography typography21;
+    private com.juancamr.components.Typography typography22;
+    private com.juancamr.components.Typography typography23;
+    private com.juancamr.components.Typography typography24;
+    private com.juancamr.components.Typography typography25;
+    private com.juancamr.components.Typography typography26;
+    private com.juancamr.components.Typography typography3;
+    private com.juancamr.components.Typography typography4;
+    private com.juancamr.components.Typography typography5;
+    private com.juancamr.components.Typography typography6;
+    private com.juancamr.components.Typography typography7;
+    private com.juancamr.components.Typography typography8;
+    private com.juancamr.components.Typography typography9;
     // End of variables declaration//GEN-END:variables
 }

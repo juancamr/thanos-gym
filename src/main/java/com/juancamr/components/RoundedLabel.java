@@ -1,4 +1,4 @@
-package com.juancamr.components.lib;
+package com.juancamr.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,11 +6,20 @@ import java.awt.geom.RoundRectangle2D;
 
 public class RoundedLabel extends JLabel {
 
-    private int borderRadius;
+    private int borderRadius = 10;
 
-    public RoundedLabel(ImageIcon icon, int radius) {
-        super(icon);
+    public RoundedLabel() {
+        super();
+    }
+
+    public void setIcon(Icon icon) {
+        super.setIcon(icon);
+    }
+
+    public void setBorderRadius(int radius) {
         this.borderRadius = radius;
+        revalidate();
+        repaint();
     }
 
     @Override
