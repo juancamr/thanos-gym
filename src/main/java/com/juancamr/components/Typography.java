@@ -12,6 +12,7 @@ public class Typography extends JLabel {
         HEADING2,
         HEADING3,
         BODY,
+        MEDIUM,
         SMALL
     }
 
@@ -40,6 +41,9 @@ public class Typography extends JLabel {
                 break;
             case BODY:
                 setFont(Theme.getMainFont(Font.PLAIN, 15));
+                break;
+            case MEDIUM:
+                setFont(Theme.getMainFont(Font.PLAIN, 12));
                 break;
             case SMALL:
                 setFont(Theme.getMainFont(Font.PLAIN, 10));
