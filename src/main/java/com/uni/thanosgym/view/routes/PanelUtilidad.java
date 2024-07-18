@@ -5,13 +5,18 @@
 package com.uni.thanosgym.view.routes;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.juancamr.route.Route;
 import com.juancamr.route.Router;
 import com.juancamr.route.RoutingUtils;
 import com.uni.thanosgym.controllers.UtilidadController;
+import com.uni.thanosgym.dao.CRUDUtilidad;
 import com.uni.thanosgym.model.Utility;
+import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.view.dialogs.AgregarUtilidad;
+import java.util.List;
 
 /**
  *
@@ -26,6 +31,42 @@ public class PanelUtilidad extends javax.swing.JPanel {
      */
     public PanelUtilidad() {
         initComponents();
+        int[] widths = { 200, 500, 300, 200 };
+        for (int i = 0; i < widths.length; i++) {
+            jtblUtilidad.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
+        }
+        FrameUtils.addHandleChangeEvent(jtxtNombreOrCode, this::handleChange);
+        refresh();
+    }
+
+    public void handleChange() {
+        if (jtxtNombreOrCode.getText().isEmpty()) {
+            refresh();
+            return;
+        }
+        List<String[]> datos = CRUDUtilidad.getInstance().getAll().getDataList().stream()
+                .filter(utility -> utility.getNombre().contains(jtxtNombreOrCode.getText()))
+                .map(utility -> new String[] { String.valueOf(utility.getId()), utility.getNombre(),
+                        String.valueOf(utility.getPeso()), String.valueOf(utility.getCantidad()) })
+                .collect(Collectors.toList());
+
+        ((javax.swing.table.DefaultTableModel) jtblUtilidad.getModel()).setRowCount(0);
+        for (String[] dato : datos) {
+            ((javax.swing.table.DefaultTableModel) jtblUtilidad.getModel()).addRow(dato);
+        }
+
+    }
+
+    private void refresh() {
+        List<String[]> datos = CRUDUtilidad.getInstance().getAll().getDataList().stream()
+                .map(utility -> new String[] { String.valueOf(utility.getId()), utility.getNombre(),
+                        String.valueOf(utility.getPeso()), String.valueOf(utility.getCantidad()) })
+                .collect(Collectors.toList());
+
+        ((javax.swing.table.DefaultTableModel) jtblUtilidad.getModel()).setRowCount(0);
+        for (String[] dato : datos) {
+            ((javax.swing.table.DefaultTableModel) jtblUtilidad.getModel()).addRow(dato);
+        }
     }
 
     /**
@@ -35,12 +76,13 @@ public class PanelUtilidad extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         typography1 = new com.juancamr.components.Typography();
-        jtxtNombre = new com.juancamr.components.InputComponent();
+        jtxtNombreOrCode = new com.juancamr.components.InputComponent();
         typography2 = new com.juancamr.components.Typography();
         buttonComponent1 = new com.juancamr.components.ButtonComponent();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -52,7 +94,7 @@ public class PanelUtilidad extends javax.swing.JPanel {
         typography1.setText("Utilidades");
         typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
         jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
-        jPanel1.add(jtxtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 280, -1));
+        jPanel1.add(jtxtNombreOrCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 280, -1));
 
         typography2.setText("Nombre de utilidad");
         typography2.setType(com.juancamr.components.Typography.Type.MEDIUM);
@@ -68,26 +110,25 @@ public class PanelUtilidad extends javax.swing.JPanel {
         jPanel1.add(buttonComponent1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 120, 100, -1));
 
         jtblUtilidad.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "Código", "Nombre", "Precio", "Cantidad"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                },
+                new String[] {
+                        "Código", "Nombre", "Peso", "Cantidad"
+                }) {
+            Class[] types = new Class[] {
+                    java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(jtblUtilidad);
@@ -97,19 +138,26 @@ public class PanelUtilidad extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonComponent1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonComponent1MouseClicked
+    private void buttonComponent1MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonComponent1MouseClicked
+        if (UtilidadController.getQuantity() == 0) {
+            Router.getInstance().go("dashboard");
+            Messages.show("Es necesario que ingrese proveedores");
+            return;
+        }
         Map<String, Object> params = RoutingUtils.openDialog(new AgregarUtilidad());
-        UtilidadController.crearUtilidad(params);
-    }//GEN-LAST:event_buttonComponent1MouseClicked
+        if (UtilidadController.crearUtilidad(params)) {
+            refresh();
+        }
+    }// GEN-LAST:event_buttonComponent1MouseClicked
 
     private void jtblUtilidadMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblUtilidadMouseClicked
         int fila = jtblUtilidad.getSelectedRow();
@@ -132,7 +180,7 @@ public class PanelUtilidad extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jtblUtilidad;
-    private com.juancamr.components.InputComponent jtxtNombre;
+    private com.juancamr.components.InputComponent jtxtNombreOrCode;
     private com.juancamr.components.Typography typography1;
     private com.juancamr.components.Typography typography2;
     // End of variables declaration//GEN-END:variables

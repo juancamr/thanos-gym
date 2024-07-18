@@ -3,6 +3,7 @@ package com.uni.thanosgym.dao;
 import com.uni.thanosgym.utils.StringUtils;
 import com.itextpdf.styledxmlparser.jsoup.internal.StringUtil;
 import com.uni.thanosgym.model.Admin;
+import com.uni.thanosgym.model.Proveedor;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.model.Utility;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -21,7 +22,7 @@ public class CRUDUtilityTest {
         if (crudAdministrador.getQuantity() != 0) {
             adminForVerify = crudAdministrador.getAdminMasterOnlyForTesting().getData();
         }
-        
+
         // create administrador
         Admin admin = new Admin.Builder()
                 .setFullName("Admin test")
@@ -33,10 +34,21 @@ public class CRUDUtilityTest {
                 .setPhotoUrl("photo")
                 .build();
         admin.setId(crudAdministrador.create(admin, adminForVerify).getId());
+        
+        // create proveedor
+        Proveedor proveedor = new Proveedor.Builder()
+                .setNombre("Test Proveedor")
+                .setPhone("12345678")
+                .setAddress("Test direccion")
+                .setRuc("12345678901")
+                .build();
+        Response<Proveedor> responseProveedor = CRUDProveedor.getInstance().create(proveedor);
+        proveedor.setId(responseProveedor.getId());
 
         // create utility
         Utility utility = new Utility.Builder()
                 .setAdmin(admin)
+                .setProveedor(proveedor)
                 .setNombre("Test Utility")
                 .setPeso(100)
                 .setCantidad(10)

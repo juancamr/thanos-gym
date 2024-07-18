@@ -12,7 +12,6 @@ public class Proveedor {
     private boolean isVisible;
     private Date createdAt;
 
-
     public static String tableName = "proveedor";
     public static String idField = "proveedor_id";
     public static String nombreField = "nombre";
@@ -58,6 +57,10 @@ public class Proveedor {
 
     public Date getCreatedAt() {
         return createdAt;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public static class Builder {
@@ -108,5 +111,11 @@ public class Proveedor {
         public Proveedor build() {
             return new Proveedor(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Proveedor [address=" + address + ", createdAt=" + createdAt + ", id=" + id + ", isVisible=" + isVisible
+                + ", nombre=" + nombre + ", phone=" + phone + ", ruc=" + ruc + "]";
     }
 }

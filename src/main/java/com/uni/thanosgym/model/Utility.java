@@ -9,6 +9,7 @@ public class Utility extends Item {
     public static String tableName = "utility";
     public static String idField = "utility_id";
     public static String adminIdField = "admin_id";
+    public static String proveedorField = "proveedor_id";
     public static String nombreField = "nombre";
     public static String pesoField = "peso";
     public static String cantidadField = "cantidad";
@@ -19,6 +20,7 @@ public class Utility extends Item {
         super(builder.id, builder.nombre, builder.cantidad, builder.photoUrl);
         this.admin = builder.admin;
         this.peso = builder.peso;
+        this.proveedor = builder.proveedor;
     }
 
     // Getters
@@ -28,6 +30,10 @@ public class Utility extends Item {
 
     public double getPeso() {
         return peso;
+    }
+
+    public Proveedor getProveedor() {
+        return proveedor;
     }
 
     // Builder estático

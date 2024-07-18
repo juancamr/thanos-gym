@@ -30,9 +30,26 @@ public class PanelVenta extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        typography1 = new com.juancamr.components.Typography();
+        typography2 = new com.juancamr.components.Typography();
+        jtxtNombre = new com.juancamr.components.InputComponent();
+        buttonComponent1 = new com.juancamr.components.ButtonComponent();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        typography1.setText("Generar venta");
+        typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        typography2.setText("DNI del cliente");
+        typography2.setType(com.juancamr.components.Typography.Type.MEDIUM);
+        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
+        jPanel1.add(jtxtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 310, -1));
+
+        buttonComponent1.setText("ESTABLECER");
+        buttonComponent1.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel1.add(buttonComponent1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -48,6 +65,10 @@ public class PanelVenta extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.juancamr.components.ButtonComponent buttonComponent1;
     private javax.swing.JPanel jPanel1;
+    private com.juancamr.components.InputComponent jtxtNombre;
+    private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography2;
     // End of variables declaration//GEN-END:variables
 }

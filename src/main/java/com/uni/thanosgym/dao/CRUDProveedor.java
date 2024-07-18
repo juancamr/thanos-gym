@@ -19,21 +19,20 @@ public class CRUDProveedor extends BaseCrud<Proveedor> {
         return crudProveedor;
     }
 
-
     public Response<Proveedor> create(Proveedor proveedor) {
-        try {
-            return baseCreate(proveedor, Querys.client.create);
-        } catch (Exception e) {
-            return somethingWentWrong(e);
-        }
+        return baseCreate(proveedor, Querys.proveedor.create);
     }
 
     public Response<Proveedor> getById(int id) {
         return baseGetById(Querys.getByIdTemplate(Proveedor.tableName), id);
     }
 
-	@Override
-	public Proveedor generateObject(ResultSet rs) throws SQLException {
+    public Response<Proveedor> getAll() {
+        return baseGetAll(Querys.getAllTemplate(Proveedor.tableName));
+    }
+
+    @Override
+    public Proveedor generateObject(ResultSet rs) throws SQLException {
         return new Proveedor.Builder()
                 .setId(rs.getInt(Proveedor.idField))
                 .setNombre(rs.getString(Proveedor.nombreField))
@@ -41,14 +40,14 @@ public class CRUDProveedor extends BaseCrud<Proveedor> {
                 .setPhone(rs.getString(Proveedor.phoneField))
                 .setAddress(rs.getString(Proveedor.addressField))
                 .build();
-	}
+    }
 
-	@Override
-	public void sendObject(String consulta, Proveedor data) throws SQLException {
+    @Override
+    public void sendObject(String consulta, Proveedor data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getNombre());
         ps.setString(2, data.getRuc());
         ps.setString(3, data.getPhone());
         ps.setString(4, data.getAddress());
-	}
+    }
 }

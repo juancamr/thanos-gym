@@ -15,12 +15,6 @@ public class Querys {
                         Admin.phoneField, Admin.usernameField, Admin.passwordField,
                         Admin.rolField, Admin.photoUrlField, Admin.lastSigninField });
 
-        // public static String getByUsername = "SELECT * FROM admin WHERE username =
-        // ?";
-        // public static String verify = "SELECT * FROM admin WHERE username=? AND
-        // password=?";
-        // public static String verifyMaster = "SELECT * FROM admin WHERE username=? AND
-        // password=? AND rol='MASTER'";
     }
 
     public class plan {
@@ -85,7 +79,7 @@ public class Querys {
     public class utility {
 
         public static String create = generateCreateQuery(Utility.tableName,
-                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField });
+                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField, Utility.proveedorField });
         public static String update = generateUpdateQuery(Utility.tableName,
                 new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField });
     }

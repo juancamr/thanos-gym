@@ -36,6 +36,54 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
         <Property name="useNullLayout" type="boolean" value="false"/>
       </Layout>
+      <SubComponents>
+        <Component class="com.juancamr.components.Typography" name="typography1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Generar venta"/>
+            <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
+              <Value id="HEADING1"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="40" y="30" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.juancamr.components.Typography" name="typography2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="DNI del cliente"/>
+            <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
+              <Value id="MEDIUM"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="50" y="90" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.juancamr.components.InputComponent" name="jtxtNombre">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="50" y="110" width="310" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.juancamr.components.ButtonComponent" name="buttonComponent1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="ESTABLECER"/>
+            <Property name="type" type="com.juancamr.components.ButtonComponent$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
+              <Value id="SMALL"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="390" y="110" width="-1" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
     </Container>
   </SubComponents>
 </Form>

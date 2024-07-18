@@ -44,9 +44,9 @@ public class MainLayout extends LayoutPanel {
         String userExample = "https://cdn-icons-png.flaticon.com/512/219/219970.png";
         FrameUtils.renderImageFromWeb(userExample, photoAdmin);
         jlblNombreAdmin.setText(UserPreferences.getData().getFullName());
-        JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto };
-        String[] labels = { "Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades" };
-        String[] routes = { "dashboard", "plan", "client", "producto", "venta", "utilidad" };
+        JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto, jbtnSeptimo, jbtnOctavo };
+        String[] labels = { "Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades", "Proveedores", "Reportes" };
+        String[] routes = { "dashboard", "plan", "client", "producto", "venta", "utilidad", "proveedor", "reporte" };
 
         for (int i = 0; i < buttons.length; i++) {
             JButton button = buttons[i];
@@ -62,6 +62,7 @@ public class MainLayout extends LayoutPanel {
         jbtnPrimero.setBackground(focusColor);
         if (!UserPreferences.getData().getRol().equals(Admin.Rol.MASTER)) {
             jbtnSegundo.setVisible(false);
+            jbtnOctavo.setVisible(false);
         }
         FrameUtils.removeAllEvents(jbtnTercero);
         FrameUtils.addOnClickEvent(jbtnTercero, () -> {
@@ -85,7 +86,7 @@ public class MainLayout extends LayoutPanel {
 
     private void setFocusButton(JButton boton) {
         quitarFondosBotones(new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto,
-                jbtnQuinto, jbtnSexto });
+                jbtnQuinto, jbtnSeptimo });
         boton.setBackground(focusColor);
     }
 
@@ -97,7 +98,7 @@ public class MainLayout extends LayoutPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -105,13 +106,15 @@ public class MainLayout extends LayoutPanel {
         jbtnPrimero = new javax.swing.JButton();
         jbtnQuinto = new javax.swing.JButton();
         jbtnSegundo = new javax.swing.JButton();
-        jbtnSexto = new javax.swing.JButton();
+        jbtnSeptimo = new javax.swing.JButton();
         jbtnCuarto = new javax.swing.JButton();
         jbtnTercero = new javax.swing.JButton();
         typography1 = new com.juancamr.components.Typography();
         jlblNombreAdmin = new com.juancamr.components.Typography();
         photoAdmin = new javax.swing.JLabel();
         signout = new com.juancamr.components.Typography();
+        jbtnSexto = new javax.swing.JButton();
+        jbtnOctavo = new javax.swing.JButton();
         content = new javax.swing.JPanel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -133,7 +136,6 @@ public class MainLayout extends LayoutPanel {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseDragged(evt);
             }
-
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseMoved(evt);
             }
@@ -142,7 +144,6 @@ public class MainLayout extends LayoutPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jbtnPrimeroFocusGained(evt);
             }
-
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jbtnPrimeroFocusLost(evt);
             }
@@ -156,15 +157,12 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseClicked(evt);
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseExited(evt);
             }
-
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMousePressed(evt);
             }
-
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseReleased(evt);
             }
@@ -216,7 +214,6 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnSegundoMouseClicked(evt);
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnSegundoMouseExited(evt);
             }
@@ -228,33 +225,14 @@ public class MainLayout extends LayoutPanel {
         });
         jpnlBarra.add(jbtnSegundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 180, 34));
 
-        jbtnSexto.setBackground(new java.awt.Color(0, 0, 0));
-        jbtnSexto.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
-        jbtnSexto.setForeground(new java.awt.Color(255, 255, 255));
-        jbtnSexto.setText("    Sexto");
-        jbtnSexto.setBorder(null);
-        jbtnSexto.setFocusable(false);
-        jbtnSexto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jbtnSexto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                jbtnSextoMouseMoved(evt);
-            }
-        });
-        jbtnSexto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnSextoMouseClicked(evt);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jbtnSextoMouseExited(evt);
-            }
-        });
-        jbtnSexto.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnSextoActionPerformed(evt);
-            }
-        });
-        jpnlBarra.add(jbtnSexto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 180, 34));
+        jbtnSeptimo.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnSeptimo.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
+        jbtnSeptimo.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnSeptimo.setText("    Septimo");
+        jbtnSeptimo.setBorder(null);
+        jbtnSeptimo.setFocusable(false);
+        jbtnSeptimo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jpnlBarra.add(jbtnSeptimo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 180, 34));
 
         jbtnCuarto.setBackground(new java.awt.Color(0, 0, 0));
         jbtnCuarto.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
@@ -272,7 +250,6 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnCuartoMouseClicked(evt);
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnCuartoMouseExited(evt);
             }
@@ -300,7 +277,6 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnTerceroMouseClicked(evt);
             }
-
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnTerceroMouseExited(evt);
             }
@@ -335,6 +311,60 @@ public class MainLayout extends LayoutPanel {
         });
         jpnlBarra.add(signout, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 640, -1, -1));
 
+        jbtnSexto.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnSexto.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
+        jbtnSexto.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnSexto.setText("    Sexto");
+        jbtnSexto.setBorder(null);
+        jbtnSexto.setFocusable(false);
+        jbtnSexto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbtnSexto.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jbtnSextoMouseMoved(evt);
+            }
+        });
+        jbtnSexto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnSextoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jbtnSextoMouseExited(evt);
+            }
+        });
+        jbtnSexto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnSextoActionPerformed(evt);
+            }
+        });
+        jpnlBarra.add(jbtnSexto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 180, 34));
+
+        jbtnOctavo.setBackground(new java.awt.Color(0, 0, 0));
+        jbtnOctavo.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
+        jbtnOctavo.setForeground(new java.awt.Color(255, 255, 255));
+        jbtnOctavo.setText("    Octavo");
+        jbtnOctavo.setBorder(null);
+        jbtnOctavo.setFocusable(false);
+        jbtnOctavo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jbtnOctavo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jbtnOctavoMouseMoved(evt);
+            }
+        });
+        jbtnOctavo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jbtnOctavoMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jbtnOctavoMouseExited(evt);
+            }
+        });
+        jbtnOctavo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnOctavoActionPerformed(evt);
+            }
+        });
+        jpnlBarra.add(jbtnOctavo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 180, 34));
+
         jPanel1.add(jpnlBarra, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 690));
 
         content.setBackground(new java.awt.Color(255, 255, 255));
@@ -342,6 +372,24 @@ public class MainLayout extends LayoutPanel {
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1060, 690));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbtnOctavoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnOctavoMouseMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnOctavoMouseMoved
+
+    private void jbtnOctavoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnOctavoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnOctavoMouseClicked
+
+    private void jbtnOctavoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnOctavoMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnOctavoMouseExited
+
+    private void jbtnOctavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOctavoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnOctavoActionPerformed
+
+
 
     private void signoutMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_signoutMouseClicked
         Auth.logOut();
@@ -471,9 +519,11 @@ public class MainLayout extends LayoutPanel {
     public javax.swing.JPanel content;
     private javax.swing.JPanel jPanel1;
     public javax.swing.JButton jbtnCuarto;
+    public javax.swing.JButton jbtnOctavo;
     public javax.swing.JButton jbtnPrimero;
     public javax.swing.JButton jbtnQuinto;
     public javax.swing.JButton jbtnSegundo;
+    public javax.swing.JButton jbtnSeptimo;
     public javax.swing.JButton jbtnSexto;
     public javax.swing.JButton jbtnTercero;
     private com.juancamr.components.Typography jlblNombreAdmin;

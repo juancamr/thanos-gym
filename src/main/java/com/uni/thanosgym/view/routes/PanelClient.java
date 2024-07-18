@@ -24,7 +24,7 @@ import com.uni.thanosgym.utils.FrameUtils;
  *
  * @author jhere
  */
-@Route("main:client*")
+@Route("main:client")
 public class PanelClient extends javax.swing.JPanel {
     public static File imageSelected = null;
 
