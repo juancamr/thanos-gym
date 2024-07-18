@@ -34,6 +34,10 @@ public class CRUDProducto extends BaseCrud<Producto> {
         return baseGetById(Querys.getByIdTemplate(Producto.tableName), id);
     }
 
+    public Response<Producto> getByCodigo(String codigo) {
+        return baseGetByString(Querys.getTemplateWithConditions(Producto.tableName, Producto.codigoField), codigo);
+    }
+
     public Response<Producto> update(Producto producto) {
         try {
             sendObject(Querys.producto.update, producto);

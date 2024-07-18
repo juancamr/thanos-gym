@@ -103,6 +103,40 @@ public abstract class BaseCrud<T> {
         }
     }
 
+
+    /**
+     * Lee un registro de la base de datos utilizando un valor de identidad en forma
+     * de cadena y una consulta SQL dada.
+     *
+     * @param consulta La consulta SQL para buscar el registro.
+     * @param identity El valor de identidad en forma de cadena que se utilizará
+     *                 para buscar el registro.
+     * @return Una respuesta que indica si la operación fue exitosa o no.
+     *         Si el registro es encontrado, devuelve una respuesta con un mensaje
+     *         indicando que se encontró y los datos del registro.
+     *         Si no se encuentra el registro, devuelve una respuesta con un mensaje
+     *         indicando que no se encontró.
+     *         Si ocurre una excepción, devuelve una respuesta con el error.
+     */
+    public Response<T> baseGetByInt(String consulta, int identity) {
+        try {
+            ps = connection.prepareStatement(consulta);
+            ps.setInt(1, identity);
+            rs = ps.executeQuery();
+            boolean encontrado = rs.next();
+            // rs.next() -> rs.close()
+            if (encontrado) {
+                final T data = generateObject(rs);
+                return new Response<T>(true, data);
+            } else {
+                return new Response<T>(false, "No encontrado");
+            }
+        } catch (Exception e) {
+            return somethingWentWrong(e);
+        }
+    }
+
+
     /**
      * Lee un registro de la base de datos utilizando un valor de identidad en forma
      * de cadena y una consulta SQL dada.

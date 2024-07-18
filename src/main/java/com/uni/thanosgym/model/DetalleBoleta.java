@@ -6,7 +6,7 @@ public class DetalleBoleta {
     private Boleta boleta;
     private Producto producto;
     private int cantidad;
-    private double precio;
+    private double total;
 
     public static String tableName = "detalle_boleta";
     public static String idField = "detalle_boleta_id";
@@ -21,7 +21,7 @@ public class DetalleBoleta {
         this.boleta = builder.boleta;
         this.producto = builder.producto;
         this.cantidad = builder.cantidad;
-        this.precio = builder.precio;
+        this.total = builder.precio;
     }
 
     // Getters
@@ -41,8 +41,8 @@ public class DetalleBoleta {
         return cantidad;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getTotal() {
+        return total;
     }
 
     // Builder estático
@@ -74,7 +74,7 @@ public class DetalleBoleta {
             return this;
         }
 
-        public Builder setPrecio(double precio) {
+        public Builder setTotal(double precio) {
             this.precio = precio;
             return this;
         }
@@ -92,7 +92,7 @@ public class DetalleBoleta {
                 ", boleta=" + boleta +
                 ", producto=" + producto +
                 ", cantidad=" + cantidad +
-                ", precio=" + precio +
+                ", precio=" + total +
                 '}';
     }
 }

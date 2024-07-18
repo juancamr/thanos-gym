@@ -38,6 +38,7 @@ CREATE TABLE if not exists client (
 
 CREATE TABLE if not exists producto (
     producto_id INT NOT NULL AUTO_INCREMENT,
+    codigo VARCHAR(20) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     cantidad int NOT NULL,
     precio decimal(10, 2) NOT NULL,

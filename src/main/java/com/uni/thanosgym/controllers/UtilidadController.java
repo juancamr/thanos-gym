@@ -22,6 +22,9 @@ public class UtilidadController {
     }
 
     public static boolean crearUtilidad(Map<String, Object> params) {
+        if (params == null) {
+            return false;
+        }
         Admin admin = UserPreferences.getData();
 
         String nombre = (String) params.get("nombre");

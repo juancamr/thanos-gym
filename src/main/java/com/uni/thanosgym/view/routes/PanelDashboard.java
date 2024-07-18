@@ -6,7 +6,11 @@ package com.uni.thanosgym.view.routes;
 
 import com.juancamr.route.Route;
 import com.uni.thanosgym.config.Theme;
+import com.uni.thanosgym.dao.CRUDAsistencia;
+import com.uni.thanosgym.dao.CRUDBoleta;
+import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.utils.Querys.asistencia;
 
 import io.quickchart.QuickChart;
 
@@ -22,6 +26,7 @@ public class PanelDashboard extends javax.swing.JPanel {
     public PanelDashboard() {
         initComponents();
 
+        int test = 10;
         QuickChart chart = new QuickChart();
         chart.setWidth(320);
         chart.setHeight(240);
@@ -29,7 +34,7 @@ public class PanelDashboard extends javax.swing.JPanel {
                                 {
                   type: 'line',
                   data: {
-                    labels: [2016, 2017, 2018, 2019, 2020],
+                    labels: [<test>, 2017, 2018, 2019, 2020],
                     datasets: [
                       {
                         label: 'Dollars',
@@ -51,12 +56,29 @@ public class PanelDashboard extends javax.swing.JPanel {
                     }
                   },
                 }
-                                                                """);
+                                                                """.replace("<test>", String.valueOf(test)));
 
         String grafico = chart.getUrl();
-        panelGanancias.setBackground(Theme.colors.blue);
+
+        // clientes suscritos hoy
         jlblClientesSuscritos.setForeground(Theme.colors.orange);
+        int clientesSuscritos = CRUDCliente.getInstance().obtenerClientesSuscritosHoy();
+        jlblClientesSuscritos.setText(String.valueOf(clientesSuscritos));
+
+        // ganancias
+        panelGanancias.setBackground(Theme.colors.blue);
+        lblGanancias.setForeground(Theme.colors.primary);
+        double ganancias = CRUDBoleta.getInstance().getPorcentajeDeGanancianMesAnteriorConElDeAhora();
+        lblGanancias.setText(String.format("%.2f", ganancias));
+
+        // clientes suscritos todo el tiempo
         lblClientesTodoElTiempo.setForeground(Theme.colors.purple);
+        int clientesTodoElTiempo = CRUDCliente.getInstance().obtenerClientesSuscritosTodoElTiempo();
+        lblClientesTodoElTiempo.setText(String.valueOf(clientesTodoElTiempo));
+
+        // asistencias
+        int asistencias = CRUDAsistencia.getInstance().obtenerAsistenciasDeHoy();
+        lblAsistencias.setText(String.valueOf(asistencias));
 
         FrameUtils.renderImageFromWeb(grafico, lblGrafico);
     }
@@ -68,7 +90,8 @@ public class PanelDashboard extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -326,13 +349,13 @@ public class PanelDashboard extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

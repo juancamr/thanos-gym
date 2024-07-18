@@ -3,22 +3,29 @@ package com.uni.thanosgym.model;
 public class Producto extends Item {
 
     private double precio;
+    private String codigo;
 
     public static String tableName = "producto";
     public static String idField = "producto_id";
     public static String nombreField = "nombre";
+    public static String codigoField = "codigo";
     public static String cantidadField = "cantidad";
     public static String precioField = "precio";
     public static String photoUrlField = "photo_url";
 
     private Producto(Builder builder) {
         super(builder.id, builder.nombre, builder.cantidad, builder.photoUrl);
+        this.codigo = builder.codigo;
         this.precio = builder.precio;
     }
 
     // Getter
     public double getPrecio() {
         return precio;
+    }
+
+    public String getCodigo() {
+        return codigo;
     }
 
     // Builder estático
@@ -28,6 +35,7 @@ public class Producto extends Item {
         private int cantidad;
         private String photoUrl;
         private double precio;
+        private String codigo;
 
         // Métodos setters para Producto
         public Builder setId(int id) {
@@ -52,6 +60,11 @@ public class Producto extends Item {
 
         public Builder setPrecio(double precio) {
             this.precio = precio;
+            return this;
+        }
+
+        public Builder setCodigo(String codigo) {
+            this.codigo = codigo;
             return this;
         }
 

@@ -51,6 +51,14 @@ public class CRUDCliente extends BaseCrud<Client> {
         return baseGetByString(Querys.getTemplateWithConditions(Client.tableName, Client.dniField), dni);
     }
 
+    public int obtenerClientesSuscritosHoy() {
+        return 0;
+    }
+
+    public int obtenerClientesSuscritosTodoElTiempo() {
+        return 0;
+    }
+
     public Response<Client> update(Client cliente) {
         try {
             sendObject(Querys.client.update, cliente);

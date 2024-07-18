@@ -1,6 +1,7 @@
 package com.uni.thanosgym.model;
 
 import java.util.Date;
+import java.util.List;
 
 public class Boleta {
 
@@ -9,7 +10,7 @@ public class Boleta {
     private Admin admin;
     private Date createdAt;
     private double total;
-    private DetalleBoleta[] detallesBoleta;
+    private List<DetalleBoleta> detallesBoleta;
 
     public static String tableName = "boleta";
     public static String idField = "boleta_id";
@@ -49,8 +50,12 @@ public class Boleta {
         return total;
     }
 
-    public DetalleBoleta[] getDetallesBoleta() {
+    public List<DetalleBoleta> getDetallesBoleta() {
         return detallesBoleta;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     // Builder estático
@@ -60,7 +65,7 @@ public class Boleta {
         private Admin admin;
         private Date createdAt;
         private double total;
-        private DetalleBoleta[] detallesBoleta;
+        private List<DetalleBoleta> detallesBoleta;
 
         // Métodos setters para Boleta
         public Builder setId(int id) {
@@ -88,7 +93,7 @@ public class Boleta {
             return this;
         }
 
-        public Builder setDetallesBoleta(DetalleBoleta[] detalleBoletas) {
+        public Builder setDetallesBoleta(List<DetalleBoleta> detalleBoletas) {
             this.detallesBoleta = detalleBoletas;
             return this;
         }
@@ -103,12 +108,12 @@ public class Boleta {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Boleta{")
-          .append("id=").append(id)
-          .append(", cliente=").append(cliente)
-          .append(", admin=").append(admin)
-          .append(", createdAt=").append(createdAt)
-          .append(", total=").append(total)
-          .append(", detallesBoleta=[");
+                .append("id=").append(id)
+                .append(", cliente=").append(cliente)
+                .append(", admin=").append(admin)
+                .append(", createdAt=").append(createdAt)
+                .append(", total=").append(total)
+                .append(", detallesBoleta=[");
         if (detallesBoleta != null) {
             for (DetalleBoleta detalleBoleta : detallesBoleta) {
                 sb.append(detalleBoleta).append(", ");
@@ -118,4 +123,3 @@ public class Boleta {
         return sb.toString();
     }
 }
-

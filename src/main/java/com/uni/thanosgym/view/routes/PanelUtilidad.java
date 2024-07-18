@@ -36,6 +36,17 @@ public class PanelUtilidad extends javax.swing.JPanel {
             jtblUtilidad.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
         }
         FrameUtils.addHandleChangeEvent(jtxtNombreOrCode, this::handleChange);
+        FrameUtils.addOnClickEvent(jbtnCrearUtilidad, () -> {
+            if (UtilidadController.getQuantity() == 0) {
+                Router.getInstance().go("dashboard");
+                Messages.show("Es necesario que ingrese proveedores");
+                return;
+            }
+            Map<String, Object> params = RoutingUtils.openDialog(new AgregarUtilidad());
+            if (UtilidadController.crearUtilidad(params)) {
+                refresh();
+            }
+        });
         refresh();
     }
 
@@ -77,6 +88,7 @@ public class PanelUtilidad extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -84,7 +96,7 @@ public class PanelUtilidad extends javax.swing.JPanel {
         typography1 = new com.juancamr.components.Typography();
         jtxtNombreOrCode = new com.juancamr.components.InputComponent();
         typography2 = new com.juancamr.components.Typography();
-        buttonComponent1 = new com.juancamr.components.ButtonComponent();
+        jbtnCrearUtilidad = new com.juancamr.components.ButtonComponent();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblUtilidad = new javax.swing.JTable();
 
@@ -98,16 +110,11 @@ public class PanelUtilidad extends javax.swing.JPanel {
 
         typography2.setText("Nombre de utilidad");
         typography2.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
+        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
-        buttonComponent1.setText("CREAR");
-        buttonComponent1.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        buttonComponent1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                buttonComponent1MouseClicked(evt);
-            }
-        });
-        jPanel1.add(buttonComponent1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 120, 100, -1));
+        jbtnCrearUtilidad.setText("CREAR");
+        jbtnCrearUtilidad.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
+        jPanel1.add(jbtnCrearUtilidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, 140, -1));
 
         jtblUtilidad.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][] {
@@ -131,6 +138,11 @@ public class PanelUtilidad extends javax.swing.JPanel {
                 return canEdit[columnIndex];
             }
         });
+        jtblUtilidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblUtilidadMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtblUtilidad);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 750, 470));
@@ -147,38 +159,14 @@ public class PanelUtilidad extends javax.swing.JPanel {
                                 javax.swing.GroupLayout.PREFERRED_SIZE));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonComponent1MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_buttonComponent1MouseClicked
-        if (UtilidadController.getQuantity() == 0) {
-            Router.getInstance().go("dashboard");
-            Messages.show("Es necesario que ingrese proveedores");
-            return;
-        }
-        Map<String, Object> params = RoutingUtils.openDialog(new AgregarUtilidad());
-        if (UtilidadController.crearUtilidad(params)) {
-            refresh();
-        }
-    }// GEN-LAST:event_buttonComponent1MouseClicked
-
     private void jtblUtilidadMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblUtilidadMouseClicked
-        int fila = jtblUtilidad.getSelectedRow();
-        if (fila != -1) {
-            int idUtilidad = Integer.parseInt(String.valueOf(jtblUtilidad.getValueAt(fila, 0)));
-            String nombre = String.valueOf(jtblUtilidad.getValueAt(fila, 1));
-            int cantidad = Integer.parseInt(String.valueOf(jtblUtilidad.getValueAt(fila, 2)));
-            int peso = Integer.parseInt(String.valueOf(jtblUtilidad.getValueAt(fila, 3)));
-            Utility producto = new Utility.Builder()
-                    .setId(idUtilidad)
-                    .setNombre(nombre)
-                    .setCantidad(cantidad)
-                    .setPeso(peso)
-                    .build();
-        }
+
     }// GEN-LAST:event_jtblUtilidadMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.juancamr.components.ButtonComponent buttonComponent1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.juancamr.components.ButtonComponent jbtnCrearUtilidad;
     private javax.swing.JTable jtblUtilidad;
     private com.juancamr.components.InputComponent jtxtNombreOrCode;
     private com.juancamr.components.Typography typography1;
