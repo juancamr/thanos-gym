@@ -13,8 +13,13 @@ import com.juancamr.route.Layout;
 import com.juancamr.route.LayoutPanel;
 import com.juancamr.route.Router;
 import com.uni.thanosgym.config.Theme;
+import com.uni.thanosgym.dao.CRUDPlan;
+import com.uni.thanosgym.model.Admin;
+import com.uni.thanosgym.model.Plan;
+import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.UserPreferences;
 
 /**
@@ -39,9 +44,9 @@ public class MainLayout extends LayoutPanel {
         String userExample = "https://cdn-icons-png.flaticon.com/512/219/219970.png";
         FrameUtils.renderImageFromWeb(userExample, photoAdmin);
         jlblNombreAdmin.setText(UserPreferences.getData().getFullName());
-        JButton[] buttons = new JButton[]{jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto};
-        String[] labels = {"Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades"};
-        String[] routes = {"dashboard", "plan", "client", "producto", "venta", "utilidad"};
+        JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto };
+        String[] labels = { "Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades" };
+        String[] routes = { "dashboard", "plan", "client", "producto", "venta", "utilidad" };
 
         for (int i = 0; i < buttons.length; i++) {
             JButton button = buttons[i];
@@ -55,6 +60,21 @@ public class MainLayout extends LayoutPanel {
             });
         }
         jbtnPrimero.setBackground(focusColor);
+        if (!UserPreferences.getData().getRol().equals(Admin.Rol.MASTER)) {
+            jbtnSegundo.setVisible(false);
+        }
+        FrameUtils.removeAllEvents(jbtnTercero);
+        FrameUtils.addOnClickEvent(jbtnTercero, () -> {
+            Response<Plan> res = CRUDPlan.getInstance().getAll();
+            if (res.getDataList().isEmpty()) {
+                Messages.show("Por favor, primero registre planes");
+                Router.getInstance().go("dashboard");
+            } else {
+                setFocusButton(jbtnTercero);
+                Router.getInstance().go("client");
+            }
+        });
+
     }
 
     private void quitarFondosBotones(JButton[] botones) {
@@ -76,7 +96,8 @@ public class MainLayout extends LayoutPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -112,6 +133,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseDragged(evt);
             }
+
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseMoved(evt);
             }
@@ -120,6 +142,7 @@ public class MainLayout extends LayoutPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jbtnPrimeroFocusGained(evt);
             }
+
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jbtnPrimeroFocusLost(evt);
             }
@@ -133,12 +156,15 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseExited(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMousePressed(evt);
             }
+
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseReleased(evt);
             }
@@ -190,6 +216,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnSegundoMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnSegundoMouseExited(evt);
             }
@@ -217,6 +244,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnSextoMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnSextoMouseExited(evt);
             }
@@ -244,6 +272,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnCuartoMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnCuartoMouseExited(evt);
             }
@@ -271,6 +300,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnTerceroMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnTerceroMouseExited(evt);
             }
@@ -313,9 +343,9 @@ public class MainLayout extends LayoutPanel {
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1060, 690));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void signoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_signoutMouseClicked
+    private void signoutMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_signoutMouseClicked
         Auth.logOut();
-    }//GEN-LAST:event_signoutMouseClicked
+    }// GEN-LAST:event_signoutMouseClicked
 
     private void jbtnPrimeroMouseDragged(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnPrimeroMouseDragged
 

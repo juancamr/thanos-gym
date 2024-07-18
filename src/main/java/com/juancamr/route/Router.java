@@ -18,6 +18,7 @@ public class Router {
 
     private Map<String, Class<? extends LayoutPanel>> layoutsClasses = new HashMap<>();
     private Map<String, Class<? extends JPanel>> routesClasses = new HashMap<>();
+    private Map<String, Class<? extends JPanel>> rutasSinPersistencia = new HashMap<>();
 
     private Map<String, ArrayList<String>> relaciones = new HashMap<>();
 
@@ -66,13 +67,25 @@ public class Router {
                 layout = path.split(":")[0];
                 path = path.split(":")[1];
             }
-            routesClasses.put(path, clazz);
+            if (path.contains("*")) {
+                path = path.replace("*", "");
+                rutasSinPersistencia.put(path, clazz);
+            } else {
+                routesClasses.put(path, clazz);
+            }
             ArrayList<String> components = new ArrayList<>();
             components.add(path);
             components.add(layout);
             relaciones.put(path, components);
         }
 
+    }
+
+    public void destroyLayout(String layout) {
+        LayoutPanel layoutPanel = layouts.get(layout);
+        if (layoutPanel != null) {
+            layouts.remove(layout);
+        }
     }
 
     public void go(String route) {
@@ -118,8 +131,12 @@ public class Router {
 
         if (panel == null) {
             try {
-                panel = routesClasses.get(rComponents.get(0)).getConstructor().newInstance();
-                routes.put(route, panel);
+                if (routesClasses.get(rComponents.get(0)) == null) {
+                    panel = rutasSinPersistencia.get(rComponents.get(0)).getConstructor().newInstance();
+                } else {
+                    panel = routesClasses.get(rComponents.get(0)).getConstructor().newInstance();
+                    routes.put(route, panel);
+                }
             } catch (Exception error) {
                 System.out.println(error);
             }

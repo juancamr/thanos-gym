@@ -2,6 +2,7 @@ package com.uni.thanosgym.controllers;
 
 import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.utils.EnvVariables;
+import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.HttpUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.ResponseByReniec;
@@ -17,6 +18,7 @@ import java.io.File;
 import com.google.gson.Gson;
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDContrato;
+import com.uni.thanosgym.dao.CRUDPlan;
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.model.Plan;
@@ -25,8 +27,11 @@ import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.Uploader;
 import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.dialogs.ClientData;
+import com.uni.thanosgym.view.routes.PanelClient.ComboItem;
 
 public class ClientController {
+
+    private static Gson gson = new Gson();
 
     public static boolean buscar(String dni) {
         if (dni.isEmpty()) {
@@ -48,13 +53,20 @@ public class ClientController {
     }
 
     public static void buscarReniec(String dni, JTextField nombreInput) {
+        if (dni.isEmpty()) {
+            Messages.show("Ingrese un DNI");
+            return;
+        }
+        if (!StringUtils.isValidDni(dni)) {
+            Messages.show("Ingrese un DNI valido");
+            return;
+        }
         String token = EnvVariables.getInstance().get("TOKEN_RENIEC");
         Map<String, String> headers = Map.of("Authorization",
                 String.format("Bearer %s", token));
         CompletableFuture<String> getResponseFuture = HttpUtils
                 .makeGetRequest(String.format("https://api.apis.net.pe/v2/reniec/dni?numero=%s", dni), headers);
 
-        Gson gson = new Gson();
         getResponseFuture.thenAccept(response -> {
             ResponseByReniec res = gson.fromJson(response, ResponseByReniec.class);
             if (res.getNombres() == null) {
@@ -73,7 +85,7 @@ public class ClientController {
         String telefono = params.get("telefono").toString();
         String direccion = params.get("direccion").toString();
         String codigo = params.get("codigo").toString();
-        Plan plan = (Plan) params.get("plan");
+        ComboItem planItem = (ComboItem) params.get("plan");
         File imagen = (File) params.get("photo");
 
         if (dni.isEmpty() || nombres.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()
@@ -122,7 +134,14 @@ public class ClientController {
             Messages.show(resCliente.getMessage());
             return false;
         }
+        cliente.setId(resCliente.getId());
 
+        Response<Plan> resPlan = CRUDPlan.getInstance().getById(planItem.getId());
+        if (!resPlan.isSuccess()) {
+            Messages.show(resPlan.getMessage());
+            return false;
+        }
+        Plan plan = resPlan.getData();
         Contrato contrato = new Contrato.Builder()
                 .setCliente(cliente)
                 .setPlan(plan)
@@ -137,7 +156,6 @@ public class ClientController {
             return false;
         }
 
-        Messages.show("Cliente registrado correctamente");
         return true;
     }
 }

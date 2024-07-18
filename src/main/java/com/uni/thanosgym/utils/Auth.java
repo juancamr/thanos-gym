@@ -20,6 +20,7 @@ public class Auth {
     }
 
     public static void logOut() {
+        Router.getInstance().destroyLayout("main");
         UserPreferences.clearData();
         Router.getInstance().go("auth/login");
     }

@@ -229,4 +229,13 @@ public class FrameUtils {
         } else
             return new Response<File>(false, "No se pudo seleccionar la imagen");
     }
+
+    public static void renderImage(File image, JLabel label){
+        try {
+            ImageIcon imageIcon = new ImageIcon(image.getAbsolutePath());
+            label.setIcon(imageIcon);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

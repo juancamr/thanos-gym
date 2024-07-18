@@ -4,6 +4,7 @@
  */
 package com.uni.thanosgym.view.dialogs;
 
+import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.utils.FrameUtils;
@@ -20,19 +21,28 @@ public class ClientData extends javax.swing.JFrame {
     public ClientData(Contrato contrato) {
         initComponents();
         Client client = contrato.getCliente();
-        jlblNombre.setText(client.getFullName());
         inputDni.setText(client.getDni());
+        if (client.getFullName().contains(" ")) {
+            String[] names = client.getFullName().split(" ");
+            jlblNombre.setText(names[0] + " " + names[1]);
+        } else {
+            jlblNombre.setText(client.getFullName());
+        }
         inputNombres.setText(client.getFullName());
         inputTelefono.setText(client.getPhone());
         inputDireccion.setText(client.getDireccion());
         inputCorreo.setText(client.getEmail());
 
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
         statusPlan.setText("ACTIVO");
         jlblPlan.setText(contrato.getPlan().getName());
         jlblSubscriptionSince.setText("Desde: " + contrato.getCreatedAt().toString());
 
-        String imageUrl = "https://img.freepik.com/free-photo/snowy-mountain-peak-starry-galaxy-majesty-generative-ai_188544-9650.jpg";
-        FrameUtils.renderImageFromWeb(imageUrl, photo);
+        if (client.getPhotoUrl().isEmpty()) 
+            FrameUtils.renderImageFromWeb(Theme.defaultImage, photo);
+        else
+            FrameUtils.renderImageFromWeb(client.getPhotoUrl(), photo);
 
         revalidate();
         repaint();

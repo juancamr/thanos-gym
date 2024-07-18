@@ -10,17 +10,20 @@ public class UserPreferences {
     public static final String FULLNAME = "fullname";
     public static final String ID = "id";
     public static final String PERSISTENCE = "persistence";
+    public static final String ROL = "rol";
 
     public static void setData(Admin admin) {
         prefs.put(FULLNAME, admin.getFullName());
         prefs.put(ID, String.valueOf(admin.getId()));
         prefs.put(PERSISTENCE, String.valueOf(admin.isSesionPersistence()));
+        prefs.put(ROL, admin.getRol().toString());
     }
 
     public static Admin getData() {
         Admin admin = new Admin.Builder()
                 .setFullName(prefs.get(FULLNAME, ""))
                 .setId(Integer.parseInt(prefs.get(ID, "0")))
+                .setRol(Admin.Rol.valueOf(prefs.get(ROL, "MASTER")))
                 .build();
         admin.setPersistencia(Boolean.parseBoolean(prefs.get(PERSISTENCE, "false")));
         return admin;

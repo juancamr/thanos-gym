@@ -7,9 +7,12 @@ import com.uni.thanosgym.utils.Utils;
 
 public class Theme {
 
+    public static String defaultImage = "https://static.vecteezy.com/system/resources/thumbnails/010/056/184/small/people-icon-sign-symbol-design-free-png.png";
+
     public static Font getMainFont(int weight, int size) {
         return new Font("Montserrat", weight, size);
     }
+
     public static final Color inputColor = new Color(240, 240, 240);
 
     public static class colors {

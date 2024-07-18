@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.uni.thanosgym.view.routes.client;
+package com.uni.thanosgym.view.routes;
 
 import java.io.File;
 import java.util.HashMap;
@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.swing.text.JTextComponent;
 
 import com.juancamr.route.Route;
+import com.juancamr.route.Router;
+import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.controllers.ClientController;
 import com.uni.thanosgym.dao.CRUDPlan;
 import com.uni.thanosgym.model.Plan;
@@ -22,7 +24,7 @@ import com.uni.thanosgym.utils.FrameUtils;
  *
  * @author jhere
  */
-@Route("main:client")
+@Route("main:client*")
 public class PanelClient extends javax.swing.JPanel {
     public static File imageSelected = null;
 
@@ -34,10 +36,13 @@ public class PanelClient extends javax.swing.JPanel {
         FrameUtils.addOnClickEvent(jbtnChooseImage, this::chooseImageEvent);
         FrameUtils.addOnClickEvent(jbtnRegistro, this::registerEvent);
         FrameUtils.addOnClickEvent(jbtnBuscarReniec, () -> {
-            ClientController.buscarReniec(jtxtDNIBuscar.getText(), jtxtNombres);
+            ClientController.buscarReniec(jtxtDNIRegistro.getText(), jtxtNombres);
         });
         FrameUtils.addOnClickEvent(jbtnBuscar, () -> {
             ClientController.buscar(jtxtDNIBuscar.getText());
+        });
+        FrameUtils.addOnClickEvent(jbtnListar, () -> {
+            Router.getInstance().go("client/all");
         });
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
@@ -45,6 +50,7 @@ public class PanelClient extends javax.swing.JPanel {
             jcbxPlanes.addItem(new ComboItem(plan.getId(), plan.getName()));
         }
 
+        FrameUtils.renderImageFromWeb(Theme.defaultImage, jLabel1);
         jtxtNombres.setEnabled(false);
     }
 
@@ -52,11 +58,12 @@ public class PanelClient extends javax.swing.JPanel {
         Response<File> response = FrameUtils.chooseImage(this);
         if (response.isSuccess()) {
             imageSelected = response.getData();
+            FrameUtils.renderImage(imageSelected, jLabel1);
             jlblFileName.setText(imageSelected.getName());
         } else {
             Messages.show(response.getMessage());
             imageSelected = null;
-            jlblFileName.setText("");
+            jlblFileName.setText("Foto de perfil");
         }
     }
 
@@ -86,7 +93,8 @@ public class PanelClient extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -195,13 +203,13 @@ public class PanelClient extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnChooseImageActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jbtnChooseImageActionPerformed
@@ -239,6 +247,7 @@ public class PanelClient extends javax.swing.JPanel {
     private com.juancamr.components.Typography typography7;
     private com.juancamr.components.Typography typography8;
     private com.juancamr.components.Typography typography9;
+
     // End of variables declaration//GEN-END:variables
     //
     public static class ComboItem {

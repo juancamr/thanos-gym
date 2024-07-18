@@ -26,7 +26,12 @@ public class CRUDCliente extends BaseCrud<Client> {
             ps = connection.prepareStatement(Querys.getTemplateWithConditions(Client.tableName, Client.emailField));
             ps.setString(1, cliente.getEmail());
             rs = ps.executeQuery();
-            boolean[] conditions = new boolean[] { !rs.next() };
+            boolean noExisteUnClienteConElMismoEmail = !rs.next();
+            ps = connection.prepareStatement(Querys.getTemplateWithConditions(Client.tableName, Client.dniField));
+            ps.setString(1, cliente.getDni());
+            rs = ps.executeQuery();
+            boolean noExisteUnClienteConElMismoDni = !rs.next();
+            boolean[] conditions = new boolean[] { noExisteUnClienteConElMismoEmail, noExisteUnClienteConElMismoDni };
             String error = String.format("El cliente con email %s ya existe", cliente.getEmail());
             return baseCreateWithConditions(cliente, Querys.client.create, conditions, error);
         } catch (Exception e) {
@@ -75,7 +80,7 @@ public class CRUDCliente extends BaseCrud<Client> {
                 .setPhone(rs.getString(Client.phoneField))
                 .setPhotoUrl(rs.getString(Client.photoUrlField))
                 .build();
-                return cliente;
+        return cliente;
     }
 
     @Override
