@@ -41,10 +41,10 @@ public class ButtonComponent extends JButton {
                 fontSize = 20;
                 break;
             case SMALL:
-                backgroundColor = Theme.colors.gray;
+                backgroundColor = Theme.colors.grayCenizo;
                 foreground = Color.black;
                 weight = Font.PLAIN;
-                fontSize = 16;
+                fontSize = 12;
                 break;
             default:
                 break;

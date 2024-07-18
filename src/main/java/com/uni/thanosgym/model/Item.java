@@ -37,4 +37,8 @@ public class Item {
     public String getNombre() {
         return nombre;
     }
+
+    public void setPhotoUrl(String url) {
+        this.photoUrl = url;
+    }
 }

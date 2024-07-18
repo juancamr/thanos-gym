@@ -3,7 +3,8 @@ package com.uni.thanosgym.model;
 public class Utility extends Item {
 
     private Admin admin;
-    private int peso;
+    private Proveedor proveedor;
+    private double peso;
 
     public static String tableName = "utility";
     public static String idField = "utility_id";
@@ -25,7 +26,7 @@ public class Utility extends Item {
         return admin;
     }
 
-    public int getPeso() {
+    public double getPeso() {
         return peso;
     }
 
@@ -36,7 +37,8 @@ public class Utility extends Item {
         private int cantidad;
         private String photoUrl;
         private Admin admin;
-        private int peso;
+        private double peso;
+        private Proveedor proveedor;
 
         // Métodos setters para Utility
         public Builder setId(int id) {
@@ -64,12 +66,16 @@ public class Utility extends Item {
             return this;
         }
 
-        public Builder setPeso(int peso) {
+        public Builder setProveedor(Proveedor proveedor) {
+            this.proveedor = proveedor;
+            return this;
+        }
+
+        public Builder setPeso(double peso) {
             this.peso = peso;
             return this;
         }
 
-        // Método build que retorna una instancia de Utility
         public Utility build() {
             return new Utility(this);
         }

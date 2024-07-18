@@ -65,7 +65,7 @@ public class CRUDUtilidad extends BaseCrud<Utility> {
     public void sendObject(String consulta, Utility data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getNombre());
-        ps.setInt(2, data.getPeso());
+        ps.setDouble(2, data.getPeso());
         ps.setInt(3, data.getCantidad());
         ps.setInt(4, data.getAdmin().getId());
     }

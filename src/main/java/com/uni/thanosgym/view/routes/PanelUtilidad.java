@@ -4,8 +4,14 @@
  */
 package com.uni.thanosgym.view.routes;
 
+import java.util.Map;
+
 import com.juancamr.route.Route;
+import com.juancamr.route.Router;
+import com.juancamr.route.RoutingUtils;
+import com.uni.thanosgym.controllers.UtilidadController;
 import com.uni.thanosgym.model.Utility;
+import com.uni.thanosgym.view.dialogs.AgregarUtilidad;
 
 /**
  *
@@ -33,51 +39,77 @@ public class PanelUtilidad extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jbtnCrear = new javax.swing.JButton();
-        jtxtBusquedaUtilidad = new javax.swing.JTextField();
+        typography1 = new com.juancamr.components.Typography();
+        jtxtNombre = new com.juancamr.components.InputComponent();
+        typography2 = new com.juancamr.components.Typography();
+        buttonComponent1 = new com.juancamr.components.ButtonComponent();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblUtilidad = new javax.swing.JTable();
-
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setText("Busqueda");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, -1, -1));
+        typography1.setText("Utilidades");
+        typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        jPanel1.add(jtxtNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 280, -1));
 
-        jbtnCrear.setBackground(new java.awt.Color(254, 254, 254));
-        jbtnCrear.setText("Crear");
-        jPanel1.add(jbtnCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 50, 140, 40));
+        typography2.setText("Nombre de utilidad");
+        typography2.setType(com.juancamr.components.Typography.Type.MEDIUM);
+        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, -1));
 
-        jtxtBusquedaUtilidad.setBackground(new java.awt.Color(250, 250, 250));
-        jtxtBusquedaUtilidad.setBorder(null);
-        jPanel1.add(jtxtBusquedaUtilidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 330, 40));
+        buttonComponent1.setText("CREAR");
+        buttonComponent1.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        buttonComponent1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                buttonComponent1MouseClicked(evt);
+            }
+        });
+        jPanel1.add(buttonComponent1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 120, 100, -1));
 
-        jtblUtilidad.setBackground(new java.awt.Color(254, 254, 254));
         jtblUtilidad.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Código", "Nombre", "Precio", "Cantidad"
             }
-        ));
-        jtblUtilidad.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtblUtilidadMouseClicked(evt);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jtblUtilidad);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 630, 450));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 750, 470));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 690));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonComponent1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_buttonComponent1MouseClicked
+        Map<String, Object> params = RoutingUtils.openDialog(new AgregarUtilidad());
+        UtilidadController.crearUtilidad(params);
+    }//GEN-LAST:event_buttonComponent1MouseClicked
 
     private void jtblUtilidadMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblUtilidadMouseClicked
         int fila = jtblUtilidad.getSelectedRow();
@@ -96,11 +128,12 @@ public class PanelUtilidad extends javax.swing.JPanel {
     }// GEN-LAST:event_jtblUtilidadMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel2;
+    private com.juancamr.components.ButtonComponent buttonComponent1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JButton jbtnCrear;
-    public javax.swing.JTable jtblUtilidad;
-    public javax.swing.JTextField jtxtBusquedaUtilidad;
+    private javax.swing.JTable jtblUtilidad;
+    private com.juancamr.components.InputComponent jtxtNombre;
+    private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography2;
     // End of variables declaration//GEN-END:variables
 }

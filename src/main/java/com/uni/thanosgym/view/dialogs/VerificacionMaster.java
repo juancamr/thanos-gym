@@ -31,30 +31,48 @@ public class VerificacionMaster extends DialogPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        button = new javax.swing.JButton();
-        input = new javax.swing.JTextField();
+        typography1 = new com.juancamr.components.Typography();
+        input = new com.juancamr.components.InputComponent();
+        typography2 = new com.juancamr.components.Typography();
+        button = new com.juancamr.components.ButtonComponent();
+        typography3 = new com.juancamr.components.Typography();
         passwordInput = new javax.swing.JPasswordField();
-
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        button.setText("Verificar");
-        button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonActionPerformed(evt);
-            }
-        });
-        jPanel1.add(button, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, -1, -1));
-        jPanel1.add(input, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 130, 230, 30));
-        jPanel1.add(passwordInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 190, 210, -1));
+        typography1.setText("Verificación");
+        typography1.setType(com.juancamr.components.Typography.Type.HEADING2);
+        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, -1, -1));
+        jPanel1.add(input, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 310, -1));
 
-        add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 500));
+        typography2.setText("Nombre de usuario");
+        typography2.setType(com.juancamr.components.Typography.Type.MEDIUM);
+        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
+
+        button.setText("Verificar");
+        button.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
+        jPanel1.add(button, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 310, 40));
+
+        typography3.setText("Contraseña");
+        typography3.setType(com.juancamr.components.Typography.Type.MEDIUM);
+        jPanel1.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, -1));
+        jPanel1.add(passwordInput, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 310, -1));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonActionPerformed
@@ -62,9 +80,12 @@ public class VerificacionMaster extends DialogPanel {
     }// GEN-LAST:event_buttonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton button;
-    private javax.swing.JTextField input;
+    private com.juancamr.components.ButtonComponent button;
+    private com.juancamr.components.InputComponent input;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField passwordInput;
+    private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography2;
+    private com.juancamr.components.Typography typography3;
     // End of variables declaration//GEN-END:variables
 }

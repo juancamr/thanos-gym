@@ -90,6 +90,13 @@ public class Querys {
                 new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField });
     }
 
+    public class proveedor {
+        public static String create = generateCreateQuery(Proveedor.tableName, new String[] { Proveedor.nombreField,
+                Proveedor.rucField, Proveedor.phoneField, Proveedor.addressField });
+        public static String update = generateUpdateQuery(Proveedor.tableName, new String[] { Proveedor.nombreField,
+                Proveedor.rucField, Proveedor.phoneField, Proveedor.addressField, Proveedor.isVisibleField });
+    }
+
     public class asistencia {
         public static String create = generateCreateQuery(Asistencia.tableName,
                 new String[] { Asistencia.clientIdField, Asistencia.ingresoField });
