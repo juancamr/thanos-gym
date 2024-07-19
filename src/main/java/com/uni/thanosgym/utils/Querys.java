@@ -78,8 +78,9 @@ public class Querys {
     public class boleta {
         public static String create = generateCreateQuery(Boleta.tableName,
                 new String[] { Boleta.clientIdField, Boleta.adminIdField, Boleta.totalField });
-        public static String getMontoTotalBetweenDates = "SELECT DATE(created_at) AS reporte_fecha, SUM(total_boleta) AS reporte_monto FROM boleta WHERE created_at BETWEEN '2023-01-01' AND '2023-12-31' GROUP BY DATE(created_at) ORDER BY DATE(created_at)";
-        public static String obtenerUltimasTresBoletas = "SELECT client_id, admin_id, total_boleta, created_at FROM boleta ORDER BY created_at DESC LIMIT 3";
+        public static String getMontoTotalBetweenDates = "SELECT DATE(created_at) AS reporte_fecha, SUM(total_boleta) AS reporte_monto FROM boleta WHERE created_at BETWEEN ? AND ? GROUP BY DATE(created_at) ORDER BY DATE(created_at)";
+        public static String obtenerUltimasTresBoletas = "SELECT * FROM boleta ORDER BY created_at DESC LIMIT 3";
+        public static String getUltimoMayorIdBoleta = "SELECT MAX(id) AS ultimo_numero_boleta FROM boleta";
         public static String getReporteLast4Months = "SELECT " +
                 "m.mes AS reporte_mes, " +
                 "IFNULL(SUM(b.total_boleta), 0) AS reporte_monto " +
@@ -104,6 +105,7 @@ public class Querys {
     }
 
     public class detalleBoleta {
+        public static String getDetallesByBoletaId = "SELECT * FROM detalle_boleta WHERE boleta_id=?";
         public static String create = generateCreateQuery(DetalleBoleta.tableName,
                 new String[] { DetalleBoleta.boletaIdField, DetalleBoleta.productoIdField,
                         DetalleBoleta.cantidadField,

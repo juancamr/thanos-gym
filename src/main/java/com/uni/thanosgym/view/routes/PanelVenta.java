@@ -18,11 +18,14 @@ import com.juancamr.route.Route;
 import java.util.List;
 import com.uni.thanosgym.controllers.ProductoController;
 import com.uni.thanosgym.controllers.VentaController;
+import com.uni.thanosgym.dao.CRUDBoleta;
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.DetalleBoleta;
 import com.uni.thanosgym.model.Producto;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
+import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.Utils;
 
 /**
  *
@@ -40,11 +43,25 @@ public class PanelVenta extends javax.swing.JPanel {
      */
     public PanelVenta() {
         initComponents();
-        jlblFechaActual.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+        jlblFechaActual.setText(StringUtils.parseSpanishDate(new Date()));
+        jlblRUC.setText(Utils.RUC);
         jlblTotal.setText("S/ 0.00");
+        jlblNumeroBoleta.setText(StringUtils.parseIdBoleta(CRUDBoleta.getInstance().getUltimoNumeroBoleta() + 1));
+
         FrameUtils.addOnClickEvent(jbtnAgregarProducto, () -> {
-            VentaController.agregarProducto(jtxtCantidadProducto.getText(), productoSeleccionado, jtblBoleta,
-                    detalles);
+            String cantidad = jtxtCantidadProducto.getText();
+            DetalleBoleta detalle = VentaController.agregarProducto(cantidad, productoSeleccionado);
+            if (detalle != null) {
+                jtxtCantidadProducto.setText("");
+                jtxtNombreProducto.setText("");
+                jtxtPrecioProducto.setText("");
+                jtxtCodigoProducto.setText("");
+                productoSeleccionado = null;
+            }
+            detalles.add(detalle);
+            String[] row = new String[] { String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(),
+                    String.valueOf(detalle.getProducto().getPrecio()), String.valueOf(detalle.getTotal()) };
+            ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).addRow(row);
             updateMontoTotal();
         });
         FrameUtils.addOnClickEvent(jbtnSetCLiente, this::setCliente);
@@ -54,12 +71,10 @@ public class PanelVenta extends javax.swing.JPanel {
     }
 
     private void generarVenta() {
-        if (!VentaController.generarVenta(clienteSeleccionado, detalles)) {
-            Messages.show("Error al generar la venta");
-            return;
+        if (VentaController.generarVenta(clienteSeleccionado, detalles)) {
+            detalles.clear();
+            updateMontoTotal();
         }
-        detalles.clear();
-        updateMontoTotal();
     }
 
     private void setProducto() {
@@ -68,6 +83,7 @@ public class PanelVenta extends javax.swing.JPanel {
             return;
         }
         productoSeleccionado = producto;
+        jtxtNombreProducto.setText(producto.getNombre());
         jtxtPrecioProducto.setText(String.valueOf(producto.getPrecio()));
     }
 
@@ -87,12 +103,12 @@ public class PanelVenta extends javax.swing.JPanel {
     }
 
     private void setCliente() {
-        Map<String, JLabel> map = new HashMap<>();
-        map.put("dni", jlblDniCliente);
-        map.put("nombre", jtxtNombreCliente);
-        map.put("direccion", jtxtDireccionCiente);
-        VentaController.setCliente(jtxtDniCliente.getText(), map);
-    }
+        Client cliente = VentaController.setCliente(jtxtDniCliente.getText());
+        jtxtNombreCliente.setText(cliente.getFullName());
+        jtxtDireccionCiente.setText(cliente.getDireccion());
+        jlblDniCliente.setText(cliente.getDni());
+        clienteSeleccionado = cliente;
+    };
 
     /**
      * This method is called from within the constructor to initialize the form.

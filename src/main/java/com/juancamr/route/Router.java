@@ -138,6 +138,7 @@ public class Router {
                     routes.put(route, panel);
                 }
             } catch (Exception error) {
+                System.out.println("Error al crear la ruta " + route);
                 System.out.println(error);
             }
         }

@@ -21,6 +21,8 @@ import java.util.Properties;
 
 public class Utils {
 
+    public static final String RUC = "3423432";
+
     public static boolean areAllTrue(boolean[] array) {
         for (boolean b : array)
             if (!b)

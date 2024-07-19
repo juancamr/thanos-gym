@@ -22,25 +22,24 @@ import com.uni.thanosgym.utils.Messages;
 
 public class VentaController {
 
-    public static void setCliente(String dni, Map<String, JLabel> map) {
+    public static Client setCliente(String dni) {
         if (dni.isEmpty()) {
             Messages.show("Debe completar el DNI");
-            return;
+            return null;
         }
         if (!StringUtils.isValidDni(dni)) {
             Messages.show("El DNI no es valido");
-            return;
+            return null;
         }
 
         Response<Client> res = CRUDCliente.getInstance().getByDni(dni);
         if (!res.isSuccess()) {
             Messages.show(res.getMessage());
-            return;
+            return null;
         }
         Client cliente = res.getData();
-        map.get("dni").setText(dni);
-        map.get("nombre").setText(cliente.getFullName());
-        map.get("direccion").setText(cliente.getDireccion());
+
+        return cliente;
     }
 
     public static boolean crearVenta(Map<String, Object> params) {
@@ -51,24 +50,23 @@ public class VentaController {
         return true;
     }
 
-    public static void agregarProducto(String cantidad, Producto producto, JTable table,
-            List<DetalleBoleta> detalles) {
+    public static DetalleBoleta agregarProducto(String cantidad, Producto producto) {
         if (cantidad.isEmpty()) {
             Messages.show("Debe ingresar una cantidad");
-            return;
+            return null;
         }
         if (!StringUtils.isInteger(cantidad)) {
             Messages.show("La cantidad debe ser un número");
-            return;
+            return null;
         }
         int cant = Integer.parseInt(cantidad);
         if (cant <= 0) {
             Messages.show("La cantidad debe ser mayor a 0");
-            return;
+            return null;
         }
         if (producto == null) {
             Messages.show("Debe seleccionar un producto");
-            return;
+            return null;
         }
 
         DetalleBoleta detalle = new DetalleBoleta.Builder()
@@ -76,10 +74,7 @@ public class VentaController {
                 .setProducto(producto)
                 .setTotal(producto.getPrecio() * Integer.parseInt(cantidad))
                 .build();
-        detalles.add(detalle);
-        String[] datos = new String[] { cantidad, producto.getNombre(), String.valueOf(producto.getPrecio()),
-                String.valueOf(detalle.getTotal()) };
-        ((javax.swing.table.DefaultTableModel) table.getModel()).addRow(datos);
+        return detalle;
     }
 
     public static Producto getProducto(String codigo) {

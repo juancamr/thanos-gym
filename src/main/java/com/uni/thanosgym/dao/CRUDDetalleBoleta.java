@@ -3,6 +3,7 @@ package com.uni.thanosgym.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.uni.thanosgym.model.*;
 import com.uni.thanosgym.utils.Querys;
@@ -26,7 +27,20 @@ public class CRUDDetalleBoleta extends BaseCrud<DetalleBoleta> {
     }
 
     public Response<DetalleBoleta> getAllByBoletaId(int id) {
-        return new Response<>(true, "Lista de detalles obtenida correctamente", new ArrayList<>());
+        try {
+            ps = connection.prepareStatement(Querys.detalleBoleta.getDetallesByBoletaId);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            List<DetalleBoleta> detalles = new ArrayList<>();
+            while (rs.next()) {
+                DetalleBoleta detalle = generateObject(rs);
+                detalles.add(detalle);
+            }
+            return new Response<>(true, "Lista de detalles obtenida correctamente", detalles);
+        } catch (SQLException ex) {
+            return new Response<>(false, "Error al obtener los detalles del boleta: " + ex.getMessage());
+        }
     }
 
     public Response<DetalleBoleta> getById(int id) {

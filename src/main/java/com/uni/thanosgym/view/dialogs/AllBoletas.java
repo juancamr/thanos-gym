@@ -4,6 +4,9 @@
  */
 package com.uni.thanosgym.view.dialogs;
 
+import com.uni.thanosgym.utils.StringUtils;
+import java.util.Date;
+
 /**
  *
  * @author juancamr
@@ -13,8 +16,9 @@ public class AllBoletas extends javax.swing.JPanel {
     /**
      * Creates new form AllBoletas
      */
-    public AllBoletas() {
+    public AllBoletas(Date fecha) {
         initComponents();
+        jlblFecha.setText(StringUtils.parseSpanishDate(fecha));
     }
 
     /**
@@ -26,19 +30,77 @@ public class AllBoletas extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jtblBoletas = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        typography1 = new com.juancamr.components.Typography();
+        jlblFecha = new com.juancamr.components.Typography();
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Código", "Cliente", "Monto"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jtblBoletas.setViewportView(jTable1);
+
+        jPanel1.add(jtblBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 530, 480));
+
+        typography1.setText("Boletas de la fecha");
+        typography1.setType(com.juancamr.components.Typography.Type.HEADING2);
+        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 210, 30));
+
+        jlblFecha.setText("10/10/20");
+        jlblFecha.setType(com.juancamr.components.Typography.Type.HEADING2);
+        jPanel1.add(jlblFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 30, -1, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JTable jTable1;
+    private com.juancamr.components.Typography jlblFecha;
+    private javax.swing.JScrollPane jtblBoletas;
+    private com.juancamr.components.Typography typography1;
     // End of variables declaration//GEN-END:variables
 }

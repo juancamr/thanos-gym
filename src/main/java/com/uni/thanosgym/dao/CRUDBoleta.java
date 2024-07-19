@@ -55,6 +55,19 @@ public class CRUDBoleta extends BaseCrud<Boleta> {
         }
     }
 
+    public int getUltimoNumeroBoleta() {
+        try {
+            ps = connection.prepareStatement(Querys.boleta.getUltimoMayorIdBoleta);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("ultimo_numero_boleta");
+            }
+            return 0;
+        } catch (SQLException e) {
+            return 0;
+        }
+    }
+
     public Response<ReporteMensual> getReporteLast4Months() {
         try {
             ps = connection.prepareStatement(Querys.boleta.getReporteLast4Months);
@@ -80,9 +93,10 @@ public class CRUDBoleta extends BaseCrud<Boleta> {
                 Boleta boleta = generateObject(rs);
                 boletas.add(boleta);
             }
-            return new Response<>(true, boletas);
+            return new Response<Boleta>(true, boletas);
         } catch (SQLException e) {
-            return new Response<>(false);
+            System.out.println(e);
+            return new Response<Boleta>(false);
         }
     }
 

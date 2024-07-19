@@ -21,7 +21,7 @@ import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Querys.asistencia;
 import com.uni.thanosgym.view.dialogs.ClientData;
-import com.uni.thanosgym.view.dialogs.BoletaDialog;
+import com.uni.thanosgym.view.dialogs.BoletaData;
 
 import io.quickchart.QuickChart;
 
@@ -102,7 +102,8 @@ public class PanelDashboard extends javax.swing.JPanel {
         } else {
             porcentajeGanancia = (montoMesActual * 100 / montoMesAnterior) - 100;
         }
-        lblGanancias.setText(String.format("%%%.2f", porcentajeGanancia));;
+        lblGanancias.setText(String.format("%%%.2f", porcentajeGanancia));
+        ;
 
         // clientes suscritos todo el tiempo
         lblClientesTodoElTiempo.setForeground(Theme.colors.purple);
@@ -118,17 +119,21 @@ public class PanelDashboard extends javax.swing.JPanel {
     }
 
     private void fillTableVentas() {
-        Response<Boleta> resBoletas = CRUDBoleta.getInstance().obtenerUltimasTresBoletas();
-        boletas = resBoletas.getDataList();
-        List<String[]> datos = resBoletas.getDataList().stream().map((boleta) -> {
-            return new String[] {
-                    boleta.getCliente().getFullName(),
-                    String.valueOf(boleta.getTotal()),
-            };
-        }).collect(Collectors.toList());
-        datos.forEach((dato) -> {
-            ((javax.swing.table.DefaultTableModel) jtblVentas.getModel()).addRow(dato);
-        });
+        try {
+            Response<Boleta> resBoletas = CRUDBoleta.getInstance().obtenerUltimasTresBoletas();
+            boletas = resBoletas.getDataList();
+            List<String[]> datos = boletas.stream().map((boleta) -> {
+                return new String[] {
+                        boleta.getCliente().getFullName(),
+                        String.valueOf(boleta.getTotal()),
+                };
+            }).collect(Collectors.toList());
+            datos.forEach((dato) -> {
+                ((javax.swing.table.DefaultTableModel) jtblVentas.getModel()).addRow(dato);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void fillTableClientes() {
@@ -381,9 +386,9 @@ public class PanelDashboard extends javax.swing.JPanel {
     }// GEN-LAST:event_jtblClienteMouseClicked
 
     private void jtblVentasMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblVentasMouseClicked
-        int rowIndex = jtblCliente.getSelectedRow();
+        int rowIndex = jtblVentas.getSelectedRow();
         if (rowIndex != -1) {
-            new BoletaDialog(boletas.get(rowIndex));
+            new BoletaData(boletas.get(rowIndex));
         }
     }// GEN-LAST:event_jtblVentasMouseClicked
 

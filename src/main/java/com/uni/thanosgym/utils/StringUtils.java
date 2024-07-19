@@ -16,7 +16,7 @@ public class StringUtils {
     public static SimpleDateFormat spanishFormat = new SimpleDateFormat("dd-MM-yyyy");
     public static String usernameRegex = "^[a-z]{8,15}$";
     public static String passwordRegex = "^[a-z]{8,}$";
-    public static DecimalFormat decimalFormat = new DecimalFormat("00000000000");
+    public static DecimalFormat boletaFormat = new DecimalFormat("00000000000");
 
     public static String sha256(final String base) {
         try {
@@ -37,7 +37,7 @@ public class StringUtils {
     }
 
     public static String parseIdBoleta(int id) {
-        return decimalFormat.format(id);
+        return boletaFormat.format(id);
     }
 
     public static boolean isValidEmail(String email) {
@@ -55,6 +55,14 @@ public class StringUtils {
 
     public static String parseSpanishDate(Date date) {
         return spanishFormat.format(date);
+    }
+
+    public static Date spanishDateToDate(String date) {
+        try {
+            return spanishFormat.parse(date);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public static String parseDate(Date date) {
