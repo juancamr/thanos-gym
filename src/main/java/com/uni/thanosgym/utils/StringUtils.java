@@ -57,6 +57,10 @@ public class StringUtils {
         return spanishFormat.format(date);
     }
 
+    public static String parseToDayAndMonth(Date date) {
+        return new SimpleDateFormat("dd/MM").format(date);
+    }
+
     public static Date spanishDateToDate(String date) {
         try {
             return spanishFormat.parse(date);

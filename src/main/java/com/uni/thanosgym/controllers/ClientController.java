@@ -26,7 +26,7 @@ import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.Uploader;
 import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.view.dialogs.ClientData;
-import com.uni.thanosgym.view.routes.PanelClient.ComboItem;
+import com.uni.thanosgym.view.routes.PanelClient.ComboItemPlan;
 
 public class ClientController {
 
@@ -84,7 +84,7 @@ public class ClientController {
         String telefono = params.get("telefono").toString();
         String direccion = params.get("direccion").toString();
         String codigo = params.get("codigo").toString();
-        ComboItem planItem = (ComboItem) params.get("plan");
+        ComboItemPlan planItem = (ComboItemPlan) params.get("plan");
         File imagen = (File) params.get("photo");
 
         if (dni.isEmpty() || nombres.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()

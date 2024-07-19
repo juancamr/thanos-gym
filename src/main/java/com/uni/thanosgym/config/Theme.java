@@ -23,6 +23,6 @@ public class Theme {
         public static final Color blueCenizo = Utils.hexToRGB("#2F4172");
         public static final Color gray = Utils.hexToRGB("#D4D4D4");
         public static final Color grayCenizo = Utils.hexToRGB("#F2F2F2");
-        public static final Color green = Utils.hexToRGB("#31D317");
+        public static final Color green = Color.GREEN;
     }
 }

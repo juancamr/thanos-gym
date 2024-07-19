@@ -71,7 +71,7 @@ public class PanelReportes extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -80,32 +80,36 @@ public class PanelReportes extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblReportes = new javax.swing.JTable();
         jbtnBuscar = new com.juancamr.components.ButtonComponent();
+        typography1 = new com.juancamr.components.Typography();
+        typography2 = new com.juancamr.components.Typography();
+        typography3 = new com.juancamr.components.Typography();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(desde, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 200, -1));
-        jPanel1.add(hasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 70, 160, -1));
+        jPanel1.add(desde, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 120, 200, -1));
+        jPanel1.add(hasta, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 120, 160, -1));
 
         jtblReportes.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "Fecha", "Monto"
-                }) {
-            Class[] types = new Class[] {
-                    java.lang.String.class, java.lang.String.class
+            },
+            new String [] {
+                "Fecha", "Monto"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean[] {
-                    false, false
+            boolean[] canEdit = new boolean [] {
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+                return types [columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
+                return canEdit [columnIndex];
             }
         });
         jtblReportes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -115,20 +119,34 @@ public class PanelReportes extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(jtblReportes);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 170, 620, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 730, 470));
 
         jbtnBuscar.setText("BUSCAR");
         jbtnBuscar.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        jPanel1.add(jbtnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 70, -1, -1));
+        jPanel1.add(jbtnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 120, -1, -1));
+
+        typography1.setText("Hasta");
+        typography1.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, -1, 20));
+
+        typography2.setText("Desde");
+        typography2.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, 20));
+
+        typography3.setText("Reportes");
+        typography3.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel1.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtblReportesMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblReportesMouseClicked
@@ -151,5 +169,8 @@ public class PanelReportes extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private com.juancamr.components.ButtonComponent jbtnBuscar;
     private javax.swing.JTable jtblReportes;
+    private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography2;
+    private com.juancamr.components.Typography typography3;
     // End of variables declaration//GEN-END:variables
 }

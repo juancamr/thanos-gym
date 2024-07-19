@@ -7,15 +7,27 @@ package com.uni.thanosgym.view.dialogs;
 
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.UserPreferences;
+import com.uni.thanosgym.model.Plan;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import javax.swing.JPanel;
+
+import com.juancamr.components.Typography;
 import com.juancamr.route.RoutingUtils;
 import com.uni.thanosgym.config.Theme;
+import com.uni.thanosgym.dao.CRUDAsistencia;
 import com.uni.thanosgym.dao.CRUDBoleta;
 import com.uni.thanosgym.dao.CRUDContrato;
+import com.uni.thanosgym.dao.CRUDPlan;
+import com.uni.thanosgym.model.Asistencia;
 import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;
@@ -29,11 +41,17 @@ import com.uni.thanosgym.utils.FrameUtils;
  */
 public class ClientData extends javax.swing.JFrame {
     private Contrato contrato;
+    private List<Asistencia> asistencias;
+    private Client cliente;
 
     /**
      * Creates new form ClientData
      */
     public ClientData(Contrato contrato) {
+        Response<Asistencia> resAsistencias = CRUDAsistencia.getInstance().getAllById(contrato.getCliente().getId());
+        this.asistencias = resAsistencias.getDataList();
+        this.cliente = contrato.getCliente();
+
         initComponents();
         this.contrato = contrato;
         Client client = contrato.getCliente();
@@ -68,8 +86,106 @@ public class ClientData extends javax.swing.JFrame {
 
         // events
         FrameUtils.addOnClickEvent(jbtnCongelar, this::congelarODescongelar);
+        FrameUtils.addOnClickEvent(jbtnAsistencias, () -> {
+            new ListaAsistencias(asistencias);
+        });
+        FrameUtils.addOnClickEvent(jbtnRenovar, this::renovar);
         FrameUtils.addOnClickEvent(jbtnContratos, this::mostrarContratos);
         FrameUtils.addOnClickEvent(jbtnBoletas, this::mostrarBoletas);
+
+        paintAsistencias();
+    }
+
+    private void paintAsistencias() {
+        jpnlAsistencias.setLayout(null);
+        jpnlAsistencias.removeAll();
+        double width = jpnlAsistencias.getSize().getWidth();
+        double height = jpnlAsistencias.getSize().getHeight();
+        int margin = 15;
+
+        List<Asistencia> past14Asistencias = CRUDAsistencia.getInstance().getUltimasCatorceAsistencias(cliente.getId())
+                .getDataList();
+        past14Asistencias = past14Asistencias.reversed();
+
+        List<Date> past14Dates = new ArrayList<>();
+        for (int i = 0; i < 14; i++) {
+            past14Dates.add(DateUtils.dateMinus(new Date(), i));
+        }
+        past14Dates = past14Dates.reversed();
+
+        int tamanioCuadradoX = (int) width / 7 - margin * 2;
+        int tamanioCuadradoY = (int) height / 2 - margin;
+
+        int y = margin;
+        int start = 0;
+        for (int i = 0; i < 14; i++) {
+            JPanel panel = new JPanel();
+            panel.setLayout(new BorderLayout());
+            Typography fecha = new Typography();
+            fecha.setType(Typography.Type.BODY);
+            fecha.setText(StringUtils.parseToDayAndMonth(past14Dates.get(i)));
+            if (past14Asistencias.get(i).getIngreso() == null) {
+                panel.setBackground(Theme.colors.grayCenizo);
+            } else {
+                panel.setBackground(Theme.colors.green);
+            }
+            if (i == 7) {
+                y += tamanioCuadradoY + 10;
+            }
+            if (i < 7) {
+                panel.setBounds(margin + i * (tamanioCuadradoX + margin), y, tamanioCuadradoX, tamanioCuadradoY);
+            } else {
+                panel.setBounds(margin + start * (tamanioCuadradoX + margin), y, tamanioCuadradoX, tamanioCuadradoY);
+                start++;
+            }
+            panel.add(fecha);
+
+            jpnlAsistencias.add(panel);
+        }
+    }
+
+    private void renovar() {
+        if (contrato.isFrozen()) {
+            Messages.show("No puedes renovar un contrato conocido");
+            return;
+        }
+        if (!contrato.getEstado().equals("Vencido")) {
+            Messages.show("No puedes renovar un contrato en estado activo");
+            return;
+        }
+        Map<String, Object> params = RoutingUtils.openDialog(this, new RenovarDialog());
+        if (params == null) {
+            return;
+        }
+        int planId = (int) params.get("plan_item");
+        String codigoTransaccion = (String) params.get("codigo");
+        if (StringUtils.isInteger(codigoTransaccion)) {
+            Messages.show("El código de transacción debe ser un número");
+            return;
+        }
+        if (codigoTransaccion.isEmpty()) {
+            Messages.show("Ingrese un código de transacción");
+            return;
+        }
+        Response<Plan> resPlan = CRUDPlan.getInstance().getById(planId);
+        if (!resPlan.isSuccess()) {
+            Messages.show(resPlan.getMessage());
+            return;
+        }
+        Contrato contratoRenovado = new Contrato.Builder()
+                .setCliente(cliente)
+                .setPlan(resPlan.getData())
+                .setAdmin(UserPreferences.getData())
+                .setTransactionCode(codigoTransaccion)
+                .setSubscriptionUntil(DateUtils.addDays(new Date(), resPlan.getData().getDurationDays()))
+                .build();
+        Response<Contrato> resContrato = CRUDContrato.getInstance().create(contratoRenovado);
+
+        if (!resContrato.isSuccess()) {
+            Messages.show(resContrato.getMessage());
+            return;
+        }
+
     }
 
     private void refreshEstado() {
@@ -86,7 +202,7 @@ public class ClientData extends javax.swing.JFrame {
         String estado = contrato.getEstado();
         jlblEstado.setText(estado);
         Color backgroundEstado = estado.equals("Congelado") ? Color.BLUE
-                : estado.equals("Vencido") ? Color.RED : Color.GREEN;
+                : estado.equals("Vencido") ? Color.RED : Theme.colors.green;
         jpnlEstado.setBackground(backgroundEstado);
 
         revalidate();
@@ -99,7 +215,7 @@ public class ClientData extends javax.swing.JFrame {
             return;
         }
         if (!contrato.isFrozen()) {
-            Map<String, Object> params = RoutingUtils.openDialog(new Congelar(), this);
+            Map<String, Object> params = RoutingUtils.openDialog(this, new Congelar());
             if (params == null) {
                 return;
             }
@@ -167,6 +283,7 @@ public class ClientData extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -183,7 +300,7 @@ public class ClientData extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jlblPlan = new com.juancamr.components.Typography();
         jlblSubscriptionSince = new com.juancamr.components.Typography();
-        jPanel3 = new javax.swing.JPanel();
+        jpnlAsistencias = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         typography1 = new com.juancamr.components.Typography();
         jbtnEditar = new com.juancamr.components.ButtonComponent();
@@ -253,18 +370,18 @@ public class ClientData extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 330, 110));
 
-        jPanel3.setBackground(new java.awt.Color(250, 250, 250));
+        jpnlAsistencias.setBackground(new java.awt.Color(250, 250, 250));
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jpnlAsistenciasLayout = new javax.swing.GroupLayout(jpnlAsistencias);
+        jpnlAsistencias.setLayout(jpnlAsistenciasLayout);
+        jpnlAsistenciasLayout.setHorizontalGroup(
+                jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 730, Short.MAX_VALUE));
-        jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jpnlAsistenciasLayout.setVerticalGroup(
+                jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGap(0, 120, Short.MAX_VALUE));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 730, 120));
+        jPanel1.add(jpnlAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 730, 120));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
@@ -346,7 +463,6 @@ public class ClientData extends javax.swing.JFrame {
     private com.juancamr.components.InputComponent inputTelefono;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private com.juancamr.components.ButtonComponent jbtnAsistencias;
     private com.juancamr.components.ButtonComponent jbtnBoletas;
@@ -358,6 +474,7 @@ public class ClientData extends javax.swing.JFrame {
     private com.juancamr.components.Typography jlblNombre;
     private com.juancamr.components.Typography jlblPlan;
     private com.juancamr.components.Typography jlblSubscriptionSince;
+    private javax.swing.JPanel jpnlAsistencias;
     private javax.swing.JPanel jpnlEstado;
     private javax.swing.JLabel photo;
     private com.juancamr.components.Typography typography1;

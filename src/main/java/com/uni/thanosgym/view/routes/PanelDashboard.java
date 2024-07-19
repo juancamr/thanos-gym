@@ -110,7 +110,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         lblClientesTodoElTiempo.setText(String.valueOf(clientesTodoElTiempo));
 
         // asistencias
-        int asistencias = CRUDAsistencia.getInstance().obtenerAsistenciasDeHoy();
+        int asistencias = CRUDAsistencia.getInstance().obtenerCantidadAsistenciasDeHoy();
         lblAsistencias.setText(String.valueOf(asistencias));
 
         fillTableClientes();

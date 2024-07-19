@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 public class RoutingUtils {
 
 
-    public static Map<String, Object> openDialog(DialogPanel dialogPanel, JFrame parent) {
+    public static Map<String, Object> openDialog(JFrame parent, DialogPanel dialogPanel) {
         try {
             CompletableFuture<Map<String, Object>> future = new CompletableFuture<>();
             JDialog dialog = new JDialog(parent, "Modal", true);

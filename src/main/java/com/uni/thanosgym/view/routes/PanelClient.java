@@ -47,7 +47,7 @@ public class PanelClient extends javax.swing.JPanel {
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();
         for (Plan plan : response.getDataList()) {
-            jcbxPlanes.addItem(new ComboItem(plan.getId(), plan.getName()));
+            jcbxPlanes.addItem(new ComboItemPlan(plan.getId(), plan.getName()));
         }
 
         FrameUtils.renderImageFromWeb(Theme.defaultImage, jLabel1);
@@ -229,7 +229,7 @@ public class PanelClient extends javax.swing.JPanel {
     private com.juancamr.components.ButtonComponent jbtnChooseImage;
     private com.juancamr.components.ButtonComponent jbtnListar;
     private com.juancamr.components.ButtonComponent jbtnRegistro;
-    private javax.swing.JComboBox<ComboItem> jcbxPlanes;
+    private javax.swing.JComboBox<ComboItemPlan> jcbxPlanes;
     private com.juancamr.components.Typography jlblFileName;
     private com.juancamr.components.InputComponent jtxtCodigoTransaccion;
     private com.juancamr.components.InputComponent jtxtCorreo;
@@ -250,11 +250,11 @@ public class PanelClient extends javax.swing.JPanel {
 
     // End of variables declaration//GEN-END:variables
     //
-    public static class ComboItem {
+    public static class ComboItemPlan {
         private int id;
         private String name;
 
-        public ComboItem(int id, String name) {
+        public ComboItemPlan(int id, String name) {
             this.id = id;
             this.name = name;
         }

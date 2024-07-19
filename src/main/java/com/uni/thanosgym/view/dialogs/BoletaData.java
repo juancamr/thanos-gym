@@ -4,6 +4,8 @@
  */
 package com.uni.thanosgym.view.dialogs;
 
+import java.util.Date;
+
 import javax.swing.JFrame;
 
 import com.uni.thanosgym.model.Boleta;
@@ -29,6 +31,7 @@ public class BoletaData extends javax.swing.JFrame {
         jlblTotal.setText(String.format("S/ %.2f", boleta.getTotal()));
         jlblNumeroBoleta.setText(StringUtils.parseIdBoleta(boleta.getId()));
         jlblRUC.setText(Utils.RUC);
+        jlblFechaActual.setText(StringUtils.parseSpanishDate(new Date()));
 
         for (DetalleBoleta detalle : boleta.getDetallesBoleta()) {
             String[] row = new String[]{String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(), String.valueOf(detalle.getProducto().getPrecio()), String.valueOf(detalle.getTotal())};

@@ -127,6 +127,24 @@ public class Querys {
     }
 
     public class asistencia {
+        public static String getUltimasCatorceAsistencias = "WITH RECURSIVE DateSeries AS (" +
+               "SELECT CURDATE() AS fecha " +
+               "UNION ALL " +
+               "SELECT fecha - INTERVAL 1 DAY " +
+               "FROM DateSeries " +
+               "WHERE fecha > CURDATE() - INTERVAL 13 DAY" +
+               ") " +
+               "SELECT " +
+               "DateSeries.fecha, " +
+               "a.asistencia_id, " +
+               "a.client_id, " +
+               "a.ingreso " +
+               "FROM " +
+               "DateSeries " +
+               "LEFT JOIN " +
+               "asistencia a ON DATE(a.ingreso) = DateSeries.fecha AND a.client_id = ? " +
+               "ORDER BY " +
+               "DateSeries.fecha DESC;";
         public static String create = generateCreateQuery(Asistencia.tableName,
                 new String[] { Asistencia.clientIdField, Asistencia.ingresoField });
         public static String obtenerAsistenciasDeHoy = "SELECT COUNT(*) AS contador FROM asistencia WHERE DATE(ingreso) = CURDATE()";
