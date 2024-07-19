@@ -1,5 +1,6 @@
 package com.uni.thanosgym.controllers;
 
+import java.util.Date;
 import java.util.Map;
 
 import com.uni.thanosgym.dao.CRUDProducto;
@@ -18,10 +19,17 @@ public class ProductoController {
         String codigo = (String) params.get("codigo");
         String nombre = (String) params.get("nombre");
         String precio = (String) params.get("precio");
+        Date fechaVencimiento = (Date) params.get("fechaVencimiento");
         String cantidad = (String) params.get("cantidad");
 
-        if (codigo.isEmpty()|| nombre.isEmpty() || precio.isEmpty() || cantidad.isEmpty()) {
+        if (codigo.isEmpty()|| nombre.isEmpty() || precio.isEmpty() || cantidad.isEmpty() || fechaVencimiento == null) {
             Messages.show("Debe completar todos los campos");
+            return false;
+        }
+
+        // si fecha vencimiento es antes de hoy
+        if (fechaVencimiento.before(new Date())) {
+            Messages.show("La fecha de vencimiento no puede ser anterior a la fecha actual");
             return false;
         }
 
@@ -29,6 +37,7 @@ public class ProductoController {
             Messages.show("El precio debe ser un número");
             return false;
         }
+
         if (!StringUtils.isInteger(cantidad)) {
             Messages.show("La cantidad debe ser un número entero");
             return false;
@@ -37,6 +46,7 @@ public class ProductoController {
         Producto producto = new Producto.Builder()
                 .setCodigo(codigo)
                 .setNombre(nombre)
+                .setFechaVencimiento(fechaVencimiento)
                 .setPrecio(Double.parseDouble(precio))
                 .setCantidad(Integer.parseInt(cantidad))
                 .build();

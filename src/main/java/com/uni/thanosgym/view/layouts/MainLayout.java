@@ -49,6 +49,7 @@ public class MainLayout extends LayoutPanel {
         String[] routes = { "dashboard", "plan", "client", "producto", "venta", "utilidad", "proveedor", "reporte" };
 
         for (int i = 0; i < buttons.length; i++) {
+            FrameUtils.removeAllEvents(buttons[i]);
             JButton button = buttons[i];
             button.setText("    " + labels[i]);
             button.setFont(fontButtonMenu);

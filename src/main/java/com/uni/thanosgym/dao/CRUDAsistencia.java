@@ -23,7 +23,17 @@ public class CRUDAsistencia extends BaseCrud<Asistencia> {
     }
 
     public int obtenerAsistenciasDeHoy() {
-        return 0;
+        try {
+            ps = connection.prepareStatement(Querys.asistencia.obtenerAsistenciasDeHoy);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("contador");
+            }
+            return 0;
+        } catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        }
     }
 
     public Response<Asistencia> delete(int id) {

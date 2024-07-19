@@ -35,3 +35,8 @@ GMAIL_PASSWORD=<solicitar-password>
 - [ ] agregar utilidades (maquinarias)
 - [ ] eliminar utilidades (maquinarias)
 - [ ] editar utilidades (maquinarias)
+
+# todo
+
+- [ ] agregar panel de reportes por fecha
+- [ ] bug de seleccion de boton menu mainlayout

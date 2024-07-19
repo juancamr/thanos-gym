@@ -32,6 +32,23 @@ public class CRUDContrato extends BaseCrud<Contrato> {
         return baseCreate(contrato, Querys.contrato.create);
     }
 
+    public Response<Contrato> obtenerUltimosTresContratos() {
+        try {
+            ps = connection.prepareStatement(Querys.contrato.obtenerUltimosTresContratos);
+            rs = ps.executeQuery();
+            List<Contrato> contratos = new ArrayList<>();
+            while (rs.next()) {
+                Contrato contrato = generateObject(rs);
+                contratos.add(contrato);
+            }
+            return new Response<Contrato>(true, contratos);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new Response<Contrato>(false);
+        }
+    }
+
+
     public Response<Contrato> getById(int id) {
         return baseGetById(Querys.getByIdTemplate(Contrato.tableName), id);
     }

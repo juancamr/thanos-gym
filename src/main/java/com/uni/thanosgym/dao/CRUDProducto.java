@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import com.uni.thanosgym.model.Producto;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
+import com.uni.thanosgym.utils.StringUtils;
 
 public class CRUDProducto extends BaseCrud<Producto> {
     public static CRUDProducto crudProducto;
@@ -58,6 +59,7 @@ public class CRUDProducto extends BaseCrud<Producto> {
                 .setCantidad(rs.getInt(Producto.cantidadField))
                 .setPrecio(rs.getDouble(Producto.precioField))
                 .setPhotoUrl(rs.getString(Producto.photoUrlField))
+                .setFechaVencimiento(rs.getDate(Producto.fechaVencimientoField))
                 .build();
     }
 
@@ -67,5 +69,7 @@ public class CRUDProducto extends BaseCrud<Producto> {
         ps.setString(1, data.getNombre());
         ps.setInt(2, data.getCantidad());
         ps.setDouble(3, data.getPrecio());
+        ps.setString(4, StringUtils.parseDate(data.getFechaVencimiento()));
+        ps.setString(5, data.getCodigo());
     }
 }

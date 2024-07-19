@@ -154,135 +154,33 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JPanel" name="jPanel5">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="60" width="320" height="20"/>
+                  <AbsoluteConstraints x="20" y="60" width="320" height="100"/>
                 </Constraint>
               </Constraints>
 
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-                <Property name="useNullLayout" type="boolean" value="false"/>
-              </Layout>
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="com.juancamr.components.Typography" name="typography14">
+                <Component class="javax.swing.JTable" name="jtblCliente">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Membres&#xed;a"/>
-                    <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                      <Value id="SMALL"/>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="2" rowCount="0">
+                        <Column editable="false" title="Nombres completos" type="java.lang.String"/>
+                        <Column editable="false" title="Membres&#xed;a" type="java.lang.String"/>
+                      </Table>
                     </Property>
                   </Properties>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="180" y="0" width="-1" height="20"/>
-                    </Constraint>
-                  </Constraints>
-                </Component>
-                <Component class="com.juancamr.components.Typography" name="typography15">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Nombres completos"/>
-                    <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                      <Value id="SMALL"/>
-                    </Property>
-                  </Properties>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="0" width="-1" height="20"/>
-                    </Constraint>
-                  </Constraints>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtblClienteMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="com.juancamr.components.Typography" name="jlblUltimosClientes">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="130" width="140" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography20">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="200" y="130" width="120" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography22">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="200" y="90" width="120" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography23">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="200" y="110" width="120" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="jlblUltimosClientes1">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="90" width="140" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="jlblUltimosClientes2">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="110" width="140" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel4">
@@ -321,135 +219,33 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Container class="javax.swing.JPanel" name="jPanel9">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="20" y="60" width="320" height="20"/>
+                  <AbsoluteConstraints x="20" y="60" width="320" height="100"/>
                 </Constraint>
               </Constraints>
 
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-                <Property name="useNullLayout" type="boolean" value="false"/>
-              </Layout>
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="com.juancamr.components.Typography" name="typography16">
+                <Component class="javax.swing.JTable" name="jtblVentas">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Cliente"/>
-                    <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                      <Value id="SMALL"/>
+                    <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                      <Table columnCount="2" rowCount="0">
+                        <Column editable="false" title="Cliente" type="java.lang.String"/>
+                        <Column editable="false" title="Total" type="java.lang.String"/>
+                      </Table>
                     </Property>
                   </Properties>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="10" y="0" width="-1" height="20"/>
-                    </Constraint>
-                  </Constraints>
-                </Component>
-                <Component class="com.juancamr.components.Typography" name="typography17">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Total"/>
-                    <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                      <Value id="SMALL"/>
-                    </Property>
-                  </Properties>
-                  <Constraints>
-                    <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                      <AbsoluteConstraints x="180" y="0" width="-1" height="20"/>
-                    </Constraint>
-                  </Constraints>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtblVentasMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="com.juancamr.components.Typography" name="typography18">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="200" y="130" width="110" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography21">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="130" width="120" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography24">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="90" width="120" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography25">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="110" width="120" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography19">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="200" y="90" width="110" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
-            <Component class="com.juancamr.components.Typography" name="typography26">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="typography18"/>
-                <Property name="verticalAlignment" type="int" value="1"/>
-                <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-                  <Value id="SMALL"/>
-                </Property>
-                <Property name="verticalTextPosition" type="int" value="1"/>
-              </Properties>
-              <Constraints>
-                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="200" y="110" width="110" height="20"/>
-                </Constraint>
-              </Constraints>
-            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="panelGanancias">

@@ -27,6 +27,13 @@ public class Querys {
 
     public class client {
 
+        public static String obtenerCantidadClientesSuscritos = "SELECT COUNT(DISTINCT c.client_id) AS num_clientes_vigentes "
+                +
+                "FROM client c " +
+                "JOIN contrato co ON c.client_id = co.client_id " +
+                "WHERE co.subscription_until >= CURDATE() " +
+                "AND (co.is_frozen = 0 OR (co.is_frozen = 1 AND (co.freeze_until IS NULL OR co.freeze_until < CURDATE())))";
+        public static String obtenerClientesSuscritosHoy = "SELECT COUNT(*) AS contador FROM client WHERE DATE(created_at) = CURDATE()";
         public static String create = generateCreateQuery(Client.tableName,
                 new String[] { Client.dniField, Client.fullNameField, Client.emailField,
                         Client.addressField, Client.phoneField, Client.photoUrlField });
@@ -41,9 +48,11 @@ public class Querys {
     public class producto {
 
         public static String create = generateCreateQuery(Producto.tableName,
-                new String[] { Producto.nombreField, Producto.cantidadField, Producto.precioField });
+                new String[] { Producto.nombreField, Producto.cantidadField, Producto.precioField,
+                        Producto.fechaVencimientoField, Producto.codigoField });
         public static String update = generateUpdateQuery(Producto.tableName,
-                new String[] { Producto.nombreField, Producto.cantidadField, Producto.precioField });
+                new String[] { Producto.nombreField, Producto.cantidadField, Producto.precioField,
+                        Producto.fechaVencimientoField });
     }
 
     public class contrato {
@@ -51,6 +60,14 @@ public class Querys {
         public static String create = generateCreateQuery(Contrato.tableName,
                 new String[] { Contrato.clientIdField, Contrato.planIdField, Contrato.adminIdField,
                         Contrato.transactionCodeField, Contrato.subscriptionUntilField });
+
+        public static String obtenerUltimosTresContratos = "SELECT contrato_id, client_id, plan_id, admin_id, transaction_code, freeze_until, last_freeze_date, subscription_until, created_at, is_frozen, freeze_count "
+                +
+                "FROM contrato " +
+                "WHERE subscription_until >= CURDATE() " +
+                "AND (is_frozen = 0 OR (is_frozen = 1 AND (freeze_until IS NULL OR freeze_until < CURDATE()))) " +
+                "ORDER BY created_at DESC " +
+                "LIMIT 3";
 
         public static String congelar = generateUpdateQuery(Contrato.tableName,
                 new String[] { Contrato.subscriptionUntilField, Contrato.isFrozenField, Contrato.freezeCountField,
@@ -61,6 +78,27 @@ public class Querys {
     public class boleta {
         public static String create = generateCreateQuery(Boleta.tableName,
                 new String[] { Boleta.clientIdField, Boleta.adminIdField, Boleta.totalField });
+        public static String getMontoTotalBetweenDates = "SELECT DATE(created_at) AS reporte_fecha, SUM(total_boleta) AS reporte_monto FROM boleta WHERE created_at BETWEEN '2023-01-01' AND '2023-12-31' GROUP BY DATE(created_at) ORDER BY DATE(created_at)";
+        public static String obtenerUltimasTresBoletas = "SELECT client_id, admin_id, total_boleta, created_at FROM boleta ORDER BY created_at DESC LIMIT 3";
+        public static String getReporteLast4Months = "SELECT " +
+                "m.mes AS reporte_mes, " +
+                "IFNULL(SUM(b.total_boleta), 0) AS reporte_monto " +
+                "FROM ( " +
+                "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 0 MONTH), '%b') AS mes, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 0 MONTH), '%Y-%m') AS orden "
+                +
+                "    UNION ALL " +
+                "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%b') AS mes, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m') AS orden "
+                +
+                "    UNION ALL " +
+                "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%b') AS mes, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m') AS orden "
+                +
+                "    UNION ALL " +
+                "    SELECT DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%b') AS mes, DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 3 MONTH), '%Y-%m') AS orden "
+                +
+                ") m " +
+                "LEFT JOIN boleta b ON DATE_FORMAT(b.created_at, '%Y-%m') = m.orden " +
+                "GROUP BY m.mes, m.orden " +
+                "ORDER BY m.orden;";
         public static String update = generateUpdateQuery(Boleta.tableName,
                 new String[] { Boleta.adminIdField, Boleta.totalField });
     }
@@ -79,7 +117,8 @@ public class Querys {
     public class utility {
 
         public static String create = generateCreateQuery(Utility.tableName,
-                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField, Utility.proveedorField });
+                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField,
+                        Utility.proveedorField });
         public static String update = generateUpdateQuery(Utility.tableName,
                 new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField });
     }
@@ -94,6 +133,7 @@ public class Querys {
     public class asistencia {
         public static String create = generateCreateQuery(Asistencia.tableName,
                 new String[] { Asistencia.clientIdField, Asistencia.ingresoField });
+        public static String obtenerAsistenciasDeHoy = "SELECT COUNT(*) AS contador FROM asistencia WHERE DATE(ingreso) = CURDATE()";
         public static String update = generateUpdateQuery(Asistencia.tableName,
                 new String[] { Asistencia.clientIdField, Asistencia.ingresoField });
     }

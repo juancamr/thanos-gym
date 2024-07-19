@@ -43,6 +43,7 @@ CREATE TABLE if not exists producto (
     cantidad int NOT NULL,
     precio decimal(10, 2) NOT NULL,
     photo_url VARCHAR(255),
+    fecha_vencimiento DATE NOT NULL,
     PRIMARY KEY (producto_id)
 ) Engine=InnoDB;
 

@@ -5,12 +5,23 @@
 package com.uni.thanosgym.view.routes;
 
 import com.juancamr.route.Route;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.dao.CRUDAsistencia;
 import com.uni.thanosgym.dao.CRUDBoleta;
 import com.uni.thanosgym.dao.CRUDCliente;
+import com.uni.thanosgym.dao.CRUDContrato;
+import com.uni.thanosgym.model.Client;
+import com.uni.thanosgym.model.Contrato;
+import com.uni.thanosgym.model.Boleta;
+import com.uni.thanosgym.model.ReporteMensual;
+import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Querys.asistencia;
+import com.uni.thanosgym.view.dialogs.ClientData;
+import com.uni.thanosgym.view.dialogs.BoletaDialog;
 
 import io.quickchart.QuickChart;
 
@@ -20,45 +31,60 @@ import io.quickchart.QuickChart;
  */
 @Route("main:dashboard")
 public class PanelDashboard extends javax.swing.JPanel {
+
+    private List<Contrato> contratos;
+    private List<Boleta> boletas;
+
     /**
      * Creates new form PanelDashboard
      */
     public PanelDashboard() {
         initComponents();
 
-        int test = 10;
+        // inicializar grafico
         QuickChart chart = new QuickChart();
         chart.setWidth(320);
         chart.setHeight(240);
-        chart.setConfig("""
-                                {
-                  type: 'line',
-                  data: {
-                    labels: [<test>, 2017, 2018, 2019, 2020],
-                    datasets: [
-                      {
-                        label: 'Dollars',
-                        data: [1000, 1234, 2020, 2005, 1300],
-                      }
-                    ],
-                  },
-                  options: {
-                    scales: {
-                      yAxes: [{
-                        ticks: {
-                          min: 0,
-                          max: 5000,
-                          callback: (val) => {
-                            return '$' + val.toLocaleString();
+        String[] months = new String[] { "<firstMonth>", "<secondMonth>", "<thirdMonth>", "<fourthMonth>" };
+        String[] mounts = new String[] { "<firstMount>", "<secondMount>", "<thirdMount>", "<fourthMount>" };
+        Response<ReporteMensual> resReporte = CRUDBoleta.getInstance().getReporteLast4Months();
+        List<ReporteMensual> reportes = resReporte.getDataList();
+        double maximo = resReporte.getDataList().stream().mapToDouble(ReporteMensual::getTotal).max().orElse(0) + 200;
+        String config = """
+                {
+                          type: 'line',
+                          data: {
+                            labels: ['<firstMonth>', '<secondMonth>', '<thirdMonth>', '<fourthMonth>'],
+                            datasets: [
+                              {
+                                label: 'Soles',
+                                data: [<firstMount>, <secondMount>, <thirdMount>, <fourthMount>],
+                              }
+                            ],
+                          },
+                          options: {
+                            scales: {
+                              yAxes: [{
+                                ticks: {
+                                  min: 0,
+                                  max: <maximo>,
+                                  callback: (val) => {
+                                    return 'S/' + val.toLocaleString();
+                                  },
+                                }
+                              }]
+                            }
                           },
                         }
-                      }]
-                    }
-                  },
-                }
-                                                                """.replace("<test>", String.valueOf(test)));
-
+                                                                        """;
+        config = config.replace("<maximo>", String.valueOf(maximo));
+        for (int i = 0; i < months.length; i++) {
+            config = config.replace(months[i], String.valueOf(reportes.get(i).getMes()));
+            config = config.replace(mounts[i], String.valueOf(reportes.get(i).getTotal()));
+        }
+        chart.setConfig(config);
         String grafico = chart.getUrl();
+        FrameUtils.renderImageFromWeb(grafico, lblGrafico);
 
         // clientes suscritos hoy
         jlblClientesSuscritos.setForeground(Theme.colors.orange);
@@ -68,8 +94,15 @@ public class PanelDashboard extends javax.swing.JPanel {
         // ganancias
         panelGanancias.setBackground(Theme.colors.blue);
         lblGanancias.setForeground(Theme.colors.primary);
-        double ganancias = CRUDBoleta.getInstance().getPorcentajeDeGanancianMesAnteriorConElDeAhora();
-        lblGanancias.setText(String.format("%.2f", ganancias));
+        double montoMesActual = reportes.get(reportes.size() - 1).getTotal();
+        double montoMesAnterior = reportes.get(reportes.size() - 2).getTotal();
+        double porcentajeGanancia = 0;
+        if (montoMesActual == 0 || montoMesAnterior == 0) {
+            porcentajeGanancia = 0;
+        } else {
+            porcentajeGanancia = (montoMesActual * 100 / montoMesAnterior) - 100;
+        }
+        lblGanancias.setText(String.format("%%%.2f", porcentajeGanancia));;
 
         // clientes suscritos todo el tiempo
         lblClientesTodoElTiempo.setForeground(Theme.colors.purple);
@@ -80,7 +113,36 @@ public class PanelDashboard extends javax.swing.JPanel {
         int asistencias = CRUDAsistencia.getInstance().obtenerAsistenciasDeHoy();
         lblAsistencias.setText(String.valueOf(asistencias));
 
-        FrameUtils.renderImageFromWeb(grafico, lblGrafico);
+        fillTableClientes();
+        fillTableVentas();
+    }
+
+    private void fillTableVentas() {
+        Response<Boleta> resBoletas = CRUDBoleta.getInstance().obtenerUltimasTresBoletas();
+        boletas = resBoletas.getDataList();
+        List<String[]> datos = resBoletas.getDataList().stream().map((boleta) -> {
+            return new String[] {
+                    boleta.getCliente().getFullName(),
+                    String.valueOf(boleta.getTotal()),
+            };
+        }).collect(Collectors.toList());
+        datos.forEach((dato) -> {
+            ((javax.swing.table.DefaultTableModel) jtblVentas.getModel()).addRow(dato);
+        });
+    }
+
+    private void fillTableClientes() {
+        Response<Contrato> resContratos = CRUDContrato.getInstance().obtenerUltimosTresContratos();
+        contratos = resContratos.getDataList();
+        List<String[]> datos = resContratos.getDataList().stream().map((contrato) -> {
+            return new String[] {
+                    contrato.getCliente().getFullName(),
+                    contrato.getPlan().getName(),
+            };
+        }).collect(Collectors.toList());
+        datos.forEach((dato) -> {
+            ((javax.swing.table.DefaultTableModel) jtblCliente.getModel()).addRow(dato);
+        });
     }
 
     /**
@@ -89,6 +151,7 @@ public class PanelDashboard extends javax.swing.JPanel {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
@@ -103,26 +166,12 @@ public class PanelDashboard extends javax.swing.JPanel {
         lblGrafico = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         typography5 = new com.juancamr.components.Typography();
-        jPanel5 = new javax.swing.JPanel();
-        typography14 = new com.juancamr.components.Typography();
-        typography15 = new com.juancamr.components.Typography();
-        jlblUltimosClientes = new com.juancamr.components.Typography();
-        typography20 = new com.juancamr.components.Typography();
-        typography22 = new com.juancamr.components.Typography();
-        typography23 = new com.juancamr.components.Typography();
-        jlblUltimosClientes1 = new com.juancamr.components.Typography();
-        jlblUltimosClientes2 = new com.juancamr.components.Typography();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jtblCliente = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         typography4 = new com.juancamr.components.Typography();
-        jPanel9 = new javax.swing.JPanel();
-        typography16 = new com.juancamr.components.Typography();
-        typography17 = new com.juancamr.components.Typography();
-        typography18 = new com.juancamr.components.Typography();
-        typography21 = new com.juancamr.components.Typography();
-        typography24 = new com.juancamr.components.Typography();
-        typography25 = new com.juancamr.components.Typography();
-        typography19 = new com.juancamr.components.Typography();
-        typography26 = new com.juancamr.components.Typography();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtblVentas = new javax.swing.JTable();
         panelGanancias = new javax.swing.JPanel();
         typography8 = new com.juancamr.components.Typography();
         typography12 = new com.juancamr.components.Typography();
@@ -174,53 +223,36 @@ public class PanelDashboard extends javax.swing.JPanel {
         typography5.setType(com.juancamr.components.Typography.Type.HEADING3);
         jPanel3.add(typography5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jtblCliente.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {
 
-        typography14.setText("Membresía");
-        typography14.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel5.add(typography14, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 20));
+                },
+                new String[] {
+                        "Nombres completos", "Membresía"
+                }) {
+            Class[] types = new Class[] {
+                    java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean[] {
+                    false, false
+            };
 
-        typography15.setText("Nombres completos");
-        typography15.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel5.add(typography15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 20));
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
 
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 320, 20));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+        jtblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jtblCliente);
 
-        jlblUltimosClientes.setText("typography18");
-        jlblUltimosClientes.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jlblUltimosClientes.setType(com.juancamr.components.Typography.Type.SMALL);
-        jlblUltimosClientes.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel3.add(jlblUltimosClientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 140, 20));
-
-        typography20.setText("typography18");
-        typography20.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography20.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography20.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel3.add(typography20, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 120, 20));
-
-        typography22.setText("typography18");
-        typography22.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography22.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography22.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel3.add(typography22, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 120, 20));
-
-        typography23.setText("typography18");
-        typography23.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography23.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography23.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel3.add(typography23, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 120, 20));
-
-        jlblUltimosClientes1.setText("typography18");
-        jlblUltimosClientes1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jlblUltimosClientes1.setType(com.juancamr.components.Typography.Type.SMALL);
-        jlblUltimosClientes1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel3.add(jlblUltimosClientes1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 140, 20));
-
-        jlblUltimosClientes2.setText("typography18");
-        jlblUltimosClientes2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        jlblUltimosClientes2.setType(com.juancamr.components.Typography.Type.SMALL);
-        jlblUltimosClientes2.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel3.add(jlblUltimosClientes2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 140, 20));
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 320, 100));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 365, 180));
 
@@ -232,53 +264,36 @@ public class PanelDashboard extends javax.swing.JPanel {
         typography4.setType(com.juancamr.components.Typography.Type.HEADING3);
         jPanel4.add(typography4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jtblVentas.setModel(new javax.swing.table.DefaultTableModel(
+                new Object[][] {
 
-        typography16.setText("Cliente");
-        typography16.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel9.add(typography16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 20));
+                },
+                new String[] {
+                        "Cliente", "Total"
+                }) {
+            Class[] types = new Class[] {
+                    java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean[] {
+                    false, false
+            };
 
-        typography17.setText("Total");
-        typography17.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel9.add(typography17, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 20));
+            public Class getColumnClass(int columnIndex) {
+                return types[columnIndex];
+            }
 
-        jPanel4.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 320, 20));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
+        });
+        jtblVentas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblVentasMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jtblVentas);
 
-        typography18.setText("typography18");
-        typography18.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography18.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography18.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel4.add(typography18, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 110, 20));
-
-        typography21.setText("typography18");
-        typography21.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography21.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography21.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel4.add(typography21, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 120, 20));
-
-        typography24.setText("typography18");
-        typography24.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography24.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography24.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel4.add(typography24, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 120, 20));
-
-        typography25.setText("typography18");
-        typography25.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography25.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography25.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel4.add(typography25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 120, 20));
-
-        typography19.setText("typography18");
-        typography19.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography19.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography19.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel4.add(typography19, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, 110, 20));
-
-        typography26.setText("typography18");
-        typography26.setVerticalAlignment(javax.swing.SwingConstants.TOP);
-        typography26.setType(com.juancamr.components.Typography.Type.SMALL);
-        typography26.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jPanel4.add(typography26, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 110, 20));
+        jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 320, 100));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 460, 365, 180));
 
@@ -358,21 +373,34 @@ public class PanelDashboard extends javax.swing.JPanel {
                                 javax.swing.GroupLayout.PREFERRED_SIZE));
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jtblClienteMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblClienteMouseClicked
+        int rowIndex = jtblCliente.getSelectedRow();
+        if (rowIndex != -1) {
+            new ClientData(contratos.get(rowIndex));
+        }
+    }// GEN-LAST:event_jtblClienteMouseClicked
+
+    private void jtblVentasMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblVentasMouseClicked
+        int rowIndex = jtblCliente.getSelectedRow();
+        if (rowIndex != -1) {
+            new BoletaDialog(boletas.get(rowIndex));
+        }
+    }// GEN-LAST:event_jtblVentasMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.juancamr.components.Typography contadorNotificaciones;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private com.juancamr.components.Typography jlblClientesSuscritos;
-    private com.juancamr.components.Typography jlblUltimosClientes;
-    private com.juancamr.components.Typography jlblUltimosClientes1;
-    private com.juancamr.components.Typography jlblUltimosClientes2;
+    private javax.swing.JTable jtblCliente;
+    private javax.swing.JTable jtblVentas;
     private com.juancamr.components.Typography lblAsistencias;
     private com.juancamr.components.Typography lblClientesTodoElTiempo;
     private com.juancamr.components.Typography lblGanancias;
@@ -383,20 +411,7 @@ public class PanelDashboard extends javax.swing.JPanel {
     private com.juancamr.components.Typography typography11;
     private com.juancamr.components.Typography typography12;
     private com.juancamr.components.Typography typography13;
-    private com.juancamr.components.Typography typography14;
-    private com.juancamr.components.Typography typography15;
-    private com.juancamr.components.Typography typography16;
-    private com.juancamr.components.Typography typography17;
-    private com.juancamr.components.Typography typography18;
-    private com.juancamr.components.Typography typography19;
     private com.juancamr.components.Typography typography2;
-    private com.juancamr.components.Typography typography20;
-    private com.juancamr.components.Typography typography21;
-    private com.juancamr.components.Typography typography22;
-    private com.juancamr.components.Typography typography23;
-    private com.juancamr.components.Typography typography24;
-    private com.juancamr.components.Typography typography25;
-    private com.juancamr.components.Typography typography26;
     private com.juancamr.components.Typography typography3;
     private com.juancamr.components.Typography typography4;
     private com.juancamr.components.Typography typography5;

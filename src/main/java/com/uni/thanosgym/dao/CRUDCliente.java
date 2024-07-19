@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
+
+import java.util.ArrayList;
+import java.util.List;
 import com.uni.thanosgym.model.Client;
 
 public class CRUDCliente extends BaseCrud<Client> {
@@ -52,11 +55,28 @@ public class CRUDCliente extends BaseCrud<Client> {
     }
 
     public int obtenerClientesSuscritosHoy() {
-        return 0;
+        try {
+            ps = connection.prepareStatement(Querys.client.obtenerClientesSuscritosHoy);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt("contador");
+        } catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        }
+
     }
 
     public int obtenerClientesSuscritosTodoElTiempo() {
-        return 0;
+        try {
+            ps = connection.prepareStatement(Querys.client.obtenerCantidadClientesSuscritos);
+            rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt("num_clientes_vigentes");
+        } catch (SQLException e) {
+            System.out.println(e);
+            return 0;
+        }
     }
 
     public Response<Client> update(Client cliente) {

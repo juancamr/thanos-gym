@@ -5,12 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.DetalleBoleta;
+import com.uni.thanosgym.model.Reporte;
+import com.uni.thanosgym.model.ReporteMensual;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
+import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.UserPreferences;
 
 public class CRUDBoleta extends BaseCrud<Boleta> {
@@ -28,6 +32,58 @@ public class CRUDBoleta extends BaseCrud<Boleta> {
 
     public Response<Boleta> create(Boleta boleta) {
         return baseCreate(boleta, Querys.boleta.create);
+    }
+
+    public Response<Reporte> getReportBetweenDates(Date desde, Date hasta) {
+        String desdeFecha = StringUtils.parseDate(desde);
+        String hastaFecha = StringUtils.parseDate(hasta);
+        try {
+            ps = connection.prepareStatement(Querys.boleta.getMontoTotalBetweenDates);
+            ps.setString(1, desdeFecha);
+            ps.setString(2, hastaFecha);
+            rs = ps.executeQuery();
+
+            List<Reporte> reportes = new ArrayList<>();
+            while (rs.next()) {
+                Date fecha = rs.getDate("reporte_fecha");
+                double monto = rs.getDouble("reporte_monto");
+                reportes.add(new  Reporte(fecha, monto));
+            }
+            return new Response<>(true, "Lista de pagos obtenida correctamente", reportes);
+        } catch (SQLException e) {
+            return new Response<>(false, "Error al obtener los pagos del cliente: " + e.getMessage());
+        }
+    }
+
+    public Response<ReporteMensual> getReporteLast4Months() {
+        try {
+            ps = connection.prepareStatement(Querys.boleta.getReporteLast4Months);
+            rs = ps.executeQuery();
+            List<ReporteMensual> reportes = new ArrayList<>();
+            while (rs.next()) {
+                String fecha = rs.getString("reporte_mes");
+                double monto = rs.getDouble("reporte_monto");
+                reportes.add(new ReporteMensual(fecha, monto));
+            }
+            return new Response<>(true, "Lista de pagos obtenida correctamente", reportes);
+        } catch (SQLException e) {
+            return new Response<>(false, "Error al obtener los pagos del cliente: " + e.getMessage());
+        }
+    }
+
+    public Response<Boleta> obtenerUltimasTresBoletas() {
+        try {
+            ps = connection.prepareStatement(Querys.boleta.obtenerUltimasTresBoletas);
+            rs = ps.executeQuery();
+            List<Boleta> boletas = new ArrayList<>();
+            while (rs.next()) {
+                Boleta boleta = generateObject(rs);
+                boletas.add(boleta);
+            }
+            return new Response<>(true, boletas);
+        } catch (SQLException e) {
+            return new Response<>(false);
+        }
     }
 
     public Response<Boleta> getById(int id) {

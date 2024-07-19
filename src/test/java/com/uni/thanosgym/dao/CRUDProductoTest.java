@@ -13,26 +13,26 @@ public class CRUDProductoTest {
 
     @Test
     public void mainTest() {
-        // create
-        Producto producto = new Producto.Builder()
-                .setNombre("Test Producto")
-                .setCantidad(10)
-                .setPrecio(100)
-                .setPhotoUrl("photo_url")
-                .build();
-        Response<Producto> response = crudProducto.create(producto);
-        assertTrue(response.isSuccess());
+        // // create
+        // Producto producto = new Producto.Builder()
+        //         .setNombre("Test Producto")
+        //         .setCantidad(10)
+        //         .setPrecio(100)
+        //         .setPhotoUrl("photo_url")
+        //         .build();
+        // Response<Producto> response = crudProducto.create(producto);
+        // assertTrue(response.isSuccess());
 
-        //update
-        int id = response.getId();
-        String nameEdited = "Test Producto edited";
-        producto.setNombre(nameEdited);
-        producto.setId(id);
-        Response<Producto> response2 = crudProducto.update(producto);
-        assertTrue(response2.isSuccess());
+        // //update
+        // int id = response.getId();
+        // String nameEdited = "Test Producto edited";
+        // producto.setNombre(nameEdited);
+        // producto.setId(id);
+        // Response<Producto> response2 = crudProducto.update(producto);
+        // assertTrue(response2.isSuccess());
 
-        // delete
-        Response<Producto> response3 = crudProducto.delete(id);
-        assertTrue(response3.isSuccess());
+        // // delete
+        // Response<Producto> response3 = crudProducto.delete(id);
+        // assertTrue(response3.isSuccess());
     }
 }

@@ -1,9 +1,12 @@
 package com.uni.thanosgym.model;
 
+import java.util.Date;
+
 public class Producto extends Item {
 
     private double precio;
     private String codigo;
+    private Date fechaVencimiento;
 
     public static String tableName = "producto";
     public static String idField = "producto_id";
@@ -12,11 +15,13 @@ public class Producto extends Item {
     public static String cantidadField = "cantidad";
     public static String precioField = "precio";
     public static String photoUrlField = "photo_url";
+    public static String fechaVencimientoField = "fecha_vencimiento";
 
     private Producto(Builder builder) {
         super(builder.id, builder.nombre, builder.cantidad, builder.photoUrl);
         this.codigo = builder.codigo;
         this.precio = builder.precio;
+        this.fechaVencimiento = builder.fechaVencimiento;
     }
 
     // Getter
@@ -28,6 +33,10 @@ public class Producto extends Item {
         return codigo;
     }
 
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
     // Builder estático
     public static class Builder {
         private int id;
@@ -36,6 +45,7 @@ public class Producto extends Item {
         private String photoUrl;
         private double precio;
         private String codigo;
+        private Date fechaVencimiento;
 
         // Métodos setters para Producto
         public Builder setId(int id) {
@@ -63,6 +73,11 @@ public class Producto extends Item {
             return this;
         }
 
+        public Builder setFechaVencimiento(Date fechaVencimiento) {
+            this.fechaVencimiento = fechaVencimiento;
+            return this;
+        }
+
         public Builder setCodigo(String codigo) {
             this.codigo = codigo;
             return this;
@@ -81,6 +96,7 @@ public class Producto extends Item {
                 ", cantidad=" + getCantidad() +
                 ", photoUrl='" + getPhotoUrl() + '\'' +
                 ", precio=" + precio +
+                ", fechaVencimiento=" + fechaVencimiento +
                 '}';
     }
 

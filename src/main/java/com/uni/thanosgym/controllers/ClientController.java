@@ -2,7 +2,6 @@ package com.uni.thanosgym.controllers;
 
 import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.utils.EnvVariables;
-import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.HttpUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.ResponseByReniec;
