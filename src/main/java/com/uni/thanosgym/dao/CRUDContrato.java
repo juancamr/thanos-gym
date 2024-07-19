@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CRUDContrato extends BaseCrud<Contrato> {
@@ -48,7 +49,6 @@ public class CRUDContrato extends BaseCrud<Contrato> {
         }
     }
 
-
     public Response<Contrato> getById(int id) {
         return baseGetById(Querys.getByIdTemplate(Contrato.tableName), id);
     }
@@ -57,7 +57,25 @@ public class CRUDContrato extends BaseCrud<Contrato> {
         return baseDeleteById(Querys.deleteTemplate(Contrato.tableName), id);
     }
 
-    public Response<Contrato> getByCliente(int clientId) {
+    public Response<Contrato> congelarODescongelar(Contrato contrato) {
+        try {
+            ps = connection.prepareStatement(Querys.contrato.updateCongelar);
+            ps.setString(1, StringUtils.parseDate(contrato.getSubscriptionUntil()));
+            ps.setBoolean(2, contrato.isFrozen());
+            ps.setInt(3, contrato.getFreezeCount());
+            ps.setString(4, StringUtils.parseDate(contrato.getSubscriptionUntil()));
+            ps.setString(5, StringUtils.parseDate(contrato.getLastFreezeDate()));
+            ps.setInt(6, contrato.getId());
+            ps.executeUpdate();
+            ps.close();
+            return new Response<Contrato>(true);
+        } catch (SQLException e) {
+            System.out.println(e);
+            return new Response<Contrato>(false, "Error al congelar el contrato");
+        }
+    }
+
+    public Response<Contrato> getByClienteId(int clientId) {
         try {
             ps = connection
                     .prepareStatement(Querys.getTemplateWithConditions(Contrato.tableName, Contrato.clientIdField));

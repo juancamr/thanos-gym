@@ -37,7 +37,7 @@ public class ButtonComponent extends JButton {
         switch (type) {
             case PRIMARY:
                 backgroundColor = Theme.colors.primary;
-                foreground = Color.white;
+                foreground = Color.BLACK;
                 fontSize = 20;
                 break;
             case SMALL:

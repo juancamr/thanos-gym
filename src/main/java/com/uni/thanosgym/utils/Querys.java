@@ -61,15 +61,9 @@ public class Querys {
                 new String[] { Contrato.clientIdField, Contrato.planIdField, Contrato.adminIdField,
                         Contrato.transactionCodeField, Contrato.subscriptionUntilField });
 
-        public static String obtenerUltimosTresContratos = "SELECT contrato_id, client_id, plan_id, admin_id, transaction_code, freeze_until, last_freeze_date, subscription_until, created_at, is_frozen, freeze_count "
-                +
-                "FROM contrato " +
-                "WHERE subscription_until >= CURDATE() " +
-                "AND (is_frozen = 0 OR (is_frozen = 1 AND (freeze_until IS NULL OR freeze_until < CURDATE()))) " +
-                "ORDER BY created_at DESC " +
-                "LIMIT 3";
+        public static String obtenerUltimosTresContratos = "SELECT * FROM contrato ORDER BY contrato_id DESC LIMIT 3";
 
-        public static String congelar = generateUpdateQuery(Contrato.tableName,
+        public static String updateCongelar = generateUpdateQuery(Contrato.tableName,
                 new String[] { Contrato.subscriptionUntilField, Contrato.isFrozenField, Contrato.freezeCountField,
                         Contrato.freezeUntilField, Contrato.lastFreezeDateField });
 

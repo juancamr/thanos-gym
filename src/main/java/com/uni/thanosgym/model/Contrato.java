@@ -57,8 +57,8 @@ public class Contrato {
         this.cliente = cliente;
     }
 
-    public Plan getPlan() {
-        return plan;
+    public void increaseFreezeCount() {
+        this.freezeCount += 1;
     }
 
     public Admin getAdmin() {
@@ -99,6 +99,27 @@ public class Contrato {
 
     public Date getLastFreezeDate() {
         return lastFreezeDate;
+    }
+
+    public Plan getPlan() {
+        return plan;
+    }
+
+    public void setSubscriptionUntil(Date subscriptionUntil) {
+        this.subscriptionUntil = subscriptionUntil;
+    }
+
+    public void setLastFreezeDate(Date lastFreezeDate) {
+        this.lastFreezeDate = lastFreezeDate;
+    }
+
+    public void setIsFrozen(boolean isFrozen) {
+        this.isFrozen = isFrozen;
+    }
+
+    public String getEstado() {
+        return this.isFrozen() ? "Congelado"
+                : new Date().before(this.getSubscriptionUntil()) ? "Activo" : "Vencido";
     }
 
     public static class Builder {
@@ -195,4 +216,3 @@ public class Contrato {
                 '}';
     }
 }
-

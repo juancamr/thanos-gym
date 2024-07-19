@@ -26,7 +26,6 @@ public class ListaBoletas extends javax.swing.JFrame {
         this.boletas = boletas;
         for (Boleta boleta : boletas) {
             String[] datos = new String[]{StringUtils.parseIdBoleta(boleta.getId()), StringUtils.parseSpanishDate(boleta.getCreatedAt()), boleta.getCliente().getFullName(), String.valueOf(boleta.getTotal())};
-            System.out.println(datos);
             ((javax.swing.table.DefaultTableModel) jtblBoletas.getModel()).addRow(datos);
         }
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

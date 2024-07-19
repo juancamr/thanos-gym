@@ -19,7 +19,6 @@ import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.ReporteMensual;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
-import com.uni.thanosgym.utils.Querys.asistencia;
 import com.uni.thanosgym.view.dialogs.ClientData;
 import com.uni.thanosgym.view.dialogs.BoletaData;
 

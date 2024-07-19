@@ -109,7 +109,22 @@ public class CRUDBoleta extends BaseCrud<Boleta> {
             rs = ps.executeQuery();
             List<Boleta> boletas = new ArrayList<>();
             while (rs.next()) {
-                System.out.println("hay boleta");
+                Boleta boleta = generateObject(rs);
+                boletas.add(boleta);
+            }
+            return new Response<Boleta>(true, "Lista de boletas obtenida correctamente", boletas);
+        } catch (SQLException e) {
+            return new Response<Boleta>(false, "Error al obtener las boletas del cliente: " + e.getMessage());
+        }
+    }
+
+    public Response<Boleta> getBoletasByIdCliente(int idCliente) {
+        try {
+            ps = connection.prepareStatement(Querys.getTemplateWithConditions(Boleta.tableName, Boleta.clientIdField));
+            ps.setInt(1, idCliente);
+            rs = ps.executeQuery();
+            List<Boleta> boletas = new ArrayList<>();
+            while (rs.next()) {
                 Boleta boleta = generateObject(rs);
                 boletas.add(boleta);
             }

@@ -46,7 +46,7 @@ public class ClientController {
             Messages.show(resCliente.getMessage());
             return false;
         }
-        Response<Contrato> resContrato = CRUDContrato.getInstance().getByCliente(resCliente.getData().getId());
+        Response<Contrato> resContrato = CRUDContrato.getInstance().getByClienteId(resCliente.getData().getId());
         new ClientData(resContrato.getDataList().getLast());
         return true;
     }

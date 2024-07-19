@@ -43,7 +43,7 @@ public class PanelClientAll extends javax.swing.JPanel {
         }
 
         List<String[]> datos = resClientes.getDataList().stream().map(cliente -> {
-            Response<Contrato> resContrato = CRUDContrato.getInstance().getByCliente(cliente.getId());
+            Response<Contrato> resContrato = CRUDContrato.getInstance().getByClienteId(cliente.getId());
             Contrato contrato = resContrato.getDataList().getLast();
             return new String[] { cliente.getDni(), cliente.getFullName(), contrato.getPlan().getName(),
                     StringUtils.parseSpanishDate(contrato.getCreatedAt()) };
@@ -146,7 +146,7 @@ public class PanelClientAll extends javax.swing.JPanel {
         if (fila != -1) {
             String dni = String.valueOf(jtblClientes.getValueAt(fila, 0));
             Response<Client> resCliente = CRUDCliente.getInstance().getByDni(dni);
-            Response<Contrato> resContrato = CRUDContrato.getInstance().getByCliente(resCliente.getData().getId());
+            Response<Contrato> resContrato = CRUDContrato.getInstance().getByClienteId(resCliente.getData().getId());
             new ClientData(resContrato.getDataList().getLast());
         }
 
