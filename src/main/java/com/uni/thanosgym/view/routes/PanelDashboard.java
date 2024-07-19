@@ -102,7 +102,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         } else {
             porcentajeGanancia = (montoMesActual * 100 / montoMesAnterior) - 100;
         }
-        lblGanancias.setText(String.format("%%%.2f", porcentajeGanancia));
+        lblGanancias.setText(String.format("%% %.2f", porcentajeGanancia));
         ;
 
         // clientes suscritos todo el tiempo

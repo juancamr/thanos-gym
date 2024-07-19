@@ -100,6 +100,25 @@ public class CRUDBoleta extends BaseCrud<Boleta> {
         }
     }
 
+    public Response<Boleta> getBoletasInDate(Date fecha) {
+        String date = StringUtils.parseDate(fecha);
+        String query = Querys.getTemplateWithConditions(Boleta.tableName, "DATE(created_at)");
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, date);
+            rs = ps.executeQuery();
+            List<Boleta> boletas = new ArrayList<>();
+            while (rs.next()) {
+                System.out.println("hay boleta");
+                Boleta boleta = generateObject(rs);
+                boletas.add(boleta);
+            }
+            return new Response<Boleta>(true, "Lista de boletas obtenida correctamente", boletas);
+        } catch (SQLException e) {
+            return new Response<Boleta>(false, "Error al obtener las boletas del cliente: " + e.getMessage());
+        }
+    }
+
     public Response<Boleta> getById(int id) {
         return baseGetById(Querys.getByIdTemplate(Boleta.tableName), id);
     }

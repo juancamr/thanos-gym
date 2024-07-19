@@ -11,11 +11,12 @@ import java.util.stream.Collectors;
 
 import com.juancamr.route.Route;
 import com.uni.thanosgym.dao.CRUDBoleta;
+import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.Reporte;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.StringUtils;
-import com.uni.thanosgym.view.dialogs.AllBoletas;
+import com.uni.thanosgym.view.dialogs.ListaBoletas;
 
 /**
  *
@@ -34,6 +35,10 @@ public class PanelReportes extends javax.swing.JPanel {
 
     private void buscarEntreFechas() {
         CRUDBoleta crudBoleta = CRUDBoleta.getInstance();
+        if (desde.getDate() == null || hasta.getDate() == null) {
+            Messages.show("Debe seleccionar las fechas de inicio y fin");
+            return;
+        }
         Response<Reporte> resReporte = crudBoleta.getReportBetweenDates(desde.getDate(), hasta.getDate());
         if (!resReporte.isSuccess()) {
             Messages.show(resReporte.getMessage());
@@ -130,7 +135,12 @@ public class PanelReportes extends javax.swing.JPanel {
         int fila = jtblReportes.getSelectedRow();
         if (fila != -1) {
             Date fecha = StringUtils.spanishDateToDate(jtblReportes.getValueAt(fila, 0).toString());
-            new AllBoletas(fecha);
+            Response<Boleta> response = CRUDBoleta.getInstance().getBoletasInDate(fecha);
+            if (!response.isSuccess()) {
+                Messages.show(response.getMessage());
+                return;
+            }
+            new ListaBoletas(response.getDataList());
         }
     }// GEN-LAST:event_jtblReportesMouseClicked
 

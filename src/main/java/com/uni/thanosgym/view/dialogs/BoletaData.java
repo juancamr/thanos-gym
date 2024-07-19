@@ -30,7 +30,6 @@ public class BoletaData extends javax.swing.JFrame {
         jlblNumeroBoleta.setText(StringUtils.parseIdBoleta(boleta.getId()));
         jlblRUC.setText(Utils.RUC);
 
-        System.out.println(boleta.getDetallesBoleta());
         for (DetalleBoleta detalle : boleta.getDetallesBoleta()) {
             String[] row = new String[]{String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(), String.valueOf(detalle.getProducto().getPrecio()), String.valueOf(detalle.getTotal())};
             ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).addRow(row);
