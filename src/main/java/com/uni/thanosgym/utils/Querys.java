@@ -102,8 +102,7 @@ public class Querys {
         public static String getDetallesByBoletaId = "SELECT * FROM detalle_boleta WHERE boleta_id=?";
         public static String create = generateCreateQuery(DetalleBoleta.tableName,
                 new String[] { DetalleBoleta.boletaIdField, DetalleBoleta.productoIdField,
-                        DetalleBoleta.cantidadField,
-                        DetalleBoleta.precioField });
+                        DetalleBoleta.cantidadField, DetalleBoleta.precioField });
         public static String update = generateUpdateQuery(DetalleBoleta.tableName,
                 new String[] { DetalleBoleta.boletaIdField, DetalleBoleta.productoIdField,
                         DetalleBoleta.cantidadField,

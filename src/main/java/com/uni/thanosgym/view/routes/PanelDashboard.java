@@ -19,6 +19,7 @@ import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.ReporteMensual;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.view.dialogs.ClientData;
 import com.uni.thanosgym.view.dialogs.BoletaData;
 
@@ -102,7 +103,7 @@ public class PanelDashboard extends javax.swing.JPanel {
             porcentajeGanancia = (montoMesActual * 100 / montoMesAnterior) - 100;
         }
         lblGanancias.setText(String.format("%% %.2f", porcentajeGanancia));
-        ;
+        
 
         // clientes suscritos todo el tiempo
         lblClientesTodoElTiempo.setForeground(Theme.colors.purple);
@@ -120,6 +121,10 @@ public class PanelDashboard extends javax.swing.JPanel {
     private void fillTableVentas() {
         try {
             Response<Boleta> resBoletas = CRUDBoleta.getInstance().obtenerUltimasTresBoletas();
+            if (!resBoletas.isSuccess()) {
+                Messages.show(resBoletas.getMessage());
+                return;
+            }
             boletas = resBoletas.getDataList();
             List<String[]> datos = boletas.stream().map((boleta) -> {
                 return new String[] {

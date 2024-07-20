@@ -45,6 +45,10 @@ public class DetalleBoleta {
         return total;
     }
 
+    public void setBoleta(Boleta boleta) {
+        this.boleta = boleta;
+    }
+
     // Builder estático
     public static class Builder {
         private int id;

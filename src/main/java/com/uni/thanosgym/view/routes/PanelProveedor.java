@@ -4,20 +4,17 @@
  */
 package com.uni.thanosgym.view.routes;
 
-import javax.swing.JPanel;
-import com.juancamr.components.Typography;
 import com.juancamr.route.Route;
 import com.juancamr.route.RoutingUtils;
 
-import java.awt.Color;
 import java.util.List;
 
-import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.controllers.ProveedorController;
 import com.uni.thanosgym.dao.CRUDProveedor;
+import com.uni.thanosgym.model.Proveedor;
+import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.dialogs.AgregarProveedor;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -31,14 +28,6 @@ public class PanelProveedor extends javax.swing.JPanel {
      */
     public PanelProveedor() {
         initComponents();
-        jpnlProveedores.setLayout(new java.awt.GridLayout(3, 4, 20, 20));
-
-        if (CRUDProveedor.getInstance().getAll().getDataList().isEmpty()) {
-            Typography noProveedores = new Typography();
-            noProveedores.setText("No hay proveedores registrados");
-            jpnlProveedores.add(noProveedores);
-            return;
-        }
         refreshProveedores();
     }
 
@@ -49,13 +38,14 @@ public class PanelProveedor extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         typography1 = new com.juancamr.components.Typography();
-        jpnlProveedores = new javax.swing.JPanel();
         jbtnAgregar = new com.juancamr.components.ButtonComponent();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtblProveedores = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -63,9 +53,6 @@ public class PanelProveedor extends javax.swing.JPanel {
         typography1.setText("Proveedores");
         typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
         jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
-
-        jpnlProveedores.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(jpnlProveedores, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, 740, 550));
 
         jbtnAgregar.setText("Agregar");
         jbtnAgregar.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
@@ -76,47 +63,69 @@ public class PanelProveedor extends javax.swing.JPanel {
         });
         jPanel1.add(jbtnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 40, -1, -1));
 
+        jtblProveedores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "RUC", "Nombre", "Dirección", "Teléfono"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jtblProveedores);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 750, 530));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
      //
 
     public void refreshProveedores() {
-        jpnlProveedores.removeAll();
-
-        List<JPanel> paneles = CRUDProveedor.getInstance().getAll().getDataList().stream()
-                .map((prov) -> {
-                    JPanel panel = new JPanel();
-                    panel.setBackground(Theme.colors.grayCenizo);
-                    panel.setLayout(null);
-
-                    Typography nombre = new Typography();
-                    nombre.setType(Typography.Type.HEADING2);
-                    nombre.setText(prov.getNombre());
-                    nombre.setBounds(10, 10, 140, 20);
-
-                    panel.add(nombre);
-                    return panel;
-                }).collect(Collectors.toList());
-
-        paneles.forEach((panel) -> {
-            jpnlProveedores.add(panel);
-        });
-
-        jpnlProveedores.revalidate();
-        jpnlProveedores.repaint();
+        Response<Proveedor> response = CRUDProveedor.getInstance().getAll();
+        if (!response.isSuccess()) {
+            return;
+        }
+        ((javax.swing.table.DefaultTableModel) jtblProveedores.getModel()).setRowCount(0);
+        List<Proveedor> proveedores = response.getDataList();
+        for (Proveedor proveedor : proveedores) {
+            String[] datos = new String[]{
+                proveedor.getRuc(),
+                proveedor.getNombre(),
+                proveedor.getAddress(),
+                proveedor.getPhone()
+            };
+            ((javax.swing.table.DefaultTableModel) jtblProveedores.getModel()).addRow(datos);
+        }
     }
 
     private void jbtnAgregarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnAgregarMouseClicked
         Map<String, Object> params = RoutingUtils.openDialog(new AgregarProveedor());
+        if (params == null) {
+            return;
+        }
         if (ProveedorController.registrar(params)) {
             refreshProveedores();
         }
@@ -124,8 +133,9 @@ public class PanelProveedor extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private com.juancamr.components.ButtonComponent jbtnAgregar;
-    private javax.swing.JPanel jpnlProveedores;
+    private javax.swing.JTable jtblProveedores;
     private com.juancamr.components.Typography typography1;
     // End of variables declaration//GEN-END:variables
 }

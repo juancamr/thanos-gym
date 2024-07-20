@@ -23,7 +23,7 @@ public class CRUDAsistencia extends BaseCrud<Asistencia> {
     }
 
     public Response<Asistencia> create(Asistencia producto) {
-        return baseCreate(producto, Querys.producto.create);
+        return baseCreate(producto, Querys.asistencia.create);
     }
 
     public int obtenerCantidadAsistenciasDeHoy() {
@@ -65,9 +65,9 @@ public class CRUDAsistencia extends BaseCrud<Asistencia> {
         }
     }
 
-    public Response<Asistencia> getAllById(int id) {
+    public Response<Asistencia> getAllByClientId(int id) {
         try {
-            String query = Querys.getTemplateWithConditions(Asistencia.tableName, Asistencia.clientIdField);
+            String query = "SELECT * FROM asistencia WHERE client_id=? ORDER BY asistencia_id DESC";
             ps = connection.prepareStatement(query);
             ps.setInt(1, id);
             rs = ps.executeQuery();

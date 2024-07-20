@@ -24,7 +24,7 @@ public class CRUDDetalleBoleta extends BaseCrud<DetalleBoleta> {
     }
 
     public Response<DetalleBoleta> create(DetalleBoleta detalle) {
-        return baseCreate(detalle, Querys.boleta.create);
+        return baseCreate(detalle, Querys.detalleBoleta.create);
     }
 
     public Response<DetalleBoleta> getAllByBoletaId(int id) {
@@ -40,7 +40,7 @@ public class CRUDDetalleBoleta extends BaseCrud<DetalleBoleta> {
             }
             return new Response<>(true, "Lista de detalles obtenida correctamente", detalles);
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println(ex);
             return new Response<>(false, "Error al obtener los detalles del boleta: " + ex.getMessage());
         }
     }
@@ -51,15 +51,14 @@ public class CRUDDetalleBoleta extends BaseCrud<DetalleBoleta> {
 
     @Override
     public DetalleBoleta generateObject(ResultSet rs) throws SQLException {
-        int id = rs.getInt(DetalleBoleta.idField);
         Response<Producto> resProducto = CRUDProducto.getInstance().getById(rs.getInt(DetalleBoleta.productoIdField));
-        Response<Boleta> resBoleta = CRUDBoleta.getInstance().getById(rs.getInt(DetalleBoleta.boletaIdField));
+        //Response<Boleta> resBoleta = CRUDBoleta.getInstance().getById(rs.getInt(DetalleBoleta.boletaIdField));
+        int id = rs.getInt(DetalleBoleta.idField);
         return new DetalleBoleta.Builder()
                 .setId(id)
                 .setProducto(resProducto.getData())
                 .setCantidad(rs.getInt(DetalleBoleta.cantidadField))
                 .setTotal(rs.getDouble(DetalleBoleta.precioField))
-                .setBoleta(resBoleta.getData())
                 .build();
     }
 

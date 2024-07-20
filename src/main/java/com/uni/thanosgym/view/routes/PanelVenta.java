@@ -73,7 +73,12 @@ public class PanelVenta extends javax.swing.JPanel {
     private void generarVenta() {
         if (VentaController.generarVenta(clienteSeleccionado, detalles)) {
             detalles.clear();
+            ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).setRowCount(0);
+            Messages.show("Se generó la venta correctamente");
+            jlblTotal.setText("S/ 0.00");
             updateMontoTotal();
+            // generar pdf boleta
+            // enviar pdf por correo
         }
     }
 

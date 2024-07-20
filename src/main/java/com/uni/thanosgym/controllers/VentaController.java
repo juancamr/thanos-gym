@@ -112,17 +112,14 @@ public class VentaController {
             Messages.show(response.getMessage());
             return false;
         }
+        System.out.println("creado con exito");
         boleta.setId(response.getId());
 
         for (DetalleBoleta detalle : detalles) {
-            CRUDDetalleBoleta.getInstance().create(new DetalleBoleta.Builder()
-                    .setBoleta(boleta)
-                    .setProducto(detalle.getProducto())
-                    .setCantidad(detalle.getCantidad())
-                    .setTotal(detalle.getTotal())
-                    .build());
+            detalle.setBoleta(boleta);
             CRUDDetalleBoleta.getInstance().create(detalle);
         }
+        System.out.println("detalles creados con exito");
         return true;
     }
 }

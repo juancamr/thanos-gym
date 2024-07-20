@@ -25,6 +25,7 @@ import com.juancamr.route.RoutingUtils;
 import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.dao.CRUDAsistencia;
 import com.uni.thanosgym.dao.CRUDBoleta;
+import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDContrato;
 import com.uni.thanosgym.dao.CRUDPlan;
 import com.uni.thanosgym.model.Asistencia;
@@ -48,7 +49,7 @@ public class ClientData extends javax.swing.JFrame {
      * Creates new form ClientData
      */
     public ClientData(Contrato contrato) {
-        Response<Asistencia> resAsistencias = CRUDAsistencia.getInstance().getAllById(contrato.getCliente().getId());
+        Response<Asistencia> resAsistencias = CRUDAsistencia.getInstance().getAllByClientId(contrato.getCliente().getId());
         this.asistencias = resAsistencias.getDataList();
         this.cliente = contrato.getCliente();
 
@@ -70,7 +71,7 @@ public class ClientData extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         jlblPlan.setText(contrato.getPlan().getName());
-        jlblSubscriptionSince.setText("Desde: " + contrato.getCreatedAt().toString());
+        jlblSubscriptionSince.setText("Desde: " + StringUtils.parseSpanishDate(contrato.getCreatedAt()));
 
         if (client.getPhotoUrl().isEmpty())
             FrameUtils.renderImageFromWeb(Theme.defaultImage, photo);
@@ -78,6 +79,7 @@ public class ClientData extends javax.swing.JFrame {
             FrameUtils.renderImageFromWeb(client.getPhotoUrl(), photo);
 
         refreshEstado();
+        jpnlAsistencias.setLayout(null);
 
         repaint();
         setResizable(false);
@@ -92,12 +94,68 @@ public class ClientData extends javax.swing.JFrame {
         FrameUtils.addOnClickEvent(jbtnRenovar, this::renovar);
         FrameUtils.addOnClickEvent(jbtnContratos, this::mostrarContratos);
         FrameUtils.addOnClickEvent(jbtnBoletas, this::mostrarBoletas);
+        FrameUtils.addOnClickEvent(jbtnMarcarAsistencia, this::marcarAsistencia);
+        FrameUtils.addOnClickEvent(jbtnEditar, this::editar);
+
 
         paintAsistencias();
     }
 
+    private void editar() {
+        inputNombres.setEnabled(true);
+        inputTelefono.setEnabled(true);
+        inputDireccion.setEnabled(true);
+        inputCorreo.setEnabled(true);
+        FrameUtils.removeAllEvents(jbtnEditar);;
+        jbtnEditar.setText("ACTUALIZAR");
+        FrameUtils.addOnClickEvent(jbtnEditar, this::actualizar);
+    }
+
+    private void actualizar() {
+        Client cliente = new Client.Builder()
+                .setFullName(inputNombres.getText())
+                .setPhone(inputTelefono.getText())
+                .setDireccion(inputDireccion.getText())
+                .setEmail(inputCorreo.getText())
+                .build();
+        Response<Client> res = CRUDCliente.getInstance().update(cliente);
+        if (!res.isSuccess()) {
+            Messages.show(res.getMessage());
+            return;
+        }
+        this.cliente = cliente;
+
+        inputNombres.setEnabled(false);
+        inputTelefono.setEnabled(false);
+        inputDireccion.setEnabled(false);
+        inputCorreo.setEnabled(false);
+
+        FrameUtils.removeAllEvents(jbtnEditar);;
+        jbtnEditar.setText("ACTUALIZAR");
+        FrameUtils.addOnClickEvent(jbtnEditar, this::actualizar);
+    }
+
+    private void marcarAsistencia() {
+        boolean iguales = StringUtils.parseDate(asistencias.get(0).getIngreso()).equals(StringUtils.parseDate(new Date()));
+        if (!asistencias.isEmpty() && iguales) {
+            Messages.show("Ya has marcado esta asistencia");
+            return;
+        }
+        Asistencia asistencia = new Asistencia.Builder()
+                .setCliente(cliente)
+                .setIngreso(new Date())
+                .build();
+        Response<Asistencia> res = CRUDAsistencia.getInstance().create(asistencia);
+        if (!res.isSuccess()) {
+            Messages.show(res.getMessage());
+            return;
+        }
+        Messages.show("Se ha marcado la asistencia");
+        asistencias.add(asistencia);
+        paintAsistencias();
+    }
+
     private void paintAsistencias() {
-        jpnlAsistencias.setLayout(null);
         jpnlAsistencias.removeAll();
         double width = jpnlAsistencias.getSize().getWidth();
         double height = jpnlAsistencias.getSize().getHeight();
@@ -203,6 +261,7 @@ public class ClientData extends javax.swing.JFrame {
         jlblEstado.setText(estado);
         Color backgroundEstado = estado.equals("Congelado") ? Color.BLUE
                 : estado.equals("Vencido") ? Color.RED : Theme.colors.green;
+
         jpnlEstado.setBackground(backgroundEstado);
 
         revalidate();
@@ -284,9 +343,11 @@ public class ClientData extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         jPanel1 = new javax.swing.JPanel();
         inputDni = new com.juancamr.components.InputComponent();
         typography2 = new com.juancamr.components.Typography();
@@ -307,14 +368,17 @@ public class ClientData extends javax.swing.JFrame {
         jbtnCongelar = new com.juancamr.components.ButtonComponent();
         jbtnRenovar = new com.juancamr.components.ButtonComponent();
         jbtnBoletas = new com.juancamr.components.ButtonComponent();
-        jbtnAsistencias = new com.juancamr.components.ButtonComponent();
         jbtnContratos = new com.juancamr.components.ButtonComponent();
+        jbtnAsistencias = new com.juancamr.components.ButtonComponent();
         typography8 = new com.juancamr.components.Typography();
         typography9 = new com.juancamr.components.Typography();
         inputCorreo = new com.juancamr.components.InputComponent();
         jpnlEstado = new javax.swing.JPanel();
         jlblEstado = new com.juancamr.components.Typography();
         photo = new javax.swing.JLabel();
+        jbtnMarcarAsistencia = new com.juancamr.components.ButtonComponent();
+
+        jScrollPane1.setViewportView(jEditorPane1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -375,11 +439,13 @@ public class ClientData extends javax.swing.JFrame {
         javax.swing.GroupLayout jpnlAsistenciasLayout = new javax.swing.GroupLayout(jpnlAsistencias);
         jpnlAsistencias.setLayout(jpnlAsistenciasLayout);
         jpnlAsistenciasLayout.setHorizontalGroup(
-                jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 730, Short.MAX_VALUE));
+            jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 730, Short.MAX_VALUE)
+        );
         jpnlAsistenciasLayout.setVerticalGroup(
-                jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 120, Short.MAX_VALUE));
+            jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 120, Short.MAX_VALUE)
+        );
 
         jPanel1.add(jpnlAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 730, 120));
 
@@ -407,13 +473,13 @@ public class ClientData extends javax.swing.JFrame {
         jbtnBoletas.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
         jPanel4.add(jbtnBoletas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 130, -1));
 
-        jbtnAsistencias.setText("ASISTENCIAS");
-        jbtnAsistencias.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        jPanel4.add(jbtnAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 130, -1));
-
         jbtnContratos.setText("CONTRATOS");
         jbtnContratos.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
         jPanel4.add(jbtnContratos, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 130, -1));
+
+        jbtnAsistencias.setText("ASISTENCIAS");
+        jbtnAsistencias.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel4.add(jbtnAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 130, -1));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 40, 170, 450));
 
@@ -436,21 +502,27 @@ public class ClientData extends javax.swing.JFrame {
         jlblEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblEstado.setText("ACTIVA");
         jlblEstado.setType(com.juancamr.components.Typography.Type.HEADING2);
-        jpnlEstado.add(jlblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 110, 40));
+        jpnlEstado.add(jlblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 110, 40));
 
-        jPanel1.add(jpnlEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 170, 110));
+        jPanel1.add(jpnlEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 170, 60));
 
         photo.setText("photo");
         jPanel1.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, 140, 140));
 
+        jbtnMarcarAsistencia.setText("MARCAR ASISTENCIA");
+        jbtnMarcarAsistencia.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel1.add(jbtnMarcarAsistencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 460, 170, 30));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -461,14 +533,17 @@ public class ClientData extends javax.swing.JFrame {
     private com.juancamr.components.InputComponent inputDni;
     private com.juancamr.components.InputComponent inputNombres;
     private com.juancamr.components.InputComponent inputTelefono;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private com.juancamr.components.ButtonComponent jbtnAsistencias;
     private com.juancamr.components.ButtonComponent jbtnBoletas;
     private com.juancamr.components.ButtonComponent jbtnCongelar;
     private com.juancamr.components.ButtonComponent jbtnContratos;
     private com.juancamr.components.ButtonComponent jbtnEditar;
+    private com.juancamr.components.ButtonComponent jbtnMarcarAsistencia;
     private com.juancamr.components.ButtonComponent jbtnRenovar;
     private com.juancamr.components.Typography jlblEstado;
     private com.juancamr.components.Typography jlblNombre;
