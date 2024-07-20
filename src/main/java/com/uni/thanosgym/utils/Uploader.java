@@ -10,7 +10,8 @@ public class Uploader {
     private static Cloudinary cloudinary;
 
     private static Cloudinary createCloudinary() {
-        Cloudinary cloudinary = new Cloudinary(EnvVariables.getInstance().get("CLOUDINARY_URL"));
+        String url = "cloudinary://246731595911296:Gil35w6XXT1x1utToe1VJU9tXpc@dnxr5oebz";
+        Cloudinary cloudinary = new Cloudinary(url);
         cloudinary.config.secure = true;
         return cloudinary;
     }

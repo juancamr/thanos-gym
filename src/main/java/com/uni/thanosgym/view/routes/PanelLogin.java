@@ -8,8 +8,10 @@ import javax.swing.JTextField;
 
 import com.juancamr.route.Route;
 import com.juancamr.route.Router;
+import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.controllers.AuthController;
 import com.uni.thanosgym.utils.FrameUtils;
+import java.awt.Font;
 
 /**
  *
@@ -50,90 +52,50 @@ public class PanelLogin extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        jbtnIniciar = new javax.swing.JButton();
         jlblExito = new javax.swing.JLabel();
-        jtxtNombreUsuario = new javax.swing.JTextField();
-        jSeparator13 = new javax.swing.JSeparator();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jPassword = new javax.swing.JPasswordField();
-        jbtnRegistro = new javax.swing.JButton();
         jCheckSesion = new javax.swing.JCheckBox();
+        typography1 = new com.juancamr.components.Typography();
+        jbtnIniciar = new com.juancamr.components.ButtonComponent();
+        typography2 = new com.juancamr.components.Typography();
+        jtxtNombreUsuario = new com.juancamr.components.InputComponent();
+        typography3 = new com.juancamr.components.Typography();
+        jPassword = new javax.swing.JPasswordField();
+        jbtnRegistro = new com.juancamr.components.ButtonComponent();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel14.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(105, 105, 118));
-        jLabel14.setText("Nombre de usuario");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, -1, 30));
-
-        jbtnIniciar.setBackground(new java.awt.Color(20, 23, 31));
-        jbtnIniciar.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
-        jbtnIniciar.setForeground(new java.awt.Color(241, 240, 243));
-        jbtnIniciar.setText("Continuar");
-        jbtnIniciar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnIniciarActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jbtnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 510, 300, 40));
-
         jlblExito.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jlblExito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel3.add(jlblExito, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 650, 310, 40));
 
-        jtxtNombreUsuario.setBackground(new java.awt.Color(241, 241, 241));
-        jtxtNombreUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jtxtNombreUsuario.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jtxtNombreUsuario.setBorder(null);
-        jtxtNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtNombreUsuarioActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jtxtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 300, 30));
-
-        jSeparator13.setForeground(new java.awt.Color(0, 102, 255));
-        jPanel3.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 460, 180, 30));
-
-        jLabel23.setBackground(new java.awt.Color(105, 105, 118));
-        jLabel23.setFont(new java.awt.Font("Malgun Gothic", 0, 24)); // NOI18N
-        jLabel23.setText("Inicio de sesión");
-        jPanel3.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, -1, -1));
-
-        jLabel18.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(105, 105, 118));
-        jLabel18.setText("Contraseña");
-        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, -1, 30));
-
-        jPassword.setBackground(new java.awt.Color(241, 241, 241));
-        jPassword.setBorder(null);
-        jPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jPasswordKeyReleased(evt);
-            }
-        });
-        jPanel3.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 300, 30));
-
-        jbtnRegistro.setBackground(new java.awt.Color(255, 255, 254));
-        jbtnRegistro.setFont(new java.awt.Font("Malgun Gothic", 0, 12)); // NOI18N
-        jbtnRegistro.setForeground(new java.awt.Color(0, 51, 153));
-        jbtnRegistro.setText("No tiene una cuenta? Registrate");
-        jbtnRegistro.setBorder(null);
-        jbtnRegistro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnRegistroActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 300, 30));
-
         jCheckSesion.setBackground(new java.awt.Color(255, 255, 255));
         jCheckSesion.setText("Mantener mi sesion iniciada");
-        jPanel3.add(jCheckSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, -1, -1));
+        jPanel3.add(jCheckSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
+
+        typography1.setText("Inicio de sesión");
+        typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel3.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        jbtnIniciar.setText("INICIAR");
+        jbtnIniciar.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
+        jPanel3.add(jbtnIniciar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, 330, 50));
+
+        typography2.setText("Nombre de usuario");
+        typography2.setType(com.juancamr.components.Typography.Type.MEDIUM);
+        jPanel3.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
+        jPanel3.add(jtxtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 330, -1));
+
+        typography3.setText("Contraseña");
+        typography3.setType(com.juancamr.components.Typography.Type.MEDIUM);
+        jPanel3.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, -1, -1));
+        jPanel3.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 330, -1));
+
+        jbtnRegistro.setText("Registrate");
+        jbtnRegistro.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, -1, -1));
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 690));
     }// </editor-fold>//GEN-END:initComponents
@@ -156,15 +118,14 @@ public class PanelLogin extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JCheckBox jCheckSesion;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JPanel jPanel3;
-    public javax.swing.JPasswordField jPassword;
-    private javax.swing.JSeparator jSeparator13;
-    public javax.swing.JButton jbtnIniciar;
-    public javax.swing.JButton jbtnRegistro;
+    private javax.swing.JPasswordField jPassword;
+    private com.juancamr.components.ButtonComponent jbtnIniciar;
+    private com.juancamr.components.ButtonComponent jbtnRegistro;
     public javax.swing.JLabel jlblExito;
-    public javax.swing.JTextField jtxtNombreUsuario;
+    private com.juancamr.components.InputComponent jtxtNombreUsuario;
+    private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography2;
+    private com.juancamr.components.Typography typography3;
     // End of variables declaration//GEN-END:variables
 }

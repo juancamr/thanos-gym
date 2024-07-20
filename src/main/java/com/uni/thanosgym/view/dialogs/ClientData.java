@@ -49,7 +49,8 @@ public class ClientData extends javax.swing.JFrame {
      * Creates new form ClientData
      */
     public ClientData(Contrato contrato) {
-        Response<Asistencia> resAsistencias = CRUDAsistencia.getInstance().getAllByClientId(contrato.getCliente().getId());
+        Response<Asistencia> resAsistencias = CRUDAsistencia.getInstance()
+                .getAllByClientId(contrato.getCliente().getId());
         this.asistencias = resAsistencias.getDataList();
         this.cliente = contrato.getCliente();
 
@@ -97,7 +98,6 @@ public class ClientData extends javax.swing.JFrame {
         FrameUtils.addOnClickEvent(jbtnMarcarAsistencia, this::marcarAsistencia);
         FrameUtils.addOnClickEvent(jbtnEditar, this::editar);
 
-
         paintAsistencias();
     }
 
@@ -106,37 +106,35 @@ public class ClientData extends javax.swing.JFrame {
         inputTelefono.setEnabled(true);
         inputDireccion.setEnabled(true);
         inputCorreo.setEnabled(true);
-        FrameUtils.removeAllEvents(jbtnEditar);;
+        FrameUtils.removeAllEvents(jbtnEditar);
         jbtnEditar.setText("ACTUALIZAR");
         FrameUtils.addOnClickEvent(jbtnEditar, this::actualizar);
     }
 
     private void actualizar() {
-        Client cliente = new Client.Builder()
-                .setFullName(inputNombres.getText())
-                .setPhone(inputTelefono.getText())
-                .setDireccion(inputDireccion.getText())
-                .setEmail(inputCorreo.getText())
-                .build();
+        cliente.setFullName(inputNombres.getText());
+        cliente.setPhone(inputTelefono.getText());
+        cliente.setDireccion(inputDireccion.getText());
+        cliente.setEmail(inputCorreo.getText());
         Response<Client> res = CRUDCliente.getInstance().update(cliente);
         if (!res.isSuccess()) {
             Messages.show(res.getMessage());
             return;
         }
-        this.cliente = cliente;
 
         inputNombres.setEnabled(false);
         inputTelefono.setEnabled(false);
         inputDireccion.setEnabled(false);
         inputCorreo.setEnabled(false);
 
-        FrameUtils.removeAllEvents(jbtnEditar);;
-        jbtnEditar.setText("ACTUALIZAR");
-        FrameUtils.addOnClickEvent(jbtnEditar, this::actualizar);
+        FrameUtils.removeAllEvents(jbtnEditar);
+        jbtnEditar.setText("EDITAR");
+        FrameUtils.addOnClickEvent(jbtnEditar, this::editar);
     }
 
     private void marcarAsistencia() {
-        boolean iguales = StringUtils.parseDate(asistencias.get(0).getIngreso()).equals(StringUtils.parseDate(new Date()));
+        boolean iguales = StringUtils.parseDate(asistencias.get(0).getIngreso())
+                .equals(StringUtils.parseDate(new Date()));
         if (!asistencias.isEmpty() && iguales) {
             Messages.show("Ya has marcado esta asistencia");
             return;
@@ -343,7 +341,8 @@ public class ClientData extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -439,13 +438,11 @@ public class ClientData extends javax.swing.JFrame {
         javax.swing.GroupLayout jpnlAsistenciasLayout = new javax.swing.GroupLayout(jpnlAsistencias);
         jpnlAsistencias.setLayout(jpnlAsistenciasLayout);
         jpnlAsistenciasLayout.setHorizontalGroup(
-            jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 730, Short.MAX_VALUE)
-        );
+                jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 730, Short.MAX_VALUE));
         jpnlAsistenciasLayout.setVerticalGroup(
-            jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
-        );
+                jpnlAsistenciasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 120, Short.MAX_VALUE));
 
         jPanel1.add(jpnlAsistencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 530, 730, 120));
 
@@ -516,13 +513,11 @@ public class ClientData extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

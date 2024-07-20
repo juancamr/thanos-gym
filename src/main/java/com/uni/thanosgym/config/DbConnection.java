@@ -9,11 +9,8 @@ public class DbConnection {
     
     public static void connectToDatabase () {
         try {
-            String host = EnvVariables.getInstance().get("DB_HOST");
-            String user = EnvVariables.getInstance().get("DB_USER");
-            String password = EnvVariables.getInstance().get("DB_PASSWORD");
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://" + host + "?serverTimezone=UTC", user, password);
+            connection = DriverManager.getConnection("jdbc:mysql://juancamr.mysql.database.azure.com/thanosgym?serverTimezone=UTC", "juancamr", "09241688Jc$");
             System.out.println("Connected to database!");
         } catch (Exception e) {
             System.out.println(e);

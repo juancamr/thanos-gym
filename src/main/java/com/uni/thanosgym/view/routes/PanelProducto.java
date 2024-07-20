@@ -22,12 +22,14 @@ import com.uni.thanosgym.view.dialogs.AgregarProducto;
  */
 @Route("main:producto")
 public class PanelProducto extends javax.swing.JPanel {
+    List<Producto> productos;
 
     /**
      * Creates new form PanelProducto
      */
     public PanelProducto() {
         initComponents();
+        this.productos = CRUDProducto.getInstance().getAll().getDataList();
         refresh();
         FrameUtils.addHandleChangeEvent(jtxtNombreOrCode, this::handleChange);
         FrameUtils.addOnClickEvent(jbtnCrearProducto, () -> {
@@ -43,24 +45,27 @@ public class PanelProducto extends javax.swing.JPanel {
             refresh();
             return;
         }
-        List<String[]> datos = CRUDProducto.getInstance().getAll().getDataList().stream()
-                .filter(producto -> producto.getNombre().contains(jtxtNombreOrCode.getText()))
+        List<String[]> datos = productos.stream()
+                .filter(producto -> {
+                    return producto.getNombre().toLowerCase().contains(jtxtNombreOrCode.getText().toLowerCase())
+                            || producto.getCodigo().toLowerCase().contains(jtxtNombreOrCode.getText().toLowerCase());
+                })
                 .map(producto -> new String[] { String.valueOf(producto.getCodigo()), producto.getNombre(),
                         String.valueOf(producto.getPrecio()), String.valueOf(producto.getCantidad()) })
                 .collect(Collectors.toList());
-
-        ((javax.swing.table.DefaultTableModel) jtblProducto.getModel()).setRowCount(0);
-        for (String[] dato : datos) {
-            ((javax.swing.table.DefaultTableModel) jtblProducto.getModel()).addRow(dato);
-        }
+        fillTable(datos);
 
     }
 
     private void refresh() {
-        List<String[]> datos = CRUDProducto.getInstance().getAll().getDataList().stream()
-                .map(utility -> new String[] { String.valueOf(utility.getId()), utility.getNombre(),
-                        String.valueOf(utility.getPrecio()), String.valueOf(utility.getCantidad()) })
+        List<String[]> datos = productos.stream()
+                .map(producto -> new String[] { String.valueOf(producto.getCodigo()), producto.getNombre(),
+                        String.valueOf(producto.getPrecio()), String.valueOf(producto.getCantidad()) })
                 .collect(Collectors.toList());
+        fillTable(datos);
+    }
+
+    private void fillTable(List<String[]> datos) {
         ((javax.swing.table.DefaultTableModel) jtblProducto.getModel()).setRowCount(0);
         for (String[] dato : datos) {
             ((javax.swing.table.DefaultTableModel) jtblProducto.getModel()).addRow(dato);

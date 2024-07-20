@@ -87,7 +87,7 @@ public class MainLayout extends LayoutPanel {
 
     private void setFocusButton(JButton boton) {
         quitarFondosBotones(new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto,
-                jbtnQuinto, jbtnSeptimo });
+                jbtnQuinto, jbtnSexto, jbtnSeptimo, jbtnOctavo });
         boton.setBackground(focusColor);
     }
 

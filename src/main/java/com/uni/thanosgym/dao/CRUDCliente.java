@@ -82,7 +82,7 @@ public class CRUDCliente extends BaseCrud<Client> {
     public Response<Client> update(Client cliente) {
         try {
             sendObject(Querys.client.update, cliente);
-            ps.setInt(9, cliente.getId());
+            ps.setInt(7, cliente.getId());
             ps.executeUpdate();
             ps.close();
             return new Response<Client>(true);

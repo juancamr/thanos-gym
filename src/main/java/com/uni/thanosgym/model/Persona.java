@@ -11,7 +11,8 @@ class Persona {
     private String email;
     private String photoUrl;
 
-    public Persona() {}
+    public Persona() {
+    }
 
     public Persona(int id, Date created_At, String fullName, String phone, String email, String photoUrl) {
         this.id = id;
@@ -25,7 +26,7 @@ class Persona {
     public int getId() {
         return id;
     }
-    
+
     public void setId(int id) {
         this.id = id;
     }
@@ -38,7 +39,7 @@ class Persona {
         return fullName;
     }
 
-    public void setFullName(String fullName) {        
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
@@ -60,5 +61,9 @@ class Persona {
 
     public void setPhotoUrl(String url) {
         this.photoUrl = url;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

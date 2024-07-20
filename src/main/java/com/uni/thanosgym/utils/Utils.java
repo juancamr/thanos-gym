@@ -6,12 +6,15 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.Contrato;
+import java.io.FileOutputStream;
 
 import java.awt.Color;
 import java.io.File;
@@ -39,7 +42,8 @@ public class Utils {
         props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
         String username = "jcmrojas29@gmail.com";
-        String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
+        // String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
+        String password = "jlvj fjdw sjfv wjwo ";
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -74,7 +78,8 @@ public class Utils {
             props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
             String username = "jcmrojas29@gmail.com";
-            String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
+            // String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
+            String password = "jlvj fjdw sjfv wjwo ";
 
             Session session = Session.getInstance(props, new javax.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -117,7 +122,8 @@ public class Utils {
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
-            document.add(new Paragraph(String.format("Detalle de contrato a nombre de %s", payment.getCliente().getFullName())));
+            document.add(new Paragraph(
+                    String.format("Detalle de contrato a nombre de %s", payment.getCliente().getFullName())));
             Table table = new Table(4);
 
             table.addHeaderCell("Nro boleta");
@@ -134,6 +140,43 @@ public class Utils {
             document.close();
         } catch (FileNotFoundException e) {
             System.out.println(e);
+        }
+    }
+
+    public static void generarContratoPdf(Contrato contrato, String pdfPath) {
+        // Define el HTML a partir del cual generar el PDF
+        String htmlContent = String.format(
+                "<html>" +
+                        "<head><style>" +
+                        "table { width: 100%%; border-collapse: collapse; }" +
+                        "th, td { border: 1px solid black; padding: 8px; text-align: left; }" +
+                        "th { background-color: #f2f2f2; }" +
+                        "</style></head>" +
+                        "<body>" +
+                        "<h1>Detalle de contrato a nombre de %s</h1>" +
+                        "<table>" +
+                        "<thead>" +
+                        "<tr><th>Nro de contrato</th><th>Fecha</th><th>Plan</th><th>Monto</th></tr>" +
+                        "</thead>" +
+                        "<tbody>" +
+                        "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>" +
+                        "</tbody>" +
+                        "</table>" +
+                        "</body>" +
+                        "</html>",
+                contrato.getCliente().getFullName(),
+                StringUtils.parseIdBoleta(contrato.getId()),
+                StringUtils.parseSpanishDate(contrato.getCreatedAt()),
+                contrato.getPlan().getName(),
+                contrato.getPlan().getPrice());
+
+        try {
+            // Crea un PdfWriter
+            PdfWriter writer = new PdfWriter(new FileOutputStream(pdfPath));
+            // Convierte HTML a PDF
+            HtmlConverter.convertToPdf(htmlContent, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

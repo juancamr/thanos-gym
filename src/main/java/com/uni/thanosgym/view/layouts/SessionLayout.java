@@ -6,6 +6,7 @@ package com.uni.thanosgym.view.layouts;
 
 import com.juancamr.route.Layout;
 import com.juancamr.route.LayoutPanel;
+import com.uni.thanosgym.utils.FrameUtils;
 
 /**
  *
@@ -20,6 +21,8 @@ public class SessionLayout extends LayoutPanel {
     public SessionLayout() {
         initComponents();
         setContent(content);
+        String image = "https://t3.ftcdn.net/jpg/06/08/15/96/360_F_608159635_oQ0NJZIj1XCGlSaptlc0m1g0jb5M1SL8.jpg";
+        FrameUtils.renderImageFromWeb(image, jlblImage);
     }
 
     /**
@@ -33,7 +36,7 @@ public class SessionLayout extends LayoutPanel {
 
         jPanel1 = new javax.swing.JPanel();
         content = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jlblImage = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -41,10 +44,10 @@ public class SessionLayout extends LayoutPanel {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         content.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 690));
+        jPanel1.add(content, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 690));
 
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 130, -1, -1));
+        jlblImage.setText("image");
+        jPanel1.add(jlblImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 630, 690));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1060, 690));
     }// </editor-fold>//GEN-END:initComponents
@@ -52,7 +55,7 @@ public class SessionLayout extends LayoutPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JPanel content;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jlblImage;
     // End of variables declaration//GEN-END:variables
 }

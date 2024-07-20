@@ -25,6 +25,7 @@ import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.Uploader;
 import com.uni.thanosgym.utils.UserPreferences;
+import com.uni.thanosgym.utils.Utils;
 import com.uni.thanosgym.view.dialogs.ClientData;
 import com.uni.thanosgym.view.routes.PanelClient.ComboItemPlan;
 
@@ -60,7 +61,8 @@ public class ClientController {
             Messages.show("Ingrese un DNI valido");
             return;
         }
-        String token = EnvVariables.getInstance().get("TOKEN_RENIEC");
+        //String token = EnvVariables.getInstance().get("TOKEN_RENIEC");
+        String token = "apis-token-8973.-ycNRmJOAHUAbtJAr30rzJPKx9v3unU1";
         Map<String, String> headers = Map.of("Authorization",
                 String.format("Bearer %s", token));
         CompletableFuture<String> getResponseFuture = HttpUtils
@@ -155,6 +157,22 @@ public class ClientController {
             return false;
         }
 
+        contrato.setCreatedAt(new Date());
+        enviarContrato(contrato);
+
         return true;
+    }
+
+    public static void enviarContrato(Contrato contrato) {
+        String pdfPath = "contrato.pdf";
+        String messageEmail = String.format(
+                "Gracias por ser parte de Thanosgym %s, te dejamos tu contrato de membresia adjuntado en este correo.",
+                contrato.getCliente().getFullName());
+        Utils.generarContratoPdf(contrato, pdfPath);
+        Utils.sendMailWithPdf(
+                contrato.getCliente().getEmail(),
+                String.format("Bienvenido %s", contrato.getCliente().getFullName()),
+                messageEmail,
+                pdfPath);
     }
 }

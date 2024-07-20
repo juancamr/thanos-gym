@@ -1,11 +1,20 @@
 package com.uni.thanosgym.utils;
 
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -17,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import com.juancamr.components.RoundedLabel;
 import com.uni.thanosgym.model.Response;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -190,6 +200,20 @@ public class FrameUtils {
     }
 
     public static void renderImageFromWeb(String imageUrl, JLabel label) {
+        label.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                try {
+                    BufferedImage originalImage = ImageIO.read(new URL(imageUrl));
+                    Image scaledImage = getScaledImage(originalImage, label.getWidth(), label.getHeight());
+                    label.setIcon(new ImageIcon(scaledImage));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+    }
+    public static void renderImageNatively(String imageUrl, JLabel label) {
         try {
             URL url = new URL(imageUrl);
             ImageIcon imageIcon = new ImageIcon(url);
@@ -198,6 +222,26 @@ public class FrameUtils {
             e.printStackTrace();
         }
     }
+
+
+    private static Image getScaledImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+        double originalWidth = originalImage.getWidth();
+        double originalHeight = originalImage.getHeight();
+
+        double scaleFactor = Math.max(targetWidth / originalWidth, targetHeight / originalHeight);
+
+        int newWidth = (int) (originalWidth * scaleFactor);
+        int newHeight = (int) (originalHeight * scaleFactor);
+
+        BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = scaledImage.createGraphics();
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2d.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
+        g2d.dispose();
+
+        return scaledImage.getSubimage((newWidth - targetWidth) / 2, (newHeight - targetHeight) / 2, targetWidth, targetHeight);
+    }
+
 
     public static Response<File> chooseImage(JPanel ventana) {
         JFileChooser fileChooser = new JFileChooser();
@@ -230,7 +274,7 @@ public class FrameUtils {
             return new Response<File>(false, "No se pudo seleccionar la imagen");
     }
 
-    public static void renderImage(File image, JLabel label){
+    public static void renderImageToLabel(File image, JLabel label) {
         try {
             ImageIcon imageIcon = new ImageIcon(image.getAbsolutePath());
             label.setIcon(imageIcon);

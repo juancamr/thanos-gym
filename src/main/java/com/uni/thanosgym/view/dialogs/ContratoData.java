@@ -6,6 +6,7 @@ package com.uni.thanosgym.view.dialogs;
 
 import javax.swing.JFrame;
 
+import com.uni.thanosgym.controllers.ClientController;
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.utils.FrameUtils;
@@ -16,12 +17,14 @@ import com.uni.thanosgym.utils.StringUtils;
  * @author juancamr
  */
 public class ContratoData extends javax.swing.JFrame {
+    private Contrato contrato;
 
     /**
      * Creates new form ContratoData
      */
     public ContratoData(Contrato contrato) {
         initComponents();
+        this.contrato = contrato;
 
         jlblPlanName.setText(contrato.getPlan().getName());
         Client cliente = contrato.getCliente();
@@ -41,6 +44,8 @@ public class ContratoData extends javax.swing.JFrame {
     }
 
     private void enviarContratoPorCorreo() {
+        ClientController.enviarContrato(contrato);
+        System.out.println("correo enviado");
     }
 
     /**

@@ -58,7 +58,7 @@ public class PanelClient extends javax.swing.JPanel {
         Response<File> response = FrameUtils.chooseImage(this);
         if (response.isSuccess()) {
             imageSelected = response.getData();
-            FrameUtils.renderImage(imageSelected, jLabel1);
+            FrameUtils.renderImageToLabel(imageSelected, jLabel1);
             jlblFileName.setText(imageSelected.getName());
         } else {
             Messages.show(response.getMessage());

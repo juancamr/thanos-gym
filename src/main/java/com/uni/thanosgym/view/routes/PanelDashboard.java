@@ -84,7 +84,7 @@ public class PanelDashboard extends javax.swing.JPanel {
         }
         chart.setConfig(config);
         String grafico = chart.getUrl();
-        FrameUtils.renderImageFromWeb(grafico, lblGrafico);
+        FrameUtils.renderImageNatively(grafico, lblGrafico);
 
         // clientes suscritos hoy
         jlblClientesSuscritos.setForeground(Theme.colors.orange);
@@ -163,13 +163,11 @@ public class PanelDashboard extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         typography1 = new com.juancamr.components.Typography();
-        typography2 = new com.juancamr.components.Typography();
-        contadorNotificaciones = new com.juancamr.components.Typography();
         jPanel2 = new javax.swing.JPanel();
         typography3 = new com.juancamr.components.Typography();
         lblGrafico = new javax.swing.JLabel();
@@ -205,12 +203,6 @@ public class PanelDashboard extends javax.swing.JPanel {
         typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
         jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
-        typography2.setText("Notificaciones");
-        jPanel1.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 50, -1, -1));
-
-        contadorNotificaciones.setText("(0)");
-        jPanel1.add(contadorNotificaciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 50, -1, -1));
-
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -233,25 +225,26 @@ public class PanelDashboard extends javax.swing.JPanel {
         jPanel3.add(typography5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         jtblCliente.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "Nombres completos", "Membresía"
-                }) {
-            Class[] types = new Class[] {
-                    java.lang.String.class, java.lang.String.class
+            },
+            new String [] {
+                "Nombres completos", "Membresía"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean[] {
-                    false, false
+            boolean[] canEdit = new boolean [] {
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+                return types [columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
+                return canEdit [columnIndex];
             }
         });
         jtblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -274,25 +267,26 @@ public class PanelDashboard extends javax.swing.JPanel {
         jPanel4.add(typography4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
 
         jtblVentas.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "Cliente", "Total"
-                }) {
-            Class[] types = new Class[] {
-                    java.lang.String.class, java.lang.String.class
+            },
+            new String [] {
+                "Cliente", "Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean[] {
-                    false, false
+            boolean[] canEdit = new boolean [] {
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+                return types [columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
+                return canEdit [columnIndex];
             }
         });
         jtblVentas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -373,13 +367,13 @@ public class PanelDashboard extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtblClienteMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblClienteMouseClicked
@@ -397,7 +391,6 @@ public class PanelDashboard extends javax.swing.JPanel {
     }// GEN-LAST:event_jtblVentasMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.juancamr.components.Typography contadorNotificaciones;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -420,7 +413,6 @@ public class PanelDashboard extends javax.swing.JPanel {
     private com.juancamr.components.Typography typography11;
     private com.juancamr.components.Typography typography12;
     private com.juancamr.components.Typography typography13;
-    private com.juancamr.components.Typography typography2;
     private com.juancamr.components.Typography typography3;
     private com.juancamr.components.Typography typography4;
     private com.juancamr.components.Typography typography5;

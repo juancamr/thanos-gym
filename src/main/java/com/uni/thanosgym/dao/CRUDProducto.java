@@ -55,6 +55,7 @@ public class CRUDProducto extends BaseCrud<Producto> {
     public Producto generateObject(ResultSet rs) throws SQLException {
         return new Producto.Builder()
                 .setId(rs.getInt(Producto.idField))
+                .setCodigo(rs.getString(Producto.codigoField))
                 .setNombre(rs.getString(Producto.nombreField))
                 .setCantidad(rs.getInt(Producto.cantidadField))
                 .setPrecio(rs.getDouble(Producto.precioField))

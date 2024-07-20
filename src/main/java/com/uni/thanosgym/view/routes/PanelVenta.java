@@ -19,13 +19,16 @@ import java.util.List;
 import com.uni.thanosgym.controllers.ProductoController;
 import com.uni.thanosgym.controllers.VentaController;
 import com.uni.thanosgym.dao.CRUDBoleta;
+import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.DetalleBoleta;
 import com.uni.thanosgym.model.Producto;
+import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.Utils;
+import com.uni.thanosgym.view.dialogs.ListaBoletas;
 
 /**
  *
@@ -64,10 +67,20 @@ public class PanelVenta extends javax.swing.JPanel {
             ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).addRow(row);
             updateMontoTotal();
         });
+        FrameUtils.addOnClickEvent(jbtnTodasLasVentas, this::mostrarVentas);
         FrameUtils.addOnClickEvent(jbtnSetCLiente, this::setCliente);
         FrameUtils.addOnClickEvent(jbtnSetProducto, this::setProducto);
         FrameUtils.addOnClickEvent(jbtnClear, this::eliminarProductos);
         FrameUtils.addOnClickEvent(jbtnGenerarVenta, this::generarVenta);
+    }
+
+    private void mostrarVentas() {
+        Response<Boleta> response = CRUDBoleta.getInstance().getAllBoletas();
+        if (!response.isSuccess()) {
+            Messages.show(response.getMessage());
+            return;
+        }
+        new ListaBoletas(response.getDataList());
     }
 
     private void generarVenta() {
@@ -123,7 +136,7 @@ public class PanelVenta extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         typography11 = new com.juancamr.components.Typography();
@@ -190,25 +203,26 @@ public class PanelVenta extends javax.swing.JPanel {
         jPanel1.add(jbtnSetCLiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, -1, -1));
 
         jtblBoleta.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "Cantidad", "Descripción", "Precio Unid.", "Total"
-                }) {
-            Class[] types = new Class[] {
-                    java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            },
+            new String [] {
+                "Cantidad", "Descripción", "Precio Unid.", "Total"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean[] {
-                    false, false, false, false
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+                return types [columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(jtblBoleta);
@@ -241,19 +255,19 @@ public class PanelVenta extends javax.swing.JPanel {
 
         jlblFechaActual.setText("Fecha actual");
         jlblFechaActual.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel1.add(jlblFechaActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 120, -1));
+        jPanel1.add(jlblFechaActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 120, 15));
 
         jtxtNombreCliente.setText("Nombre del cliente");
         jtxtNombreCliente.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel1.add(jtxtNombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 240, -1));
+        jPanel1.add(jtxtNombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 240, 15));
 
         jtxtDireccionCiente.setText("Direccion del cliente");
         jtxtDireccionCiente.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel1.add(jtxtDireccionCiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 240, -1));
+        jPanel1.add(jtxtDireccionCiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 240, 15));
 
         jlblDniCliente.setText("DNI del cliente");
         jlblDniCliente.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel1.add(jlblDniCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 120, -1));
+        jPanel1.add(jlblDniCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 120, 15));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
@@ -280,11 +294,13 @@ public class PanelVenta extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 170, Short.MAX_VALUE));
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 170, Short.MAX_VALUE)
+        );
         jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 20, Short.MAX_VALUE));
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 20, Short.MAX_VALUE)
+        );
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 26, 170, 20));
 
@@ -332,7 +348,7 @@ public class PanelVenta extends javax.swing.JPanel {
         jPanel1.add(jbtnAgregarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 370, -1, -1));
 
         jbtnTodasLasVentas.setText("TODAS LAS VENTAS");
-        jbtnTodasLasVentas.setType(com.juancamr.components.ButtonComponent.Type.INFO);
+        jbtnTodasLasVentas.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
         jPanel1.add(jbtnTodasLasVentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, -1, -1));
 
         jbtnClear.setText("Borrar Todo");
@@ -342,13 +358,13 @@ public class PanelVenta extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtPrecioProductoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jtxtPrecioProductoActionPerformed
