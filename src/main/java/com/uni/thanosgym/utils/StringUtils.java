@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class StringUtils {
 
-    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd");
     public static SimpleDateFormat spanishFormat = new SimpleDateFormat("dd-MM-yyyy");
     public static String usernameRegex = "^[a-z]{8,15}$";
     public static String passwordRegex = "^[a-z]{8,}$";
@@ -70,7 +70,7 @@ public class StringUtils {
     }
 
     public static String parseDate(Date date) {
-        return sdf.format(date);
+        return sqlFormat.format(date);
     }
 
     public static boolean isDecimal(String number) {

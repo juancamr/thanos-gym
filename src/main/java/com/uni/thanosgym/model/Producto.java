@@ -1,108 +1,47 @@
 package com.uni.thanosgym.model;
 
-import java.util.Date;
+public class Producto {
 
-public class Producto extends Item {
-
-    private double precio;
+    private int id;
+    private String nombre;
     private String codigo;
-    private Date fechaVencimiento;
+    private DetalleProducto[] detallesProducto;
 
     public static String tableName = "producto";
     public static String idField = "producto_id";
-    public static String nombreField = "nombre";
     public static String codigoField = "codigo";
-    public static String cantidadField = "cantidad";
-    public static String precioField = "precio";
-    public static String photoUrlField = "photo_url";
-    public static String fechaVencimientoField = "fecha_vencimiento";
+    public static String nombreField = "nombre";
 
-    private Producto(Builder builder) {
-        super(builder.id, builder.nombre, builder.cantidad, builder.photoUrl);
-        this.codigo = builder.codigo;
-        this.precio = builder.precio;
-        this.fechaVencimiento = builder.fechaVencimiento;
+    public Producto(String nombre, String codigo) {
+        this.nombre = nombre;
+        this.codigo = codigo;
     }
 
-    // Getter
-    public double getPrecio() {
-        return precio;
+    public String getNombre() {
+        return nombre;
     }
 
     public String getCodigo() {
         return codigo;
     }
 
-    public Date getFechaVencimiento() {
-        return fechaVencimiento;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public int getId() {
+        return id;
     }
 
-    // Builder estático
-    public static class Builder {
-        private int id;
-        private String nombre;
-        private int cantidad;
-        private String photoUrl;
-        private double precio;
-        private String codigo;
-        private Date fechaVencimiento;
-
-        // Métodos setters para Producto
-        public Builder setId(int id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setNombre(String nombre) {
-            this.nombre = nombre;
-            return this;
-        }
-
-        public Builder setCantidad(int cantidad) {
-            this.cantidad = cantidad;
-            return this;
-        }
-
-        public Builder setPhotoUrl(String photoUrl) {
-            this.photoUrl = photoUrl;
-            return this;
-        }
-
-        public Builder setPrecio(double precio) {
-            this.precio = precio;
-            return this;
-        }
-
-        public Builder setFechaVencimiento(Date fechaVencimiento) {
-            this.fechaVencimiento = fechaVencimiento;
-            return this;
-        }
-
-        public Builder setCodigo(String codigo) {
-            this.codigo = codigo;
-            return this;
-        }
-
-        public Producto build() {
-            return new Producto(this);
-        }
+    public void setDetallesProducto(DetalleProducto[] detallesProducto) {
+        this.detallesProducto = detallesProducto;
     }
 
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "id=" + getId() +
-                ", nombre='" + getNombre() + '\'' +
-                ", cantidad=" + getCantidad() +
-                ", photoUrl='" + getPhotoUrl() + '\'' +
-                ", precio=" + precio +
-                ", fechaVencimiento=" + fechaVencimiento +
-                '}';
+    public DetalleProducto[] getDetallesProducto() {
+        return detallesProducto;
     }
 
-    public Object[] showAll() {
-        Object[] lista = { super.getId(), super.getNombre(), super.getCantidad(), precio };
-        return lista;
+    public void setId(int id) {
+        this.id = id;
     }
 }
-

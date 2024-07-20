@@ -1,6 +1,5 @@
 package com.uni.thanosgym.config;
 import java.sql.*;
-import com.uni.thanosgym.utils.EnvVariables;
 
 public class DbConnection {
     private static Connection connection; 
@@ -9,8 +8,12 @@ public class DbConnection {
     
     public static void connectToDatabase () {
         try {
+            String host = "172.17.0.2";
+            String database = "thanosgym";
+            String user = "root";
+            String password = "dev";
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://juancamr.mysql.database.azure.com/thanosgym?serverTimezone=UTC", "juancamr", "09241688Jc$");
+            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s/%s?serverTimezone=UTC", host, database), user, password);
             System.out.println("Connected to database!");
         } catch (Exception e) {
             System.out.println(e);

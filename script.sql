@@ -40,13 +40,19 @@ CREATE TABLE if not exists producto (
     producto_id INT NOT NULL AUTO_INCREMENT,
     codigo VARCHAR(20) NOT NULL,
     nombre VARCHAR(255) NOT NULL,
-    cantidad int NOT NULL,
-    precio decimal(10, 2) NOT NULL,
-    photo_url VARCHAR(255),
-    fecha_vencimiento DATE NOT NULL,
     PRIMARY KEY (producto_id)
 ) Engine=InnoDB;
 
+CREATE TABLE if not exists detalle_producto (
+    detalle_producto_id int not null auto_increment,
+    producto_id int not null,
+    stock int not null,
+    fecha_vencimiento DATE NOT NULL,
+    created_at DATETIME NOT NULL default current_timestamp,
+    precio decimal(10, 2) NOT NULL,
+    PRIMARY KEY (detalle_producto_id),
+    FOREIGN KEY (producto_id) REFERENCES producto(producto_id)
+) Engine=InnoDB;
 
 CREATE TABLE if not exists contrato (
     contrato_id INT NOT NULL AUTO_INCREMENT,
@@ -81,7 +87,8 @@ create table if not exists detalle_boleta (
     boleta_id int not null,
     producto_id int not null,
     cantidad int not null,
-    precio int not null,
+    precio decimal(10, 2) not null,
+    total decimal(10, 2) not null,
     PRIMARY KEY (detalle_boleta_id),
     FOREIGN KEY (boleta_id) REFERENCES boleta(boleta_id),
     FOREIGN KEY (producto_id) REFERENCES producto(producto_id)

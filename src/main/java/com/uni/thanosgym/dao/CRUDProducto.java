@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import com.uni.thanosgym.model.Producto;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
-import com.uni.thanosgym.utils.StringUtils;
 
 public class CRUDProducto extends BaseCrud<Producto> {
     public static CRUDProducto crudProducto;
@@ -41,11 +40,12 @@ public class CRUDProducto extends BaseCrud<Producto> {
 
     public Response<Producto> update(Producto producto) {
         try {
-            sendObject(Querys.producto.update, producto);
-            ps.setInt(4, producto.getId());
+            ps = connection.prepareStatement(Querys.producto.update);
+            ps.setString(1, producto.getNombre());
+            ps.setInt(2, producto.getId());
             ps.executeUpdate();
             ps.close();
-            return new Response<Producto>(true, "Datos actualizados con exito");
+            return new Response<Producto>(true, "Producto actualizado con exito");
         } catch (Exception e) {
             return somethingWentWrong(e);
         }
@@ -53,24 +53,15 @@ public class CRUDProducto extends BaseCrud<Producto> {
 
     @Override
     public Producto generateObject(ResultSet rs) throws SQLException {
-        return new Producto.Builder()
-                .setId(rs.getInt(Producto.idField))
-                .setCodigo(rs.getString(Producto.codigoField))
-                .setNombre(rs.getString(Producto.nombreField))
-                .setCantidad(rs.getInt(Producto.cantidadField))
-                .setPrecio(rs.getDouble(Producto.precioField))
-                .setPhotoUrl(rs.getString(Producto.photoUrlField))
-                .setFechaVencimiento(rs.getDate(Producto.fechaVencimientoField))
-                .build();
+        Producto producto = new Producto(rs.getString(Producto.codigoField), rs.getString(Producto.nombreField));
+        producto.setId(rs.getInt(Producto.idField));
+        return producto;
     }
 
     @Override
     public void sendObject(String consulta, Producto data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
         ps.setString(1, data.getNombre());
-        ps.setInt(2, data.getCantidad());
-        ps.setDouble(3, data.getPrecio());
-        ps.setString(4, StringUtils.parseDate(data.getFechaVencimiento()));
-        ps.setString(5, data.getCodigo());
+        ps.setString(2, data.getCodigo());
     }
 }

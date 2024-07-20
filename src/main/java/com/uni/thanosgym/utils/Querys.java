@@ -48,11 +48,30 @@ public class Querys {
     public class producto {
 
         public static String create = generateCreateQuery(Producto.tableName,
-                new String[] { Producto.nombreField, Producto.cantidadField, Producto.precioField,
-                        Producto.fechaVencimientoField, Producto.codigoField });
+                new String[] { Producto.nombreField, Producto.codigoField });
         public static String update = generateUpdateQuery(Producto.tableName,
-                new String[] { Producto.nombreField, Producto.cantidadField, Producto.precioField,
-                        Producto.fechaVencimientoField });
+                new String[] { Producto.nombreField });
+    }
+
+    public class detalleProducto {
+        public static String create = generateCreateQuery(DetalleProducto.tableName,
+                new String[] { DetalleProducto.productoIdField, DetalleProducto.stockField,
+                        DetalleProducto.fechaVencimientoField, DetalleProducto.precioField });
+        public static String update = generateUpdateQuery(DetalleProducto.tableName,
+                new String[] { DetalleProducto.productoIdField, DetalleProducto.stockField, DetalleProducto.fechaVencimientoField,
+                        DetalleProducto.precioField });
+
+        public static String getDetallesForVenta = "WITH stock_details AS ( " +
+                "SELECT detalle_producto_id, producto_id, stock, fecha_vencimiento, precio, created_at, " +
+                "SUM(stock) OVER (PARTITION BY producto_id ORDER BY fecha_vencimiento) AS cumulative_stock " +
+                "FROM detalle_producto " +
+                "WHERE fecha_vencimiento >= CURDATE() " +
+                "ORDER BY fecha_vencimiento " +
+                ") " +
+                "SELECT detalle_producto_id, producto_id, stock, fecha_vencimiento, precio, created_at " +
+                "FROM stock_details " +
+                "WHERE producto_id = ? AND cumulative_stock - stock < ? " +
+                "ORDER BY fecha_vencimiento;";
     }
 
     public class contrato {
@@ -102,11 +121,7 @@ public class Querys {
         public static String getDetallesByBoletaId = "SELECT * FROM detalle_boleta WHERE boleta_id=?";
         public static String create = generateCreateQuery(DetalleBoleta.tableName,
                 new String[] { DetalleBoleta.boletaIdField, DetalleBoleta.productoIdField,
-                        DetalleBoleta.cantidadField, DetalleBoleta.precioField });
-        public static String update = generateUpdateQuery(DetalleBoleta.tableName,
-                new String[] { DetalleBoleta.boletaIdField, DetalleBoleta.productoIdField,
-                        DetalleBoleta.cantidadField,
-                        DetalleBoleta.precioField });
+                        DetalleBoleta.cantidadField, DetalleBoleta.precioField, DetalleBoleta.totalField });
     }
 
     public class utility {
@@ -127,23 +142,23 @@ public class Querys {
 
     public class asistencia {
         public static String getUltimasCatorceAsistencias = "WITH RECURSIVE DateSeries AS (" +
-               "SELECT CURDATE() AS fecha " +
-               "UNION ALL " +
-               "SELECT fecha - INTERVAL 1 DAY " +
-               "FROM DateSeries " +
-               "WHERE fecha > CURDATE() - INTERVAL 13 DAY" +
-               ") " +
-               "SELECT " +
-               "DateSeries.fecha, " +
-               "a.asistencia_id, " +
-               "a.client_id, " +
-               "a.ingreso " +
-               "FROM " +
-               "DateSeries " +
-               "LEFT JOIN " +
-               "asistencia a ON DATE(a.ingreso) = DateSeries.fecha AND a.client_id = ? " +
-               "ORDER BY " +
-               "DateSeries.fecha DESC;";
+                "SELECT CURDATE() AS fecha " +
+                "UNION ALL " +
+                "SELECT fecha - INTERVAL 1 DAY " +
+                "FROM DateSeries " +
+                "WHERE fecha > CURDATE() - INTERVAL 13 DAY" +
+                ") " +
+                "SELECT " +
+                "DateSeries.fecha, " +
+                "a.asistencia_id, " +
+                "a.client_id, " +
+                "a.ingreso " +
+                "FROM " +
+                "DateSeries " +
+                "LEFT JOIN " +
+                "asistencia a ON DATE(a.ingreso) = DateSeries.fecha AND a.client_id = ? " +
+                "ORDER BY " +
+                "DateSeries.fecha DESC;";
         public static String create = generateCreateQuery(Asistencia.tableName,
                 new String[] { Asistencia.clientIdField, Asistencia.ingresoField });
         public static String obtenerAsistenciasDeHoy = "SELECT COUNT(*) AS contador FROM asistencia WHERE DATE(ingreso) = CURDATE()";

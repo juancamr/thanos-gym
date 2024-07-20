@@ -4,29 +4,29 @@
  */
 package com.uni.thanosgym.view.routes;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-
 import com.juancamr.route.Route;
 import java.util.List;
-import com.uni.thanosgym.controllers.ProductoController;
+import java.util.stream.Collectors;
+
+import javax.swing.JTextField;
+
 import com.uni.thanosgym.controllers.VentaController;
 import com.uni.thanosgym.dao.CRUDBoleta;
+import com.uni.thanosgym.dao.CRUDDetalleBoleta;
+import com.uni.thanosgym.dao.CRUDDetalleProducto;
+import com.uni.thanosgym.dao.CRUDProducto;
 import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.DetalleBoleta;
+import com.uni.thanosgym.model.DetalleProducto;
 import com.uni.thanosgym.model.Producto;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.utils.Utils;
 import com.uni.thanosgym.view.dialogs.ListaBoletas;
 
@@ -37,9 +37,14 @@ import com.uni.thanosgym.view.dialogs.ListaBoletas;
 @Route("main:venta")
 public class PanelVenta extends javax.swing.JPanel {
 
-    private Producto productoSeleccionado;
     private Client clienteSeleccionado;
+    private Producto productoSeleccionado;
+    private List<DetalleProducto> detallesDeProductoSeleccionado = new ArrayList<>();
+    private int cantidadSolicitada;
+    private double precioApropiado;
+
     private List<DetalleBoleta> detalles = new ArrayList<>();
+    private List<TestClass> listaDetallesDeProductoGlobal = new ArrayList<>();
 
     /**
      * Creates new form PanelVenta
@@ -51,27 +56,54 @@ public class PanelVenta extends javax.swing.JPanel {
         jlblTotal.setText("S/ 0.00");
         jlblNumeroBoleta.setText(StringUtils.parseIdBoleta(CRUDBoleta.getInstance().getUltimoNumeroBoleta() + 1));
 
-        FrameUtils.addOnClickEvent(jbtnAgregarProducto, () -> {
-            String cantidad = jtxtCantidadProducto.getText();
-            DetalleBoleta detalle = VentaController.agregarProducto(cantidad, productoSeleccionado);
-            if (detalle != null) {
-                jtxtCantidadProducto.setText("");
-                jtxtNombreProducto.setText("");
-                jtxtPrecioProducto.setText("");
-                jtxtCodigoProducto.setText("");
-                productoSeleccionado = null;
-            }
-            detalles.add(detalle);
-            String[] row = new String[] { String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(),
-                    String.valueOf(detalle.getProducto().getPrecio()), String.valueOf(detalle.getTotal()) };
-            ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).addRow(row);
-            updateMontoTotal();
-        });
+        FrameUtils.addOnClickEvent(jbtnAgregarProducto, this::agregarProducto);
         FrameUtils.addOnClickEvent(jbtnTodasLasVentas, this::mostrarVentas);
         FrameUtils.addOnClickEvent(jbtnSetCLiente, this::setCliente);
         FrameUtils.addOnClickEvent(jbtnSetProducto, this::setProducto);
         FrameUtils.addOnClickEvent(jbtnClear, this::eliminarProductos);
         FrameUtils.addOnClickEvent(jbtnGenerarVenta, this::generarVenta);
+    }
+
+    private void agregarProducto() {
+        if (productoSeleccionado == null) {
+            Messages.show("Debe seleccionar un producto");
+            return;
+        }
+        if (cantidadSolicitada <= 0) {
+            Messages.show("La cantidad debe ser mayor a 0");
+            return;
+        }
+        DetalleBoleta detalle = new DetalleBoleta.Builder()
+                .setCantidad(cantidadSolicitada)
+                .setProducto(productoSeleccionado)
+                .setPrecio(precioApropiado)
+                .build();
+
+        System.out.println("primer detalle");
+        System.out.println(detalle);
+
+        // clear inputs
+        JTextField[] inputs = new JTextField[] { jtxtCantidadProducto, jtxtNombreProducto, jtxtPrecioProducto,
+                jtxtCodigoProducto };
+        FrameUtils.clearInputs(inputs);
+
+        detalles.add(detalle);
+        List<Integer> ids = detallesDeProductoSeleccionado.stream().map(DetalleProducto::getId)
+                .collect(Collectors.toList());
+        TestClass test = new TestClass(ids, cantidadSolicitada);
+        System.out.println(test);
+        listaDetallesDeProductoGlobal.add(test);
+
+        String[] row = new String[] { String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(),
+                String.valueOf(detalle.getPrecio()), String.valueOf(detalle.getPrecio()) };
+
+        ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).addRow(row);
+        updateMontoTotal();
+
+        productoSeleccionado = null;
+        detallesDeProductoSeleccionado.clear();
+        cantidadSolicitada = 0;
+        precioApropiado = 0;
     }
 
     private void mostrarVentas() {
@@ -84,31 +116,99 @@ public class PanelVenta extends javax.swing.JPanel {
     }
 
     private void generarVenta() {
-        if (VentaController.generarVenta(clienteSeleccionado, detalles)) {
-            detalles.clear();
-            ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).setRowCount(0);
-            Messages.show("Se generó la venta correctamente");
-            jlblTotal.setText("S/ 0.00");
-            updateMontoTotal();
-            // generar pdf boleta
-            // enviar pdf por correo
+        if (clienteSeleccionado == null) {
+            Messages.show("Debe establecer un cliente");
+            return;
         }
+        if (detalles.isEmpty()) {
+            Messages.show("Debe agregar al menos un producto");
+            return;
+        }
+
+        System.out.println(detalles);
+        System.out.println(listaDetallesDeProductoGlobal);
+
+        double total = detalles.stream().mapToDouble(DetalleBoleta::getPrecio).sum();
+        Boleta boleta = new Boleta.Builder()
+                .setCliente(clienteSeleccionado)
+                .setAdmin(UserPreferences.getData())
+                .setTotal(total)
+                .build();
+
+        Response<Boleta> response = CRUDBoleta.getInstance().create(boleta);
+        if (!response.isSuccess()) {
+            Messages.show(response.getMessage());
+            return;
+        }
+        boleta.setId(response.getId());
+
+        for (DetalleBoleta detalle : detalles) {
+            detalle.setIdBoleta(boleta.getId());
+            CRUDDetalleBoleta.getInstance().create(detalle);
+        }
+
+        for (TestClass test : listaDetallesDeProductoGlobal) {
+            CRUDDetalleProducto.getInstance().descontar(test.getLista(), test.getCantidad());
+        }
+
+        // clear
+        detalles.clear();
+        listaDetallesDeProductoGlobal.clear();
+        ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).setRowCount(0);
+        clienteSeleccionado = null;
+        jtxtNombreCliente.setText("");
+        jtxtDireccionCiente.setText("");
+        jlblDniCliente.setText("");
+
+        Messages.show("Se generó la venta correctamente");
+        jlblTotal.setText("S/ 0.00");
+        updateMontoTotal();
     }
 
     private void setProducto() {
-        Producto producto = VentaController.getProducto(jtxtCodigoProducto.getText());
-        if (producto == null) {
+        String codigo = jtxtCodigoProducto.getText();
+        String stock = jtxtCantidadProducto.getText();
+        if (codigo.isEmpty() || stock.isEmpty()) {
+            Messages.show("Debe completar el codigo y la cantidad");
             return;
         }
-        productoSeleccionado = producto;
-        jtxtNombreProducto.setText(producto.getNombre());
-        jtxtPrecioProducto.setText(String.valueOf(producto.getPrecio()));
+
+        if (!StringUtils.isInteger(stock)) {
+            Messages.show("La cantidad debe ser un número");
+            return;
+        }
+        cantidadSolicitada = Integer.parseInt(stock);
+        System.out.println(cantidadSolicitada);
+        if (cantidadSolicitada <= 0) {
+            Messages.show("La cantidad debe ser mayor a 0");
+            return;
+        }
+
+        Response<Producto> resProd = CRUDProducto.getInstance().getByCodigo(codigo);
+        if (!resProd.isSuccess()) {
+            Messages.show(resProd.getMessage());
+            return;
+        }
+        productoSeleccionado = resProd.getData();
+
+        Response<DetalleProducto> resDet = CRUDDetalleProducto.getInstance()
+                .obtenerProductosParaVenta(productoSeleccionado.getId(), cantidadSolicitada);
+        if (!resDet.isSuccess()) {
+            Messages.show(resDet.getMessage());
+            return;
+        }
+        detallesDeProductoSeleccionado = resDet.getDataList();
+        precioApropiado = detallesDeProductoSeleccionado.stream().mapToDouble(DetalleProducto::getPrecio).max()
+                .orElse(0);
+
+        jtxtNombreProducto.setText(productoSeleccionado.getNombre());
+        jtxtPrecioProducto.setText(String.valueOf(precioApropiado));
     }
 
     private void updateMontoTotal() {
         double total = 0;
         for (DetalleBoleta detalle : detalles) {
-            total += detalle.getProducto().getPrecio() * detalle.getCantidad();
+            total += detalle.getPrecio() * detalle.getCantidad();
         }
         jlblTotal.setText(String.format("S/ %.2f", total));
     }
@@ -122,6 +222,10 @@ public class PanelVenta extends javax.swing.JPanel {
 
     private void setCliente() {
         Client cliente = VentaController.setCliente(jtxtDniCliente.getText());
+        if (cliente == null) {
+            Messages.show("El cliente no existe");
+            return;
+        }
         jtxtNombreCliente.setText(cliente.getFullName());
         jtxtDireccionCiente.setText(cliente.getDireccion());
         jlblDniCliente.setText(cliente.getDni());
@@ -136,7 +240,8 @@ public class PanelVenta extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         typography11 = new com.juancamr.components.Typography();
@@ -203,26 +308,25 @@ public class PanelVenta extends javax.swing.JPanel {
         jPanel1.add(jbtnSetCLiente, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, -1, -1));
 
         jtblBoleta.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+                new Object[][] {
 
-            },
-            new String [] {
-                "Cantidad", "Descripción", "Precio Unid.", "Total"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                },
+                new String[] {
+                        "Cantidad", "Descripción", "Precio Unid.", "Total"
+                }) {
+            Class[] types = new Class[] {
+                    java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+            boolean[] canEdit = new boolean[] {
+                    false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+                return types[columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
+                return canEdit[columnIndex];
             }
         });
         jScrollPane1.setViewportView(jtblBoleta);
@@ -294,13 +398,11 @@ public class PanelVenta extends javax.swing.JPanel {
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 170, Short.MAX_VALUE)
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 170, Short.MAX_VALUE));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 20, Short.MAX_VALUE));
 
         jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 26, 170, 20));
 
@@ -358,13 +460,13 @@ public class PanelVenta extends javax.swing.JPanel {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
+                                javax.swing.GroupLayout.PREFERRED_SIZE));
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtPrecioProductoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jtxtPrecioProductoActionPerformed
@@ -412,4 +514,22 @@ public class PanelVenta extends javax.swing.JPanel {
     private com.juancamr.components.Typography typography5;
     private com.juancamr.components.Typography typography6;
     // End of variables declaration//GEN-END:variables
+
+    private class TestClass {
+        private List<Integer> lista;
+        private int cantidad;
+
+        public TestClass(List<Integer> lista, int cantidad) {
+            this.lista = lista;
+            this.cantidad = cantidad;
+        }
+
+        public List<Integer> getLista() {
+            return lista;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+    }
 }

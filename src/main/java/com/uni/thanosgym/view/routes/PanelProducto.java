@@ -30,42 +30,35 @@ public class PanelProducto extends javax.swing.JPanel {
     public PanelProducto() {
         initComponents();
         this.productos = CRUDProducto.getInstance().getAll().getDataList();
-        refresh();
+        fillTable(productos);
         FrameUtils.addHandleChangeEvent(jtxtNombreOrCode, this::handleChange);
         FrameUtils.addOnClickEvent(jbtnCrearProducto, () -> {
             Map<String, Object> params = RoutingUtils.openDialog(new AgregarProducto());
             if (ProductoController.crearProducto(params)) {
-                refresh();
+                fillTable(productos);
             }
         });
     }
 
     public void handleChange() {
         if (jtxtNombreOrCode.getText().isEmpty()) {
-            refresh();
+            fillTable(productos);
             return;
         }
-        List<String[]> datos = productos.stream()
+        List<Producto> datos = productos.stream()
                 .filter(producto -> {
-                    return producto.getNombre().toLowerCase().contains(jtxtNombreOrCode.getText().toLowerCase())
-                            || producto.getCodigo().toLowerCase().contains(jtxtNombreOrCode.getText().toLowerCase());
-                })
-                .map(producto -> new String[] { String.valueOf(producto.getCodigo()), producto.getNombre(),
-                        String.valueOf(producto.getPrecio()), String.valueOf(producto.getCantidad()) })
-                .collect(Collectors.toList());
-        fillTable(datos);
-
-    }
-
-    private void refresh() {
-        List<String[]> datos = productos.stream()
-                .map(producto -> new String[] { String.valueOf(producto.getCodigo()), producto.getNombre(),
-                        String.valueOf(producto.getPrecio()), String.valueOf(producto.getCantidad()) })
-                .collect(Collectors.toList());
+                    String nombre = producto.getNombre().toLowerCase();
+                    String codigo = producto.getCodigo().toLowerCase();
+                    String input = jtxtNombreOrCode.getText().toLowerCase();
+                    return nombre.contains(input) || codigo.contains(input);
+                }).toList();
         fillTable(datos);
     }
 
-    private void fillTable(List<String[]> datos) {
+    private void fillTable(List<Producto> localProductos) {
+        List<String[]> datos = localProductos.stream()
+                .map(producto -> new String[] { String.valueOf(producto.getCodigo()), producto.getNombre() })
+                .collect(Collectors.toList());
         ((javax.swing.table.DefaultTableModel) jtblProducto.getModel()).setRowCount(0);
         for (String[] dato : datos) {
             ((javax.swing.table.DefaultTableModel) jtblProducto.getModel()).addRow(dato);
@@ -157,22 +150,17 @@ public class PanelProducto extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnCrearProductoMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnCrearProductoMouseClicked
-        // TODO add your handling code here:
     }// GEN-LAST:event_jbtnCrearProductoMouseClicked
 
     private void jtblProductoMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblProductoMouseClicked
         int fila = jtblProducto.getSelectedRow();
         if (fila != -1) {
             int idProducto = Integer.parseInt(String.valueOf(jtblProducto.getValueAt(fila, 0)));
-            String nombre = String.valueOf(jtblProducto.getValueAt(fila, 1));
-            int cantidad = Integer.parseInt(String.valueOf(jtblProducto.getValueAt(fila, 2)));
-            double precio = Double.parseDouble(String.valueOf(jtblProducto.getValueAt(fila, 3)));
-            Producto producto = new Producto.Builder()
-                    .setId(idProducto)
-                    .setNombre(nombre)
-                    .setCantidad(cantidad)
-                    .setPrecio(precio)
-                    .build();
+            String codigo = String.valueOf(jtblProducto.getValueAt(fila, 1));
+            String nombre = String.valueOf(jtblProducto.getValueAt(fila, 2));
+            Producto producto = new Producto(codigo, nombre);
+            producto.setId(idProducto);
+            // TODO: mostrar dialog con los ingresos del producto
         }
 
     }// GEN-LAST:event_jtblProductoMouseClicked

@@ -40,6 +40,7 @@ public class PanelDashboard extends javax.swing.JPanel {
      */
     public PanelDashboard() {
         initComponents();
+        // TODO: crear notificaciones para poder mostrar usando la clase Notification
 
         // inicializar grafico
         QuickChart chart = new QuickChart();

@@ -34,7 +34,7 @@ public class BoletaData extends javax.swing.JFrame {
         jlblFechaActual.setText(StringUtils.parseSpanishDate(new Date()));
 
         for (DetalleBoleta detalle : boleta.getDetallesBoleta()) {
-            String[] row = new String[]{String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(), String.valueOf(detalle.getProducto().getPrecio()), String.valueOf(detalle.getTotal())};
+            String[] row = new String[]{String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(), String.valueOf(detalle.getPrecio()), String.valueOf(detalle.getPrecio())};
             ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).addRow(row);
         }
         

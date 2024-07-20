@@ -3,10 +3,10 @@ package com.uni.thanosgym.model;
 public class DetalleBoleta {
 
     private int id;
-    private Boleta boleta;
-    private Producto producto;
+    private int boletaId;
     private int cantidad;
-    private double total;
+    private double precio;
+    private Producto producto;
 
     public static String tableName = "detalle_boleta";
     public static String idField = "detalle_boleta_id";
@@ -14,14 +14,15 @@ public class DetalleBoleta {
     public static String productoIdField = "producto_id";
     public static String cantidadField = "cantidad";
     public static String precioField = "precio";
+    public static String totalField = "total";
 
     // Constructor privado para el Builder
     private DetalleBoleta(Builder builder) {
         this.id = builder.id;
-        this.boleta = builder.boleta;
+        this.boletaId = builder.boletaId;
         this.producto = builder.producto;
         this.cantidad = builder.cantidad;
-        this.total = builder.precio;
+        this.precio = builder.precio;
     }
 
     // Getters
@@ -29,8 +30,8 @@ public class DetalleBoleta {
         return id;
     }
 
-    public Boleta getBoleta() {
-        return boleta;
+    public int getIdBoleta() {
+        return boletaId;
     }
 
     public Producto getProducto() {
@@ -41,18 +42,26 @@ public class DetalleBoleta {
         return cantidad;
     }
 
-    public double getTotal() {
-        return total;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setBoleta(Boleta boleta) {
-        this.boleta = boleta;
+    public int getBoletaId() {
+        return boletaId;
+    }
+
+    public void setIdBoleta(int boletaId) {
+        this.boletaId = boletaId;
+    }
+
+    public double getTotal() {
+        return this.precio * this.cantidad;
     }
 
     // Builder estático
     public static class Builder {
         private int id;
-        private Boleta boleta;
+        private int boletaId;
         private Producto producto;
         private int cantidad;
         private double precio;
@@ -63,8 +72,8 @@ public class DetalleBoleta {
             return this;
         }
 
-        public Builder setBoleta(Boleta boleta) {
-            this.boleta = boleta;
+        public Builder setBoletaId(int boleta) {
+            this.boletaId = boleta;
             return this;
         }
 
@@ -75,6 +84,11 @@ public class DetalleBoleta {
 
         public Builder setCantidad(int cantidad) {
             this.cantidad = cantidad;
+            return this;
+        }
+
+        public Builder setPrecio(double precio) {
+            this.precio = precio;
             return this;
         }
 
@@ -93,10 +107,10 @@ public class DetalleBoleta {
     public String toString() {
         return "DetalleBoleta{" +
                 "id=" + id +
-                ", boleta=" + boleta +
+                ", boletaid=" + boletaId +
                 ", producto=" + producto +
                 ", cantidad=" + cantidad +
-                ", precio=" + total +
+                ", precio=" + precio +
                 '}';
     }
 }

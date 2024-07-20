@@ -52,12 +52,11 @@ public class CRUDDetalleBoleta extends BaseCrud<DetalleBoleta> {
     @Override
     public DetalleBoleta generateObject(ResultSet rs) throws SQLException {
         Response<Producto> resProducto = CRUDProducto.getInstance().getById(rs.getInt(DetalleBoleta.productoIdField));
-        //Response<Boleta> resBoleta = CRUDBoleta.getInstance().getById(rs.getInt(DetalleBoleta.boletaIdField));
-        int id = rs.getInt(DetalleBoleta.idField);
         return new DetalleBoleta.Builder()
-                .setId(id)
+                .setId(rs.getInt(DetalleBoleta.idField))
                 .setProducto(resProducto.getData())
                 .setCantidad(rs.getInt(DetalleBoleta.cantidadField))
+                .setPrecio(rs.getDouble(DetalleBoleta.precioField))
                 .setTotal(rs.getDouble(DetalleBoleta.precioField))
                 .build();
     }
@@ -65,9 +64,10 @@ public class CRUDDetalleBoleta extends BaseCrud<DetalleBoleta> {
     @Override
     public void sendObject(String consulta, DetalleBoleta data) throws SQLException {
         ps = connection.prepareStatement(consulta, PreparedStatement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, data.getBoleta().getId());
+        ps.setInt(1, data.getIdBoleta());
         ps.setInt(2, data.getProducto().getId());
         ps.setInt(3, data.getCantidad());
-        ps.setDouble(4, data.getTotal());
+        ps.setDouble(4, data.getPrecio());
+        ps.setDouble(5, data.getTotal());
     }
 }
