@@ -133,6 +133,9 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jtblBoletaMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -511,7 +514,20 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="590" y="410" width="220" height="-1"/>
+              <AbsoluteConstraints x="590" y="430" width="220" height="-1"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+        <Component class="com.juancamr.components.ButtonComponent" name="jbtnBorrarUno">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Borrar un elemento"/>
+            <Property name="type" type="com.juancamr.components.ButtonComponent$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
+              <Value id="SMALL"/>
+            </Property>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+              <AbsoluteConstraints x="590" y="470" width="220" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>

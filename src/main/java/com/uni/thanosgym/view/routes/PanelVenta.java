@@ -28,6 +28,7 @@ import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.utils.Utils;
+import com.uni.thanosgym.view.dialogs.IngresosProducto;
 import com.uni.thanosgym.view.dialogs.ListaBoletas;
 
 /**
@@ -44,7 +45,7 @@ public class PanelVenta extends javax.swing.JPanel {
     private double precioApropiado;
 
     private List<DetalleBoleta> detalles = new ArrayList<>();
-    private List<TestClass> listaDetallesDeProductoGlobal = new ArrayList<>();
+    private List<DetallesItem> listaDetallesDeProductoGlobal = new ArrayList<>();
 
     /**
      * Creates new form PanelVenta
@@ -62,6 +63,18 @@ public class PanelVenta extends javax.swing.JPanel {
         FrameUtils.addOnClickEvent(jbtnSetProducto, this::setProducto);
         FrameUtils.addOnClickEvent(jbtnClear, this::eliminarProductos);
         FrameUtils.addOnClickEvent(jbtnGenerarVenta, this::generarVenta);
+        FrameUtils.addOnClickEvent(jbtnBorrarUno, this::borrarUno);
+    }
+
+    private void borrarUno() {
+        int row = jtblBoleta.getSelectedRow();
+        if (row == -1) {
+            Messages.show("Seleccione una fila");
+            return;
+        }
+        ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).removeRow(row);
+        detalles.remove(row);
+        listaDetallesDeProductoGlobal.remove(row);
     }
 
     private void agregarProducto() {
@@ -79,9 +92,6 @@ public class PanelVenta extends javax.swing.JPanel {
                 .setPrecio(precioApropiado)
                 .build();
 
-        System.out.println("primer detalle");
-        System.out.println(detalle);
-
         // clear inputs
         JTextField[] inputs = new JTextField[] { jtxtCantidadProducto, jtxtNombreProducto, jtxtPrecioProducto,
                 jtxtCodigoProducto };
@@ -90,9 +100,8 @@ public class PanelVenta extends javax.swing.JPanel {
         detalles.add(detalle);
         List<Integer> ids = detallesDeProductoSeleccionado.stream().map(DetalleProducto::getId)
                 .collect(Collectors.toList());
-        TestClass test = new TestClass(ids, cantidadSolicitada);
-        System.out.println(test);
-        listaDetallesDeProductoGlobal.add(test);
+        DetallesItem datelleItem = new DetallesItem(ids, cantidadSolicitada);
+        listaDetallesDeProductoGlobal.add(datelleItem);
 
         String[] row = new String[] { String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(),
                 String.valueOf(detalle.getPrecio()), String.valueOf(detalle.getPrecio()) };
@@ -125,9 +134,6 @@ public class PanelVenta extends javax.swing.JPanel {
             return;
         }
 
-        System.out.println(detalles);
-        System.out.println(listaDetallesDeProductoGlobal);
-
         double total = detalles.stream().mapToDouble(DetalleBoleta::getPrecio).sum();
         Boleta boleta = new Boleta.Builder()
                 .setCliente(clienteSeleccionado)
@@ -135,34 +141,40 @@ public class PanelVenta extends javax.swing.JPanel {
                 .setTotal(total)
                 .build();
 
-        Response<Boleta> response = CRUDBoleta.getInstance().create(boleta);
-        if (!response.isSuccess()) {
-            Messages.show(response.getMessage());
-            return;
-        }
-        boleta.setId(response.getId());
+        jbtnGenerarVenta.setEnabled(false);
+        Utils.mostrarPantallaDeCarga(null, () -> {
+            Response<Boleta> response = CRUDBoleta.getInstance().create(boleta);
+            if (!response.isSuccess()) {
+                Messages.show(response.getMessage());
+                jbtnGenerarVenta.setEnabled(true);
+                return;
+            }
+            boleta.setId(response.getId());
 
-        for (DetalleBoleta detalle : detalles) {
-            detalle.setIdBoleta(boleta.getId());
-            CRUDDetalleBoleta.getInstance().create(detalle);
-        }
+            for (DetalleBoleta detalle : detalles) {
+                detalle.setIdBoleta(boleta.getId());
+                CRUDDetalleBoleta.getInstance().create(detalle);
+            }
 
-        for (TestClass test : listaDetallesDeProductoGlobal) {
-            CRUDDetalleProducto.getInstance().descontar(test.getLista(), test.getCantidad());
-        }
+            for (DetallesItem detalleItem : listaDetallesDeProductoGlobal) {
+                CRUDDetalleProducto.getInstance().descontar(detalleItem.getLista(), detalleItem.getCantidad());
+            }
 
-        // clear
-        detalles.clear();
-        listaDetallesDeProductoGlobal.clear();
-        ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).setRowCount(0);
-        clienteSeleccionado = null;
-        jtxtNombreCliente.setText("");
-        jtxtDireccionCiente.setText("");
-        jlblDniCliente.setText("");
+            // clear
+            detalles.clear();
+            listaDetallesDeProductoGlobal.clear();
+            ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).setRowCount(0);
+            clienteSeleccionado = null;
+            jtxtNombreCliente.setText("");
+            jtxtDireccionCiente.setText("");
+            jlblDniCliente.setText("");
+            jtxtDniCliente.setText("");
 
-        Messages.show("Se generó la venta correctamente");
-        jlblTotal.setText("S/ 0.00");
-        updateMontoTotal();
+            Messages.show("Se generó la venta correctamente");
+            jlblTotal.setText("S/ 0.00");
+            updateMontoTotal();
+            jbtnGenerarVenta.setEnabled(true);
+        });
     }
 
     private void setProducto() {
@@ -173,12 +185,18 @@ public class PanelVenta extends javax.swing.JPanel {
             return;
         }
 
+        boolean existe = detalles.stream().anyMatch(detalle -> detalle.getProducto().getCodigo().equals(codigo));
+        if (existe) {
+            Messages.show(
+                    "Estas intentando agregar un producto agregado previamente, por favor, eliminalo y vuelve a intentarlo");
+            return;
+        }
+
         if (!StringUtils.isInteger(stock)) {
             Messages.show("La cantidad debe ser un número");
             return;
         }
         cantidadSolicitada = Integer.parseInt(stock);
-        System.out.println(cantidadSolicitada);
         if (cantidadSolicitada <= 0) {
             Messages.show("La cantidad debe ser mayor a 0");
             return;
@@ -216,6 +234,7 @@ public class PanelVenta extends javax.swing.JPanel {
     private void eliminarProductos() {
         if (Messages.confirm("¿Está seguro de que desea eliminar todos los productos agregados?", "Confirmación")) {
             detalles.clear();
+            listaDetallesDeProductoGlobal.clear();
             ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).setRowCount(0);
         }
     }
@@ -238,6 +257,7 @@ public class PanelVenta extends javax.swing.JPanel {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
@@ -283,6 +303,7 @@ public class PanelVenta extends javax.swing.JPanel {
         jbtnAgregarProducto = new com.juancamr.components.ButtonComponent();
         jbtnTodasLasVentas = new com.juancamr.components.ButtonComponent();
         jbtnClear = new com.juancamr.components.ButtonComponent();
+        jbtnBorrarUno = new com.juancamr.components.ButtonComponent();
 
         typography11.setText("DNI del cliente");
         typography11.setType(com.juancamr.components.Typography.Type.SMALL);
@@ -327,6 +348,11 @@ public class PanelVenta extends javax.swing.JPanel {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
+            }
+        });
+        jtblBoleta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblBoletaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jtblBoleta);
@@ -455,7 +481,11 @@ public class PanelVenta extends javax.swing.JPanel {
 
         jbtnClear.setText("Borrar Todo");
         jbtnClear.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        jPanel1.add(jbtnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 410, 220, -1));
+        jPanel1.add(jbtnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 430, 220, -1));
+
+        jbtnBorrarUno.setText("Borrar un elemento");
+        jbtnBorrarUno.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel1.add(jbtnBorrarUno, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 470, 220, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -468,6 +498,15 @@ public class PanelVenta extends javax.swing.JPanel {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
                                 javax.swing.GroupLayout.PREFERRED_SIZE));
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jtblBoletaMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblBoletaMouseClicked
+        int row = jtblBoleta.getSelectedRow();
+        if (row == -1)
+            return;
+        // mostrar todos los ingresos de este producto
+        Producto producto = detalles.get(row).getProducto();
+        new IngresosProducto(producto);
+    }// GEN-LAST:event_jtblBoletaMouseClicked
 
     private void jtxtPrecioProductoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jtxtPrecioProductoActionPerformed
         // TODO add your handling code here:
@@ -482,6 +521,7 @@ public class PanelVenta extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private com.juancamr.components.ButtonComponent jbtnAgregarProducto;
+    private com.juancamr.components.ButtonComponent jbtnBorrarUno;
     private com.juancamr.components.ButtonComponent jbtnClear;
     private com.juancamr.components.ButtonComponent jbtnGenerarVenta;
     private com.juancamr.components.ButtonComponent jbtnSetCLiente;
@@ -515,11 +555,11 @@ public class PanelVenta extends javax.swing.JPanel {
     private com.juancamr.components.Typography typography6;
     // End of variables declaration//GEN-END:variables
 
-    private class TestClass {
+    private class DetallesItem {
         private List<Integer> lista;
         private int cantidad;
 
-        public TestClass(List<Integer> lista, int cantidad) {
+        public DetallesItem(List<Integer> lista, int cantidad) {
             this.lista = lista;
             this.cantidad = cantidad;
         }

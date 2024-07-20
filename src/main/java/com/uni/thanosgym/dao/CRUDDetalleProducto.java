@@ -87,6 +87,7 @@ public class CRUDDetalleProducto extends BaseCrud<DetalleProducto> {
                 update(detalle);
                 return;
             }
+
             cantidadSolicitada = cantidadSolicitada - stockDelDetalle;
             delete(detalle.getId());
         }

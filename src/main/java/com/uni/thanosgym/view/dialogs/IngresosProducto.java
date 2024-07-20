@@ -4,30 +4,39 @@
  */
 package com.uni.thanosgym.view.dialogs;
 
-import com.uni.thanosgym.model.Boleta;
+import com.uni.thanosgym.model.Response;
+import com.uni.thanosgym.dao.CRUDDetalleProducto;
+import com.uni.thanosgym.model.DetalleProducto;
+import com.uni.thanosgym.model.Producto;
+import com.uni.thanosgym.utils.FrameUtils;
+import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
-import java.util.List;
-
-import javax.swing.JFrame;
 
 /**
  *
  * @author juancamr
  */
-public class ListaBoletas extends javax.swing.JFrame {
-    private List<Boleta> boletas;
+public class IngresosProducto extends javax.swing.JFrame {
 
     /**
-     * Creates new form ListaBoletas
-     * @param boletas lista de boletas
+     * Creates new form IngresosProductov
      */
-    public ListaBoletas(List<Boleta> boletas) {
+    public IngresosProducto(Producto producto) {
         initComponents();
-        this.boletas = boletas;
-        for (Boleta boleta : boletas) {
-            String[] datos = new String[]{StringUtils.parseIdBoleta(boleta.getId()), StringUtils.parseSpanishDate(boleta.getCreatedAt()), boleta.getCliente().getFullName(), String.valueOf(boleta.getTotal())};
+        jlblProductName.setText(producto.getNombre());
+        Response<DetalleProducto> response = CRUDDetalleProducto.getInstance().getAllByProductoId(producto.getId());
+        if (!response.isSuccess()) {
+            Messages.show(response.getMessage());
+            return;
+        }
+
+        for (DetalleProducto detalle : response.getDataList()) {
+            String[] datos = new String[] {
+                StringUtils.parseSpanishDate(detalle.getCreatedAt()), String.valueOf(detalle.getStock()), String.valueOf(detalle.getPrecio()), StringUtils.parseSpanishDate(detalle.getFechaVencimiento())
+            };
             ((javax.swing.table.DefaultTableModel) jtblBoletas.getModel()).addRow(datos);
         }
+        FrameUtils.setupWindow(this);
     }
 
     /**
@@ -42,7 +51,7 @@ public class ListaBoletas extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         e = new javax.swing.JScrollPane();
         jtblBoletas = new javax.swing.JTable();
-        typography1 = new com.juancamr.components.Typography();
+        jlblProductName = new com.juancamr.components.Typography();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,7 +63,7 @@ public class ListaBoletas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Fecha", "Cliente", "Monto"
+                "Ingresado", "Stock", "Precio", "Fecha vencimiento"
             }
         ) {
             Class[] types = new Class [] {
@@ -79,24 +88,22 @@ public class ListaBoletas extends javax.swing.JFrame {
         });
         e.setViewportView(jtblBoletas);
 
-        jPanel1.add(e, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 530, 480));
+        jPanel1.add(e, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 700, 480));
 
-        typography1.setText("Boletas ");
-        typography1.setType(com.juancamr.components.Typography.Type.HEADING2);
-        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 100, 30));
+        jlblProductName.setText("typography1");
+        jlblProductName.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jPanel1.add(jlblProductName, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 702, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 805, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -104,17 +111,13 @@ public class ListaBoletas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtblBoletasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblBoletasMouseClicked
-        int index = jtblBoletas.getSelectedRow();
-        if (index != -1) {
-            new BoletaData(boletas.get(index));
-        }
+       
     }//GEN-LAST:event_jtblBoletasMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane e;
     private javax.swing.JPanel jPanel1;
+    private com.juancamr.components.Typography jlblProductName;
     private javax.swing.JTable jtblBoletas;
-    private com.juancamr.components.Typography typography1;
     // End of variables declaration//GEN-END:variables
 }

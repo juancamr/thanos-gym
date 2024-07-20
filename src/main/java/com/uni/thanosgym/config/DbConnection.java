@@ -13,7 +13,7 @@ public class DbConnection {
             String user = "root";
             String password = "dev";
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s/%s?serverTimezone=UTC", host, database), user, password);
+            connection = DriverManager.getConnection(String.format("jdbc:mysql://%s/%s?serverTimezone=America/Lima", host, database), user, password);
             System.out.println("Connected to database!");
         } catch (Exception e) {
             System.out.println(e);

@@ -5,6 +5,11 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -12,10 +17,9 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.Contrato;
 import java.io.FileOutputStream;
-
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,6 +29,9 @@ import java.util.Properties;
 public class Utils {
 
     public static final String RUC = "3423432";
+    private static final String username = "jcmrojas29@gmail.com";
+    // private static final String password = "jlvj fjdw sjfv wjwo ";
+    private static final String password = "anstoehunt";
 
     public static boolean areAllTrue(boolean[] array) {
         for (boolean b : array)
@@ -33,17 +40,13 @@ public class Utils {
         return true;
     }
 
-    public static boolean sendMail(String messageEmail, String para, String titulo) {
+    public static boolean sendSimpleMail(String messageEmail, String para, String titulo) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.smtp.ssl.protocols", "TLSv1.2");
-
-        String username = "jcmrojas29@gmail.com";
-        // String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
-        String password = "jlvj fjdw sjfv wjwo ";
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -53,7 +56,7 @@ public class Utils {
 
         try {
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("jcmrojas29@gmail.com"));
+            message.setFrom(new InternetAddress(username));
 
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
             message.setSubject(titulo);
@@ -77,17 +80,13 @@ public class Utils {
             props.put("mail.smtp.port", "587");
             props.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
-            String username = "jcmrojas29@gmail.com";
-            // String password = EnvVariables.getInstance().get("EMAIL_PASSWORD");
-            String password = "jlvj fjdw sjfv wjwo ";
-
             Session session = Session.getInstance(props, new javax.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
                     return new PasswordAuthentication(username, password);
                 }
             });
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("jcmrojas29@gmail.com"));
+            message.setFrom(new InternetAddress(username));
 
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(para));
             message.setSubject(titulo);
@@ -190,5 +189,22 @@ public class Utils {
         int b = Integer.parseInt(hex.substring(4, 6), 16);
 
         return new Color(r, g, b);
+    }
+
+    public static void mostrarPantallaDeCarga(JFrame frame, Runnable function) {
+        JDialog loadingDialog = new JDialog(frame, "Cargando", true);
+        JLabel loadingLabel = new JLabel("Cargando, por favor espere...");
+        loadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        loadingDialog.getContentPane().add(loadingLabel, BorderLayout.CENTER);
+        loadingDialog.setSize(200, 100);
+        loadingDialog.setLocationRelativeTo(frame);
+
+        new Thread(() -> {
+            SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
+
+            function.run();
+
+            SwingUtilities.invokeLater(loadingDialog::dispose);
+        }).start();
     }
 }

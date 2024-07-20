@@ -5,8 +5,10 @@
 package com.uni.thanosgym.view.routes;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import com.uni.thanosgym.utils.Utils;
 
 import javax.swing.text.JTextComponent;
 
@@ -14,10 +16,18 @@ import com.juancamr.route.Route;
 import com.juancamr.route.Router;
 import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.controllers.ClientController;
+import com.uni.thanosgym.dao.CRUDCliente;
+import com.uni.thanosgym.dao.CRUDContrato;
 import com.uni.thanosgym.dao.CRUDPlan;
+import com.uni.thanosgym.model.Client;
+import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.model.Plan;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Messages;
+import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.Uploader;
+import com.uni.thanosgym.utils.UserPreferences;
+import com.uni.thanosgym.utils.DateUtils;
 import com.uni.thanosgym.utils.FrameUtils;
 
 /**
@@ -36,7 +46,7 @@ public class PanelClient extends javax.swing.JPanel {
         FrameUtils.addOnClickEvent(jbtnChooseImage, this::chooseImageEvent);
         FrameUtils.addOnClickEvent(jbtnRegistro, this::registerEvent);
         FrameUtils.addOnClickEvent(jbtnBuscarReniec, () -> {
-            ClientController.buscarReniec(jtxtDNIRegistro.getText(), jtxtNombres);
+            ClientController.buscarReniec(jtxtDNIRegistro.getText(), jtxtNombres, jbtnBuscarReniec);
         });
         FrameUtils.addOnClickEvent(jbtnBuscar, () -> {
             ClientController.buscar(jtxtDNIBuscar.getText());
@@ -68,22 +78,106 @@ public class PanelClient extends javax.swing.JPanel {
     }
 
     private void registerEvent() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("dni", jtxtDNIRegistro.getText());
-        params.put("nombres", jtxtNombres.getText());
-        params.put("email", jtxtCorreo.getText());
-        params.put("telefono", jtxtTelefono.getText());
-        params.put("direccion", jtxtDireccion.getText());
-        params.put("codigo", jtxtCodigoTransaccion.getText());
-        params.put("plan", jcbxPlanes.getSelectedItem());
-        params.put("photo", imageSelected);
+        String dni = jtxtDNIRegistro.getText();
+        String nombres = jtxtNombres.getText();
+        String email = jtxtCorreo.getText();
+        String telefono = jtxtTelefono.getText();
+        String direccion = jtxtDireccion.getText();
+        String codigo = jtxtCodigoTransaccion.getText();
+        ComboItemPlan planItem = (ComboItemPlan) jcbxPlanes.getSelectedItem();
 
-        if (ClientController.registrar(params)) {
-            Messages.show("Cliente registrado correctamente");
-            FrameUtils.clearInputs(
-                    new JTextComponent[] { jtxtDNIRegistro, jtxtNombres, jtxtCorreo, jtxtTelefono, jtxtDireccion,
-                            jtxtCodigoTransaccion });
+        if (dni.isEmpty() || nombres.isEmpty() || direccion.isEmpty() || telefono.isEmpty() || email.isEmpty()
+                || codigo.isEmpty()) {
+            Messages.show("Complete todos los campos");
+            return;
         }
+        if (!StringUtils.isValidEmail(email)) {
+            Messages.show("Ingrese un email valido");
+            return;
+        }
+        if (!StringUtils.isValidDni(dni)) {
+            Messages.show("Ingrese un DNI valido");
+            return;
+        }
+        if (!StringUtils.isValidPhone(telefono)) {
+            Messages.show("El telefono debe ser un numero de 9 digitos.");
+            return;
+        }
+        if (!StringUtils.isInteger(codigo)) {
+            Messages.show("Ingrese un código valido");
+            return;
+        }
+        Client cliente = new Client.Builder()
+                .setFullName(nombres)
+                .setDni(dni)
+                .setEmail(email)
+                .setPhone(telefono)
+                .setPhotoUrl("")
+                .setDireccion(direccion)
+                .build();
+
+        if (imageSelected != null) {
+            Uploader.UploaderResponse resUploader = Uploader.uploadImage(imageSelected);
+            if (!resUploader.isSuccess()) {
+                Messages.show(resUploader.getMessage());
+                imageSelected = null;
+                return;
+            }
+            cliente.setPhotoUrl(resUploader.getUrl());
+            imageSelected = null;
+        }
+
+        Utils.mostrarPantallaDeCarga(null, () -> {
+            jbtnRegistro.setEnabled(false);
+
+            Response<Client> resCliente = CRUDCliente.getInstance().create(cliente);
+            if (!resCliente.isSuccess()) {
+                Messages.show(resCliente.getMessage());
+                jbtnRegistro.setEnabled(true);
+                return;
+            }
+            cliente.setId(resCliente.getId());
+
+            Response<Plan> resPlan = CRUDPlan.getInstance().getById(planItem.getId());
+            if (!resPlan.isSuccess()) {
+                Messages.show(resPlan.getMessage());
+                jbtnRegistro.setEnabled(true);
+                return;
+            }
+            Plan plan = resPlan.getData();
+            Contrato contrato = new Contrato.Builder()
+                    .setCliente(cliente)
+                    .setPlan(plan)
+                    .setAdmin(UserPreferences.getData())
+                    .setTransactionCode(codigo)
+                    .setSubscriptionUntil(DateUtils.addDays(new Date(), plan.getDurationDays()))
+                    .build();
+            Response<Contrato> resContrato = CRUDContrato.getInstance().create(contrato);
+
+            if (!resContrato.isSuccess()) {
+                Messages.show(resContrato.getMessage());
+                jbtnRegistro.setEnabled(true);
+                return;
+            }
+
+            contrato.setCreatedAt(new Date());
+            String pdfPath = "contrato.pdf";
+            String messageEmail = String.format(
+                    "Gracias por ser parte de Thanosgym %s, te dejamos tu contrato de membresia adjuntado en este correo.",
+                    contrato.getCliente().getFullName());
+            Utils.generarContratoPdf(contrato, pdfPath);
+            Utils.sendMailWithPdf(
+                    contrato.getCliente().getEmail(),
+                    String.format("Bienvenido %s", contrato.getCliente().getFullName()),
+                    messageEmail,
+                    pdfPath);
+            Messages.show("Cliente registrado correctamente");
+            jbtnRegistro.setEnabled(true);
+        });
+
+        FrameUtils.clearInputs(
+                new JTextComponent[] { jtxtDNIRegistro, jtxtNombres, jtxtCorreo, jtxtTelefono, jtxtDireccion,
+                        jtxtCodigoTransaccion });
     }
 
     /**

@@ -282,4 +282,11 @@ public class FrameUtils {
             e.printStackTrace();
         }
     }
+
+    public static void setupWindow(JFrame ventana){ 
+        ventana.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        ventana.setLocationRelativeTo(null);
+        ventana.setResizable(false);
+        ventana.setVisible(true);
+    }
 }

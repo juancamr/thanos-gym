@@ -12,11 +12,11 @@ import java.util.Date;
  */
 public class StringUtils {
 
-    public static SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd");
-    public static SimpleDateFormat spanishFormat = new SimpleDateFormat("dd-MM-yyyy");
-    public static String usernameRegex = "^[a-z]{8,15}$";
-    public static String passwordRegex = "^[a-z]{8,}$";
-    public static DecimalFormat boletaFormat = new DecimalFormat("00000000000");
+    private static SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat spanishFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private static String usernameRegex = "^[a-z]{8,15}$";
+    private static String passwordRegex = "^[a-z]{8,}$";
+    private static DecimalFormat boletaFormat = new DecimalFormat("00000000000");
 
     public static String sha256(final String base) {
         try {
@@ -51,6 +51,14 @@ public class StringUtils {
 
     public static boolean isValidDni(String dni) {
         return dni.matches("\\d{8}");
+    }
+
+    public static boolean isValidUsername(String email) {
+        return email.matches(usernameRegex);
+    }
+
+    public static boolean isValidPassword(String password) {
+        return password.matches(passwordRegex);
     }
 
     public static String parseSpanishDate(Date date) {

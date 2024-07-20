@@ -44,4 +44,9 @@ public class Producto {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Producto{" + "id=" + id + ", nombre='" + nombre + '\'' + ", codigo='" + codigo + '\'' + ", detallesProducto=" + Arrays.toString(detallesProducto) + '}';
+    }
 }

@@ -47,11 +47,11 @@ public class AuthController {
             Messages.show("Complete todos los campos");
             return false;
         }
-        if (!username.matches(StringUtils.usernameRegex)) {
+        if (!StringUtils.isValidUsername(username)) {
             Messages.show("Ingrese un nombre de usuario valido");
             return false;
         }
-        if (!password.matches(StringUtils.passwordRegex)) {
+        if (!StringUtils.isValidPassword(password)) {
             Messages.show("Contraseña invalida, recuerda que debe ser almenos de 8 caracteres");
             return false;
         }

@@ -53,7 +53,7 @@ public class CRUDProducto extends BaseCrud<Producto> {
 
     @Override
     public Producto generateObject(ResultSet rs) throws SQLException {
-        Producto producto = new Producto(rs.getString(Producto.codigoField), rs.getString(Producto.nombreField));
+        Producto producto = new Producto(rs.getString(Producto.nombreField), rs.getString(Producto.codigoField));
         producto.setId(rs.getInt(Producto.idField));
         return producto;
     }
