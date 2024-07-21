@@ -41,11 +41,6 @@ public class MainLayout extends LayoutPanel {
         setContent(content);
         jpnlBarra.setBackground(baseColor);
 
-        String photoUrl = UserPreferences.getData().getPhotoUrl();
-        if (photoUrl.equals("")) {
-            photoUrl = Theme.defaultProfilePhoto;
-        } 
-        
         jlblNombreAdmin.setText(UserPreferences.getData().getFullName());
         JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto,
                 jbtnSeptimo, jbtnOctavo };
