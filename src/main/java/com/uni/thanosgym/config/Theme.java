@@ -7,7 +7,7 @@ import com.uni.thanosgym.utils.Utils;
 
 public class Theme {
 
-    public static final String defaultProfilePhoto = "https://static.vecteezy.com/system/resources/previews/027/312/306/non_2x/portrait-of-a-dj-with-headphone-isolated-essential-workers-avatar-icons-characters-for-social-media-and-networking-user-profile-website-and-app-3d-render-illustration-png.png";
+    public static final String defaultProfilePhoto = "https://secure.gravatar.com/avatar/b7046e5d769b09a3045d73b89ad61fe4?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Fdefault-avatar-0.png";
 
     public static Font getMainFont(int weight, int size) {
         return new Font("Montserrat", weight, size);

@@ -11,6 +11,8 @@ import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.Utils;
+import com.uni.thanosgym.utils.Messages;
 
 /**
  *
@@ -44,8 +46,12 @@ public class ContratoData extends javax.swing.JFrame {
     }
 
     private void enviarContratoPorCorreo() {
-        ClientController.enviarContrato(contrato);
-        System.out.println("correo enviado");
+        jbtnEnviarCorreo.setEnabled(false);
+        Utils.mostrarPantallaDeCarga(this, () -> {
+            ClientController.enviarContrato(contrato);
+            Messages.show("Contrato enviado a " + contrato.getCliente().getEmail());
+            jbtnEnviarCorreo.setEnabled(true);
+        });
     }
 
     /**
@@ -135,17 +141,17 @@ public class ContratoData extends javax.swing.JFrame {
         jlblCodigoTransaccion.setType(com.juancamr.components.Typography.Type.SMALL);
         jPanel2.add(jlblCodigoTransaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 290, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 510, 300));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 380, 300));
 
-        jbtnEnviarCorreo.setText("Enviar por correo");
+        jbtnEnviarCorreo.setText("Enviar contrato");
         jbtnEnviarCorreo.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
-        jPanel1.add(jbtnEnviarCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 460, -1, -1));
+        jPanel1.add(jbtnEnviarCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 230, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 429, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

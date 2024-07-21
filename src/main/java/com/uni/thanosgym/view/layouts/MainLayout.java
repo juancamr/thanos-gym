@@ -41,10 +41,16 @@ public class MainLayout extends LayoutPanel {
         setContent(content);
         jpnlBarra.setBackground(baseColor);
 
-        FrameUtils.renderImageFromWeb(Theme.defaultProfilePhoto, photoAdmin);
+        String photoUrl = UserPreferences.getData().getPhotoUrl();
+        if (photoUrl.equals("")) {
+            photoUrl = Theme.defaultProfilePhoto;
+        } 
+        
         jlblNombreAdmin.setText(UserPreferences.getData().getFullName());
-        JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto, jbtnSeptimo, jbtnOctavo };
-        String[] labels = { "Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades", "Proveedores", "Reportes" };
+        JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto,
+                jbtnSeptimo, jbtnOctavo };
+        String[] labels = { "Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades",
+                "Proveedores", "Reportes" };
         String[] routes = { "dashboard", "plan", "client", "producto", "venta", "utilidad", "proveedor", "reporte" };
 
         for (int i = 0; i < buttons.length; i++) {
@@ -98,6 +104,7 @@ public class MainLayout extends LayoutPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -111,7 +118,6 @@ public class MainLayout extends LayoutPanel {
         jbtnTercero = new javax.swing.JButton();
         typography1 = new com.juancamr.components.Typography();
         jlblNombreAdmin = new com.juancamr.components.Typography();
-        photoAdmin = new javax.swing.JLabel();
         signout = new com.juancamr.components.Typography();
         jbtnSexto = new javax.swing.JButton();
         jbtnOctavo = new javax.swing.JButton();
@@ -296,10 +302,7 @@ public class MainLayout extends LayoutPanel {
         jlblNombreAdmin.setForeground(new java.awt.Color(255, 255, 255));
         jlblNombreAdmin.setText("Nombre");
         jlblNombreAdmin.setType(com.juancamr.components.Typography.Type.SMALL);
-        jpnlBarra.add(jlblNombreAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 620, -1, -1));
-
-        photoAdmin.setText("jLabel1");
-        jpnlBarra.add(photoAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, 35, 35));
+        jpnlBarra.add(jlblNombreAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 620, -1, -1));
 
         signout.setForeground(new java.awt.Color(255, 51, 51));
         signout.setText("Cerrar sesión");
@@ -309,7 +312,7 @@ public class MainLayout extends LayoutPanel {
                 signoutMouseClicked(evt);
             }
         });
-        jpnlBarra.add(signout, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 640, -1, -1));
+        jpnlBarra.add(signout, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 640, -1, -1));
 
         jbtnSexto.setBackground(new java.awt.Color(0, 0, 0));
         jbtnSexto.setFont(new java.awt.Font("Malgun Gothic", 0, 16)); // NOI18N
@@ -373,23 +376,21 @@ public class MainLayout extends LayoutPanel {
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1060, 690));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnOctavoMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnOctavoMouseMoved
+    private void jbtnOctavoMouseMoved(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnOctavoMouseMoved
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnOctavoMouseMoved
+    }// GEN-LAST:event_jbtnOctavoMouseMoved
 
-    private void jbtnOctavoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnOctavoMouseClicked
+    private void jbtnOctavoMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnOctavoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnOctavoMouseClicked
+    }// GEN-LAST:event_jbtnOctavoMouseClicked
 
-    private void jbtnOctavoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jbtnOctavoMouseExited
+    private void jbtnOctavoMouseExited(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnOctavoMouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnOctavoMouseExited
+    }// GEN-LAST:event_jbtnOctavoMouseExited
 
-    private void jbtnOctavoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnOctavoActionPerformed
+    private void jbtnOctavoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jbtnOctavoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jbtnOctavoActionPerformed
-
-
+    }// GEN-LAST:event_jbtnOctavoActionPerformed
 
     private void signoutMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_signoutMouseClicked
         Auth.logOut();
@@ -528,7 +529,6 @@ public class MainLayout extends LayoutPanel {
     public javax.swing.JButton jbtnTercero;
     private com.juancamr.components.Typography jlblNombreAdmin;
     private javax.swing.JPanel jpnlBarra;
-    private javax.swing.JLabel photoAdmin;
     private com.juancamr.components.Typography signout;
     private com.juancamr.components.Typography typography1;
     // End of variables declaration//GEN-END:variables

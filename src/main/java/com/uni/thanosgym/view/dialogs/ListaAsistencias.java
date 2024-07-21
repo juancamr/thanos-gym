@@ -21,6 +21,7 @@ public class ListaAsistencias extends javax.swing.JFrame {
      */
     public ListaAsistencias(List<Asistencia> asistencias) {
         initComponents();
+
         for (Asistencia asistencia : asistencias) {
             String[] row = new String[]{String.valueOf(asistencia.getId()), asistencia.getCliente().getFullName(), StringUtils.parseSpanishDate(asistencia.getIngreso())};
             ((javax.swing.table.DefaultTableModel) jtblAsistencias.getModel()).addRow(row);
@@ -45,7 +46,7 @@ public class ListaAsistencias extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         e = new javax.swing.JScrollPane();
         jtblAsistencias = new javax.swing.JTable();
-        typography3 = new com.juancamr.components.Typography();
+        jlblCliente = new com.juancamr.components.Typography();
 
         typography2.setText("Asistencias para ");
         typography2.setType(com.juancamr.components.Typography.Type.HEADING2);
@@ -87,9 +88,9 @@ public class ListaAsistencias extends javax.swing.JFrame {
 
         jPanel1.add(e, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, 530, 480));
 
-        typography3.setText("Asistencias de");
-        typography3.setType(com.juancamr.components.Typography.Type.HEADING2);
-        jPanel1.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 290, 30));
+        jlblCliente.setText("Asistencias");
+        jlblCliente.setType(com.juancamr.components.Typography.Type.HEADING2);
+        jPanel1.add(jlblCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 160, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -119,8 +120,8 @@ public class ListaAsistencias extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane e;
     private javax.swing.JPanel jPanel1;
+    private com.juancamr.components.Typography jlblCliente;
     private javax.swing.JTable jtblAsistencias;
     private com.juancamr.components.Typography typography2;
-    private com.juancamr.components.Typography typography3;
     // End of variables declaration//GEN-END:variables
 }

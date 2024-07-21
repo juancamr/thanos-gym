@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import com.uni.thanosgym.utils.Utils;
 import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.utils.UserPreferences;
 import com.uni.thanosgym.dao.CRUDBoleta;
@@ -40,6 +41,19 @@ public class VentaController {
         Client cliente = res.getData();
 
         return cliente;
+    }
+
+    public static void enviarCorreo(Boleta boleta) {
+        String pdfPath = "boleta.pdf";
+        String messageEmail = String.format(
+                "Gracias por su compra %s, te dejamos tu boleta adjuntada en este correo.",
+                boleta.getCliente().getFullName());
+        Utils.generateBoletaPdf(boleta, pdfPath);
+        Utils.sendMailWithPdf(
+                boleta.getCliente().getEmail(),
+                String.format("Bienvenido %s", boleta.getCliente().getFullName()),
+                messageEmail,
+                pdfPath);
     }
 
     public static boolean crearVenta(Map<String, Object> params) {

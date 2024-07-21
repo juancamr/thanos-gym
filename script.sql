@@ -31,7 +31,7 @@ CREATE TABLE if not exists client (
     email VARCHAR(255) NOT NULL,
     address VARCHAR(255),
     phone VARCHAR(20),
-    photo_url VARCHAR(255),
+    photo_url VARCHAR(255) default '',
     created_at DATETIME NOT NULL default current_timestamp,
     PRIMARY KEY (client_id)
 ) Engine=InnoDB;

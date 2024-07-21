@@ -32,7 +32,6 @@ public class PanelRegister extends javax.swing.JPanel {
      */
     public PanelRegister() {
         initComponents();
-        FrameUtils.addOnClickEvent(jbtnUploadImagen, this::chooseImageEvent);
         FrameUtils.addOnClickEvent(jbtnRegistro, this::registerEvent);
         FrameUtils.addEnterEvent(jtxtRepeatPassword, this::registerEvent);
         FrameUtils.addOnClickEvent(jbtnInicioSesion, () -> {
@@ -58,18 +57,6 @@ public class PanelRegister extends javax.swing.JPanel {
         }
     }
 
-    private void chooseImageEvent() {
-        Response<File> response = FrameUtils.chooseImage(this);
-        if (response.isSuccess()) {
-            imageSelected = response.getData();
-            jlblFileName.setText(imageSelected.getName());
-        } else {
-            Messages.show(response.getMessage());
-            imageSelected = null;
-            jlblFileName.setText("");
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,8 +71,6 @@ public class PanelRegister extends javax.swing.JPanel {
         jlblExito = new javax.swing.JLabel();
         jCheckIsForMaster = new javax.swing.JCheckBox();
         typography1 = new com.juancamr.components.Typography();
-        jlblFileName = new com.juancamr.components.Typography();
-        jbtnUploadImagen = new com.juancamr.components.ButtonComponent();
         jbtnRegistro = new com.juancamr.components.ButtonComponent();
         jtxtNombresCompletos = new com.juancamr.components.InputComponent();
         jtxtCorreo = new com.juancamr.components.InputComponent();
@@ -118,14 +103,6 @@ public class PanelRegister extends javax.swing.JPanel {
         typography1.setText("Registro");
         typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
         jPanel3.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
-
-        jlblFileName.setText("Imagen");
-        jlblFileName.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel3.add(jlblFileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, -1, 20));
-
-        jbtnUploadImagen.setText("Foto");
-        jbtnUploadImagen.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        jPanel3.add(jbtnUploadImagen, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
         jbtnRegistro.setText("Registro");
         jbtnRegistro.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
@@ -198,9 +175,7 @@ public class PanelRegister extends javax.swing.JPanel {
     private javax.swing.JPasswordField jPassword;
     private com.juancamr.components.ButtonComponent jbtnInicioSesion;
     private com.juancamr.components.ButtonComponent jbtnRegistro;
-    private com.juancamr.components.ButtonComponent jbtnUploadImagen;
     public javax.swing.JLabel jlblExito;
-    private com.juancamr.components.Typography jlblFileName;
     private com.juancamr.components.InputComponent jtxtCorreo;
     private com.juancamr.components.InputComponent jtxtNombreUsuario;
     private com.juancamr.components.InputComponent jtxtNombresCompletos;

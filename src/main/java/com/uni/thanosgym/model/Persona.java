@@ -9,7 +9,7 @@ class Persona {
     private String fullName;
     private String phone;
     private String email;
-    private String photoUrl;
+    private String photoUrl = "";
 
     public Persona() {
     }

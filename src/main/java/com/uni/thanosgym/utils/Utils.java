@@ -17,7 +17,10 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.uni.thanosgym.model.Boleta;
 import com.uni.thanosgym.model.Contrato;
+import com.uni.thanosgym.model.DetalleBoleta;
+
 import java.io.FileOutputStream;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,10 +31,10 @@ import java.util.Properties;
 
 public class Utils {
 
-    public static final String RUC = "3423432";
+    public static final String RUC = "34234323344";
     private static final String username = "jcmrojas29@gmail.com";
-    // private static final String password = "jlvj fjdw sjfv wjwo ";
-    private static final String password = "anstoehunt";
+    private static final String password = "jlvj fjdw sjfv wjwo ";
+    // private static final String password = "anstoehunt";
 
     public static boolean areAllTrue(boolean[] array) {
         for (boolean b : array)
@@ -115,25 +118,27 @@ public class Utils {
         }
     }
 
-    public static void generatePaymentPDF(Contrato payment, String pdfPath) {
+    public static void generateBoletaPdf(Boleta boleta, String pdfPath) {
         try {
             PdfWriter writer = new PdfWriter(pdfPath);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
             document.add(new Paragraph(
-                    String.format("Detalle de contrato a nombre de %s", payment.getCliente().getFullName())));
+                    String.format("Detalle de boleta a nombre de %s", boleta.getCliente().getFullName())));
             Table table = new Table(4);
 
-            table.addHeaderCell("Nro boleta");
-            table.addHeaderCell("Fecha");
-            table.addHeaderCell("Plan");
-            table.addHeaderCell("Monto");
+            table.addHeaderCell("Cantidad");
+            table.addHeaderCell("Descripción");
+            table.addHeaderCell("Precio");
+            table.addHeaderCell("Total");
 
-            table.addCell(StringUtils.parseIdBoleta(payment.getId()));
-            table.addCell(StringUtils.parseSpanishDate(payment.getCreatedAt()));
-            table.addCell(payment.getPlan().getName());
-            table.addCell(String.valueOf(payment.getPlan().getPrice()));
+            for (DetalleBoleta detalle : boleta.getDetallesBoleta()) {
+                table.addCell(String.valueOf(detalle.getCantidad()));
+                table.addCell(detalle.getProducto().getNombre());
+                table.addCell(String.valueOf(detalle.getPrecio()));
+                table.addCell(String.valueOf(detalle.getTotal()));
+            }
 
             document.add(table);
             document.close();
@@ -153,22 +158,23 @@ public class Utils {
                         "</style></head>" +
                         "<body>" +
                         "<h1>Detalle de contrato a nombre de %s</h1>" +
-                        "<table>" +
-                        "<thead>" +
-                        "<tr><th>Nro de contrato</th><th>Fecha</th><th>Plan</th><th>Monto</th></tr>" +
-                        "</thead>" +
-                        "<tbody>" +
-                        "<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>" +
-                        "</tbody>" +
-                        "</table>" +
+                        "<p>Nro de contrato: %s</p>" +
+                        "<p>Emitido el: %s</p>" +
+                        "<p>Plan contratado: %s</p>" +
+                        "<p>Código de transacción: %s</p>" +
+                        "<p>Emitido por: %s</p>" +
+                        "<p>Finalización de membresia: %s</p>" +
+                        "<br>" +
+                        "<p>Términos y condiciones:</p>" +
+                        "<p>1. El cliente debe pagar el monto de la membresia adjuntada en este correo.</p>" +
+                        "<p>2. No esta permitido cancelar la membresia.</p>" +
                         "</body>" +
                         "</html>",
-                contrato.getCliente().getFullName(),
-                StringUtils.parseIdBoleta(contrato.getId()),
+                contrato.getCliente().getFullName(), contrato.getId(),
                 StringUtils.parseSpanishDate(contrato.getCreatedAt()),
-                contrato.getPlan().getName(),
-                contrato.getPlan().getPrice());
-
+                contrato.getPlan().getName(), contrato.getTransactionCode(),
+                contrato.getAdmin().getFullName(),
+                StringUtils.parseSpanishDate(contrato.getSubscriptionUntil()));
         try {
             // Crea un PdfWriter
             PdfWriter writer = new PdfWriter(new FileOutputStream(pdfPath));

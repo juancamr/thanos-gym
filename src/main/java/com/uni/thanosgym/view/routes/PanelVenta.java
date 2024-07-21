@@ -160,6 +160,8 @@ public class PanelVenta extends javax.swing.JPanel {
                 CRUDDetalleProducto.getInstance().descontar(detalleItem.getLista(), detalleItem.getCantidad());
             }
 
+            VentaController.enviarCorreo(boleta);
+
             // clear
             detalles.clear();
             listaDetallesDeProductoGlobal.clear();

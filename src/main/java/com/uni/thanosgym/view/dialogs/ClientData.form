@@ -427,22 +427,12 @@
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                  <AbsoluteConstraints x="30" y="10" width="110" height="40"/>
+                  <AbsoluteConstraints x="0" y="10" width="170" height="40"/>
                 </Constraint>
               </Constraints>
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JLabel" name="photo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="photo"/>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="380" y="30" width="140" height="140"/>
-            </Constraint>
-          </Constraints>
-        </Component>
         <Component class="com.juancamr.components.ButtonComponent" name="jbtnMarcarAsistencia">
           <Properties>
             <Property name="text" type="java.lang.String" value="MARCAR ASISTENCIA"/>

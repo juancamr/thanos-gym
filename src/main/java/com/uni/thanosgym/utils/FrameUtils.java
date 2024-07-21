@@ -213,6 +213,7 @@ public class FrameUtils {
             }
         });
     }
+
     public static void renderImageNatively(String imageUrl, JLabel label) {
         try {
             URL url = new URL(imageUrl);
@@ -274,9 +275,20 @@ public class FrameUtils {
             return new Response<File>(false, "No se pudo seleccionar la imagen");
     }
 
-    public static void renderImageToLabel(File image, JLabel label) {
+    public static void renderImageToLabelFromFile(File image, JLabel label) {
         try {
             ImageIcon imageIcon = new ImageIcon(image.getAbsolutePath());
+            label.setIcon(imageIcon);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void renderImageToLabelFromLocal(String imagePath, JLabel label) {
+        try {
+            Image image = ImageIO.read(new File(imagePath));
+            // Image scaledImage = image.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(image);
             label.setIcon(imageIcon);
         } catch (Exception e) {
             e.printStackTrace();

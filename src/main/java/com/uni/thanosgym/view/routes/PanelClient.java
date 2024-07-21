@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import com.uni.thanosgym.utils.Utils;
+import com.uni.thanosgym.view.dialogs.AgregarUtilidad.ComboItem;
 
 import javax.swing.text.JTextComponent;
 
@@ -43,7 +44,6 @@ public class PanelClient extends javax.swing.JPanel {
      */
     public PanelClient() {
         initComponents();
-        FrameUtils.addOnClickEvent(jbtnChooseImage, this::chooseImageEvent);
         FrameUtils.addOnClickEvent(jbtnRegistro, this::registerEvent);
         FrameUtils.addOnClickEvent(jbtnBuscarReniec, () -> {
             ClientController.buscarReniec(jtxtDNIRegistro.getText(), jtxtNombres, jbtnBuscarReniec);
@@ -60,21 +60,7 @@ public class PanelClient extends javax.swing.JPanel {
             jcbxPlanes.addItem(new ComboItemPlan(plan.getId(), plan.getName()));
         }
 
-        FrameUtils.renderImageFromWeb(Theme.defaultImage, jLabel1);
         jtxtNombres.setEnabled(false);
-    }
-
-    private void chooseImageEvent() {
-        Response<File> response = FrameUtils.chooseImage(this);
-        if (response.isSuccess()) {
-            imageSelected = response.getData();
-            FrameUtils.renderImageToLabel(imageSelected, jLabel1);
-            jlblFileName.setText(imageSelected.getName());
-        } else {
-            Messages.show(response.getMessage());
-            imageSelected = null;
-            jlblFileName.setText("Foto de perfil");
-        }
     }
 
     private void registerEvent() {
@@ -179,6 +165,7 @@ public class PanelClient extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -190,7 +177,6 @@ public class PanelClient extends javax.swing.JPanel {
         jtxtDNIRegistro = new com.juancamr.components.InputComponent();
         typography5 = new com.juancamr.components.Typography();
         jtxtNombres = new com.juancamr.components.InputComponent();
-        jbtnChooseImage = new com.juancamr.components.ButtonComponent();
         jbtnListar = new com.juancamr.components.ButtonComponent();
         jbtnBuscarReniec = new com.juancamr.components.ButtonComponent();
         jtxtCorreo = new com.juancamr.components.InputComponent();
@@ -203,11 +189,9 @@ public class PanelClient extends javax.swing.JPanel {
         typography9 = new com.juancamr.components.Typography();
         jcbxPlanes = new javax.swing.JComboBox<>();
         jbtnBuscar = new com.juancamr.components.ButtonComponent();
-        jlblFileName = new com.juancamr.components.Typography();
         jbtnRegistro = new com.juancamr.components.ButtonComponent();
         jtxtCodigoTransaccion = new com.juancamr.components.InputComponent();
         typography10 = new com.juancamr.components.Typography();
-        jLabel1 = new javax.swing.JLabel();
 
         setPreferredSize(new java.awt.Dimension(840, 690));
 
@@ -229,15 +213,6 @@ public class PanelClient extends javax.swing.JPanel {
         typography5.setText("Nombres completos");
         jPanel1.add(typography5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, 20));
         jPanel1.add(jtxtNombres, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 330, 260, -1));
-
-        jbtnChooseImage.setText("Seleccionar");
-        jbtnChooseImage.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        jbtnChooseImage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbtnChooseImageActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jbtnChooseImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, -1, -1));
 
         jbtnListar.setText("LISTAR");
         jbtnListar.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
@@ -270,10 +245,6 @@ public class PanelClient extends javax.swing.JPanel {
         jbtnBuscar.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
         jPanel1.add(jbtnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 140, -1, -1));
 
-        jlblFileName.setText("Foto de perfil");
-        jlblFileName.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel1.add(jlblFileName, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 450, 120, 20));
-
         jbtnRegistro.setText("Registrar");
         jbtnRegistro.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
         jPanel1.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 590, 270, 40));
@@ -281,9 +252,6 @@ public class PanelClient extends javax.swing.JPanel {
 
         typography10.setText("Código de transacción");
         jPanel1.add(typography10, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 470, -1, 20));
-
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 250, 140, 140));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -306,16 +274,13 @@ public class PanelClient extends javax.swing.JPanel {
     }// GEN-LAST:event_buttonComponent6ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private com.juancamr.components.ButtonComponent jbtnBuscar;
     private com.juancamr.components.ButtonComponent jbtnBuscarReniec;
-    private com.juancamr.components.ButtonComponent jbtnChooseImage;
     private com.juancamr.components.ButtonComponent jbtnListar;
     private com.juancamr.components.ButtonComponent jbtnRegistro;
     private javax.swing.JComboBox<ComboItemPlan> jcbxPlanes;
-    private com.juancamr.components.Typography jlblFileName;
     private com.juancamr.components.InputComponent jtxtCodigoTransaccion;
     private com.juancamr.components.InputComponent jtxtCorreo;
     private com.juancamr.components.InputComponent jtxtDNIBuscar;

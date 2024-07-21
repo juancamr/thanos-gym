@@ -49,6 +49,7 @@ public class ClientData extends javax.swing.JFrame {
      * Creates new form ClientData
      */
     public ClientData(Contrato contrato) {
+        System.out.println(contrato);
         Response<Asistencia> resAsistencias = CRUDAsistencia.getInstance()
                 .getAllByClientId(contrato.getCliente().getId());
         this.asistencias = resAsistencias.getDataList();
@@ -74,18 +75,8 @@ public class ClientData extends javax.swing.JFrame {
         jlblPlan.setText(contrato.getPlan().getName());
         jlblSubscriptionSince.setText("Desde: " + StringUtils.parseSpanishDate(contrato.getCreatedAt()));
 
-        if (client.getPhotoUrl().isEmpty())
-            FrameUtils.renderImageFromWeb(Theme.defaultProfilePhoto, photo);
-        else
-            FrameUtils.renderImageFromWeb(client.getPhotoUrl(), photo);
-
         refreshEstado();
         jpnlAsistencias.setLayout(null);
-
-        repaint();
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setVisible(true);
 
         // events
         FrameUtils.addOnClickEvent(jbtnCongelar, this::congelarODescongelar);
@@ -99,6 +90,7 @@ public class ClientData extends javax.swing.JFrame {
         FrameUtils.addOnClickEvent(jbtnEditar, this::editar);
 
         paintAsistencias();
+        FrameUtils.setupWindow(this);
     }
 
     private void editar() {
@@ -133,15 +125,21 @@ public class ClientData extends javax.swing.JFrame {
     }
 
     private void marcarAsistencia() {
-        boolean iguales = StringUtils.parseDate(asistencias.get(0).getIngreso())
-                .equals(StringUtils.parseDate(new Date()));
-        if (!asistencias.isEmpty() && iguales) {
-            Messages.show("Ya has marcado esta asistencia");
+        if (contrato.isFrozen()) {
+            Messages.show("No puedes marcar asistencias en contratos congelados");
             return;
+        }
+        if (!asistencias.isEmpty()) {
+            boolean iguales = StringUtils.parseDate(asistencias.get(0).getIngreso())
+                    .equals(StringUtils.parseDate(new Date()));
+            if (iguales) {
+                Messages.show("Ya has marcado esta asistencia");
+                return;
+            }
         }
         Asistencia asistencia = new Asistencia.Builder()
                 .setCliente(cliente)
-                .setIngreso(new Date())
+                .setIngreso(DateUtils.addDays(new Date(), 1))
                 .build();
         Response<Asistencia> res = CRUDAsistencia.getInstance().create(asistencia);
         if (!res.isSuccess()) {
@@ -151,6 +149,8 @@ public class ClientData extends javax.swing.JFrame {
         Messages.show("Se ha marcado la asistencia");
         asistencias.add(asistencia);
         paintAsistencias();
+        revalidate();
+        repaint();
     }
 
     private void paintAsistencias() {
@@ -261,7 +261,6 @@ public class ClientData extends javax.swing.JFrame {
                 : estado.equals("Vencido") ? Color.RED : Theme.colors.green;
 
         jpnlEstado.setBackground(backgroundEstado);
-
         revalidate();
         repaint();
     }
@@ -286,15 +285,15 @@ public class ClientData extends javax.swing.JFrame {
                 Messages.show("El número de días debe ser mayor que 0 y menor que 15");
                 return;
             }
-            contrato.setIsFrozen(true);
-            contrato.setSubscriptionUntil(DateUtils.addDays(contrato.getSubscriptionUntil(), cantidadDias));
-            contrato.setLastFreezeDate(new Date());
-            contrato.increaseFreezeCount();
             boolean confirmacion = Messages.confirm(
                     "¿Estás seguro que quieres congelar el contrato por " + cantidadDias + " días?", "Descongelar");
             if (!confirmacion) {
                 return;
             }
+            contrato.setIsFrozen(true);
+            contrato.setSubscriptionUntil(DateUtils.addDays(contrato.getSubscriptionUntil(), cantidadDias));
+            contrato.setLastFreezeDate(new Date());
+            contrato.increaseFreezeCount();
         } else {
             boolean confirmacion = Messages.confirm("¿Estás seguro que quieres descongelar el contrato hoy?",
                     "Descongelar");
@@ -342,6 +341,8 @@ public class ClientData extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -374,7 +375,6 @@ public class ClientData extends javax.swing.JFrame {
         inputCorreo = new com.juancamr.components.InputComponent();
         jpnlEstado = new javax.swing.JPanel();
         jlblEstado = new com.juancamr.components.Typography();
-        photo = new javax.swing.JLabel();
         jbtnMarcarAsistencia = new com.juancamr.components.ButtonComponent();
 
         jScrollPane1.setViewportView(jEditorPane1);
@@ -499,12 +499,9 @@ public class ClientData extends javax.swing.JFrame {
         jlblEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jlblEstado.setText("ACTIVA");
         jlblEstado.setType(com.juancamr.components.Typography.Type.HEADING2);
-        jpnlEstado.add(jlblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 110, 40));
+        jpnlEstado.add(jlblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 170, 40));
 
         jPanel1.add(jpnlEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 170, 60));
-
-        photo.setText("photo");
-        jPanel1.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, 140, 140));
 
         jbtnMarcarAsistencia.setText("MARCAR ASISTENCIA");
         jbtnMarcarAsistencia.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
@@ -546,7 +543,6 @@ public class ClientData extends javax.swing.JFrame {
     private com.juancamr.components.Typography jlblSubscriptionSince;
     private javax.swing.JPanel jpnlAsistencias;
     private javax.swing.JPanel jpnlEstado;
-    private javax.swing.JLabel photo;
     private com.juancamr.components.Typography typography1;
     private com.juancamr.components.Typography typography2;
     private com.juancamr.components.Typography typography3;
