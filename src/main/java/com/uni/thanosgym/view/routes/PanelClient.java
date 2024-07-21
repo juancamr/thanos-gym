@@ -161,16 +161,7 @@ public class PanelClient extends javax.swing.JPanel {
             }
 
             contrato.setCreatedAt(new Date());
-            String pdfPath = "contrato.pdf";
-            String messageEmail = String.format(
-                    "Gracias por ser parte de Thanosgym %s, te dejamos tu contrato de membresia adjuntado en este correo.",
-                    contrato.getCliente().getFullName());
-            Utils.generarContratoPdf(contrato, pdfPath);
-            Utils.sendMailWithPdf(
-                    contrato.getCliente().getEmail(),
-                    String.format("Bienvenido %s", contrato.getCliente().getFullName()),
-                    messageEmail,
-                    pdfPath);
+            ClientController.enviarContrato(contrato);
             Messages.show("Cliente registrado correctamente");
             jbtnRegistro.setEnabled(true);
         });

@@ -89,4 +89,8 @@ public class StringUtils {
         return num.matches("[0-9]+");
     }
 
+    public static boolean isValidRuc(String ruc) {
+        return ruc.matches("\\d{11}");
+    }
+
 }

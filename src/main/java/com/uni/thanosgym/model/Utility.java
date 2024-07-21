@@ -1,7 +1,10 @@
 package com.uni.thanosgym.model;
 
-public class Utility extends Item {
+public class Utility {
 
+    private int id;
+    private String nombre;
+    private int cantidad;
     private Admin admin;
     private Proveedor proveedor;
     private double peso;
@@ -13,14 +16,35 @@ public class Utility extends Item {
     public static String nombreField = "nombre";
     public static String pesoField = "peso";
     public static String cantidadField = "cantidad";
-    public static String photoUrlField = "photo_url";
 
     // Constructor privado para el Builder
     private Utility(Builder builder) {
-        super(builder.id, builder.nombre, builder.cantidad, builder.photoUrl);
+        this.id = builder.id;
+        this.nombre = builder.nombre;
+        this.cantidad = builder.cantidad;
         this.admin = builder.admin;
         this.peso = builder.peso;
         this.proveedor = builder.proveedor;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     // Getters
@@ -34,6 +58,14 @@ public class Utility extends Item {
 
     public Proveedor getProveedor() {
         return proveedor;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     // Builder estático
@@ -93,14 +125,13 @@ public class Utility extends Item {
                 "id=" + getId() +
                 ", nombre='" + getNombre() + '\'' +
                 ", cantidad=" + getCantidad() +
-                ", photoUrl='" + getPhotoUrl() + '\'' +
                 ", admin=" + admin +
                 ", peso=" + peso +
                 '}';
     }
 
     public Object[] showAll() {
-        Object[] lista = { super.getId(), super.getNombre(), super.getCantidad(), peso };
+        Object[] lista = { id, nombre, cantidad, peso };
         return lista;
     }
 }

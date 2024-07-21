@@ -21,7 +21,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" min="-2" pref="480" max="-2" attributes="0"/>
+          <Component id="jPanel1" min="-2" pref="339" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -39,7 +39,7 @@
       <SubComponents>
         <Component class="com.juancamr.components.Typography" name="typography1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Agregar producto"/>
+            <Property name="text" type="java.lang.String" value="Crear producto"/>
             <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
               <Value id="HEADING2"/>
             </Property>
@@ -53,7 +53,7 @@
         <Component class="com.juancamr.components.InputComponent" name="jtxtNombre">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="180" width="310" height="-1"/>
+              <AbsoluteConstraints x="50" y="170" width="310" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -66,7 +66,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="160" width="-1" height="-1"/>
+              <AbsoluteConstraints x="50" y="150" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -79,50 +79,7 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="370" width="310" height="40"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="com.juancamr.components.InputComponent" name="jtxtPrecio">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtxtPrecioActionPerformed"/>
-          </Events>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="240" width="140" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="com.juancamr.components.InputComponent" name="jtxtCantidad">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="220" y="240" width="140" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="com.juancamr.components.Typography" name="typography4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Cantidad"/>
-            <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-              <Value id="MEDIUM"/>
-            </Property>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="220" y="220" width="-1" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="com.juancamr.components.Typography" name="typography5">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Fecha de vencimiento"/>
-            <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-              <Value id="MEDIUM"/>
-            </Property>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="290" width="-1" height="-1"/>
+              <AbsoluteConstraints x="50" y="230" width="310" height="40"/>
             </Constraint>
           </Constraints>
         </Component>
@@ -135,34 +92,14 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="100" width="-1" height="-1"/>
+              <AbsoluteConstraints x="50" y="90" width="-1" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>
         <Component class="com.juancamr.components.InputComponent" name="jtxtNombre1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="120" width="310" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="com.toedter.calendar.JDateChooser" name="dateChooser">
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="310" width="310" height="-1"/>
-            </Constraint>
-          </Constraints>
-        </Component>
-        <Component class="com.juancamr.components.Typography" name="typography6">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Precio"/>
-            <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
-              <Value id="MEDIUM"/>
-            </Property>
-          </Properties>
-          <Constraints>
-            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="50" y="220" width="-1" height="-1"/>
+              <AbsoluteConstraints x="50" y="110" width="310" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>

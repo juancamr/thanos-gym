@@ -19,8 +19,29 @@ public class CRUDProveedor extends BaseCrud<Proveedor> {
         return crudProveedor;
     }
 
+    public Response<Proveedor> update(Proveedor proveedor) {
+        try {
+            sendObject(Querys.proveedor.update, proveedor);
+            ps.setInt(6, proveedor.getId());
+            ps.executeUpdate();
+            ps.close();
+            return new Response<Proveedor>(true, "Datos actualizados con exito");
+        } catch (SQLException ex) {
+            return somethingWentWrong(ex);
+        }
+    }
+
     public Response<Proveedor> create(Proveedor proveedor) {
-        return baseCreate(proveedor, Querys.proveedor.create);
+        try {
+            ps = connection.prepareStatement(Querys.getTemplateWithConditions(Proveedor.tableName, Proveedor.rucField));
+            ps.setString(1, proveedor.getRuc());
+            rs = ps.executeQuery();
+            boolean condicion = !rs.next();
+            String query = Querys.proveedor.create;
+            return baseCreateWithConditions(proveedor, query, new boolean[] { condicion }, "El RUC ya existe");
+        } catch (SQLException e) {
+            return somethingWentWrong(e);
+        }
     }
 
     public Response<Proveedor> getById(int id) {
@@ -49,5 +70,6 @@ public class CRUDProveedor extends BaseCrud<Proveedor> {
         ps.setString(2, data.getRuc());
         ps.setString(3, data.getPhone());
         ps.setString(4, data.getAddress());
+        ps.setBoolean(5, data.isVisible());
     }
 }

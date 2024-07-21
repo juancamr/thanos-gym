@@ -21,7 +21,7 @@ import com.uni.thanosgym.view.dialogs.IngresosProducto;
  *
  * @author juancamr
  */
-@Route("main:producto")
+@Route("main:producto*")
 public class PanelProducto extends javax.swing.JPanel {
     List<Producto> productos;
 

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.uni.thanosgym.model.Admin;
+import com.uni.thanosgym.model.Proveedor;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.Querys;
 import com.uni.thanosgym.model.Utility;
@@ -38,7 +39,7 @@ public class CRUDUtilidad extends BaseCrud<Utility> {
     public Response<Utility> update(Utility utility) {
         try {
             sendObject(Querys.utility.update, utility);
-            ps.setInt(4, utility.getId());
+            ps.setInt(6, utility.getId());
             ps.executeUpdate();
             ps.close();
             return new Response<Utility>(true, "Datos actualizados con exito");
@@ -49,6 +50,7 @@ public class CRUDUtilidad extends BaseCrud<Utility> {
 
     @Override
     public Utility generateObject(ResultSet rs) throws SQLException {
+        Response<Proveedor> resProveedor = CRUDProveedor.getInstance().getById(rs.getInt(Utility.proveedorField));
         Response<Admin> resAdmin = CRUDAdministrador.getInstance().getById(rs.getInt(Utility.adminIdField));
         return new Utility.Builder()
                 .setId(rs.getInt(Utility.idField))
@@ -56,7 +58,7 @@ public class CRUDUtilidad extends BaseCrud<Utility> {
                 .setPeso(rs.getInt(Utility.pesoField))
                 .setAdmin(resAdmin.getData())
                 .setCantidad(rs.getInt(Utility.cantidadField))
-                .setPhotoUrl(rs.getString(Utility.photoUrlField))
+                .setProveedor(resProveedor.getData())
                 .build();
     }
 

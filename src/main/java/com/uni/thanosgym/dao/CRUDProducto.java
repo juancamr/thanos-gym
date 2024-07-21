@@ -3,6 +3,8 @@ package com.uni.thanosgym.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.uni.thanosgym.model.Producto;
 import com.uni.thanosgym.model.Response;
@@ -36,6 +38,34 @@ public class CRUDProducto extends BaseCrud<Producto> {
 
     public Response<Producto> getByCodigo(String codigo) {
         return baseGetByString(Querys.getTemplateWithConditions(Producto.tableName, Producto.codigoField), codigo);
+    }
+
+    public Response<Producto> getProductosSinStock() {
+        try {
+            ps = connection.prepareStatement(Querys.producto.getProductosSinStock);
+            rs = ps.executeQuery();
+            List<Producto> productos = new ArrayList<>();
+            while (rs.next()) {
+                productos.add(generateObject(rs));
+            }
+            return new Response<Producto>(true, productos);
+        } catch (SQLException e) {
+            return somethingWentWrong(e);
+        }
+    }
+
+    public Response<Producto> getProductosPorVencer() {
+        try {
+            ps = connection.prepareStatement(Querys.producto.getProductosPorVencer);
+            rs = ps.executeQuery();
+            List<Producto> productos = new ArrayList<>();
+            while (rs.next()) {
+                productos.add(generateObject(rs));
+            }
+            return new Response<Producto>(true, productos);
+        } catch (SQLException e) {
+            return somethingWentWrong(e);
+        }
     }
 
     public Response<Producto> update(Producto producto) {

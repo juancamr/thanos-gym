@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.juancamr.route.Route;
+import com.juancamr.route.Router;
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDContrato;
 import com.uni.thanosgym.model.Client;
@@ -79,7 +80,7 @@ public class PanelClientAll extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -89,35 +90,34 @@ public class PanelClientAll extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblClientes = new javax.swing.JTable();
+        jlblVolver = new com.juancamr.components.Typography();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         typography1.setText("Lista de clientes");
         typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
-        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        jPanel1.add(typography1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, -1));
 
         typography3.setText("Nombre o DNI");
-        jPanel1.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, 20));
-        jPanel1.add(jtxtInputBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 260, -1));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 750, 20));
+        jPanel1.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, -1, 20));
+        jPanel1.add(jtxtInputBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 260, -1));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 740, 20));
 
         jtblClientes.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null },
-                        { null, null, null, null }
-                },
-                new String[] {
-                        "DNI", "Nombres", "Plan", "Desde"
-                }) {
-            Class[] types = new Class[] {
-                    java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            new Object [][] {
+
+            },
+            new String [] {
+                "DNI", "Nombres", "Plan", "Desde"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+                return types [columnIndex];
             }
         });
         jtblClientes.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -129,18 +129,30 @@ public class PanelClientAll extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 740, 420));
 
+        jlblVolver.setText("<");
+        jlblVolver.setType(com.juancamr.components.Typography.Type.HEADING1);
+        jlblVolver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jlblVolverMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jlblVolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 60, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690,
-                                javax.swing.GroupLayout.PREFERRED_SIZE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
-
+    private void jlblVolverMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblClientesMouseClicked
+        Router.getInstance().go("client");
+    }
+    
     private void jtblClientesMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblClientesMouseClicked
         int fila = jtblClientes.getSelectedRow();
         if (fila != -1) {
@@ -156,6 +168,7 @@ public class PanelClientAll extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private com.juancamr.components.Typography jlblVolver;
     private javax.swing.JTable jtblClientes;
     private com.juancamr.components.InputComponent jtxtInputBusqueda;
     private com.juancamr.components.Typography typography1;

@@ -58,14 +58,6 @@ public class UtilidadController {
                 .setPhotoUrl("")
                 .build();
 
-        if (image != null) {
-            Uploader.UploaderResponse resUploader = Uploader.uploadImage(image);
-            if (!resUploader.isSuccess()) {
-                Messages.show(resUploader.getMessage());
-                return false;
-            }
-            utility.setPhotoUrl(resUploader.getUrl());
-        }
 
         Response<Utility> response = CRUDUtilidad.getInstance().create(utility);
         if (!response.isSuccess()) {

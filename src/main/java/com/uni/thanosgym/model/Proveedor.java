@@ -9,7 +9,7 @@ public class Proveedor {
     private String ruc;
     private String phone;
     private String address;
-    private boolean isVisible;
+    private boolean isVisible = true;
     private Date createdAt;
 
     public static String tableName = "proveedor";
@@ -61,6 +61,22 @@ public class Proveedor {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public static class Builder {

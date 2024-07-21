@@ -102,7 +102,8 @@ CREATE TABLE if not exists proveedor (
     address VARCHAR(255),
     is_visible boolean NOT NULL default true,
     created_at DATETIME NOT NULL default current_timestamp,
-    PRIMARY KEY (proveedor_id)
+    PRIMARY KEY (proveedor_id),
+    UNIQUE KEY (ruc)
 ) Engine=InnoDB;
 
 CREATE TABLE if not exists utility (

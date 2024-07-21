@@ -44,18 +44,6 @@ public class AgregarUtilidad extends DialogPanel {
         }
     }
 
-    private void chooseImageEvent() {
-        Response<File> response = FrameUtils.chooseImage(this);
-        if (response.isSuccess()) {
-            imageSelected = response.getData();
-            jlblFileSelected.setText(imageSelected.getName());
-        } else {
-            Messages.show(response.getMessage());
-            imageSelected = null;
-            jlblFileSelected.setText("Imagen");
-        }
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -75,8 +63,6 @@ public class AgregarUtilidad extends DialogPanel {
         jtxtPeso = new com.juancamr.components.InputComponent();
         jtxtCantidad = new com.juancamr.components.InputComponent();
         typography4 = new com.juancamr.components.Typography();
-        jbtnChooseImage = new com.juancamr.components.ButtonComponent();
-        jlblFileSelected = new com.juancamr.components.Typography();
         jcbxProveedores = new javax.swing.JComboBox<>();
         typography5 = new com.juancamr.components.Typography();
 
@@ -94,7 +80,7 @@ public class AgregarUtilidad extends DialogPanel {
 
         button.setText("Agregar");
         button.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
-        jPanel1.add(button, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 330, 310, 40));
+        jPanel1.add(button, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 310, 40));
 
         typography3.setText("Proveedor");
         typography3.setType(com.juancamr.components.Typography.Type.MEDIUM);
@@ -112,19 +98,6 @@ public class AgregarUtilidad extends DialogPanel {
         typography4.setType(com.juancamr.components.Typography.Type.MEDIUM);
         jPanel1.add(typography4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, -1, -1));
 
-        jbtnChooseImage.setText("Seleccionar");
-        jbtnChooseImage.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        jbtnChooseImage.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jbtnChooseImageMouseClicked(evt);
-            }
-        });
-        jPanel1.add(jbtnChooseImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 130, -1));
-
-        jlblFileSelected.setText("Imagen");
-        jlblFileSelected.setType(com.juancamr.components.Typography.Type.SMALL);
-        jPanel1.add(jlblFileSelected, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 170, 20));
-
         jPanel1.add(jcbxProveedores, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 310, -1));
 
         typography5.setText("Peso");
@@ -141,26 +114,18 @@ public class AgregarUtilidad extends DialogPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 396, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jtxtPesoActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jtxtPesoActionPerformed
-        // TODO add your handling code here:
     }// GEN-LAST:event_jtxtPesoActionPerformed
 
-    private void jbtnChooseImageMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnChooseImageMouseClicked
-        chooseImageEvent();
-    }// GEN-LAST:event_jbtnChooseImageMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.juancamr.components.ButtonComponent button;
     private javax.swing.JPanel jPanel1;
-    private com.juancamr.components.ButtonComponent jbtnChooseImage;
     private javax.swing.JComboBox<ComboItem> jcbxProveedores;
-    private com.juancamr.components.Typography jlblFileSelected;
     private com.juancamr.components.InputComponent jtxtCantidad;
     private com.juancamr.components.InputComponent jtxtNombre;
     private com.juancamr.components.InputComponent jtxtPeso;

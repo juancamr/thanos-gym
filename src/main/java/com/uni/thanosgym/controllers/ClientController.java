@@ -83,4 +83,16 @@ public class ClientController {
         });
     }
 
+    public static void enviarContrato(Contrato contrato) {
+        String pdfPath = "contrato.pdf";
+        String messageEmail = String.format(
+                "Gracias por ser parte de Thanosgym %s, te dejamos tu contrato de membresia adjuntado en este correo.",
+                contrato.getCliente().getFullName());
+        Utils.generarContratoPdf(contrato, pdfPath);
+        Utils.sendMailWithPdf(
+                contrato.getCliente().getEmail(),
+                String.format("Bienvenido %s", contrato.getCliente().getFullName()),
+                messageEmail,
+                pdfPath);
+    }
 }

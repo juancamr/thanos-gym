@@ -26,6 +26,11 @@ public class ProveedorController {
             return false;
         }
 
+        if (!StringUtils.isValidRuc(ruc)) {
+            Messages.show("El RUC no es valido");
+            return false;
+        }
+
         if (!StringUtils.isInteger(ruc)) {
             Messages.show("El RUC debe ser un número");
             return false;

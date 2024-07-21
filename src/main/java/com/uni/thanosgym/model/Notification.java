@@ -2,15 +2,15 @@ package com.uni.thanosgym.model;
 
 public class Notification {
     private Runnable action;
-    private String message;
+    private String descripcion;
 
     public Notification(String message, Runnable action) {
-        this.message = message;
+        this.descripcion = message;
         this.action = action;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDescripcion() {
+        return descripcion;
     }
 
     public Runnable getAction() {

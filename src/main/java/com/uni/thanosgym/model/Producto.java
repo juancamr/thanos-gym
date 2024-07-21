@@ -47,6 +47,6 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "id=" + id + ", nombre='" + nombre + '\'' + ", codigo='" + codigo + '\'' + ", detallesProducto=" + Arrays.toString(detallesProducto) + '}';
+        return "Producto{" + "id=" + id + ", nombre='" + nombre + '\'' + ", codigo='" + codigo + '\'';
     }
 }

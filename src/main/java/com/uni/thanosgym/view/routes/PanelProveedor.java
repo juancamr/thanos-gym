@@ -12,8 +12,12 @@ import java.util.List;
 import com.uni.thanosgym.controllers.ProveedorController;
 import com.uni.thanosgym.dao.CRUDProveedor;
 import com.uni.thanosgym.model.Proveedor;
+import com.uni.thanosgym.utils.Messages;
+import com.uni.thanosgym.utils.StringUtils;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.dialogs.AgregarProveedor;
+import com.uni.thanosgym.view.dialogs.EditarProveedor;
+
 import java.util.Map;
 
 /**
@@ -23,6 +27,8 @@ import java.util.Map;
 @Route("main:proveedor*")
 public class PanelProveedor extends javax.swing.JPanel {
 
+    private List<Proveedor> proveedores;
+
     /**
      * Creates new form PanelProveedor
      */
@@ -30,6 +36,25 @@ public class PanelProveedor extends javax.swing.JPanel {
         initComponents();
         refreshProveedores();
     }
+
+    public void refreshProveedores() {
+        Response<Proveedor> response = CRUDProveedor.getInstance().getAll();
+        if (!response.isSuccess()) {
+            return;
+        }
+        ((javax.swing.table.DefaultTableModel) jtblProveedores.getModel()).setRowCount(0);
+        proveedores = response.getDataList();
+        for (Proveedor proveedor : proveedores) {
+            String[] datos = new String[]{
+                proveedor.getRuc(),
+                proveedor.getNombre(),
+                proveedor.getAddress(),
+                proveedor.getPhone()
+            };
+            ((javax.swing.table.DefaultTableModel) jtblProveedores.getModel()).addRow(datos);
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -86,6 +111,11 @@ public class PanelProveedor extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jtblProveedores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtblProveedoresMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtblProveedores);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 750, 530));
@@ -101,25 +131,50 @@ public class PanelProveedor extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
-     //
 
-    public void refreshProveedores() {
-        Response<Proveedor> response = CRUDProveedor.getInstance().getAll();
-        if (!response.isSuccess()) {
+    private void jtblProveedoresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtblProveedoresMouseClicked
+        int row = jtblProveedores.getSelectedRow();
+        if (row == -1) {
             return;
         }
-        ((javax.swing.table.DefaultTableModel) jtblProveedores.getModel()).setRowCount(0);
-        List<Proveedor> proveedores = response.getDataList();
-        for (Proveedor proveedor : proveedores) {
-            String[] datos = new String[]{
-                proveedor.getRuc(),
-                proveedor.getNombre(),
-                proveedor.getAddress(),
-                proveedor.getPhone()
-            };
-            ((javax.swing.table.DefaultTableModel) jtblProveedores.getModel()).addRow(datos);
+        Map<String, Object> params = RoutingUtils.openDialog(new EditarProveedor());
+        if (params == null) {
+            return;
         }
-    }
+
+        String ruc = (String) params.get("ruc");
+        String nombre = (String) params.get("nombre");
+        String direccion = (String) params.get("direccion");
+        String telefono = (String) params.get("telefono");
+
+        if (ruc.isEmpty() || nombre.isEmpty() || direccion.isEmpty() || telefono.isEmpty()) {
+            Messages.show("Complete todos los campos");
+            return;
+        }
+
+        if (!StringUtils.isValidRuc(ruc)) {
+            Messages.show("El RUC no es valido");
+            return;
+        }
+
+        if (!StringUtils.isValidPhone(telefono)) {
+            Messages.show("El telefono debe ser un numero de 9 digitos.");
+            return;
+        }
+
+        Proveedor proveedor = proveedores.get(row);
+        proveedor.setRuc(ruc);
+        proveedor.setNombre(nombre);
+        proveedor.setAddress(direccion);
+        proveedor.setPhone(telefono);
+        Response<Proveedor> response = CRUDProveedor.getInstance().update(proveedor);
+        if (!response.isSuccess()) {
+            Messages.show(response.getMessage());
+            return;
+        }
+        refreshProveedores();
+    }//GEN-LAST:event_jtblProveedoresMouseClicked
+     //
 
     private void jbtnAgregarMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jbtnAgregarMouseClicked
         Map<String, Object> params = RoutingUtils.openDialog(new AgregarProveedor());

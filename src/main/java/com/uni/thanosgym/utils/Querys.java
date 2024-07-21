@@ -47,6 +47,17 @@ public class Querys {
 
     public class producto {
 
+        public static String getProductosSinStock = "SELECT p.producto_id, p.codigo, p.nombre " +
+               "FROM producto p " +
+               "LEFT JOIN detalle_producto dp ON p.producto_id = dp.producto_id " +
+               "GROUP BY p.producto_id, p.codigo, p.nombre " +
+               "HAVING SUM(dp.stock) IS NULL OR SUM(dp.stock) = 0;";
+
+        public static String getProductosPorVencer = "SELECT p.producto_id, p.codigo, p.nombre, dp.fecha_vencimiento " +
+               "FROM producto p " +
+               "JOIN detalle_producto dp ON p.producto_id = dp.producto_id " +
+               "WHERE dp.fecha_vencimiento BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY";
+
         public static String create = generateCreateQuery(Producto.tableName,
                 new String[] { Producto.nombreField, Producto.codigoField });
         public static String update = generateUpdateQuery(Producto.tableName,
@@ -130,7 +141,7 @@ public class Querys {
                 new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField,
                         Utility.proveedorField });
         public static String update = generateUpdateQuery(Utility.tableName,
-                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField });
+                new String[] { Utility.nombreField, Utility.pesoField, Utility.cantidadField, Utility.adminIdField, Utility.proveedorField });
     }
 
     public class proveedor {

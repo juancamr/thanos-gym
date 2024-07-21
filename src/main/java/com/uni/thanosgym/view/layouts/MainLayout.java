@@ -41,8 +41,7 @@ public class MainLayout extends LayoutPanel {
         setContent(content);
         jpnlBarra.setBackground(baseColor);
 
-        String userExample = "https://cdn-icons-png.flaticon.com/512/219/219970.png";
-        FrameUtils.renderImageFromWeb(userExample, photoAdmin);
+        FrameUtils.renderImageFromWeb(Theme.defaultProfilePhoto, photoAdmin);
         jlblNombreAdmin.setText(UserPreferences.getData().getFullName());
         JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto, jbtnSeptimo, jbtnOctavo };
         String[] labels = { "Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades", "Proveedores", "Reportes" };

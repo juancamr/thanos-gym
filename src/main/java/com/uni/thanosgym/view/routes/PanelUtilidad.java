@@ -12,10 +12,13 @@ import com.juancamr.route.Router;
 import com.juancamr.route.RoutingUtils;
 import com.uni.thanosgym.controllers.UtilidadController;
 import com.uni.thanosgym.dao.CRUDUtilidad;
+import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.model.Utility;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.view.dialogs.AgregarUtilidad;
+import com.uni.thanosgym.view.dialogs.EditarUtilidadd;
+
 import java.util.List;
 
 /**
@@ -23,7 +26,7 @@ import java.util.List;
  * @author juancamr
  */
 
-@Route("main:utilidad")
+@Route("main:utilidad*")
 public class PanelUtilidad extends javax.swing.JPanel {
 
     /**
@@ -36,6 +39,8 @@ public class PanelUtilidad extends javax.swing.JPanel {
             jtblUtilidad.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
         }
         FrameUtils.addHandleChangeEvent(jtxtNombreOrCode, this::handleChange);
+        FrameUtils.addOnClickEvent(jbtnBorrar, this::borrar);
+        FrameUtils.addOnClickEvent(jbtnEditar, this::editar);
         FrameUtils.addOnClickEvent(jbtnCrearUtilidad, () -> {
             if (UtilidadController.getQuantity() == 0) {
                 Router.getInstance().go("dashboard");
@@ -48,6 +53,30 @@ public class PanelUtilidad extends javax.swing.JPanel {
             }
         });
         refresh();
+    }
+
+    private void editar() {
+        int index = jtblUtilidad.getSelectedRow();
+        if (index == -1) return;
+
+        int codigo = Integer.parseInt(jtblUtilidad.getModel().getValueAt(index, 0).toString());
+        Response<Utility> response = CRUDUtilidad.getInstance().getById(codigo);
+        if (!response.isSuccess()) {
+            Messages.show(response.getMessage());
+            return;
+        }
+        new EditarUtilidadd(response.getData());
+    }
+
+    private void borrar() {
+        int index = jtblUtilidad.getSelectedRow();
+        if (index == -1) return;
+
+        int codigo = Integer.parseInt(jtblUtilidad.getModel().getValueAt(index, 0).toString());
+        if(Messages.confirm("¿Está seguro de borrar el registro?", "Borrar")) {
+            CRUDUtilidad.getInstance().delete(codigo);
+            ((javax.swing.table.DefaultTableModel) jtblUtilidad.getModel()).removeRow(index);
+        }
     }
 
     public void handleChange() {
@@ -89,6 +118,7 @@ public class PanelUtilidad extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -99,6 +129,8 @@ public class PanelUtilidad extends javax.swing.JPanel {
         jbtnCrearUtilidad = new com.juancamr.components.ButtonComponent();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtblUtilidad = new javax.swing.JTable();
+        jbtnEditar = new com.juancamr.components.ButtonComponent();
+        jbtnBorrar = new com.juancamr.components.ButtonComponent();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -147,6 +179,14 @@ public class PanelUtilidad extends javax.swing.JPanel {
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 750, 470));
 
+        jbtnEditar.setText("EDITAR");
+        jbtnEditar.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel1.add(jbtnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, -1, -1));
+
+        jbtnBorrar.setText("BORRAR");
+        jbtnBorrar.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
+        jPanel1.add(jbtnBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 130, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,7 +206,9 @@ public class PanelUtilidad extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private com.juancamr.components.ButtonComponent jbtnBorrar;
     private com.juancamr.components.ButtonComponent jbtnCrearUtilidad;
+    private com.juancamr.components.ButtonComponent jbtnEditar;
     private javax.swing.JTable jtblUtilidad;
     private com.juancamr.components.InputComponent jtxtNombreOrCode;
     private com.juancamr.components.Typography typography1;

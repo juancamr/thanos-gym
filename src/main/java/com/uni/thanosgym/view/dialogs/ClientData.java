@@ -75,7 +75,7 @@ public class ClientData extends javax.swing.JFrame {
         jlblSubscriptionSince.setText("Desde: " + StringUtils.parseSpanishDate(contrato.getCreatedAt()));
 
         if (client.getPhotoUrl().isEmpty())
-            FrameUtils.renderImageFromWeb(Theme.defaultImage, photo);
+            FrameUtils.renderImageFromWeb(Theme.defaultProfilePhoto, photo);
         else
             FrameUtils.renderImageFromWeb(client.getPhotoUrl(), photo);
 
