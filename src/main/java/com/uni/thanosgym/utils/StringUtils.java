@@ -14,8 +14,8 @@ public class StringUtils {
 
     private static SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd");
     private static SimpleDateFormat spanishFormat = new SimpleDateFormat("dd-MM-yyyy");
-    private static String usernameRegex = "^[a-z]{8,15}$";
-    private static String passwordRegex = "^[a-z]{8,}$";
+    private static String usernameRegex = "^[a-zA-Z0-9]{8,15}$";
+    private static String passwordRegex = "^[a-zA-Z0-9]{8,}$";
     private static DecimalFormat boletaFormat = new DecimalFormat("00000000000");
 
     public static String sha256(final String base) {

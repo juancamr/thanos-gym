@@ -8,10 +8,9 @@ import javax.swing.JTextField;
 
 import com.juancamr.route.Route;
 import com.juancamr.route.Router;
-import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.controllers.AuthController;
 import com.uni.thanosgym.utils.FrameUtils;
-import java.awt.Font;
+import com.uni.thanosgym.utils.Utils;
 
 /**
  *
@@ -33,12 +32,16 @@ public class PanelLogin extends javax.swing.JPanel {
     }
 
     private void loginEvent() {
-        String username = jtxtNombreUsuario.getText();
-        String password = new String(jPassword.getPassword());
-        boolean persistencia = jCheckSesion.isSelected();
-        if (AuthController.login(username, password, persistencia)) {
-            FrameUtils.clearInputs(new JTextField[] { jtxtNombreUsuario, jPassword });
-        }
+        jbtnIniciar.setEnabled(false);
+        Utils.mostrarPantallaDeCarga(null, () -> {
+            String username = jtxtNombreUsuario.getText();
+            String password = new String(jPassword.getPassword());
+            boolean persistencia = jCheckSesion.isSelected();
+            if (AuthController.login(username, password, persistencia)) {
+                FrameUtils.clearInputs(new JTextField[] { jtxtNombreUsuario, jPassword });
+            }
+            jbtnIniciar.setEnabled(true);
+        });
     }
 
     /**
@@ -48,7 +51,8 @@ public class PanelLogin extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();

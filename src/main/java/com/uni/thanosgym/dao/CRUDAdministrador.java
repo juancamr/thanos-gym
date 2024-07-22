@@ -44,8 +44,13 @@ public class CRUDAdministrador extends BaseCrud<Admin> {
             ps.setString(1, admin.getUsername());
             rs = ps.executeQuery();
             boolean adminWithThatUsernameNotExist = !rs.next();
-            boolean[] conditions = new boolean[] { adminWithThatUsernameNotExist };
-            String error = "El nombre de usuario se encuentra en uso";
+
+            ps = connection.prepareStatement(Querys.getTemplateWithConditions(Admin.tableName, Admin.emailField));
+            ps.setString(1, admin.getEmail());
+            boolean adminWithThatEmailNotExist = !rs.next();
+
+            boolean[] conditions = new boolean[] { adminWithThatUsernameNotExist, adminWithThatEmailNotExist };
+            String error = "El nombre de usuario o el correo ya se encuentra en uso";
             return baseCreateWithConditions(admin, Querys.admin.create, conditions, error);
         } catch (Exception e) {
             return somethingWentWrong(e);

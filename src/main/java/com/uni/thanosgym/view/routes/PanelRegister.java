@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import com.juancamr.route.Route;
 import com.uni.thanosgym.utils.Messages;
+import com.uni.thanosgym.utils.Utils;
 import com.juancamr.route.Router;
 import com.uni.thanosgym.controllers.AuthController;
 import com.uni.thanosgym.model.Response;
@@ -40,21 +41,26 @@ public class PanelRegister extends javax.swing.JPanel {
     }
 
     private void registerEvent() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("username", jtxtNombreUsuario.getText());
-        params.put("password", new String(jPassword.getPassword()));
-        params.put("fullname", jtxtNombresCompletos.getText());
-        params.put("email", jtxtCorreo.getText());
-        params.put("phone", jtxtPhone.getText());
-        params.put("repeatPassword", new String(jtxtRepeatPassword.getPassword()));
-        params.put("isForMaster", jCheckIsForMaster.isSelected());
-        params.put("image", imageSelected);
+        jbtnRegistro.setEnabled(false);
+        Utils.mostrarPantallaDeCarga(null, () -> {
+            Map<String, Object> params = new HashMap<>();
+            params.put("username", jtxtNombreUsuario.getText());
+            params.put("password", new String(jPassword.getPassword()));
+            params.put("fullname", jtxtNombresCompletos.getText());
+            params.put("email", jtxtCorreo.getText());
+            params.put("phone", jtxtPhone.getText());
+            params.put("repeatPassword", new String(jtxtRepeatPassword.getPassword()));
+            params.put("isForMaster", jCheckIsForMaster.isSelected());
+            params.put("image", imageSelected);
 
-        if (AuthController.register(params)) {
-            FrameUtils.clearInputs(
-                    new JTextComponent[] { jtxtCorreo, jtxtNombresCompletos, jtxtNombreUsuario, jtxtPhone, jPassword,
-                            jtxtRepeatPassword });
-        }
+            if (AuthController.register(params)) {
+                FrameUtils.clearInputs(
+                        new JTextComponent[] { jtxtCorreo, jtxtNombresCompletos, jtxtNombreUsuario, jtxtPhone,
+                                jPassword,
+                                jtxtRepeatPassword });
+            }
+            jbtnRegistro.setEnabled(true);
+        });
     }
 
     /**
@@ -64,7 +70,9 @@ public class PanelRegister extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
@@ -85,6 +93,8 @@ public class PanelRegister extends javax.swing.JPanel {
         typography5 = new com.juancamr.components.Typography();
         typography6 = new com.juancamr.components.Typography();
         typography7 = new com.juancamr.components.Typography();
+        typography8 = new com.juancamr.components.Typography();
+        typography10 = new com.juancamr.components.Typography();
 
         setPreferredSize(new java.awt.Dimension(420, 690));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -98,7 +108,7 @@ public class PanelRegister extends javax.swing.JPanel {
 
         jCheckIsForMaster.setBackground(new java.awt.Color(255, 255, 255));
         jCheckIsForMaster.setText("Master");
-        jPanel3.add(jCheckIsForMaster, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 510, -1, -1));
+        jPanel3.add(jCheckIsForMaster, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 470, -1, -1));
 
         typography1.setText("Registro");
         typography1.setType(com.juancamr.components.Typography.Type.HEADING1);
@@ -106,41 +116,49 @@ public class PanelRegister extends javax.swing.JPanel {
 
         jbtnRegistro.setText("Registro");
         jbtnRegistro.setType(com.juancamr.components.ButtonComponent.Type.PRIMARY);
-        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 560, 330, 40));
-        jPanel3.add(jtxtNombresCompletos, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 330, -1));
-        jPanel3.add(jtxtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 150, -1));
-        jPanel3.add(jtxtPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 150, -1));
-        jPanel3.add(jtxtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 330, -1));
-        jPanel3.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, 330, -1));
-        jPanel3.add(jtxtRepeatPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 330, -1));
+        jPanel3.add(jbtnRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 330, 40));
+        jPanel3.add(jtxtNombresCompletos, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 330, -1));
+        jPanel3.add(jtxtCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 150, -1));
+        jPanel3.add(jtxtPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 150, -1));
+        jPanel3.add(jtxtNombreUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 330, -1));
+        jPanel3.add(jPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 330, -1));
+        jPanel3.add(jtxtRepeatPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 410, 330, -1));
 
         jbtnInicioSesion.setText("Iniciar sesión");
         jbtnInicioSesion.setType(com.juancamr.components.ButtonComponent.Type.SMALL);
-        jPanel3.add(jbtnInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 510, -1, -1));
+        jPanel3.add(jbtnInicioSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, -1));
 
         typography2.setText("Repetir Contraseña *");
         typography2.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel3.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 440, -1, -1));
+        jPanel3.add(typography2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 390, -1, -1));
 
         typography3.setText("Nombres *");
         typography3.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel3.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 160, -1, -1));
+        jPanel3.add(typography3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
         typography4.setText("Correo *");
         typography4.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel3.add(typography4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, -1, -1));
+        jPanel3.add(typography4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, -1, -1));
 
         typography5.setText("Celular");
         typography5.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel3.add(typography5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, -1, -1));
+        jPanel3.add(typography5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 170, -1, -1));
 
         typography6.setText("Nombre de usuario *");
         typography6.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel3.add(typography6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, -1));
+        jPanel3.add(typography6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 240, -1, -1));
 
         typography7.setText("Contraseña *");
         typography7.setType(com.juancamr.components.Typography.Type.MEDIUM);
-        jPanel3.add(typography7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, -1, -1));
+        jPanel3.add(typography7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, -1));
+
+        typography8.setText("Mínimo 8 caracteres.");
+        typography8.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel3.add(typography8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, -1, -1));
+
+        typography10.setText("Mínimo 8 caracteres, máximo 15 caracteres.");
+        typography10.setType(com.juancamr.components.Typography.Type.SMALL);
+        jPanel3.add(typography10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, -1, -1));
 
         add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 720));
     }// </editor-fold>//GEN-END:initComponents
@@ -182,11 +200,13 @@ public class PanelRegister extends javax.swing.JPanel {
     private com.juancamr.components.InputComponent jtxtPhone;
     private javax.swing.JPasswordField jtxtRepeatPassword;
     private com.juancamr.components.Typography typography1;
+    private com.juancamr.components.Typography typography10;
     private com.juancamr.components.Typography typography2;
     private com.juancamr.components.Typography typography3;
     private com.juancamr.components.Typography typography4;
     private com.juancamr.components.Typography typography5;
     private com.juancamr.components.Typography typography6;
     private com.juancamr.components.Typography typography7;
+    private com.juancamr.components.Typography typography8;
     // End of variables declaration//GEN-END:variables
 }
