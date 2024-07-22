@@ -6,16 +6,12 @@ package com.uni.thanosgym.view.routes;
 
 import java.io.File;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import com.uni.thanosgym.utils.Utils;
-import com.uni.thanosgym.view.dialogs.AgregarUtilidad.ComboItem;
 
 import javax.swing.text.JTextComponent;
 
 import com.juancamr.route.Route;
 import com.juancamr.route.Router;
-import com.uni.thanosgym.config.Theme;
 import com.uni.thanosgym.controllers.ClientController;
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDContrato;
@@ -49,10 +45,14 @@ public class PanelClient extends javax.swing.JPanel {
             ClientController.buscarReniec(jtxtDNIRegistro.getText(), jtxtNombres, jbtnBuscarReniec);
         });
         FrameUtils.addOnClickEvent(jbtnBuscar, () -> {
-            ClientController.buscar(jtxtDNIBuscar.getText());
+            Utils.mostrarPantallaDeCarga(null, () -> {
+                ClientController.buscar(jtxtDNIBuscar.getText());
+            });
         });
         FrameUtils.addOnClickEvent(jbtnListar, () -> {
-            Router.getInstance().go("client/all");
+            Utils.mostrarPantallaDeCarga(null, () -> {
+                Router.getInstance().go("client/all");
+            });
         });
 
         Response<Plan> response = CRUDPlan.getInstance().getAll();

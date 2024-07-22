@@ -21,6 +21,7 @@ import com.uni.thanosgym.utils.Auth;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.UserPreferences;
+import com.uni.thanosgym.utils.Utils;
 
 /**
  *
@@ -42,11 +43,11 @@ public class MainLayout extends LayoutPanel {
         jpnlBarra.setBackground(baseColor);
 
         jlblNombreAdmin.setText(UserPreferences.getData().getFullName());
-        JButton[] buttons = new JButton[] { jbtnPrimero, jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto,
+        JButton[] buttons = new JButton[] { jbtnSegundo, jbtnTercero, jbtnCuarto, jbtnQuinto, jbtnSexto,
                 jbtnSeptimo, jbtnOctavo };
-        String[] labels = { "Dashboard", "Planes", "Clientes", "Productos", "Generar venta", "Utilidades",
+        String[] labels = { "Planes", "Clientes", "Productos", "Generar venta", "Utilidades",
                 "Proveedores", "Reportes" };
-        String[] routes = { "dashboard", "plan", "client", "producto", "venta", "utilidad", "proveedor", "reporte" };
+        String[] routes = { "plan", "client", "producto", "venta", "utilidad", "proveedor", "reporte" };
 
         for (int i = 0; i < buttons.length; i++) {
             FrameUtils.removeAllEvents(buttons[i]);
@@ -60,6 +61,17 @@ public class MainLayout extends LayoutPanel {
                 Router.getInstance().go(routes[finalI]);
             });
         }
+
+        jbtnPrimero.setText("    Dashboard");
+        jbtnPrimero.setFont(fontButtonMenu);
+        jbtnPrimero.setBackground(baseColor);
+        FrameUtils.addOnClickEvent(jbtnPrimero, () -> {
+            Utils.mostrarPantallaDeCarga(null, () -> {
+                setFocusButton(jbtnPrimero);
+                Router.getInstance().go("dashboard");
+            });
+        });
+
         jbtnPrimero.setBackground(focusColor);
         if (!UserPreferences.getData().getRol().equals(Admin.Rol.MASTER)) {
             jbtnSegundo.setVisible(false);
@@ -100,7 +112,8 @@ public class MainLayout extends LayoutPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -137,6 +150,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseDragged(evt);
             }
+
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseMoved(evt);
             }
@@ -145,6 +159,7 @@ public class MainLayout extends LayoutPanel {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jbtnPrimeroFocusGained(evt);
             }
+
             public void focusLost(java.awt.event.FocusEvent evt) {
                 jbtnPrimeroFocusLost(evt);
             }
@@ -158,12 +173,15 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseExited(evt);
             }
+
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMousePressed(evt);
             }
+
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jbtnPrimeroMouseReleased(evt);
             }
@@ -215,6 +233,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnSegundoMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnSegundoMouseExited(evt);
             }
@@ -251,6 +270,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnCuartoMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnCuartoMouseExited(evt);
             }
@@ -278,6 +298,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnTerceroMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnTerceroMouseExited(evt);
             }
@@ -325,6 +346,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnSextoMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnSextoMouseExited(evt);
             }
@@ -352,6 +374,7 @@ public class MainLayout extends LayoutPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jbtnOctavoMouseClicked(evt);
             }
+
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 jbtnOctavoMouseExited(evt);
             }

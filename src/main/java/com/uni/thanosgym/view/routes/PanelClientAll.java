@@ -16,6 +16,7 @@ import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
 import com.uni.thanosgym.utils.StringUtils;
+import com.uni.thanosgym.utils.Utils;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.view.dialogs.ClientData;
 
@@ -25,6 +26,7 @@ import com.uni.thanosgym.view.dialogs.ClientData;
  */
 @Route("main:client/all*")
 public class PanelClientAll extends javax.swing.JPanel {
+    private List<Client> clientes;
     private List<String[]> allData;
 
     /**
@@ -49,11 +51,11 @@ public class PanelClientAll extends javax.swing.JPanel {
             return new String[] { cliente.getDni(), cliente.getFullName(), contrato.getPlan().getName(),
                     StringUtils.parseSpanishDate(contrato.getCreatedAt()) };
         }).collect(Collectors.toList());
-        allData = datos;
+        clientes = resClientes.getDataList();
 
         FrameUtils.addHandleChangeEvent(jtxtInputBusqueda, this::searchByDniOrName);
 
-        fillTable(allData);
+        fillTable(datos);
     }
 
     private void searchByDniOrName() {
@@ -154,12 +156,13 @@ public class PanelClientAll extends javax.swing.JPanel {
     }
     
     private void jtblClientesMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblClientesMouseClicked
-        int fila = jtblClientes.getSelectedRow();
-        if (fila != -1) {
-            String dni = String.valueOf(jtblClientes.getValueAt(fila, 0));
-            Response<Client> resCliente = CRUDCliente.getInstance().getByDni(dni);
-            Response<Contrato> resContrato = CRUDContrato.getInstance().getByClienteId(resCliente.getData().getId());
-            new ClientData(resContrato.getDataList().getLast());
+        int row = jtblClientes.getSelectedRow();
+        if (row != -1) {
+            Utils.mostrarPantallaDeCarga(null, () -> {
+                Client cliente = clientes.get(row);
+                Response<Contrato> resContrato = CRUDContrato.getInstance().getByClienteId(cliente.getId());
+                new ClientData(resContrato.getDataList().getLast());
+            });
         }
 
     }// GEN-LAST:event_jtblClientesMouseClicked

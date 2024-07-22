@@ -16,7 +16,6 @@ import com.uni.thanosgym.dao.CRUDBoleta;
 import com.uni.thanosgym.dao.CRUDCliente;
 import com.uni.thanosgym.dao.CRUDContrato;
 import com.uni.thanosgym.dao.CRUDProducto;
-import com.uni.thanosgym.model.Client;
 import com.uni.thanosgym.model.Contrato;
 import com.uni.thanosgym.model.Notification;
 import com.uni.thanosgym.model.Producto;
@@ -25,6 +24,7 @@ import com.uni.thanosgym.model.ReporteMensual;
 import com.uni.thanosgym.model.Response;
 import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.Messages;
+import com.uni.thanosgym.utils.Utils;
 import com.uni.thanosgym.view.dialogs.ClientData;
 import com.uni.thanosgym.view.dialogs.IngresosProducto;
 import com.uni.thanosgym.view.dialogs.Notificaciones;
@@ -436,7 +436,9 @@ public class PanelDashboard extends javax.swing.JPanel {
     private void jtblClienteMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jtblClienteMouseClicked
         int rowIndex = jtblCliente.getSelectedRow();
         if (rowIndex != -1) {
-            new ClientData(contratos.get(rowIndex));
+            Utils.mostrarPantallaDeCarga(null, () -> {
+                new ClientData(contratos.get(rowIndex));
+            });
         }
     }// GEN-LAST:event_jtblClienteMouseClicked
 
