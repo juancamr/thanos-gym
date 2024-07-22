@@ -70,27 +70,30 @@ public class CRUDDetalleProducto extends BaseCrud<DetalleProducto> {
         }
     }
 
-    public void descontar(List<Integer> ids, int cantidadSolicitada) {
+    public Response<Integer> descontar(List<Integer> ids, int cantidadSolicitada) {
         List<DetalleProducto> detalles = ids.stream().map(id -> {
             return getById(id).getData();
         }).collect(Collectors.toList());
+        List<Integer> stockRetirados = new ArrayList<>();
         for (DetalleProducto detalle : detalles) {
             int stockDelDetalle = detalle.getStock();
             if (stockDelDetalle == cantidadSolicitada) {
                 delete(detalle.getId());
-                return;
+                stockRetirados.add(stockDelDetalle);
+                break;
             }
             if (stockDelDetalle > cantidadSolicitada) {
-                System.out.println(cantidadSolicitada);
-                System.out.println(detalle.getStock());
                 detalle.setStock(detalle.getStock() - cantidadSolicitada);
                 update(detalle);
-                return;
+                stockRetirados.add(stockDelDetalle);
+                break;
             }
 
             cantidadSolicitada = cantidadSolicitada - stockDelDetalle;
             delete(detalle.getId());
+            stockRetirados.add(stockDelDetalle);
         }
+        return new Response<Integer>(true, stockRetirados);
     }
 
     // mostrar en la ventana al dar click en un producto en la tabla (mostrando

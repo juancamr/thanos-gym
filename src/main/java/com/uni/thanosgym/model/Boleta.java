@@ -54,6 +54,10 @@ public class Boleta {
         return detallesBoleta;
     }
 
+    public void setDetallesBoleta(List<DetalleBoleta> detallesBoleta) {
+        this.detallesBoleta = detallesBoleta;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

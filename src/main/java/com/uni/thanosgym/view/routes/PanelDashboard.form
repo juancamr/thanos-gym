@@ -314,7 +314,7 @@
             </Component>
             <Component class="com.juancamr.components.Typography" name="typography13">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Este &#xfa;ltimo mes"/>
+                <Property name="text" type="java.lang.String" value="El d&#xed;a de hoy"/>
                 <Property name="type" type="com.juancamr.components.Typography$Type" editor="org.netbeans.modules.form.editors.EnumEditor">
                   <Value id="SMALL"/>
                 </Property>

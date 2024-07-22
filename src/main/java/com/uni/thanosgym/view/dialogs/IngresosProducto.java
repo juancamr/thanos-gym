@@ -46,7 +46,7 @@ public class IngresosProducto extends javax.swing.JFrame {
             return;
         }
         for (DetalleProducto detalle : response.getDataList()) {
-            String[] datos = new String[] {
+            String[] datos = new String[] {String.valueOf(detalle.getId()),
                     StringUtils.parseSpanishDate(detalle.getCreatedAt()), String.valueOf(detalle.getStock()),
                     String.valueOf(detalle.getPrecio()), StringUtils.parseSpanishDate(detalle.getFechaVencimiento())
             };
@@ -87,12 +87,13 @@ public class IngresosProducto extends javax.swing.JFrame {
             Messages.show(res.getMessage());
             return;
         }
+        Messages.show(String.format("Por favor, asigna este codigo a todo el inventario que acabas de registrar.\nCódigo: %s", res.getId()));
         refresh();
     }
 
     private void editar() {
         String input = Messages.input("Ingrese el nombre a cambiar para el producto");
-        if (input.isEmpty()) {
+        if (input == null || input.isEmpty()) {
             return;
         }
         producto.setNombre(input);
@@ -111,7 +112,7 @@ public class IngresosProducto extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -127,25 +128,26 @@ public class IngresosProducto extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jtblBoletas.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
+            new Object [][] {
 
-                },
-                new String[] {
-                        "Ingresado", "Stock", "Precio", "Fecha vencimiento"
-                }) {
-            Class[] types = new Class[] {
-                    java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            },
+            new String [] {
+                "Código", "Ingresado", "Stock", "Precio", "Fecha vencimiento"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
-            boolean[] canEdit = new boolean[] {
-                    false, false, false, false
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
-                return types[columnIndex];
+                return types [columnIndex];
             }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit[columnIndex];
+                return canEdit [columnIndex];
             }
         });
         jtblBoletas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -172,14 +174,15 @@ public class IngresosProducto extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 805, Short.MAX_VALUE));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 805, Short.MAX_VALUE)
+        );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 666,
-                                        javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)));
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

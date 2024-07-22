@@ -100,11 +100,11 @@ public class PanelVenta extends javax.swing.JPanel {
         detalles.add(detalle);
         List<Integer> ids = detallesDeProductoSeleccionado.stream().map(DetalleProducto::getId)
                 .collect(Collectors.toList());
-        DetallesItem datelleItem = new DetallesItem(ids, cantidadSolicitada);
+        DetallesItem datelleItem = new DetallesItem(ids, cantidadSolicitada, productoSeleccionado);
         listaDetallesDeProductoGlobal.add(datelleItem);
 
         String[] row = new String[] { String.valueOf(detalle.getCantidad()), detalle.getProducto().getNombre(),
-                String.valueOf(detalle.getPrecio()), String.valueOf(detalle.getPrecio()) };
+                String.valueOf(detalle.getPrecio()), String.valueOf(detalle.getTotal()) };
 
         ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).addRow(row);
         updateMontoTotal();
@@ -155,16 +155,24 @@ public class PanelVenta extends javax.swing.JPanel {
                 detalle.setIdBoleta(boleta.getId());
                 CRUDDetalleBoleta.getInstance().create(detalle);
             }
+            boleta.setDetallesBoleta(detalles);
 
+            String message = "Se generó la venta correctamente\n\nPor favor, busque lo siguiente en el almacén:\n";
             for (DetallesItem detalleItem : listaDetallesDeProductoGlobal) {
-                CRUDDetalleProducto.getInstance().descontar(detalleItem.getLista(), detalleItem.getCantidad());
+                Response<Integer> resDescuento = CRUDDetalleProducto.getInstance()
+                        .descontar(detalleItem.getListaIds(), detalleItem.getCantidad());
+                message += String.format("\nCódigos de ingresos del producto %s a retirar:\n",
+                        detalleItem.getProducto().getNombre());
+                for (int i = 0; i < resDescuento.getDataList().size(); i++) {
+                    message += String.format("Código: %d\t Stock a retirar: %d", detalleItem.getListaIds().get(i), resDescuento.getDataList().get(i));
+                }
             }
+            Messages.show(message);
 
             VentaController.enviarCorreo(boleta);
 
             // clear
             detalles.clear();
-            listaDetallesDeProductoGlobal.clear();
             ((javax.swing.table.DefaultTableModel) jtblBoleta.getModel()).setRowCount(0);
             clienteSeleccionado = null;
             jtxtNombreCliente.setText("");
@@ -172,8 +180,8 @@ public class PanelVenta extends javax.swing.JPanel {
             jlblDniCliente.setText("");
             jtxtDniCliente.setText("");
 
-            Messages.show("Se generó la venta correctamente");
             jlblTotal.setText("S/ 0.00");
+            listaDetallesDeProductoGlobal.clear();
             updateMontoTotal();
             jbtnGenerarVenta.setEnabled(true);
         });
@@ -560,18 +568,25 @@ public class PanelVenta extends javax.swing.JPanel {
     private class DetallesItem {
         private List<Integer> lista;
         private int cantidad;
+        private Producto producto;
 
-        public DetallesItem(List<Integer> lista, int cantidad) {
+        public DetallesItem(List<Integer> lista, int cantidad, Producto producto) {
             this.lista = lista;
             this.cantidad = cantidad;
+            this.producto = producto;
         }
 
-        public List<Integer> getLista() {
+        public List<Integer> getListaIds() {
             return lista;
         }
 
         public int getCantidad() {
             return cantidad;
         }
+
+        public Producto getProducto() {
+            return producto;
+        }
     }
+
 }
