@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.swing.JPanel;
 
@@ -49,7 +48,6 @@ public class ClientData extends javax.swing.JFrame {
      * Creates new form ClientData
      */
     public ClientData(Contrato contrato) {
-        System.out.println(contrato);
         Response<Asistencia> resAsistencias = CRUDAsistencia.getInstance()
                 .getAllByClientId(contrato.getCliente().getId());
         this.asistencias = resAsistencias.getDataList();

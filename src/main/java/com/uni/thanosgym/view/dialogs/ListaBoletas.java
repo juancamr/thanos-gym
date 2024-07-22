@@ -5,10 +5,9 @@
 package com.uni.thanosgym.view.dialogs;
 
 import com.uni.thanosgym.model.Boleta;
+import com.uni.thanosgym.utils.FrameUtils;
 import com.uni.thanosgym.utils.StringUtils;
 import java.util.List;
-
-import javax.swing.JFrame;
 
 /**
  *
@@ -28,6 +27,7 @@ public class ListaBoletas extends javax.swing.JFrame {
             String[] datos = new String[]{StringUtils.parseIdBoleta(boleta.getId()), StringUtils.parseSpanishDate(boleta.getCreatedAt()), boleta.getCliente().getFullName(), String.valueOf(boleta.getTotal())};
             ((javax.swing.table.DefaultTableModel) jtblBoletas.getModel()).addRow(datos);
         }
+        FrameUtils.setupWindow(this);
     }
 
     /**
